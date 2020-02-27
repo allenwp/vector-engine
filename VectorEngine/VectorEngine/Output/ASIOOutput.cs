@@ -9,7 +9,7 @@ namespace VectorEngine.Output
 {
     public class ASIOOutput
     {
-		public static void ThreadMethod()
+		public static void StartDriver()
 		{
 			// no messing, this is high priority stuff
 			Thread.CurrentThread.Priority = ThreadPriority.Highest;
@@ -93,13 +93,13 @@ namespace VectorEngine.Output
 			// and off we go
 			driver.Start();
 
-			while(true)
-			{
-				Thread.Sleep(100);
-			}
+			//while(true)
+			//{
+			//	Thread.Sleep(100);
+			//}
 
-			// and all donw
-			driver.Stop();
+			//// and all donw
+			//driver.Stop();
 		}
 
 		static double t = 0;
@@ -108,6 +108,8 @@ namespace VectorEngine.Output
 		/// </summary>
 		private static void AsioDriver_BufferUpdate(object sender, EventArgs e)
 		{
+			// TODO: Need to figure out how to safely give this what it needs
+
 			// the driver is the sender
 			AsioDriver driver = sender as AsioDriver;
 
