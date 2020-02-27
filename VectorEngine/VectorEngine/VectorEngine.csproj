@@ -62,9 +62,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoGame\Shapes\Line.cs" />
+    <Compile Include="DemoGame\Shapes\SquareAndCircleShape.cs" />
+    <Compile Include="DemoGame\Shapes\SquarePath.cs" />
+    <Compile Include="Engine\Camera.cs" />
     <Compile Include="Engine\Path.cs" />
     <Compile Include="Engine\Sample.cs" />
     <Compile Include="Engine\SampledPath.cs" />
+    <Compile Include="Engine\Shape.cs" />
+    <Compile Include="Engine\Transformer.cs" />
     <Compile Include="Output\ASIOOutput.cs" />
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
