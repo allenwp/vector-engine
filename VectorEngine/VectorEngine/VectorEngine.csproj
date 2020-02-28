@@ -63,8 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DemoGame\Shapes\Line.cs" />
-    <Compile Include="DemoGame\Shapes\SquareAndCircleShape.cs" />
-    <Compile Include="DemoGame\Shapes\SquarePath.cs" />
     <Compile Include="Engine\Camera.cs" />
     <Compile Include="Engine\Path.cs" />
     <Compile Include="Engine\Sample.cs" />

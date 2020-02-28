@@ -4,13 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using BlueWave.Interop.Asio;
+using VectorEngine.Engine;
 
 namespace VectorEngine.Output
 {
     public class ASIOOutput
     {
-		public static void StartDriver()
+		static Sample[][] Buffers;
+
+		public static void StartDriver(Sample[][] buffers)
 		{
+			Buffers = buffers;
+
+			// TODO:This call to highest priority probably doesn't mean anything at all
+			// because it's a different thread that that handles the events...
+			// Unless... this thread will determine the other thread's priority based on its own??
+
 			// no messing, this is high priority stuff
 			Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
@@ -102,6 +111,8 @@ namespace VectorEngine.Output
 			//driver.Stop();
 		}
 
+
+		static int bufferCounter = 0;
 		static double t = 0;
 		/// <summary>
 		/// Called when a buffer update is required
@@ -117,11 +128,24 @@ namespace VectorEngine.Output
 			Channel leftOutput = driver.OutputChannels[0];
 			Channel rightOutput = driver.OutputChannels[1];
 
+			//// Draw a circle:
+			//for (int index = 0; index < leftOutput.BufferSize; index++)
+			//{
+			//	t += 0.03;
+			//	leftOutput[index] = (float)Math.Sin(t);
+			//	rightOutput[index] = (float)Math.Cos(t);
+			//}
+
+			// Draw a cube:
 			for (int index = 0; index < leftOutput.BufferSize; index++)
 			{
-				t += 0.03;
-				leftOutput[index] = (float)Math.Sin(t);
-				rightOutput[index] = (float)Math.Cos(t);
+				leftOutput[index] = Buffers[bufferCounter][index].X;
+				rightOutput[index] = Buffers[bufferCounter][index].Y;
+			}
+			bufferCounter++;
+			if(bufferCounter >= Buffers.Length)
+			{
+				bufferCounter = 0;
 			}
 		}
 	}

@@ -10,20 +10,22 @@ namespace VectorEngine.DemoGame.Shapes
 {
     public class Line : Path
     {
+        public static int LineLength = 170;
+
         public Vector3 Start;
         public Vector3 End;
 
         public override SampledPath GetSampledPath(Matrix transform, float stepScale)
         {
             SampledPath result = new SampledPath();
-            result.Samples = new Sample[(int)Math.Round(100 * stepScale)];
+            result.Samples = new Sample[(int)Math.Round(LineLength * stepScale)];
             for(int i = 0; i < result.Samples.Length; i++)
             {
                 var point3D = Vector3.Lerp(Start, End, (float)i / (float)result.Samples.Length);
 
                 Vector4 point4D = new Vector4(point3D, 1);
                 Vector4 v4 = Vector4.Transform(point4D, transform);
-                v4 = Transformer.performViewTransform(point4D, Camera.ViewMatrix());
+                v4 = Transformer.performViewTransform(v4, Camera.ViewMatrix());
                 v4 = Transformer.performProjectionTransform(v4, Camera.ProjectionMatrix());
                 bool clipped = Transformer.clip(v4);
                 if(!clipped)
