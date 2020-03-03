@@ -10,16 +10,11 @@ namespace VectorEngine.Output
 {
     public class ASIOOutput
     {
-		static Sample[][] Buffers;
-
-		public static void StartDriver(Sample[][] buffers)
+		public static void StartDriver()
 		{
-			Buffers = buffers;
-
 			// TODO:This call to highest priority probably doesn't mean anything at all
 			// because it's a different thread that that handles the events...
 			// Unless... this thread will determine the other thread's priority based on its own??
-
 			// no messing, this is high priority stuff
 			Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
@@ -52,7 +47,7 @@ namespace VectorEngine.Output
 			Console.WriteLine();
 
 			// Currently hardcoded: todo: make it not.
-			int driverNumber = 1;
+			int driverNumber = 2;
 
 			Console.WriteLine();
 			Console.WriteLine("Using: " + AsioDriver.InstalledDrivers[driverNumber - 1]);
@@ -62,7 +57,7 @@ namespace VectorEngine.Output
 			AsioDriver driver = AsioDriver.SelectDriver(AsioDriver.InstalledDrivers[driverNumber - 1]);
 
 			// popup the driver's control panel for configuration
-			//driver.ShowControlPanel();
+			driver.ShowControlPanel();
 
 			// now dump some details
 			Console.WriteLine("  Driver name = " + driver.DriverName);
@@ -111,41 +106,78 @@ namespace VectorEngine.Output
 			//driver.Stop();
 		}
 
-
-		static int bufferCounter = 0;
-		static double t = 0;
 		/// <summary>
 		/// Called when a buffer update is required
 		/// </summary>
 		private static void AsioDriver_BufferUpdate(object sender, EventArgs e)
 		{
-			// TODO: Need to figure out how to safely give this what it needs
-
 			// the driver is the sender
 			AsioDriver driver = sender as AsioDriver;
 
 			// get the stereo output channels
-			Channel leftOutput = driver.OutputChannels[0];
-			Channel rightOutput = driver.OutputChannels[1];
+			Channel xOutput = driver.OutputChannels[0];
+			Channel yOutput = driver.OutputChannels[1];
+			Channel zOutput = driver.OutputChannels[3];
 
-			//// Draw a circle:
-			//for (int index = 0; index < leftOutput.BufferSize; index++)
-			//{
-			//	t += 0.03;
-			//	leftOutput[index] = (float)Math.Sin(t);
-			//	rightOutput[index] = (float)Math.Cos(t);
-			//}
+			FeedAsioBuffers(xOutput, yOutput, zOutput, 0);
+		}
 
-			// Draw a cube:
-			for (int index = 0; index < leftOutput.BufferSize; index++)
+		static int frameIndex = 0;
+		private static void FeedAsioBuffers(Channel leftOutput, Channel rightOutput, Channel brightnessOutput, int startIndex)
+		{
+			if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
+				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer2 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1))
 			{
-				leftOutput[index] = Buffers[bufferCounter][index].X;
-				rightOutput[index] = Buffers[bufferCounter][index].Y;
+				Console.WriteLine("AUDIO BUFFER IS STARVED FOR FRAMES!");
+				// Clear the rest of the buffer with blanking frames
+				for (int i = startIndex; i < leftOutput.BufferSize; i++)
+				{
+					leftOutput[i] = -1f;
+					rightOutput[i] = -1f;
+					brightnessOutput[i] = 0f;
+				}
+				return;
 			}
-			bufferCounter++;
-			if(bufferCounter >= Buffers.Length)
+
+			Sample[] currentFrameBuffer;
+			if (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer1)
 			{
-				bufferCounter = 0;
+				FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.ReadingBuffer1;
+				currentFrameBuffer = FrameOutput.Buffer1;
+			}
+			else
+			{
+				FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.ReadingBuffer2;
+				currentFrameBuffer = FrameOutput.Buffer2;
+			}
+
+			for (int i = startIndex; i < leftOutput.BufferSize; i++)
+			{
+				// Move to the next buffer:
+				if (frameIndex >= currentFrameBuffer.Length)
+				{
+					if (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
+					{
+						FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.WaitingForBuffer2;
+					}
+					else
+					{
+						FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.WaitingForBuffer1;
+					}
+					frameIndex = 0;
+					FeedAsioBuffers(leftOutput, rightOutput, brightnessOutput, i);
+					return;
+				}
+
+				// TODO: This is where processing to these could happen.
+				// For example scale the frame buffer to fit inside the current scope's bounds
+				// or adjust brightness to match voltage needed for z-input on scope.
+
+				leftOutput[i] = currentFrameBuffer[frameIndex].X;
+				rightOutput[i] = currentFrameBuffer[frameIndex].Y;
+				brightnessOutput[i] = currentFrameBuffer[frameIndex].Brightness;
+
+				frameIndex++;
 			}
 		}
 	}

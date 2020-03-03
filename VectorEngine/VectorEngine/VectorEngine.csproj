@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="DemoGame\Shapes\Line.cs" />
     <Compile Include="Engine\Camera.cs" />
+    <Compile Include="Engine\GameLoop.cs" />
     <Compile Include="Engine\Path.cs" />
     <Compile Include="Engine\Sample.cs" />
     <Compile Include="Engine\SampledPath.cs" />
