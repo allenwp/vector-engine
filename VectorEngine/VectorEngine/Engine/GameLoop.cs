@@ -72,7 +72,7 @@ namespace VectorEngine.Engine
             lines.Add(new Line() { Start = new Vector3(0.5f, -0.5f, -0.5f), End = new Vector3(0.5f, -0.5f, 0.5f) });
             lines.Add(new Line() { Start = new Vector3(-0.5f, -0.5f, -0.5f), End = new Vector3(-0.5f, -0.5f, 0.5f) });
 
-            lerpAmount += 0.005f;
+            lerpAmount += 0.001f;
             if (lerpAmount > 1f)
             {
                 lerpAmount -= 1f;
