@@ -126,7 +126,10 @@ namespace VectorEngine.Output
 		private static void FeedAsioBuffers(Channel leftOutput, Channel rightOutput, Channel brightnessOutput, int startIndex)
 		{
 			if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
-				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer2 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1))
+				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer2 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
+				// At the beginning of the game, the buffers and null and not ready:
+				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer1 && FrameOutput.Buffer1 == null)
+				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer2 && FrameOutput.Buffer2 == null))
 			{
 				Console.WriteLine("AUDIO BUFFER IS STARVED FOR FRAMES!");
 				// Clear the rest of the buffer with blanking frames
