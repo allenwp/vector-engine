@@ -15,13 +15,16 @@ namespace VectorEngine.DemoGame.Shapes
         public Vector3 Start;
         public Vector3 End;
 
-        public override SampledPath GetSampledPath(Matrix transform, float stepScale)
+        public override List<Sample[]> GetSampledPaths(Matrix transform, float stepScale)
         {
-            SampledPath result = new SampledPath();
-            result.Samples = new Sample[(int)Math.Round(LineLength * stepScale)];
-            for(int i = 0; i < result.Samples.Length; i++)
+            List<Sample[]> result = new List<Sample[]>();
+            int sampleLength = (int)Math.Round(LineLength * stepScale);
+
+            Sample[] tempSampleArray = null;
+            int currentArrayIndex = 0;
+            for(int i = 0; i < sampleLength; i++)
             {
-                var point3D = Vector3.Lerp(Start, End, (float)i / (float)result.Samples.Length);
+                var point3D = Vector3.Lerp(Start, End, (float)i / (float)sampleLength);
 
                 Vector4 point4D = new Vector4(point3D, 1);
                 Vector4 v4 = Vector4.Transform(point4D, transform);
@@ -30,25 +33,40 @@ namespace VectorEngine.DemoGame.Shapes
                 bool clipped = Transformer.clip(v4);
                 if(!clipped)
                 {
+                    if(tempSampleArray == null)
+                    {
+                        tempSampleArray = new Sample[sampleLength];
+                    }
+
                     Vector2 result2D = Transformer.performViewportTransform(v4);
-                    result.Samples[i].X = result2D.X;
-                    result.Samples[i].Y = result2D.Y;
-                    result.Samples[i].Brightness = 1;
+                    tempSampleArray[currentArrayIndex].X = result2D.X;
+                    tempSampleArray[currentArrayIndex].Y = result2D.Y;
+                    tempSampleArray[currentArrayIndex].Brightness = 1;
+
+                    currentArrayIndex++;
                 }
                 else
                 {
-                    if (i > 0)
+                    // Move on to the next array of samples. This allows blanking to be applied in the case where
+                    // a Path exits the screen on one side and comes in on the other side of the screen.
+                    if(tempSampleArray != null && currentArrayIndex > 0)
                     {
-                        result.Samples[i] = result.Samples[i - 1];
-                        result.Samples[i].Brightness = 0;
+                        var newArray = new Sample[currentArrayIndex];
+                        Array.Copy(tempSampleArray, 0, newArray, 0, currentArrayIndex);
+                        result.Add(newArray);
                     }
-                    else
-                    {
-                        result.Samples[i].Brightness = 0;
-                        // TODO: do this all better so that a different sized array can be returned
-                    }
+                    tempSampleArray = null;
+                    currentArrayIndex = 0;
                 }
             }
+
+            if (tempSampleArray != null && currentArrayIndex > 0)
+            {
+                var newArray = new Sample[currentArrayIndex];
+                Array.Copy(tempSampleArray, 0, newArray, 0, currentArrayIndex);
+                result.Add(newArray);
+            }
+
             return result;
         }
     }

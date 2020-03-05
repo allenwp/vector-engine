@@ -67,7 +67,6 @@
     <Compile Include="Engine\GameLoop.cs" />
     <Compile Include="Engine\Path.cs" />
     <Compile Include="Engine\Sample.cs" />
-    <Compile Include="Engine\SampledPath.cs" />
     <Compile Include="Engine\Shape.cs" />
     <Compile Include="Engine\Transformer.cs" />
     <Compile Include="Output\ASIOOutput.cs" />

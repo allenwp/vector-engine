@@ -62,8 +62,6 @@ namespace VectorEngine.Engine
         static float lerpAmount = 0;
         static void DrawRotatingCube(Sample[] frameBuffer)
         {
-            int lineLength = Line.LineLength;
-
             List<Line> lines = new List<Line>();
             lines.Add(new Line() { Start = new Vector3(-0.5f, 0.5f, 0.5f), End = new Vector3(0.5f, 0.5f, 0.5f) });
             lines.Add(new Line() { Start = new Vector3(0.5f, 0.5f, 0.5f), End = new Vector3(0.5f, -0.5f, 0.5f) });
@@ -87,10 +85,17 @@ namespace VectorEngine.Engine
             }
             var worldTransform = Matrix.CreateRotationY(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount));
 
-            for (int i = 0; i < lines.Count; i++)
+            List<Sample[]> sampledPaths = new List<Sample[]>();
+            foreach (var line in lines)
             {
-                SampledPath path = lines[i].GetSampledPath(worldTransform, 1f);
-                Array.Copy(path.Samples, 0, frameBuffer, i * lineLength, lineLength);
+                sampledPaths.AddRange(line.GetSampledPaths(worldTransform, 1f));
+            }
+
+            int destinationIndex = 0;
+            foreach (var samples in sampledPaths)
+            {
+                Array.Copy(samples, 0, frameBuffer, destinationIndex, samples.Length);
+                destinationIndex += samples.Length;
             }
         }
 

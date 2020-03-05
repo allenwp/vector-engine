@@ -17,6 +17,6 @@ namespace VectorEngine.Engine
         /// <param name="transform">Final matrix to apply all world and camera transforms.</param>
         /// <param name="stepScale">Scale used to reduce or increase number of samples based on size relative to the screen. This is related to the transform.</param>
         /// <returns></returns>
-        public abstract SampledPath GetSampledPath(Matrix transform, float stepScale);
+        public abstract List<Sample[]> GetSampledPaths(Matrix transform, float stepScale);
     }
 }
