@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,14 @@ namespace VectorEngine.Engine
 {
     public class GameLoop
     {
-
         public static void Loop()
         {
             ASIOOutput.StartDriver();
+
+            for(int i = 0; i < 2; i++)
+            {
+                var cap = GamePad.GetCapabilities(0);
+            }
 
             while (true)
             {
@@ -37,6 +42,9 @@ namespace VectorEngine.Engine
                 }
 
                 FrameOutput.ClearBuffer(finalSamples);
+
+                var gamePadState = GamePad.GetState(PlayerIndex.One);
+                UpdateCamera();
 
                 DrawRotatingCube(finalSamples);
 
@@ -84,6 +92,19 @@ namespace VectorEngine.Engine
                 SampledPath path = lines[i].GetSampledPath(worldTransform, 1f);
                 Array.Copy(path.Samples, 0, frameBuffer, i * lineLength, lineLength);
             }
+        }
+
+        static void UpdateCamera()
+        {
+            var camPos = Camera.Position;
+
+            var gamePadState = GamePad.GetState(PlayerIndex.One);
+
+            camPos.X += gamePadState.ThumbSticks.Left.X * 0.01f;
+            camPos.Z -= gamePadState.ThumbSticks.Left.Y * 0.01f;
+
+            Camera.Position = camPos;
+            Camera.Target = camPos + Vector3.Forward;
         }
     }
 }
