@@ -11,7 +11,7 @@ namespace VectorEngine.Output
     public class FrameOutput
     {
         public static readonly int SAMPLES_PER_SECOND = 192000;
-        public static readonly float TARGET_FRAMES_PER_SECOND = 93.75f;
+        public static readonly float TARGET_FRAMES_PER_SECOND = 80f;
         public static readonly int TARGET_BUFFER_SIZE = (int)Math.Round(SAMPLES_PER_SECOND / TARGET_FRAMES_PER_SECOND);
         public static readonly float MIN_FRAMES_PER_SECOND = 1f;
         public static readonly int MAX_BUFFER_SIZE = (int)Math.Round(SAMPLES_PER_SECOND / MIN_FRAMES_PER_SECOND);

@@ -105,13 +105,22 @@ namespace VectorEngine.Engine
         static void Init()
         {
             shapes.Add(new Cube());
+            for(int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    GridPoint point = new GridPoint();
+                    point.WorldTransform = Matrix.CreateTranslation(i * 0.5f, -0.5f, j * 0.5f);
+                    shapes.Add(point);
+                }
+            }
         }
 
         static void Update()
         {
             UpdateCubeRotations();
             var gamePadState = GamePad.GetState(PlayerIndex.One);
-            UpdateCamera();
+            UpdateCamera(gamePadState);
         }
 
         static float lerpAmount = 0;
@@ -132,11 +141,9 @@ namespace VectorEngine.Engine
             }
         }
 
-        static void UpdateCamera()
+        static void UpdateCamera(GamePadState gamePadState)
         {
             var camPos = Camera.Position;
-
-            var gamePadState = GamePad.GetState(PlayerIndex.One);
 
             camPos.X += gamePadState.ThumbSticks.Left.X * 0.01f;
             camPos.Z -= gamePadState.ThumbSticks.Left.Y * 0.01f;

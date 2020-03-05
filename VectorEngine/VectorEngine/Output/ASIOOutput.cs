@@ -164,7 +164,7 @@ namespace VectorEngine.Output
 			for (int i = startIndex; i < leftOutput.BufferSize; i++)
 			{
 				// Move to the next buffer:
-				if (frameIndex >= currentFrameBuffer.Length)
+				if (frameIndex >= currentFrameBuffer.Length) // FIXME: Somehow currentFrameBuffer can be null. Seems to be on the first frame.
 				{
 					if (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
 					{
