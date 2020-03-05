@@ -15,9 +15,19 @@ namespace VectorEngine.Engine
         public bool Is3D = true;
 
         // TODO: Figure out scene graph, etc.
-        // To sample a Shape, it needs a transform...
-        // public Transform (???)
-            
+        public Matrix WorldTransform = Matrix.Identity;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stepScale">Scale used to reduce or increase number of samples based on size relative to the screen. This is related to the worldTransform and camera transforms.</param>
+        /// <returns></returns>
+        public virtual List<Sample[]> GetSamples()
+        {
+            // TODO: actually calculate stepScale
+            return GetSamples(WorldTransform, 1f);
+        }
+
         /// <summary>
         /// 
         /// </summary>

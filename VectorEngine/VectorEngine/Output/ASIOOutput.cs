@@ -123,6 +123,7 @@ namespace VectorEngine.Output
 		}
 
 		static int frameIndex = 0;
+		static bool firstFrameRendered = false;
 		private static void FeedAsioBuffers(Channel leftOutput, Channel rightOutput, Channel brightnessOutput, int startIndex)
 		{
 			if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
@@ -140,6 +141,12 @@ namespace VectorEngine.Output
 					brightnessOutput[i] = 0f;
 				}
 				return;
+			}
+
+			if (!firstFrameRendered)
+			{
+				firstFrameRendered = true;
+				Console.WriteLine("Rendering first frame!");
 			}
 
 			Sample[] currentFrameBuffer;

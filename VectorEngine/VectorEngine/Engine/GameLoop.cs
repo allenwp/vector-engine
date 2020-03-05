@@ -12,14 +12,14 @@ namespace VectorEngine.Engine
 {
     public class GameLoop
     {
+        static List<Shape> shapes = new List<Shape>();
+
+        static bool firstFrameRendered = false;
         public static void Loop()
         {
             ASIOOutput.StartDriver();
 
-            for(int i = 0; i < 2; i++)
-            {
-                var cap = GamePad.GetCapabilities(0);
-            }
+            Init();
 
             while (true)
             {
@@ -102,10 +102,34 @@ namespace VectorEngine.Engine
             }
         }
 
+        static void Init()
+        {
+            shapes.Add(new Cube());
+        }
+
         static void Update()
         {
+            UpdateCubeRotations();
             var gamePadState = GamePad.GetState(PlayerIndex.One);
             UpdateCamera();
+        }
+
+        static float lerpAmount = 0;
+        static void UpdateCubeRotations()
+        {
+            foreach (var shape in shapes)
+            {
+                Cube cube = shape as Cube;
+                if (cube != null)
+                {
+                    lerpAmount += 0.001f;
+                    if (lerpAmount > 1f)
+                    {
+                        lerpAmount -= 1f;
+                    }
+                    cube.WorldTransform = Matrix.CreateRotationY(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount));
+                }
+            }
         }
 
         static void UpdateCamera()
@@ -123,42 +147,12 @@ namespace VectorEngine.Engine
 
         static List<Sample[]> Draw()
         {
-             return DrawRotatingCube();
-        }
-
-        static float lerpAmount = 0;
-        static List<Sample[]> DrawRotatingCube()
-        {
-            List<Line> lines = new List<Line>();
-            lines.Add(new Line() { Start = new Vector3(-0.5f, 0.5f, 0.5f), End = new Vector3(0.5f, 0.5f, 0.5f) });
-            lines.Add(new Line() { Start = new Vector3(0.5f, 0.5f, 0.5f), End = new Vector3(0.5f, -0.5f, 0.5f) });
-            lines.Add(new Line() { Start = new Vector3(0.5f, -0.5f, 0.5f), End = new Vector3(-0.5f, -0.5f, 0.5f) });
-            lines.Add(new Line() { Start = new Vector3(-0.5f, -0.5f, 0.5f), End = new Vector3(-0.5f, 0.5f, 0.5f) });
-
-            lines.Add(new Line() { Start = new Vector3(-0.5f, 0.5f, -0.5f), End = new Vector3(0.5f, 0.5f, -0.5f) });
-            lines.Add(new Line() { Start = new Vector3(0.5f, 0.5f, -0.5f), End = new Vector3(0.5f, -0.5f, -0.5f) });
-            lines.Add(new Line() { Start = new Vector3(0.5f, -0.5f, -0.5f), End = new Vector3(-0.5f, -0.5f, -0.5f) });
-            lines.Add(new Line() { Start = new Vector3(-0.5f, -0.5f, -0.5f), End = new Vector3(-0.5f, 0.5f, -0.5f) });
-
-            lines.Add(new Line() { Start = new Vector3(-0.5f, 0.5f, -0.5f), End = new Vector3(-0.5f, 0.5f, 0.5f) });
-            lines.Add(new Line() { Start = new Vector3(0.5f, 0.5f, -0.5f), End = new Vector3(0.5f, 0.5f, 0.5f) });
-            lines.Add(new Line() { Start = new Vector3(0.5f, -0.5f, -0.5f), End = new Vector3(0.5f, -0.5f, 0.5f) });
-            lines.Add(new Line() { Start = new Vector3(-0.5f, -0.5f, -0.5f), End = new Vector3(-0.5f, -0.5f, 0.5f) });
-
-            lerpAmount += 0.001f;
-            if (lerpAmount > 1f)
+            List<Sample[]> result = new List<Sample[]>();
+            foreach(Shape shape in shapes)
             {
-                lerpAmount -= 1f;
+                result.AddRange(shape.GetSamples());
             }
-            var worldTransform = Matrix.CreateRotationY(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount));
-
-            List<Sample[]> samples = new List<Sample[]>();
-            foreach (var line in lines)
-            {
-                samples.AddRange(line.GetSamples(worldTransform, 1f));
-            }
-
-            return samples;
+            return result;
         }
     }
 }

@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoGame\Shapes\Cube.cs" />
     <Compile Include="DemoGame\Shapes\Line.cs" />
     <Compile Include="Engine\Camera.cs" />
     <Compile Include="Engine\GameLoop.cs" />
