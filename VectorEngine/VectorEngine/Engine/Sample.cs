@@ -30,5 +30,25 @@ namespace VectorEngine.Engine
         /// and vice-versa.
         /// </summary>
         public float Brightness;
+
+        private static readonly Sample blank = new Sample(-1f, -1f, 0f);
+        public static Sample Blank
+        {
+            get { return blank; }
+        }
+
+        public Sample(float x, float y)
+        {
+            X = x;
+            Y = y;
+            Brightness = 1f;
+        }
+
+        public Sample(float x, float y, float brightness)
+        {
+            X = x;
+            Y = y;
+            Brightness = brightness;
+        }
     }
 }

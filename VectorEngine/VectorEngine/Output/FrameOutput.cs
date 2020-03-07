@@ -43,9 +43,7 @@ namespace VectorEngine.Output
         {
             for(int i = 0; i < buffer.Length; i++)
             {
-                buffer[i].X = -1f;
-                buffer[i].Y = -1f;
-                buffer[i].Brightness = 0f;
+                buffer[i] = Sample.Blank;
             }
         }
     }
