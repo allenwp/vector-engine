@@ -21,6 +21,8 @@ namespace VectorEngine.Output
         public static Sample[] Buffer1;
         public static Sample[] Buffer2;
 
+        public static ulong FrameCount = 0;
+
         public enum ReadStateEnum
         {
             ReadingBuffer1 = 0,

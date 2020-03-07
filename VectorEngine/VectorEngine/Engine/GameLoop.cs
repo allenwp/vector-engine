@@ -14,11 +14,8 @@ namespace VectorEngine.Engine
     {
         static List<Shape> shapes = new List<Shape>();
 
-        static bool firstFrameBuffered = false;
         public static void Loop()
         {
-            ASIOOutput.StartDriver();
-
             Init();
 
             while (true)
@@ -65,10 +62,12 @@ namespace VectorEngine.Engine
                     FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingForBuffer1;
                 }
 
-                if (!firstFrameBuffered)
+                FrameOutput.FrameCount++;
+
+                if (FrameOutput.FrameCount == 1)
                 {
-                    firstFrameBuffered = true;
-                    Console.WriteLine("Finsihed creating first frame buffer!");
+                    Console.WriteLine("Finished creating first frame buffer! Starting ASIOOutput now.");
+                    ASIOOutput.StartDriver();
                 }
             }
         }

@@ -47,7 +47,7 @@ namespace VectorEngine.Output
 			Console.WriteLine();
 
 			// Currently hardcoded: todo: make it not.
-			int driverNumber = 2;
+			int driverNumber = 1;
 
 			Console.WriteLine();
 			Console.WriteLine("Using: " + AsioDriver.InstalledDrivers[driverNumber - 1]);
@@ -163,7 +163,7 @@ namespace VectorEngine.Output
 
 			for (int i = startIndex; i < leftOutput.BufferSize; i++)
 			{
-				// Move to the next buffer:
+				// Move to the next buffer if needed:
 				if (frameIndex >= currentFrameBuffer.Length) // FIXME: Somehow currentFrameBuffer can be null. Seems to be on the first frame.
 				{
 					if (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
