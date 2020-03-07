@@ -25,21 +25,21 @@ namespace VectorEngine.Output
 
         public enum ReadStateEnum
         {
-            ReadingBuffer1 = 0,
-            WaitingForBuffer2,
-            ReadingBuffer2,
-            WaitingForBuffer1
+            WaitingToReadBuffer1 = 0,
+            ReadingBuffer1,
+            WaitingToReadBuffer2,
+            ReadingBuffer2
         }
-        public static volatile int ReadState = (int)ReadStateEnum.WaitingForBuffer1;
+        public static volatile int ReadState = (int)ReadStateEnum.WaitingToReadBuffer1;
 
         public enum WriteStateEnum
         {
+            WaitingToWriteBuffer1 = 0,
             WrittingBuffer1 = 0,
-            WaitingForBuffer2,
-            WrittingBuffer2,
-            WaitingForBuffer1
+            WaitingToWriteBuffer2,
+            WrittingBuffer2
         }
-        public static volatile int WriteState = (int)WriteStateEnum.WaitingForBuffer1;
+        public static volatile int WriteState = (int)WriteStateEnum.WaitingToWriteBuffer1;
 
         public static void ClearBuffer(Sample[] buffer)
         {

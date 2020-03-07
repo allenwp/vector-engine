@@ -21,8 +21,8 @@ namespace VectorEngine.Engine
             while (true)
             {
                 // If we're still waiting for the output to finish reading a buffer, don't do anything else
-                if ((FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingForBuffer1 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
-                    || (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingForBuffer2 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer2))
+                if ((FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
+                    || (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer2))
                 {
                     // TODO: do something better with thread locks or Parallel library or something that doesn't involve spinning
                     continue;
@@ -31,7 +31,7 @@ namespace VectorEngine.Engine
                 // We're no longer waiting on output to finish with its buffer.
                 // Progress the FrameOutput state
                 FrameOutput.WriteStateEnum writeState;
-                if (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingForBuffer1)
+                if (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1)
                 {
                     writeState = FrameOutput.WriteStateEnum.WrittingBuffer1;
                 }
@@ -54,12 +54,12 @@ namespace VectorEngine.Engine
                 if (writeState == FrameOutput.WriteStateEnum.WrittingBuffer1)
                 {
                     FrameOutput.Buffer1 = finalBuffer;
-                    FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingForBuffer2;
+                    FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2;
                 }
                 else
                 {
                     FrameOutput.Buffer2 = finalBuffer;
-                    FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingForBuffer1;
+                    FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1;
                 }
 
                 FrameOutput.FrameCount++;

@@ -123,14 +123,10 @@ namespace VectorEngine.Output
 		}
 
 		static int frameIndex = 0;
-		static bool firstFrameRendered = false;
 		private static void FeedAsioBuffers(Channel leftOutput, Channel rightOutput, Channel brightnessOutput, int startIndex)
 		{
-			if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
-				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer2 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
-				// At the beginning of the game, the buffers and null and not ready:
-				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer1 && FrameOutput.Buffer1 == null)
-				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer2 && FrameOutput.Buffer2 == null))
+			if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
+				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer2 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer2))
 			{
 				Console.WriteLine("AUDIO BUFFER IS STARVED FOR FRAMES!");
 				// Clear the rest of the buffer with blanking frames
@@ -143,45 +139,54 @@ namespace VectorEngine.Output
 				return;
 			}
 
-			if (!firstFrameRendered)
+			Sample[] currentFrameBuffer = null;
+			var readState = (FrameOutput.ReadStateEnum)FrameOutput.ReadState;
+			switch (readState)
 			{
-				firstFrameRendered = true;
-				Console.WriteLine("Rendering first frame!");
-			}
-
-			Sample[] currentFrameBuffer;
-			if (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingForBuffer1)
-			{
-				FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.ReadingBuffer1;
-				currentFrameBuffer = FrameOutput.Buffer1;
-			}
-			else
-			{
-				FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.ReadingBuffer2;
-				currentFrameBuffer = FrameOutput.Buffer2;
+				case FrameOutput.ReadStateEnum.WaitingToReadBuffer1:
+					FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.ReadingBuffer1;
+					currentFrameBuffer = FrameOutput.Buffer1;
+					break;
+				case FrameOutput.ReadStateEnum.ReadingBuffer1:
+					currentFrameBuffer = FrameOutput.Buffer1;
+					break;
+				case FrameOutput.ReadStateEnum.WaitingToReadBuffer2:
+					FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.ReadingBuffer2;
+					currentFrameBuffer = FrameOutput.Buffer2;
+					break;
+				case FrameOutput.ReadStateEnum.ReadingBuffer2:
+					currentFrameBuffer = FrameOutput.Buffer2;
+					break;
 			}
 
 			for (int i = startIndex; i < leftOutput.BufferSize; i++)
 			{
-				// Move to the next buffer if needed:
+				// Move to the next buffer if needed by recursively calling this method:
 				if (frameIndex >= currentFrameBuffer.Length) // FIXME: Somehow currentFrameBuffer can be null. Seems to be on the first frame.
 				{
-					if (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
+					readState = (FrameOutput.ReadStateEnum)FrameOutput.ReadState;
+					switch (readState)
 					{
-						FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.WaitingForBuffer2;
+						case FrameOutput.ReadStateEnum.ReadingBuffer1:
+							FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer2;
+							break;
+						case FrameOutput.ReadStateEnum.ReadingBuffer2:
+							FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1;
+							break;
+						case FrameOutput.ReadStateEnum.WaitingToReadBuffer1:
+						case FrameOutput.ReadStateEnum.WaitingToReadBuffer2:
+						default:
+							throw new Exception("We should be in the middle of reading a buffer, but for some reason the state says we're waiting.");
 					}
-					else
-					{
-						FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.WaitingForBuffer1;
-					}
+
 					frameIndex = 0;
 					FeedAsioBuffers(leftOutput, rightOutput, brightnessOutput, i);
 					return;
 				}
 
-				// TODO: This is where processing to these could happen.
-				// For example scale the frame buffer to fit inside the current scope's bounds
-				// or adjust brightness to match voltage needed for z-input on scope.
+				// TODO: This is where processing to Samples could happen.
+				// For example scale the Samples to fit inside the current display's bounds
+				// or adjust brightness to match voltage needed for z-input on oscilloscope.
 
 				leftOutput[i] = currentFrameBuffer[frameIndex].X;
 				rightOutput[i] = currentFrameBuffer[frameIndex].Y;
