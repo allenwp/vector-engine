@@ -17,22 +17,21 @@ namespace VectorEngine.Engine
         // TODO: Figure out scene graph, etc.
         public Matrix WorldTransform = Matrix.Identity;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stepScale">Scale used to reduce or increase number of samples based on size relative to the screen. This is related to the worldTransform and camera transforms.</param>
-        /// <returns></returns>
         public virtual List<Sample[]> GetSamples()
         {
-            // TODO: actually calculate stepScale
+            // TODO: actually calculate fidelity
+            // Base fidelity should be relative to what the size of the shape would be if Is3D was true (no camera, no WorldTransform)
             return GetSamples(WorldTransform, 1f);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="stepScale">Scale used to reduce or increase number of samples based on size relative to the screen. This is related to the worldTransform and camera transforms.</param>
+        /// <param name="fidelity">Kind of like a "dynamic level of detail".
+        /// It is a scale used to reduce or increase number of resulting samples based on
+        /// what physicsal size the shape will be when it is rendered to the screen.
+        /// This is based on the worldTransform and camera transforms.</param>
         /// <returns></returns>
-        public abstract List<Sample[]> GetSamples(Matrix worldTransform, float stepScale);
+        public abstract List<Sample[]> GetSamples(Matrix worldTransform, float fidelity);
     }
 }

@@ -14,7 +14,7 @@ namespace VectorEngine.Engine
     {
         static List<Shape> shapes = new List<Shape>();
 
-        static bool firstFrameRendered = false;
+        static bool firstFrameBuffered = false;
         public static void Loop()
         {
             ASIOOutput.StartDriver();
@@ -56,9 +56,9 @@ namespace VectorEngine.Engine
                 int sampleCount = 0;
                 foreach (var sampleArray in samples)
                 {
-                    // TODO: include blanking injection in this count
                     sampleCount += sampleArray.Length;
                 }
+                sampleCount += samples.Count * FrameOutput.BLANKING_LENGTH;
 
                 // Set up the final buffer with the correct sample length
                 // This is variable (variable frame rate based on paramenters in FrameOutput class)
@@ -69,10 +69,6 @@ namespace VectorEngine.Engine
                     // Only in this case to we need to clear the buffer. In the other cases we will be filling it entirely
                     FrameOutput.ClearBuffer(finalBuffer);
                 }
-                else if (sampleCount > FrameOutput.MAX_BUFFER_SIZE)
-                {
-                    finalBuffer = new Sample[FrameOutput.MAX_BUFFER_SIZE];
-                }
                 else
                 {
                     finalBuffer = new Sample[sampleCount];
@@ -82,10 +78,20 @@ namespace VectorEngine.Engine
                 int destinationIndex = 0;
                 foreach (var sampleArray in samples)
                 {
-                    // TODO: Handle when sampleCount > FrameOutput.MAX_BUFFER_SIZE
-                    // In this case, we can't do this copy because the finalBuffer is not large enough.
-                    Array.Copy(sampleArray, 0, finalBuffer, destinationIndex, sampleArray.Length);
-                    destinationIndex += sampleArray.Length;
+                    if (sampleArray.Length > 0)
+                    {
+                        // Set blanking based on the first sample:
+                        for (int b = 0; b < FrameOutput.BLANKING_LENGTH; b++)
+                        {
+                            finalBuffer[destinationIndex] = sampleArray[0];
+                            finalBuffer[destinationIndex].Brightness = 0f;
+                            destinationIndex++;
+                        }
+
+                        // Then copy the samples over:
+                        Array.Copy(sampleArray, 0, finalBuffer, destinationIndex, sampleArray.Length);
+                        destinationIndex += sampleArray.Length;
+                    }
                 }
 
                 // "Blit" the buffer and progress the frame buffer write state
@@ -98,6 +104,12 @@ namespace VectorEngine.Engine
                 {
                     FrameOutput.Buffer2 = finalBuffer;
                     FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingForBuffer1;
+                }
+
+                if (!firstFrameBuffered)
+                {
+                    firstFrameBuffered = true;
+                    Console.WriteLine("Finsihed creating first frame buffer!");
                 }
             }
         }

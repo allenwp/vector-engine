@@ -18,7 +18,7 @@ namespace VectorEngine.DemoGame.Shapes
             lines.Add(new Line() { LineLength = 20, Start = new Vector3(0, 0, -0.05f), End = new Vector3(0, 0, 0.05f) });
         }
 
-        public override List<Sample[]> GetSamples(Matrix worldTransform, float stepScale)
+        public override List<Sample[]> GetSamples(Matrix worldTransform, float fidelity)
         {
             List<Sample[]> samples = new List<Sample[]>();
             foreach (var line in lines)

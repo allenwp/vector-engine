@@ -15,10 +15,10 @@ namespace VectorEngine.DemoGame.Shapes
         public Vector3 Start;
         public Vector3 End;
 
-        public override List<Sample[]> GetSamples(Matrix worldTransform, float stepScale)
+        public override List<Sample[]> GetSamples(Matrix worldTransform, float fidelity)
         {
             List<Sample[]> result = new List<Sample[]>();
-            int sampleLength = (int)Math.Round(LineLength * stepScale);
+            int sampleLength = (int)Math.Round(LineLength * fidelity);
 
             Sample[] tempSampleArray = null;
             int currentArrayIndex = 0;

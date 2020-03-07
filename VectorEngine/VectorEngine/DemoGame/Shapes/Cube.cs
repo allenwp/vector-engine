@@ -29,7 +29,7 @@ namespace VectorEngine.DemoGame.Shapes
             lines.Add(new Line() { Start = new Vector3(-0.5f, -0.5f, -0.5f), End = new Vector3(-0.5f, -0.5f, 0.5f) });
         }
 
-        public override List<Sample[]> GetSamples(Matrix worldTransform, float stepScale)
+        public override List<Sample[]> GetSamples(Matrix worldTransform, float fidelity)
         {
             List<Sample[]> samples = new List<Sample[]>();
             foreach (var line in lines)

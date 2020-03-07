@@ -17,7 +17,7 @@ namespace VectorEngine.Engine
         public static Vector3 Up = new Vector3(0, 1, 0);
 
         public static float FoV = MathHelper.ToRadians(60);
-        public static float AspectRatio = 1;
+        public static float AspectRatio = 1; // TODO: Allow this to be configured! This needs a test scren first.
         public static float NearPlane = 1;
         public static float FarPlane = 1000;
 
