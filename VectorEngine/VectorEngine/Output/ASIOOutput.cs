@@ -117,7 +117,7 @@ namespace VectorEngine.Output
 			// get the stereo output channels
 			Channel xOutput = driver.OutputChannels[0];
 			Channel yOutput = driver.OutputChannels[1];
-			Channel zOutput = driver.OutputChannels[3];
+			Channel zOutput = driver.OutputChannels[2];
 
 			FeedAsioBuffers(xOutput, yOutput, zOutput, 0);
 		}
