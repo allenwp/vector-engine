@@ -19,9 +19,15 @@ namespace VectorEngine.Engine
 
         public virtual List<Sample[]> GetSamples()
         {
-            // TODO: actually calculate fidelity
-            // Base fidelity should be relative to what the size of the shape would be if Is3D was true (no camera, no WorldTransform)
-            return GetSamples(WorldTransform, 1f);
+            float fidelity = 1f;
+
+            if(Is3D)
+            {
+                // TODO: actually calculate fidelity
+                // Base fidelity should be relative to what the size of the shape would be if Is3D was false (no camera, no WorldTransform)
+            }
+
+            return GetSamples(WorldTransform, fidelity);
         }
 
         /// <summary>

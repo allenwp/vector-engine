@@ -28,9 +28,13 @@ namespace VectorEngine.DemoGame.Shapes
 
                 Vector4 point4D = new Vector4(point3D, 1);
                 Vector4 v4 = Vector4.Transform(point4D, worldTransform);
-                v4 = Transformer.performViewTransform(v4, Camera.ViewMatrix());
-                v4 = Transformer.performProjectionTransform(v4, Camera.ProjectionMatrix());
-                bool clipped = Transformer.clip(v4);
+                bool clipped = false;
+                if (Is3D)
+                {
+                    v4 = Transformer.performViewTransform(v4, Camera.ViewMatrix());
+                    v4 = Transformer.performProjectionTransform(v4, Camera.ProjectionMatrix());
+                    clipped = Transformer.clip(v4);
+                }
                 if(!clipped)
                 {
                     if(tempSampleArray == null)
