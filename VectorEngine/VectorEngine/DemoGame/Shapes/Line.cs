@@ -42,7 +42,7 @@ namespace VectorEngine.DemoGame.Shapes
                         tempSampleArray = new Sample[sampleLength];
                     }
 
-                    Vector2 result2D = Transformer.performViewportTransform(v4);
+                    Vector2 result2D = Transformer.performViewportTransform(v4, Camera.AspectRatio);
                     tempSampleArray[currentArrayIndex].X = result2D.X;
                     tempSampleArray[currentArrayIndex].Y = result2D.Y;
                     tempSampleArray[currentArrayIndex].Brightness = 1;

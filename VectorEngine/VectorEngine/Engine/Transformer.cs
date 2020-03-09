@@ -35,12 +35,18 @@ public class Transformer
     /// <summary>
     /// Performs a homogeneous divide and discards z to get the final screen space coordinates
     /// </summary>
-    public static Vector2 performViewportTransform(Vector4 vertex)
+    public static Vector2 performViewportTransform(Vector4 vertex, float aspectRatio)
     {
         Vector2 viewportSpace = new Vector2(vertex.X / vertex.W, vertex.Y / vertex.W);
-        
-        //viewportSpace.X = (viewportSpace.X + 1) * 0.5f; // I think this is unnecessary because my screen space centers on zero 
-        //viewportSpace.Y = (viewportSpace.Y + 1) * 0.5f;
+
+        if (aspectRatio > 1f)
+        {
+            viewportSpace.Y /= aspectRatio;
+        }
+        else if (aspectRatio < 1f)
+        {
+            viewportSpace.X *= aspectRatio;
+        }
 
         return viewportSpace;
     }
