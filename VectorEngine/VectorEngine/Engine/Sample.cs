@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VectorEngine.Output;
 
 namespace VectorEngine.Engine
 {
@@ -12,14 +13,15 @@ namespace VectorEngine.Engine
     public struct Sample
     {
         /// <summary>
-        /// 0 is the center of the screen. Unbounded to support non-square screen aspect ratios.
-        /// If a screen is portrait aspect ratio, this should be in range of -1 to 1 to be visible.
+        /// 0 is the center of the screen. This should have the range of -AspectRatio to AspectRatio
+        /// to be visible on the screen.
+        /// A square aspect ratio will have the rage of -1 to 1 be visible.
         /// </summary>
         public float X;
 
         /// <summary>
-        /// 0 is the center of the screen. Unbounded to support non-square screen aspect ratios.
-        /// If a screen is landscape aspect ratio, this should be in range of -1 to 1 to be visible.
+        /// 0 is the center of the screen. This should be in range of -1 to 1 to be visible, regardless
+        /// of aspect ratio.
         /// </summary>
         public float Y;
 
@@ -31,20 +33,17 @@ namespace VectorEngine.Engine
         /// </summary>
         public float Brightness;
 
-        private static readonly Sample blank = new Sample(-1f, -1f, 0f);
         public static Sample Blank
         {
-            get { return blank; }
+            get
+            {
+                Sample blank = new Sample(-1f, -1f, 0);
+                blank.X *= FrameOutput.AspectRatio;
+                return blank;
+            }
         }
 
-        public Sample(float x, float y)
-        {
-            X = x;
-            Y = y;
-            Brightness = 1f;
-        }
-
-        public Sample(float x, float y, float brightness)
+        public Sample(float x = 0f, float y = 0f, float brightness = 1f)
         {
             X = x;
             Y = y;

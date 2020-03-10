@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VectorEngine.Engine;
+using VectorEngine.Output;
 
 namespace VectorEngine.DemoGame.Shapes
 {
@@ -42,7 +43,7 @@ namespace VectorEngine.DemoGame.Shapes
                         tempSampleArray = new Sample[sampleLength];
                     }
 
-                    Vector2 result2D = Transformer.performViewportTransform(v4, Camera.AspectRatio);
+                    Vector2 result2D = Transformer.performViewportTransform(v4, FrameOutput.AspectRatio);
                     tempSampleArray[currentArrayIndex].X = result2D.X;
                     tempSampleArray[currentArrayIndex].Y = result2D.Y;
                     tempSampleArray[currentArrayIndex].Brightness = 1;

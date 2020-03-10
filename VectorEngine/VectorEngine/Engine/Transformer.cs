@@ -39,14 +39,7 @@ public class Transformer
     {
         Vector2 viewportSpace = new Vector2(vertex.X / vertex.W, vertex.Y / vertex.W);
 
-        if (aspectRatio > 1f)
-        {
-            viewportSpace.Y /= aspectRatio;
-        }
-        else if (aspectRatio < 1f)
-        {
-            viewportSpace.X *= aspectRatio;
-        }
+        viewportSpace.X *= aspectRatio;
 
         return viewportSpace;
     }

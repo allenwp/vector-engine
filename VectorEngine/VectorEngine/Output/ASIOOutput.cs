@@ -47,7 +47,7 @@ namespace VectorEngine.Output
 			Console.WriteLine();
 
 			// Currently hardcoded: todo: make it not.
-			int driverNumber = 1;
+			int driverNumber = 2;
 
 			Console.WriteLine();
 			Console.WriteLine("Using: " + AsioDriver.InstalledDrivers[driverNumber - 1]);
@@ -188,12 +188,32 @@ namespace VectorEngine.Output
 				// For example scale the Samples to fit inside the current display's bounds
 				// or adjust brightness to match voltage needed for z-input on oscilloscope.
 
-				leftOutput[i] = currentFrameBuffer[frameIndex].X;
-				rightOutput[i] = currentFrameBuffer[frameIndex].Y;
-				brightnessOutput[i] = currentFrameBuffer[frameIndex].Brightness;
+				Sample sample = PrepareSampleForScreen(currentFrameBuffer[frameIndex]);
+				leftOutput[i] = sample.X;
+				rightOutput[i] = sample.Y;
+				brightnessOutput[i] = sample.Brightness;
 
 				frameIndex++;
 			}
+		}
+
+		public static Sample PrepareSampleForScreen(Sample sample)
+		{
+			if (FrameOutput.AspectRatio > 1f)
+			{
+				sample.X /= FrameOutput.AspectRatio;
+				sample.Y /= FrameOutput.AspectRatio;
+			}
+			else
+			{
+				// Nothing to do with a portrait or square aspect ratio
+				// In these cases, Y is already in range of -1 to 1 and
+				// X is whatever range it needs to be to match the aspect ratio.
+			}
+
+			// TODO: adjust brightness to match voltage needed for z-input on oscilloscope.
+
+			return sample;
 		}
 	}
 }

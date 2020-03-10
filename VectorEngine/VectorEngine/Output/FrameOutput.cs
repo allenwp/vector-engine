@@ -13,6 +13,9 @@ namespace VectorEngine.Output
         public static readonly int SAMPLES_PER_SECOND = 192000;
         public static readonly float TARGET_FRAMES_PER_SECOND = 80f;
         public static readonly int TARGET_BUFFER_SIZE = (int)Math.Round(SAMPLES_PER_SECOND / TARGET_FRAMES_PER_SECOND);
+
+        public static float AspectRatio = 4f / 3.5f;
+
         /// <summary>
         /// Number of samples for each blank
         /// </summary>
@@ -47,6 +50,38 @@ namespace VectorEngine.Output
             {
                 buffer[i] = Sample.Blank;
             }
+        }
+
+        public static Sample[] GetCalibrationFrame()
+        {
+            int brightestSampleCount = 300;
+
+            Sample[] buffer = new Sample[brightestSampleCount * 8];
+            ClearBuffer(buffer);
+
+            int bufferIndex = 0;
+
+            bufferIndex = CalibrationDrawPoint(-AspectRatio, -1, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(-AspectRatio, 0, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(-AspectRatio, 1, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(0, 1, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(AspectRatio, 1, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(AspectRatio, 0, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(AspectRatio, -1, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(0, -1, buffer, brightestSampleCount, bufferIndex);
+
+            return buffer;
+        }
+
+        /// <returns>Next safe index to write to</returns>
+        public static int CalibrationDrawPoint(float x, float y, Sample[] buffer, int numSamples, int startIndex)
+        {
+            int finalIndexPlusOne = startIndex + numSamples;
+            for (; startIndex < finalIndexPlusOne; startIndex++)
+            {
+                buffer[startIndex] = new Sample(x, y);
+            }
+            return finalIndexPlusOne;
         }
     }
 }
