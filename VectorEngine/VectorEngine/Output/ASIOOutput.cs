@@ -184,10 +184,6 @@ namespace VectorEngine.Output
 					return;
 				}
 
-				// TODO: This is where processing to Samples could happen.
-				// For example scale the Samples to fit inside the current display's bounds
-				// or adjust brightness to match voltage needed for z-input on oscilloscope.
-
 				Sample sample = PrepareSampleForScreen(currentFrameBuffer[frameIndex]);
 				leftOutput[i] = sample.X;
 				rightOutput[i] = sample.Y;

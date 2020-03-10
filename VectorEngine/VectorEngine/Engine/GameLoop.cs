@@ -182,7 +182,7 @@ namespace VectorEngine.Engine
                 for (int j = 0; j < 10; j++)
                 {
                     GridPoint point = new GridPoint();
-                    point.WorldTransform = Matrix.CreateTranslation(i * 0.5f, -0.5f, j * 0.5f);
+                    point.Position = new Vector3(i * 0.5f, -0.5f, j * 0.5f);
                     shapes.Add(point);
                 }
             }
@@ -208,7 +208,7 @@ namespace VectorEngine.Engine
                     {
                         lerpAmount -= 1f;
                     }
-                    cube.WorldTransform = Matrix.CreateRotationY(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount));
+                    cube.Rotation = Quaternion.CreateFromYawPitchRoll(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount), 0, 0);
                 }
             }
         }
