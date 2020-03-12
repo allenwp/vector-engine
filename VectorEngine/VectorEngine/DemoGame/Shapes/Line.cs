@@ -11,7 +11,7 @@ namespace VectorEngine.DemoGame.Shapes
 {
     public class Line : Shape
     {
-        public int LineLength = 100;
+        public int LineLength = 130;
 
         public Vector3 Start;
         public Vector3 End;

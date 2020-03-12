@@ -48,7 +48,7 @@ namespace VectorEngine.Engine
                 var samples = Draw();
 
                 // Finally, prepare and fill the FrameOutput buffer:
-                Sample[] finalBuffer = CreateFrameBuffer(samples);
+                Sample[] finalBuffer = CreateFrameBuffer(samples); // FrameOutput.GetCalibrationFrame();
 
                 // "Blit" the buffer and progress the frame buffer write state
                 if (writeState == FrameOutput.WriteStateEnum.WrittingBuffer1)
@@ -77,6 +77,12 @@ namespace VectorEngine.Engine
                 {
                     Console.WriteLine("Finished creating first frame buffer! Starting ASIOOutput now.");
                     ASIOOutput.StartDriver();
+                }
+
+                if (FrameOutput.FrameCount % 100 == 0)
+                {
+                    int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
+                    Console.WriteLine(" Framerate: " + frameRate + " (" + finalBuffer.Length + " + " + starvedSamples + " samples)");
                 }
             }
         }
@@ -186,13 +192,19 @@ namespace VectorEngine.Engine
         static void Init()
         {
             shapes.Add(new Cube());
-            for(int i = 0; i < 10; i++)
+            var newCube = new Cube();
+            newCube.Position.X += 2f;
+            shapes.Add(newCube);
+            for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    GridPoint point = new GridPoint();
-                    point.Position = new Vector3(i * 0.5f, -0.5f, j * 0.5f);
-                    shapes.Add(point);
+                    for (int k = 0; k < 2; k++)
+                    {
+                        GridPoint point = new GridPoint();
+                        point.Position = new Vector3(i * 0.5f, (k + 1) * -0.5f, j * 0.5f);
+                        shapes.Add(point);
+                    }
                 }
             }
         }
@@ -207,16 +219,16 @@ namespace VectorEngine.Engine
         static float lerpAmount = 0;
         static void UpdateCubeRotations()
         {
+            lerpAmount += 0.3f * GameTime.LastFrameTime;
+            if (lerpAmount > 1f)
+            {
+                lerpAmount -= 1f;
+            }
             foreach (var shape in shapes)
             {
                 Cube cube = shape as Cube;
                 if (cube != null)
                 {
-                    lerpAmount += 0.001f;
-                    if (lerpAmount > 1f)
-                    {
-                        lerpAmount -= 1f;
-                    }
                     cube.Rotation = Quaternion.CreateFromYawPitchRoll(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount), 0, 0);
                 }
             }
@@ -226,8 +238,8 @@ namespace VectorEngine.Engine
         {
             var camPos = Camera.Position;
 
-            camPos.X += gamePadState.ThumbSticks.Left.X * 0.01f;
-            camPos.Z -= gamePadState.ThumbSticks.Left.Y * 0.01f;
+            camPos.X += gamePadState.ThumbSticks.Left.X * 1f * GameTime.LastFrameTime;
+            camPos.Z -= gamePadState.ThumbSticks.Left.Y * 1f * GameTime.LastFrameTime;
 
             Camera.Position = camPos;
             Camera.Target = camPos + Vector3.Forward;
