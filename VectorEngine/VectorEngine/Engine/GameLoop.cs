@@ -62,9 +62,18 @@ namespace VectorEngine.Engine
                     FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1;
                 }
 
+                // This part regarding the number of starved samples is not thread perfect, but I think it should be
+                // correct more than 99.9% of the time...
+                int starvedSamples = FrameOutput.StarvedSamples;
+                FrameOutput.StarvedSamples = 0;
+
+                // Update GameTime:
+                GameTime.LastFrameSampleCount = finalBuffer.Length + starvedSamples;
+
+                var oldFrameCount = FrameOutput.FrameCount; // to make sure we don't reinitialize when it overflows
                 FrameOutput.FrameCount++;
 
-                if (FrameOutput.FrameCount == 1)
+                if (FrameOutput.FrameCount == 1 && oldFrameCount < FrameOutput.FrameCount)
                 {
                     Console.WriteLine("Finished creating first frame buffer! Starting ASIOOutput now.");
                     ASIOOutput.StartDriver();

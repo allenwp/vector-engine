@@ -128,7 +128,9 @@ namespace VectorEngine.Output
 			if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
 				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer2 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer2))
 			{
-				Console.WriteLine("AUDIO BUFFER IS STARVED FOR FRAMES!");
+				int blankedSampleCount = leftOutput.BufferSize - startIndex;
+				FrameOutput.StarvedSamples += blankedSampleCount;
+				Console.WriteLine("AUDIO BUFFER IS STARVED FOR FRAMES! Blanking for " + blankedSampleCount);
 				// Clear the rest of the buffer with blanking frames
 				for (int i = startIndex; i < leftOutput.BufferSize; i++)
 				{
@@ -162,7 +164,7 @@ namespace VectorEngine.Output
 			for (int i = startIndex; i < leftOutput.BufferSize; i++)
 			{
 				// Move to the next buffer if needed by recursively calling this method:
-				if (frameIndex >= currentFrameBuffer.Length) // FIXME: Somehow currentFrameBuffer can be null. Seems to be on the first frame.
+				if (frameIndex >= currentFrameBuffer.Length)
 				{
 					readState = (FrameOutput.ReadStateEnum)FrameOutput.ReadState;
 					switch (readState)

@@ -44,6 +44,8 @@ namespace VectorEngine.Output
         }
         public static volatile int WriteState = (int)WriteStateEnum.WaitingToWriteBuffer1;
 
+        public static volatile int StarvedSamples = 0;
+
         public static void ClearBuffer(Sample[] buffer)
         {
             for(int i = 0; i < buffer.Length; i++)
