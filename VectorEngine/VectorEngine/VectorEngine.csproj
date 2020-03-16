@@ -68,6 +68,7 @@
     <Compile Include="Engine\Camera.cs" />
     <Compile Include="Engine\GameLoop.cs" />
     <Compile Include="Engine\GameTime.cs" />
+    <Compile Include="Engine\Sample3D.cs" />
     <Compile Include="Engine\Shape.cs" />
     <Compile Include="Engine\Sample.cs" />
     <Compile Include="Engine\Transformer.cs" />

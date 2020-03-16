@@ -18,12 +18,12 @@ namespace VectorEngine.DemoGame.Shapes
             lines.Add(new Line() { Is3D = Is3D, LineLength = 20, Start = new Vector3(0, 0, -0.05f), End = new Vector3(0, 0, 0.05f) });
         }
 
-        public override List<Sample[]> GetSamples(Matrix worldTransform, float fidelity)
+        public override List<Sample3D[]> GetSamples3D(float fidelity)
         {
-            List<Sample[]> samples = new List<Sample[]>();
+            List<Sample3D[]> samples = new List<Sample3D[]>();
             foreach (var line in lines)
             {
-                samples.AddRange(line.GetSamples(worldTransform, fidelity));
+                samples.AddRange(line.GetSamples3D(fidelity));
             }
 
             return samples;
