@@ -10,43 +10,27 @@ namespace VectorEngine.Engine
 {
     public abstract class Shape
     {
-        /// <summary>
-        /// If false, this does not exist as a part of the scene graph and doesn't need to be transformed at all.
-        /// </summary>
-        public bool Is3D = true;
-
-        // TODO: Figure out scene graph, etc.
-        public Matrix WorldTransform
-        {
-            get
-            {
-                return Matrix.CreateScale(Scale) * Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(Position);
-            }
-        }
-
-        public Quaternion Rotation = Quaternion.Identity;
-        public Vector3 Position = Vector3.Zero;
-        public Vector3 Scale = Vector3.One;
+        Transform transform;
 
         public List<Sample[]> GetSamples()
         {
             float fidelity = 1f;
 
-            if (Is3D)
+            if (transform.Is3D)
             {
-                float distanceFromCamera = Math.Abs(Vector3.Distance(Position, Camera.Position));
+                float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, Camera.Position));
                 // Fidelity is relative to the "non-3D" plane equivalent being the distance where half of the camera's FoV shows 1 unit on an axis,
                 // which matches the coordinate space that this engine uses, which is -1 to 1 (or 1 unit for half the screen)
                 // For a fidelity of 1, the distance from camera must equal (1 / (tan(FoV / 2))) ("TOA" triginometry formula)
                 // The first 1 in the following equation is based on half of the camera's vision being 1 unit of screen space ("TOA" triginometry formula)
                 // This formula uses the half of the camera's vision being 1 unit to match up with drawing the shape as non-3D
                 fidelity = 1f / (distanceFromCamera * (float)Math.Tan(Camera.FoV / 2f));
-                fidelity *= MathHelper.Max(MathHelper.Max(Scale.X, Scale.Y), Scale.Z); // Multiply fidelity by max scale
+                fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
             }
 
             var samples3D = GetSamples3D(fidelity);
 
-            return TransformSamples3DToScreen(samples3D, WorldTransform, Is3D);
+            return TransformSamples3DToScreen(samples3D, transform.WorldTransform, transform.Is3D);
         }
 
         /// <summary>

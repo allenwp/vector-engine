@@ -66,11 +66,17 @@
     <Compile Include="DemoGame\Shapes\GridPoint.cs" />
     <Compile Include="DemoGame\Shapes\Line.cs" />
     <Compile Include="Engine\Camera.cs" />
+    <Compile Include="Engine\Component.cs" />
+    <Compile Include="Engine\ECS.cs" />
+    <Compile Include="Engine\Entity.cs" />
     <Compile Include="Engine\GameLoop.cs" />
     <Compile Include="Engine\GameTime.cs" />
     <Compile Include="Engine\Sample3D.cs" />
+    <Compile Include="Engine\SamplerSystem.cs" />
     <Compile Include="Engine\Shape.cs" />
     <Compile Include="Engine\Sample.cs" />
+    <Compile Include="Engine\System.cs" />
+    <Compile Include="Engine\Transform.cs" />
     <Compile Include="Engine\Transformer.cs" />
     <Compile Include="Output\ASIOOutput.cs" />
     <Compile Include="GUI\Form1.cs">
