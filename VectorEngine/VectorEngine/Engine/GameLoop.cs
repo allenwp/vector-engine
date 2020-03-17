@@ -193,7 +193,7 @@ namespace VectorEngine.Engine
         {
             shapes.Add(new Cube());
             var newCube = new Cube();
-            newCube.Position.X += 2f;
+            newCube.transform.Position.X += 2f;
             shapes.Add(newCube);
             for (int i = 0; i < 10; i++)
             {
@@ -202,7 +202,7 @@ namespace VectorEngine.Engine
                     for (int k = 0; k < 2; k++)
                     {
                         GridPoint point = new GridPoint();
-                        point.Position = new Vector3(i * 0.5f, (k + 1) * -0.5f, j * 0.5f);
+                        point.transform.Position = new Vector3(i * 0.5f, (k + 1) * -0.5f, j * 0.5f);
                         shapes.Add(point);
                     }
                 }
@@ -229,7 +229,7 @@ namespace VectorEngine.Engine
                 Cube cube = shape as Cube;
                 if (cube != null)
                 {
-                    cube.Rotation = Quaternion.CreateFromYawPitchRoll(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount), 0, 0);
+                    cube.transform.Rotation = Quaternion.CreateFromYawPitchRoll(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount), 0, 0);
                 }
             }
         }

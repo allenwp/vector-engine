@@ -14,8 +14,8 @@ namespace VectorEngine.DemoGame.Shapes
 
         public GridPoint()
         {
-            lines.Add(new Line() { Is3D = Is3D, LineLength = 20, Start = new Vector3(-0.05f, 0, 0), End = new Vector3(0.05f, 0, 0) });
-            lines.Add(new Line() { Is3D = Is3D, LineLength = 20, Start = new Vector3(0, 0, -0.05f), End = new Vector3(0, 0, 0.05f) });
+            lines.Add(new Line() { LineLength = 20, Start = new Vector3(-0.05f, 0, 0), End = new Vector3(0.05f, 0, 0) });
+            lines.Add(new Line() { LineLength = 20, Start = new Vector3(0, 0, -0.05f), End = new Vector3(0, 0, 0.05f) });
         }
 
         public override List<Sample3D[]> GetSamples3D(float fidelity)

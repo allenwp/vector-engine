@@ -10,7 +10,7 @@ namespace VectorEngine.Engine
 {
     public abstract class Shape
     {
-        Transform transform;
+        public Transform transform = new Transform();
 
         public List<Sample[]> GetSamples()
         {
