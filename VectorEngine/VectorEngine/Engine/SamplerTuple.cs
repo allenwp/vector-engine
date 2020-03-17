@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace VectorEngine.Engine
 {
-    public class ECS
+    public struct SamplerTuple
     {
-        public List<System> Systems;
-        public List<Entity> Entities;
+        public Transform Transform;
+        public Shape Shape;
     }
 }

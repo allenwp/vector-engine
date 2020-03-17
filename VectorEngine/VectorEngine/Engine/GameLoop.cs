@@ -43,12 +43,13 @@ namespace VectorEngine.Engine
 
                 // "Update" the game
                 Update();
-
-                // "Draw" the game
-                var samples = Draw();
+                foreach (System system in EntityAdmin.Instance.Systems)
+                {
+                    system.Tick();
+                }
 
                 // Finally, prepare and fill the FrameOutput buffer:
-                Sample[] finalBuffer = CreateFrameBuffer(samples); // FrameOutput.GetCalibrationFrame();
+                Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples); // FrameOutput.GetCalibrationFrame();
 
                 // "Blit" the buffer and progress the frame buffer write state
                 if (writeState == FrameOutput.WriteStateEnum.WrittingBuffer1)
@@ -191,48 +192,60 @@ namespace VectorEngine.Engine
 
         static void Init()
         {
-            shapes.Add(new Cube());
-            var newCube = new Cube();
-            newCube.transform.Position.X += 2f;
-            shapes.Add(newCube);
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    for (int k = 0; k < 2; k++)
-                    {
-                        GridPoint point = new GridPoint();
-                        point.transform.Position = new Vector3(i * 0.5f, (k + 1) * -0.5f, j * 0.5f);
-                        shapes.Add(point);
-                    }
-                }
-            }
+            EntityAdmin.Instance.Systems.Add(new SamplerSystem());
+
+            var entity = new Entity();
+            var trans = new Transform();
+            trans.Entity = entity;
+            var cube = new Cube();
+            cube.Entity = entity;
+            EntityAdmin.Instance.Components.Add(trans);
+            EntityAdmin.Instance.Components.Add(cube);
+
+
+            //shapes.Add(new Cube());
+            //var newCube = new Cube();
+            //newCube.transform.Position.X += 2f;
+            //shapes.Add(newCube);
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    for (int j = 0; j < 10; j++)
+            //    {
+            //        for (int k = 0; k < 2; k++)
+            //        {
+            //            GridPoint point = new GridPoint();
+            //            point.transform.Position = new Vector3(i * 0.5f, (k + 1) * -0.5f, j * 0.5f);
+            //            shapes.Add(point);
+            //        }
+            //    }
+            //}
         }
 
         static void Update()
         {
-            UpdateCubeRotations();
+            //UpdateCubeRotations();
+            // TODO: Put gamepad state in a SignletonGamepad component and update it once per tick in a GamepadSystem.
             var gamePadState = GamePad.GetState(PlayerIndex.One);
             UpdateCamera(gamePadState);
         }
 
-        static float lerpAmount = 0;
-        static void UpdateCubeRotations()
-        {
-            lerpAmount += 0.3f * GameTime.LastFrameTime;
-            if (lerpAmount > 1f)
-            {
-                lerpAmount -= 1f;
-            }
-            foreach (var shape in shapes)
-            {
-                Cube cube = shape as Cube;
-                if (cube != null)
-                {
-                    cube.transform.Rotation = Quaternion.CreateFromYawPitchRoll(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount), 0, 0);
-                }
-            }
-        }
+        //static float lerpAmount = 0;
+        //static void UpdateCubeRotations()
+        //{
+        //    lerpAmount += 0.3f * GameTime.LastFrameTime;
+        //    if (lerpAmount > 1f)
+        //    {
+        //        lerpAmount -= 1f;
+        //    }
+        //    foreach (var shape in shapes)
+        //    {
+        //        Cube cube = shape as Cube;
+        //        if (cube != null)
+        //        {
+        //            cube.transform.Rotation = Quaternion.CreateFromYawPitchRoll(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount), 0, 0);
+        //        }
+        //    }
+        //}
 
         static void UpdateCamera(GamePadState gamePadState)
         {
@@ -243,16 +256,6 @@ namespace VectorEngine.Engine
 
             Camera.Position = camPos;
             Camera.Target = camPos + Vector3.Forward;
-        }
-
-        static List<Sample[]> Draw()
-        {
-            List<Sample[]> result = new List<Sample[]>();
-            foreach(Shape shape in shapes)
-            {
-                result.AddRange(shape.GetSamples());
-            }
-            return result;
         }
     }
 }

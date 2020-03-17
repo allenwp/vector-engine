@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Microsoft.Xna.Framework;
 
+// TODO: maybe move this to the SamplerSystem class
 public class Transformer
 {
     /// <summary>

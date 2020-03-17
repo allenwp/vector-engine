@@ -8,6 +8,5 @@ namespace VectorEngine.Engine
 {
     public class Entity
     {
-        List<Component> Components;
     }
 }

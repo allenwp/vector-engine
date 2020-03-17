@@ -12,5 +12,6 @@ namespace VectorEngine.Engine
     /// </summary>
     public class Component
     {
+        public Entity Entity;
     }
 }
