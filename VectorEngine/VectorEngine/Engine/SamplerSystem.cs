@@ -56,9 +56,9 @@ namespace VectorEngine.Engine
                     bool clipped = false;
                     if (is3D)
                     {
-                        v4 = Transformer.performViewTransform(v4, Camera.ViewMatrix());
-                        v4 = Transformer.performProjectionTransform(v4, Camera.ProjectionMatrix());
-                        clipped = Transformer.clip(v4);
+                        v4 = PerformViewTransform(v4, Camera.ViewMatrix());
+                        v4 = PerformProjectionTransform(v4, Camera.ProjectionMatrix());
+                        clipped = Clip(v4);
                     }
                     if (!clipped)
                     {
@@ -67,7 +67,7 @@ namespace VectorEngine.Engine
                             tempSampleArray = new Sample[sampleLength];
                         }
 
-                        Vector2 result2D = Transformer.performViewportTransform(v4, FrameOutput.AspectRatio);
+                        Vector2 result2D = PerformViewportTransform(v4, FrameOutput.AspectRatio);
                         tempSampleArray[currentArrayIndex].X = result2D.X;
                         tempSampleArray[currentArrayIndex].Y = result2D.Y;
                         tempSampleArray[currentArrayIndex].Brightness = samples3DArray[i].Brightness;
@@ -98,6 +98,47 @@ namespace VectorEngine.Engine
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Produces "view" coordinates (aka "eye" or "camera" coordinates)
+        /// Applies the view transform of the given camera (transformCamera.worldToCameraMatrix)
+        /// to the homogeonous vertex.
+        /// </summary>
+        public static Vector4 PerformViewTransform(Vector4 vertex, Matrix worldToCameraMatrix)
+        {
+            Vector4 result = Vector4.Transform(vertex, worldToCameraMatrix);
+            return result;
+        }
+
+        /// <summary>
+        /// Produces "clip" coordinates by applying the projection transform.
+        /// This result can be transformed into "Normalized Device Coordinates" by performing a homogeneous devide.
+        /// </summary>
+        public static Vector4 PerformProjectionTransform(Vector4 vertex, Matrix projectionMatrix)
+        {
+            Vector4 result = Vector4.Transform(vertex, projectionMatrix);
+            return result;
+        }
+
+        public static bool Clip(Vector4 vertex)
+        {
+            bool result = !(-vertex.W <= vertex.X && vertex.X <= vertex.W
+                            && -vertex.W <= vertex.Y && vertex.Y <= vertex.W
+                            && -vertex.W <= vertex.Z && vertex.Z <= vertex.W);
+            return result;
+        }
+
+        /// <summary>
+        /// Performs a homogeneous divide and discards z to get the final screen space coordinates
+        /// </summary>
+        public static Vector2 PerformViewportTransform(Vector4 vertex, float aspectRatio)
+        {
+            Vector2 viewportSpace = new Vector2(vertex.X / vertex.W, vertex.Y / vertex.W);
+
+            viewportSpace.X *= aspectRatio;
+
+            return viewportSpace;
         }
     }
 }

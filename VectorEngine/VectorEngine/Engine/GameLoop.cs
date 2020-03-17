@@ -194,31 +194,7 @@ namespace VectorEngine.Engine
         {
             EntityAdmin.Instance.Systems.Add(new SamplerSystem());
 
-            var entity = new Entity();
-            var trans = new Transform();
-            trans.Entity = entity;
-            var cube = new Cube();
-            cube.Entity = entity;
-            EntityAdmin.Instance.Components.Add(trans);
-            EntityAdmin.Instance.Components.Add(cube);
-
-
-            //shapes.Add(new Cube());
-            //var newCube = new Cube();
-            //newCube.transform.Position.X += 2f;
-            //shapes.Add(newCube);
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    for (int j = 0; j < 10; j++)
-            //    {
-            //        for (int k = 0; k < 2; k++)
-            //        {
-            //            GridPoint point = new GridPoint();
-            //            point.transform.Position = new Vector3(i * 0.5f, (k + 1) * -0.5f, j * 0.5f);
-            //            shapes.Add(point);
-            //        }
-            //    }
-            //}
+            DemoGame.GameScene.Init();
         }
 
         static void Update()

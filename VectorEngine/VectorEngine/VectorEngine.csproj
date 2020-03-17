@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoGame\GameScene.cs" />
     <Compile Include="DemoGame\Shapes\Cube.cs" />
     <Compile Include="DemoGame\Shapes\GridPoint.cs" />
     <Compile Include="DemoGame\Shapes\Line.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="Engine\Sample.cs" />
     <Compile Include="Engine\System.cs" />
     <Compile Include="Engine\Transform.cs" />
-    <Compile Include="Engine\Transformer.cs" />
     <Compile Include="Output\ASIOOutput.cs" />
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
