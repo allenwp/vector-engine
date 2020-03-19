@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace VectorEngine.Engine
 {
-    public class GamepadSystem : System
+    public class GamepadSystem : ECSSystem
     {
         public override void Tick()
         {

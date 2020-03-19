@@ -9,8 +9,9 @@ namespace VectorEngine.Engine
     /// <summary>
     /// Have behaviours and no game state.
     /// (Said differently: Only methods, no fields.)
+    /// Named ECSSystem instead of just System because of name conflicts making things frustrating
     /// </summary>
-    public class System
+    public class ECSSystem
     {
         public virtual void Tick() { }
     }

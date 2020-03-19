@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DemoGame\GameScene.cs" />
+    <Compile Include="DemoGame\RotateSystem.cs" />
     <Compile Include="DemoGame\Shapes\Cube.cs" />
     <Compile Include="DemoGame\Shapes\GridPoint.cs" />
     <Compile Include="DemoGame\Shapes\Line.cs" />
@@ -73,14 +74,14 @@
     <Compile Include="Engine\Extensions.cs" />
     <Compile Include="Engine\GameLoop.cs" />
     <Compile Include="Engine\GameTime.cs" />
+    <Compile Include="DemoGame\Rotate.cs" />
     <Compile Include="Engine\Sample3D.cs" />
     <Compile Include="Engine\SingletonGamepad.cs" />
     <Compile Include="Engine\SingletonSampler.cs" />
     <Compile Include="Engine\SamplerSystem.cs" />
-    <Compile Include="Engine\SamplerTuple.cs" />
     <Compile Include="Engine\Shape.cs" />
     <Compile Include="Engine\Sample.cs" />
-    <Compile Include="Engine\System.cs" />
+    <Compile Include="Engine\ECSSystem.cs" />
     <Compile Include="Engine\Transform.cs" />
     <Compile Include="Engine\GamepadSystem.cs" />
     <Compile Include="Output\ASIOOutput.cs" />

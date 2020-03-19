@@ -10,48 +10,48 @@ namespace VectorEngine.Engine
     {
         public static EntityAdmin Instance { get; } = new EntityAdmin();
 
-        public List<System> Systems = new List<System>();
+        public List<ECSSystem> Systems = new List<ECSSystem>();
         public List<Component> Components = new List<Component>();
 
-        public IEnumerable<SamplerTuple> GetSamplerTuples()
+        public IEnumerable<(T1, T2)> GetTuple<T1, T2>() where T1 : Component where T2 : Component
         {
-            var tuples = new Dictionary<Entity, SamplerTuple>();
+            var tuples = new Dictionary<Entity, (T1, T2)>();
 
-            foreach (var component in Components.Where( comp => comp is Transform ))
-            {
-                if(!tuples.ContainsKey(component.Entity))
-                {
-                    tuples[component.Entity] = new SamplerTuple();
-                }
-
-                var tuple = tuples[component.Entity];
-                if (tuples[component.Entity].Transform != null)
-                {
-                    throw new Exception("It appears as if an entity has two components of the same type!");
-                }
-                tuple.Transform = (Transform)component;
-                tuples[component.Entity] = tuple;
-            }
-
-            foreach (var component in Components.Where(comp => comp is Shape))
+            foreach (var component in Components.Where( comp => comp is T1))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {
-                    tuples[component.Entity] = new SamplerTuple();
+                    tuples[component.Entity] = (null, null);
                 }
 
                 var tuple = tuples[component.Entity];
-                if (tuples[component.Entity].Shape != null)
+                if (tuples[component.Entity].Item1 != null)
                 {
                     throw new Exception("It appears as if an entity has two components of the same type!");
                 }
-                tuple.Shape = (Shape)component;
+                tuple.Item1 = (T1)component;
+                tuples[component.Entity] = tuple;
+            }
+
+            foreach (var component in Components.Where(comp => comp is T2))
+            {
+                if (!tuples.ContainsKey(component.Entity))
+                {
+                    tuples[component.Entity] = (null, null);
+                }
+
+                var tuple = tuples[component.Entity];
+                if (tuples[component.Entity].Item2 != null)
+                {
+                    throw new Exception("It appears as if an entity has two components of the same type!");
+                }
+                tuple.Item2 = (T2)component;
                 tuples[component.Entity] = tuple;
             }
 
             // Remove the tuples that don't fit all the requriements:
-            tuples.RemoveAll((key, value) => value.Shape == null);
-            tuples.RemoveAll((key, value) => value.Transform == null);
+            tuples.RemoveAll((key, value) => value.Item1 == null);
+            tuples.RemoveAll((key, value) => value.Item2 == null);
 
             return tuples.Values.ToList();
         }

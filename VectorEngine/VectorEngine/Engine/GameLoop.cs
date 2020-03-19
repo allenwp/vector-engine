@@ -43,7 +43,7 @@ namespace VectorEngine.Engine
 
                 // "Update" the game
                 Update();
-                foreach (System system in EntityAdmin.Instance.Systems)
+                foreach (ECSSystem system in EntityAdmin.Instance.Systems)
                 {
                     system.Tick();
                 }
@@ -207,7 +207,6 @@ namespace VectorEngine.Engine
             UpdateCamera(EntityAdmin.Instance.SingletonGamepad.GamepadState);
         }
 
-        //static float lerpAmount = 0;
         //static void UpdateCubeRotations()
         //{
         //    lerpAmount += 0.3f * GameTime.LastFrameTime;

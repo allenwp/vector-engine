@@ -4,37 +4,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VectorEngine.DemoGame;
 using VectorEngine.Output;
 
 namespace VectorEngine.Engine
 {
-    public class SamplerSystem : System
+    public class SamplerSystem : ECSSystem
     {
-
         public override void Tick()
         {
             List<Sample[]> result = new List<Sample[]>();
-            foreach (SamplerTuple tuple in EntityAdmin.Instance.GetSamplerTuples())
+            foreach ((Transform transform, Shape shape) in EntityAdmin.Instance.GetTuple<Transform, Shape>())
             {
                 // TODO: optimize this by using parallels library
 
                 float fidelity = 1f;
 
-                if (tuple.Transform.Is3D)
+                if (transform.Is3D)
                 {
-                    float distanceFromCamera = Math.Abs(Vector3.Distance(tuple.Transform.Position, Camera.Position));
+                    float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, Camera.Position));
                     // Fidelity is relative to the "non-3D" plane equivalent being the distance where half of the camera's FoV shows 1 unit on an axis,
                     // which matches the coordinate space that this engine uses, which is -1 to 1 (or 1 unit for half the screen)
                     // For a fidelity of 1, the distance from camera must equal (1 / (tan(FoV / 2))) ("TOA" triginometry formula)
                     // The first 1 in the following equation is based on half of the camera's vision being 1 unit of screen space ("TOA" triginometry formula)
                     // This formula uses the half of the camera's vision being 1 unit to match up with drawing the shape as non-3D
                     fidelity = 1f / (distanceFromCamera * (float)Math.Tan(Camera.FoV / 2f));
-                    fidelity *= MathHelper.Max(MathHelper.Max(tuple.Transform.Scale.X, tuple.Transform.Scale.Y), tuple.Transform.Scale.Z); // Multiply fidelity by max scale
+                    fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
                 }
 
-                var samples3D = tuple.Shape.GetSamples3D(fidelity);
+                var samples3D = shape.GetSamples3D(fidelity);
 
-                result.AddRange(TransformSamples3DToScreen(samples3D, tuple.Transform.WorldTransform, tuple.Transform.Is3D));
+                result.AddRange(TransformSamples3DToScreen(samples3D, transform.WorldTransform, transform.Is3D));
             }
 
             EntityAdmin.Instance.SingletonSampler.LastSamples = result;
