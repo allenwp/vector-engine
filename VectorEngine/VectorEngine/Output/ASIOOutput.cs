@@ -106,6 +106,7 @@ namespace VectorEngine.Output
 			//driver.Stop();
 		}
 
+		//static double t = 0;
 		/// <summary>
 		/// Called when a buffer update is required
 		/// </summary>
@@ -120,22 +121,41 @@ namespace VectorEngine.Output
 			Channel zOutput = driver.OutputChannels[2];
 
 			FeedAsioBuffers(xOutput, yOutput, zOutput, 0);
+
+			// Code for a test tone to make sure ASIO device is working well:
+			//for (int index = 0; index < xOutput.BufferSize; index++)
+			//{
+			//	t += 0.03;
+			//	xOutput[index] = (float)Math.Sin(t);
+			//	yOutput[index] = (float)Math.Sin(t);
+			//	zOutput[index] = (float)Math.Sin(t);
+			//}
+
+			// Code for debugging flicker to 0,0:
+			//for (int i = 0; i < xOutput.BufferSize; i++)
+			//{
+			//	double threshold = 0.01;
+			//	if (Math.Abs((double)xOutput[i]) < threshold && Math.Abs((double)yOutput[i]) < threshold)
+			//	{
+			//		Console.WriteLine("output is 0");
+			//	}
+			//}
 		}
 
 		static int frameIndex = 0;
-		private static void FeedAsioBuffers(Channel leftOutput, Channel rightOutput, Channel brightnessOutput, int startIndex)
+		private static void FeedAsioBuffers(Channel xOutput, Channel yOutput, Channel brightnessOutput, int startIndex)
 		{
 			if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
 				|| (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer2 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer2))
 			{
-				int blankedSampleCount = leftOutput.BufferSize - startIndex;
+				int blankedSampleCount = xOutput.BufferSize - startIndex;
 				FrameOutput.StarvedSamples += blankedSampleCount;
 				Console.WriteLine("AUDIO BUFFER IS STARVED FOR FRAMES! Blanking for " + blankedSampleCount);
 				// Clear the rest of the buffer with blanking frames
-				for (int i = startIndex; i < leftOutput.BufferSize; i++)
+				for (int i = startIndex; i < xOutput.BufferSize; i++)
 				{
-					leftOutput[i] = -1f;
-					rightOutput[i] = -1f;
+					xOutput[i] = -1f;
+					yOutput[i] = -1f;
 					brightnessOutput[i] = 0f;
 				}
 				return;
@@ -161,7 +181,7 @@ namespace VectorEngine.Output
 					break;
 			}
 
-			for (int i = startIndex; i < leftOutput.BufferSize; i++)
+			for (int i = startIndex; i < xOutput.BufferSize; i++)
 			{
 				// Move to the next buffer if needed by recursively calling this method:
 				if (frameIndex >= currentFrameBuffer.Length)
@@ -182,13 +202,13 @@ namespace VectorEngine.Output
 					}
 
 					frameIndex = 0;
-					FeedAsioBuffers(leftOutput, rightOutput, brightnessOutput, i);
+					FeedAsioBuffers(xOutput, yOutput, brightnessOutput, i);
 					return;
 				}
 
 				Sample sample = PrepareSampleForScreen(currentFrameBuffer[frameIndex]);
-				leftOutput[i] = sample.X;
-				rightOutput[i] = sample.Y;
+				xOutput[i] = sample.X;
+				yOutput[i] = sample.Y;
 				brightnessOutput[i] = sample.Brightness;
 
 				frameIndex++;
