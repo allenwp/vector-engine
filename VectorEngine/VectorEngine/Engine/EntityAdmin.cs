@@ -58,6 +58,7 @@ namespace VectorEngine.Engine
 
         #region Singleton Components (System States)
         public SingletonSampler SingletonSampler { get; } = new SingletonSampler();
+        public SingletonGamepad SingletonGamepad { get; } = new SingletonGamepad();
         #endregion
     }
 }

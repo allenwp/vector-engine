@@ -192,6 +192,8 @@ namespace VectorEngine.Engine
 
         static void Init()
         {
+            // Order maters here. It's the execution order.
+            EntityAdmin.Instance.Systems.Add(new GamepadSystem());
             EntityAdmin.Instance.Systems.Add(new SamplerSystem());
 
             DemoGame.GameScene.Init();
@@ -201,8 +203,8 @@ namespace VectorEngine.Engine
         {
             //UpdateCubeRotations();
             // TODO: Put gamepad state in a SignletonGamepad component and update it once per tick in a GamepadSystem.
-            var gamePadState = GamePad.GetState(PlayerIndex.One);
-            UpdateCamera(gamePadState);
+            
+            UpdateCamera(EntityAdmin.Instance.SingletonGamepad.GamepadState);
         }
 
         //static float lerpAmount = 0;
