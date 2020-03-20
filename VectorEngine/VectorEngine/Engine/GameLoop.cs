@@ -41,8 +41,8 @@ namespace VectorEngine.Engine
                 }
                 FrameOutput.WriteState = (int)writeState;
 
-                // "Update" the game
-                Update();
+                // Tick the systems
+                UpdateCamera(EntityAdmin.Instance.SingletonGamepad.GamepadState); // TODO: move this to a system.
                 foreach (ECSSystem system in EntityAdmin.Instance.Systems)
                 {
                     system.Tick();
@@ -83,7 +83,7 @@ namespace VectorEngine.Engine
                 if (FrameOutput.FrameCount % 100 == 0)
                 {
                     int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
-                    Console.WriteLine(" Framerate: " + frameRate + " (" + finalBuffer.Length + " + " + starvedSamples + " samples)");
+                    Console.WriteLine(" Framerate: " + frameRate + "fps (" + finalBuffer.Length + " + " + starvedSamples + " starved samples)");
                 }
             }
         }
@@ -198,31 +198,6 @@ namespace VectorEngine.Engine
 
             DemoGame.GameScene.Init();
         }
-
-        static void Update()
-        {
-            //UpdateCubeRotations();
-            // TODO: Put gamepad state in a SignletonGamepad component and update it once per tick in a GamepadSystem.
-            
-            UpdateCamera(EntityAdmin.Instance.SingletonGamepad.GamepadState);
-        }
-
-        //static void UpdateCubeRotations()
-        //{
-        //    lerpAmount += 0.3f * GameTime.LastFrameTime;
-        //    if (lerpAmount > 1f)
-        //    {
-        //        lerpAmount -= 1f;
-        //    }
-        //    foreach (var shape in shapes)
-        //    {
-        //        Cube cube = shape as Cube;
-        //        if (cube != null)
-        //        {
-        //            cube.transform.Rotation = Quaternion.CreateFromYawPitchRoll(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount), 0, 0);
-        //        }
-        //    }
-        //}
 
         static void UpdateCamera(GamePadState gamePadState)
         {
