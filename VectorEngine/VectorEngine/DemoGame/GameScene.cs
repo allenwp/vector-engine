@@ -13,6 +13,8 @@ namespace VectorEngine.DemoGame
     {
         public static void Init()
         {
+            EntityAdmin.Instance.Systems.Add(new RotateSystem());
+
             var cube1 = CreateCube();
             var cube2 = CreateCube();
             cube2.GetComponent<Transform>().Position.X += 2f;
@@ -34,6 +36,7 @@ namespace VectorEngine.DemoGame
             var entity = new Entity();
             entity.AddComponent<Transform>();
             entity.AddComponent<Cube>();
+            RandomlyConfigureRotate(entity.AddComponent<Rotate>());
             return entity;
         }
 
@@ -42,8 +45,16 @@ namespace VectorEngine.DemoGame
             var entity = new Entity();
             var trans = entity.AddComponent<Transform>();
             entity.AddComponent<GridPoint>();
+            RandomlyConfigureRotate(entity.AddComponent<Rotate>());
             trans.Position = pos;
             return entity;
+        }
+
+        static Random rand = new Random();
+        public static void RandomlyConfigureRotate(Rotate rotate)
+        {
+            rotate.Speed = MathHelper.Lerp(0.1f, 0.4f, (float)rand.NextDouble());
+            rotate.Axis = (Rotate.AxisEnum)rand.Next(3);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,20 +12,27 @@ namespace VectorEngine.DemoGame
     {
         public override void Tick()
         {
-            // TODO: something like this for each entity that has a Rotate and Transform
-            //lerpAmount += 0.3f * GameTime.LastFrameTime;
-            //if (lerpAmount > 1f)
-            //{
-            //    lerpAmount -= 1f;
-            //}
-            //foreach (var shape in shapes)
-            //{
-            //    Cube cube = shape as Cube;
-            //    if (cube != null)
-            //    {
-            //        cube.transform.Rotation = Quaternion.CreateFromYawPitchRoll(MathHelper.LerpPrecise(0, (float)(Math.PI * 2), lerpAmount), 0, 0);
-            //    }
-            //}
+            foreach ((Rotate rotate, Transform transform) in EntityAdmin.Instance.GetTuple<Rotate, Transform>())
+            {
+                rotate.LerpAmount += rotate.Speed * GameTime.LastFrameTime;
+                if (rotate.LerpAmount > 1f)
+                {
+                    rotate.LerpAmount -= 1f;
+                }
+                float rotationAmount = MathHelper.LerpPrecise(0, (float)(Math.PI * 2), rotate.LerpAmount);
+                switch (rotate.Axis)
+                {
+                    case Rotate.AxisEnum.x:
+                        transform.Rotation = Quaternion.CreateFromYawPitchRoll(rotationAmount, 0, 0);
+                        break;
+                    case Rotate.AxisEnum.y:
+                        transform.Rotation = Quaternion.CreateFromYawPitchRoll(0, rotationAmount, 0);
+                        break;
+                    case Rotate.AxisEnum.z:
+                        transform.Rotation = Quaternion.CreateFromYawPitchRoll(0, 0, rotationAmount);
+                        break;
+                }
+            }
         }
     }
 }
