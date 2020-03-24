@@ -42,7 +42,6 @@ namespace VectorEngine.Engine
                 FrameOutput.WriteState = (int)writeState;
 
                 // Tick the systems
-                UpdateCamera(EntityAdmin.Instance.SingletonGamepad.GamepadState); // TODO: move this to a system.
                 foreach (ECSSystem system in EntityAdmin.Instance.Systems)
                 {
                     system.Tick();
@@ -192,22 +191,7 @@ namespace VectorEngine.Engine
 
         static void Init()
         {
-            // Order maters here. It's the execution order.
-            EntityAdmin.Instance.Systems.Add(new GamepadSystem());
-            EntityAdmin.Instance.Systems.Add(new SamplerSystem());
-
             DemoGame.GameScene.Init();
-        }
-
-        static void UpdateCamera(GamePadState gamePadState)
-        {
-            var camPos = Camera.Position;
-
-            camPos.X += gamePadState.ThumbSticks.Left.X * 1f * GameTime.LastFrameTime;
-            camPos.Z -= gamePadState.ThumbSticks.Left.Y * 1f * GameTime.LastFrameTime;
-
-            Camera.Position = camPos;
-            Camera.Target = camPos + Vector3.Forward;
         }
     }
 }

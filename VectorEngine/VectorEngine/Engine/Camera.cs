@@ -8,27 +8,13 @@ using VectorEngine.Output;
 
 namespace VectorEngine.Engine
 {
-    /// <summary>
-    /// TODO: make this a billion times better 😂
-    /// </summary>
-    public class Camera
+    public class Camera : Component
     {
-        public static Vector3 Position = new Vector3(0, 0, 2);
-        public static Vector3 Target = new Vector3(0, 0, 0);
-        public static Vector3 Up = new Vector3(0, 1, 0);
+        public float FoV = MathHelper.ToRadians(60);
+        public float NearPlane = 1;
+        public float FarPlane = 1000;
 
-        public static float FoV = MathHelper.ToRadians(60);
-        public static float NearPlane = 1;
-        public static float FarPlane = 1000;
-
-        public static Matrix ViewMatrix()
-        {
-            return Matrix.CreateLookAt(Position, Target, Up);
-        }
-
-        public static Matrix ProjectionMatrix()
-        {
-            return Matrix.CreatePerspectiveFieldOfView(FoV, FrameOutput.AspectRatio, NearPlane, FarPlane);
-        }
+        public Matrix ViewMatrix;
+        public Matrix ProjectionMatrix;
     }
 }

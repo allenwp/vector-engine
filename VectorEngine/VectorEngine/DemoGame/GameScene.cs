@@ -13,7 +13,23 @@ namespace VectorEngine.DemoGame
     {
         public static void Init()
         {
+            // Order maters here. It's the execution order.
+            // "Update" systems:
+            EntityAdmin.Instance.Systems.Add(new GamepadSystem());
+            EntityAdmin.Instance.Systems.Add(new GamepadLookTranslateSystem());
             EntityAdmin.Instance.Systems.Add(new RotateSystem());
+
+            // "Draw" systems:
+            EntityAdmin.Instance.Systems.Add(new CameraSystem());
+            EntityAdmin.Instance.Systems.Add(new SamplerSystem());
+
+            // Create scene objects
+            // Order *kinda* matters here: it's the draw order for Shapes
+
+            var camera = new Entity();
+            camera.AddComponent<Transform>();
+            camera.AddComponent<Camera>();
+            camera.AddComponent<GamepadLookTranslate>();
 
             var cube1 = CreateCube();
             var cube2 = CreateCube();

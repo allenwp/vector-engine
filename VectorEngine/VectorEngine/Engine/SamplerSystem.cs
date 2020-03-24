@@ -13,34 +13,47 @@ namespace VectorEngine.Engine
     {
         public override void Tick()
         {
+            var cameraTuples = EntityAdmin.Instance.GetTuple<Transform, Camera>();
+            var shapeTuples = EntityAdmin.Instance.GetTuple<Transform, Shape>();
+
             List<Sample[]> result = new List<Sample[]>();
-            foreach ((Transform transform, Shape shape) in EntityAdmin.Instance.GetTuple<Transform, Shape>())
+
+            foreach ((Transform cameraTransform, Camera camera) in cameraTuples)
             {
-                // TODO: optimize this by using parallels library
-
-                float fidelity = 1f;
-
-                if (transform.Is3D)
+                foreach ((Transform transform, Shape shape) in shapeTuples)
                 {
-                    float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, Camera.Position));
-                    // Fidelity is relative to the "non-3D" plane equivalent being the distance where half of the camera's FoV shows 1 unit on an axis,
-                    // which matches the coordinate space that this engine uses, which is -1 to 1 (or 1 unit for half the screen)
-                    // For a fidelity of 1, the distance from camera must equal (1 / (tan(FoV / 2))) ("TOA" triginometry formula)
-                    // The first 1 in the following equation is based on half of the camera's vision being 1 unit of screen space ("TOA" triginometry formula)
-                    // This formula uses the half of the camera's vision being 1 unit to match up with drawing the shape as non-3D
-                    fidelity = 1f / (distanceFromCamera * (float)Math.Tan(Camera.FoV / 2f));
-                    fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
+                    // TODO: optimize this by using parallels library
+
+                    float fidelity = 1f;
+
+                    if (transform.Is3D)
+                    {
+                        float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, cameraTransform.Position));
+                        float minDistanceFromCamera = 0.1f;
+                        if (distanceFromCamera < minDistanceFromCamera)
+                        {
+                            distanceFromCamera = minDistanceFromCamera;
+                        }
+
+                        // Fidelity is relative to the "non-3D" plane equivalent being the distance where half of the camera's FoV shows 1 unit on an axis,
+                        // which matches the coordinate space that this engine uses, which is -1 to 1 (or 1 unit for half the screen)
+                        // For a fidelity of 1, the distance from camera must equal (1 / (tan(FoV / 2))) ("TOA" triginometry formula)
+                        // The first 1 in the following equation is based on half of the camera's vision being 1 unit of screen space ("TOA" triginometry formula)
+                        // This formula uses the half of the camera's vision being 1 unit to match up with drawing the shape as non-3D
+                        fidelity = 1f / (distanceFromCamera * (float)Math.Tan(camera.FoV / 2f));
+                        fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
+                    }
+
+                    var samples3D = shape.GetSamples3D(fidelity);
+
+                    result.AddRange(TransformSamples3DToScreen(camera, samples3D, transform.WorldTransform, transform.Is3D));
                 }
-
-                var samples3D = shape.GetSamples3D(fidelity);
-
-                result.AddRange(TransformSamples3DToScreen(samples3D, transform.WorldTransform, transform.Is3D));
             }
 
             EntityAdmin.Instance.SingletonSampler.LastSamples = result;
         }
 
-        public static List<Sample[]> TransformSamples3DToScreen(List<Sample3D[]> samples3D, Matrix worldTransform, bool is3D)
+        public static List<Sample[]> TransformSamples3DToScreen(Camera camera, List<Sample3D[]> samples3D, Matrix worldTransform, bool is3D)
         {
             List<Sample[]> result = new List<Sample[]>();
             foreach (var samples3DArray in samples3D)
@@ -56,8 +69,8 @@ namespace VectorEngine.Engine
                     bool clipped = false;
                     if (is3D)
                     {
-                        v4 = PerformViewTransform(v4, Camera.ViewMatrix());
-                        v4 = PerformProjectionTransform(v4, Camera.ProjectionMatrix());
+                        v4 = PerformViewTransform(v4, camera.ViewMatrix);
+                        v4 = PerformProjectionTransform(v4, camera.ProjectionMatrix);
                         clipped = Clip(v4);
                     }
                     if (!clipped)

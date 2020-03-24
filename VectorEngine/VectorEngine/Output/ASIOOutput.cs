@@ -70,6 +70,11 @@ namespace VectorEngine.Output
 			Console.WriteLine("  Granularity = " + driver.BufferSizex.Granularity);
 			Console.WriteLine("  Sample rate = " + driver.SampleRate);
 
+			if (driver.SampleRate != FrameOutput.SAMPLES_PER_SECOND)
+			{
+				throw new Exception("Driver sample rate is different than what the game expects. Please adjust driver settings to have a " + FrameOutput.SAMPLES_PER_SECOND + " sample rate.");
+			}
+
 			// get our driver wrapper to create its buffers
 			driver.CreateBuffers(false);
 

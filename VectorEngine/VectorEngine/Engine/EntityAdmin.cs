@@ -212,8 +212,12 @@ namespace VectorEngine.Engine
         #endregion
 
         #region Singleton Components (System States)
-        public SingletonSampler SingletonSampler { get; } = new SingletonSampler();
-        public SingletonGamepad SingletonGamepad { get; } = new SingletonGamepad();
+        // These could each have their own entity and be added to the components list.
+        // This would give the beneift of simpler serialization.
+        // So if any of these need to be serialized, they should be converted to components
+        // of entities.
+        public SamplerSingleton SingletonSampler { get; } = new SamplerSingleton();
+        public GamepadSingleton SingletonGamepad { get; } = new GamepadSingleton();
         #endregion
     }
 }

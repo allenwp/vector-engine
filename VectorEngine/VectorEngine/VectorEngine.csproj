@@ -62,12 +62,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoGame\GamepadLookTranslate.cs" />
+    <Compile Include="DemoGame\GamepadLookTranslateSystem.cs" />
     <Compile Include="DemoGame\GameScene.cs" />
     <Compile Include="DemoGame\RotateSystem.cs" />
     <Compile Include="DemoGame\Shapes\Cube.cs" />
     <Compile Include="DemoGame\Shapes\GridPoint.cs" />
     <Compile Include="DemoGame\Shapes\Line.cs" />
     <Compile Include="Engine\Camera.cs" />
+    <Compile Include="Engine\CameraSystem.cs" />
     <Compile Include="Engine\Component.cs" />
     <Compile Include="Engine\EntityAdmin.cs" />
     <Compile Include="Engine\Entity.cs" />
@@ -76,8 +79,8 @@
     <Compile Include="Engine\GameTime.cs" />
     <Compile Include="DemoGame\Rotate.cs" />
     <Compile Include="Engine\Sample3D.cs" />
-    <Compile Include="Engine\SingletonGamepad.cs" />
-    <Compile Include="Engine\SingletonSampler.cs" />
+    <Compile Include="Engine\GamepadSingleton.cs" />
+    <Compile Include="Engine\SamplerSingleton.cs" />
     <Compile Include="Engine\SamplerSystem.cs" />
     <Compile Include="Engine\Shape.cs" />
     <Compile Include="Engine\Sample.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VectorEngine.Engine
 {
-    public class SingletonGamepad : Component
+    public class GamepadSingleton : Component
     {
         public GamePadState GamepadState;
     }
