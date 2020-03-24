@@ -76,7 +76,7 @@ namespace VectorEngine.Engine
                             tempSampleArray = new Sample[sampleLength];
                         }
 
-                        Vector2 result2D = PerformViewportTransform(v4, FrameOutput.AspectRatio);
+                        Vector2 result2D = PerformViewportTransform(v4, is3D, FrameOutput.AspectRatio);
                         tempSampleArray[currentArrayIndex].X = result2D.X;
                         tempSampleArray[currentArrayIndex].Y = result2D.Y;
                         tempSampleArray[currentArrayIndex].Brightness = samples3DArray[i].Brightness;
@@ -141,11 +141,14 @@ namespace VectorEngine.Engine
         /// <summary>
         /// Performs a homogeneous divide and discards z to get the final screen space coordinates
         /// </summary>
-        public static Vector2 PerformViewportTransform(Vector4 vertex, float aspectRatio)
+        public static Vector2 PerformViewportTransform(Vector4 vertex, bool scaleToAspectRatio, float aspectRatio)
         {
             Vector2 viewportSpace = new Vector2(vertex.X / vertex.W, vertex.Y / vertex.W);
 
-            viewportSpace.X *= aspectRatio;
+            if (scaleToAspectRatio)
+            {
+                viewportSpace.X *= aspectRatio;
+            }
 
             return viewportSpace;
         }
