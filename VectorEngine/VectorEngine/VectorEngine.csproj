@@ -62,8 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DemoGame\GamepadLookTranslate.cs" />
-    <Compile Include="DemoGame\GamepadLookTranslateSystem.cs" />
+    <Compile Include="DemoGame\GamepadBasicFPSMovement.cs" />
+    <Compile Include="DemoGame\GamepadBasicFPSMovementSystem.cs" />
     <Compile Include="DemoGame\GameScene.cs" />
     <Compile Include="DemoGame\RotateSystem.cs" />
     <Compile Include="DemoGame\Shapes\Cube.cs" />

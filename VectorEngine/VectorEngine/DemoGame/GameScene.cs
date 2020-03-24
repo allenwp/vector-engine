@@ -16,7 +16,7 @@ namespace VectorEngine.DemoGame
             // Order maters here. It's the execution order.
             // "Update" systems:
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
-            EntityAdmin.Instance.Systems.Add(new GamepadLookTranslateSystem());
+            EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
             EntityAdmin.Instance.Systems.Add(new RotateSystem());
 
             // "Draw" systems:
@@ -27,9 +27,10 @@ namespace VectorEngine.DemoGame
             // Order *kinda* matters here: it's the draw order for Shapes
 
             var camera = new Entity();
-            camera.AddComponent<Transform>();
+            var camTransform = camera.AddComponent<Transform>();
             camera.AddComponent<Camera>();
-            camera.AddComponent<GamepadLookTranslate>();
+            camera.AddComponent<GamepadBasicFPSMovement>();
+            camTransform.Position = new Vector3(0, 0, 1f);
 
             var cube1 = CreateCube();
             var cube2 = CreateCube();

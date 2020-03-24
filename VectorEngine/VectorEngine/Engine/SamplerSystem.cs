@@ -29,7 +29,7 @@ namespace VectorEngine.Engine
                     if (transform.Is3D)
                     {
                         float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, cameraTransform.Position));
-                        float minDistanceFromCamera = 0.1f;
+                        float minDistanceFromCamera = camera.NearPlane;
                         if (distanceFromCamera < minDistanceFromCamera)
                         {
                             distanceFromCamera = minDistanceFromCamera;

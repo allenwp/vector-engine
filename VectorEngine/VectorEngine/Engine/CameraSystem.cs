@@ -15,8 +15,8 @@ namespace VectorEngine.Engine
             foreach ((Transform transform, Camera camera) in EntityAdmin.Instance.GetTuple<Transform, Camera>())
             {
                 var worldPosition = transform.Position;
-                var worldTarget = worldPosition + Vector3.Forward; // TODO: make this based on the rotation of the transform
-                var up = Vector3.Up; // TODO: Make this based on the rotation of the transform
+                var worldTarget = worldPosition + Vector3.Transform(Vector3.Forward, transform.Rotation);
+                var up = Vector3.Transform(Vector3.Up, transform.Rotation);
                 camera.ViewMatrix = Matrix.CreateLookAt(transform.Position, worldTarget, up);
 
                 camera.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(camera.FoV, FrameOutput.AspectRatio, camera.NearPlane, camera.FarPlane);
