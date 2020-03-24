@@ -20,14 +20,14 @@ namespace VectorEngine.DemoGame
                 movement.Pitch += gamePadState.ThumbSticks.Right.Y * movement.RotateSpeed * GameTime.LastFrameTime;
                 movement.Roll -= gamePadState.Triggers.Right * movement.RotateSpeed * GameTime.LastFrameTime;
                 movement.Roll += gamePadState.Triggers.Left * movement.RotateSpeed * GameTime.LastFrameTime;
-                transform.Rotation = Quaternion.CreateFromYawPitchRoll(movement.Yaw, movement.Pitch, movement.Roll);
+                transform.LocalRotation = Quaternion.CreateFromYawPitchRoll(movement.Yaw, movement.Pitch, movement.Roll);
 
                 var changeX = gamePadState.ThumbSticks.Left.X * movement.TranslateSpeed * GameTime.LastFrameTime;
                 var changeZ = -1 * gamePadState.ThumbSticks.Left.Y * movement.TranslateSpeed * GameTime.LastFrameTime;
                 var change = new Vector3(changeX, 0, changeZ);
-                change = Vector3.Transform(change, transform.Rotation);
+                change = Vector3.Transform(change, transform.LocalRotation);
 
-                transform.Position = transform.Position + change;
+                transform.LocalPosition = transform.LocalPosition + change;
             }
         }
     }

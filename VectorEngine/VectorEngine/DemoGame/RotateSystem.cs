@@ -23,13 +23,13 @@ namespace VectorEngine.DemoGame
                 switch (rotate.Axis)
                 {
                     case Rotate.AxisEnum.x:
-                        transform.Rotation = Quaternion.CreateFromYawPitchRoll(rotationAmount, 0, 0);
+                        transform.LocalRotation = Quaternion.CreateFromYawPitchRoll(rotationAmount, 0, 0);
                         break;
                     case Rotate.AxisEnum.y:
-                        transform.Rotation = Quaternion.CreateFromYawPitchRoll(0, rotationAmount, 0);
+                        transform.LocalRotation = Quaternion.CreateFromYawPitchRoll(0, rotationAmount, 0);
                         break;
                     case Rotate.AxisEnum.z:
-                        transform.Rotation = Quaternion.CreateFromYawPitchRoll(0, 0, rotationAmount);
+                        transform.LocalRotation = Quaternion.CreateFromYawPitchRoll(0, 0, rotationAmount);
                         break;
                 }
             }

@@ -10,11 +10,16 @@ namespace VectorEngine.Engine
     public class Transform : Component
     {
         /// <summary>
-        /// If false, this does not exist as a part of the scene graph and doesn't need to be transformed at all.
+        /// Set this to false if you want to draw "directly to the screen" rather than using a Camera
+        /// If false, this doesn't need to be transformed by any camera's view or projection transforms.
+        /// It will also always have a fidelity of 1 because it does not use any cameras.
+        /// World and viewport transforms will still occur on on these transforms.
         /// </summary>
         public bool Is3D = true;
 
-        // TODO: Figure out scene graph, etc.
+        public Transform Parent = null;
+        public List<Transform> Children = new List<Transform>();
+
         // Should this be in a System rather than in a Component(?) I think it belongs here...
         public Matrix WorldTransform
         {
@@ -24,8 +29,51 @@ namespace VectorEngine.Engine
             }
         }
 
-        public Quaternion Rotation = Quaternion.Identity;
-        public Vector3 Position = Vector3.Zero;
-        public Vector3 Scale = Vector3.One;
+        public Quaternion Rotation
+        {
+            get
+            {
+                if (Parent != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    return LocalRotation;
+                }
+            }
+        }
+        public Vector3 Position
+        {
+            get
+            {
+                if (Parent != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    return LocalPosition;
+                }
+            }
+        }
+        public Vector3 Scale
+        {
+            get
+            {
+                if (Parent != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    return LocalScale;
+                }
+            }
+        }
+
+        public Quaternion LocalRotation = Quaternion.Identity;
+        public Vector3 LocalPosition = Vector3.Zero;
+        public Vector3 LocalScale = Vector3.One;
     }
 }

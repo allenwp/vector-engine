@@ -30,11 +30,11 @@ namespace VectorEngine.DemoGame
             var camTransform = camera.AddComponent<Transform>();
             camera.AddComponent<Camera>();
             camera.AddComponent<GamepadBasicFPSMovement>();
-            camTransform.Position = new Vector3(0, 0, 1f);
+            camTransform.LocalPosition = new Vector3(0, 0, 1f);
 
             var cube1 = CreateCube();
             var cube2 = CreateCube();
-            cube2.GetComponent<Transform>().Position.X += 2f;
+            cube2.GetComponent<Transform>().LocalPosition.X += 2f;
 
             for (int i = 0; i < 10; i++)
             {
@@ -63,7 +63,7 @@ namespace VectorEngine.DemoGame
             var trans = entity.AddComponent<Transform>();
             entity.AddComponent<GridPoint>();
             RandomlyConfigureRotate(entity.AddComponent<Rotate>());
-            trans.Position = pos;
+            trans.LocalPosition = pos;
             return entity;
         }
 
