@@ -24,7 +24,7 @@ namespace VectorEngine.DemoGame.Shapes
             Sample3D[] sample3DArray = new Sample3D[sampleLength];
             for(int i = 0; i < sampleLength; i++)
             {
-                var point3D = Vector3.Lerp(Start, End, (float)i / (float)sampleLength);
+                var point3D = Vector3.Lerp(Start, End, (float)i / (float)(sampleLength - 1));
                 sample3DArray[i].Position = point3D;
                 sample3DArray[i].Brightness = 1f;
             }
