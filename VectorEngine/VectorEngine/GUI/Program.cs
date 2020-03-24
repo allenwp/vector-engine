@@ -1,13 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using VectorEngine.DemoGame.Shapes;
 using VectorEngine.Engine;
-using VectorEngine.Output;
 
 namespace VectorEngineGUI
 {

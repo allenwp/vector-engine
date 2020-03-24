@@ -64,8 +64,10 @@
   <ItemGroup>
     <Compile Include="DemoGame\GamepadBasicFPSMovement.cs" />
     <Compile Include="DemoGame\GamepadBasicFPSMovementSystem.cs" />
-    <Compile Include="DemoGame\GameScene.cs" />
+    <Compile Include="DemoGame\SceneSpaceRings.cs" />
+    <Compile Include="DemoGame\SceneRotatingCubesAndGridPoints.cs" />
     <Compile Include="DemoGame\RotateSystem.cs" />
+    <Compile Include="DemoGame\Shapes\Circle.cs" />
     <Compile Include="DemoGame\Shapes\Cube.cs" />
     <Compile Include="DemoGame\Shapes\GridPoint.cs" />
     <Compile Include="DemoGame\Shapes\Line.cs" />

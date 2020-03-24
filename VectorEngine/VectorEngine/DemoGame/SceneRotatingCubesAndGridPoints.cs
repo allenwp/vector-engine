@@ -9,7 +9,7 @@ using VectorEngine.Engine;
 
 namespace VectorEngine.DemoGame
 {
-    public class GameScene
+    public class SceneRotatingCubesAndGridPoints
     {
         public static void Init()
         {
