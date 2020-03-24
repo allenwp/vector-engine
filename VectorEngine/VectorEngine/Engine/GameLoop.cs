@@ -143,7 +143,7 @@ namespace VectorEngine.Engine
             {
                 sampleCount += sampleArray.Length;
             }
-            sampleCount += samples.Count * FrameOutput.BLANKING_LENGTH;
+            sampleCount += samples.Count * FrameOutput.BLANKING_LENGTH; // TODO: Dynamic blanking length based on distance between samples! Also: Adjustable based on the oscilloscope you're using! (I think I have a crappy one)
 
             Sample[] finalBuffer;
             // Set up the final buffer with the correct sample length
@@ -166,6 +166,7 @@ namespace VectorEngine.Engine
                 // Set blanking based on the first sample:
                 for (int b = 0; b < FrameOutput.BLANKING_LENGTH; b++)
                 {
+                    // TODO: Decellerate towards final spot to help beam settle!!
                     finalBuffer[destinationIndex] = sampleArray[0];
                     finalBuffer[destinationIndex].Brightness = 0f;
                     destinationIndex++;

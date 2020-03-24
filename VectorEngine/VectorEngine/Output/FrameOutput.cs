@@ -19,7 +19,7 @@ namespace VectorEngine.Output
         /// <summary>
         /// Number of samples for each blank
         /// </summary>
-        public static readonly int BLANKING_LENGTH = 2;
+        public static readonly int BLANKING_LENGTH = 10;
 
         public static Sample[] Buffer1;
         public static Sample[] Buffer2;
