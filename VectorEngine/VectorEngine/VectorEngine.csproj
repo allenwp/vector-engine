@@ -67,6 +67,7 @@
     <Compile Include="DemoGame\SceneSpaceRings.cs" />
     <Compile Include="DemoGame\SceneRotatingCubesAndGridPoints.cs" />
     <Compile Include="DemoGame\RotateSystem.cs" />
+    <Compile Include="DemoGame\Shapes\WigglyCircle.cs" />
     <Compile Include="DemoGame\Shapes\Circle.cs" />
     <Compile Include="DemoGame\Shapes\CompositeShape.cs" />
     <Compile Include="DemoGame\Shapes\Cube.cs" />
