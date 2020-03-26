@@ -9,6 +9,17 @@ namespace VectorEngine.Engine
 {
     public class GamepadSingleton : Component
     {
+        public GamePadState PreviousGamepadState;
         public GamePadState GamepadState;
+
+        public bool IsButtonPressed(Buttons button)
+        {
+            return this.GamepadState.IsButtonDown(button) && PreviousGamepadState.IsButtonUp(button);
+        }
+
+        public bool IsButtonReleased(Buttons button)
+        {
+            return this.GamepadState.IsButtonUp(button) && PreviousGamepadState.IsButtonDown(button);
+        }
     }
 }
