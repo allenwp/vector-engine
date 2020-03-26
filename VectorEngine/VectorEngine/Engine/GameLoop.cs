@@ -169,7 +169,7 @@ namespace VectorEngine.Engine
                 for (int b = 0; b < FrameOutput.BlankingLength; b++)
                 {
                     Sample tweenSample = new Sample();
-                    float tweenValue = (b + 1) / (float)FrameOutput.BlankingLength;
+                    float tweenValue = Tween.EaseOutPower((b + 1) / (float)FrameOutput.BlankingLength, 2);
                     tweenSample.X = MathHelper.Lerp(previousSample.X, sampleArray[0].X, tweenValue);
                     tweenSample.Y = MathHelper.Lerp(previousSample.Y, sampleArray[0].Y, tweenValue);
 

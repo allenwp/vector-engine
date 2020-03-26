@@ -19,7 +19,7 @@ namespace VectorEngine.Output
         /// <summary>
         /// Number of samples for each blank
         /// </summary>
-        public static int BlankingLength = 10;
+        public static int BlankingLength = 7;
 
         #region Double Buffers
         public static Sample[] Buffer1;

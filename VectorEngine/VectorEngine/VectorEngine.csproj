@@ -91,6 +91,7 @@
     <Compile Include="Engine\ECSSystem.cs" />
     <Compile Include="Engine\Transform.cs" />
     <Compile Include="Engine\GamepadSystem.cs" />
+    <Compile Include="Engine\Tween.cs" />
     <Compile Include="Output\ASIOOutput.cs" />
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
