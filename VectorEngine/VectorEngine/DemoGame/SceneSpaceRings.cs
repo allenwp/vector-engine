@@ -28,33 +28,27 @@ namespace VectorEngine.DemoGame
             // Order *kinda* matters here: it's the draw order for Shapes
 
             var camera = new Entity();
-            var camTransform = camera.AddComponent<Transform>();
+            camera.AddComponent<Transform>().LocalPosition = new Vector3(0,0,5f);
             camera.AddComponent<Camera>();
             camera.AddComponent<GamepadBasicFPSMovement>();
-            camTransform.LocalPosition = new Vector3(0, 0, 4f);
 
-            //var circle = new Entity();
-            //circle.AddComponent<Transform>();
-            //var rotate = circle.AddComponent<Rotate>();
-            //var compositeShape = circle.AddComponent<CompositeShape>();
-            //compositeShape.BaseShape = Circle.GetCircle;
-            //compositeShape.SecondShape = Circle.GetCircle;
-            //compositeShape.SecondSampleLengthScale = 0.05f;
-            //compositeShape.SecondSampleScale = new Vector3(0.2f);
+            //var wiggleCircle = new Entity();
+            //wiggleCircle.AddComponent<Transform>();
+            //var rotate = wiggleCircle.AddComponent<Rotate>();
+            //rotate.Axis = Rotate.AxisEnum.z;
+            //wiggleCircle.AddComponent<WigglyCircle>();
 
-            var wiggleCircle = new Entity();
-            wiggleCircle.AddComponent<Transform>();
-            var rotate = wiggleCircle.AddComponent<Rotate>();
-            rotate.Axis = Rotate.AxisEnum.z;
-            wiggleCircle.AddComponent<WigglyCircle>();
+            //var wiggleCircle2 = new Entity();
+            //var transform = wiggleCircle2.AddComponent<Transform>();
+            //transform.LocalScale = new Vector3(0.9f);
+            //rotate = wiggleCircle2.AddComponent<Rotate>();
+            //rotate.Axis = Rotate.AxisEnum.z;
+            //rotate.Speed = rotate.Speed * -1f;
+            //wiggleCircle2.AddComponent<WigglyCircle>();
 
-            var wiggleCircle2 = new Entity();
-            var transform = wiggleCircle2.AddComponent<Transform>();
-            transform.LocalScale = new Vector3(0.9f);
-            rotate = wiggleCircle2.AddComponent<Rotate>();
-            rotate.Axis = Rotate.AxisEnum.z;
-            rotate.Speed = rotate.Speed * -1f;
-            wiggleCircle2.AddComponent<WigglyCircle>();
+            var curlyCircle = new Entity();
+            curlyCircle.AddComponent<Transform>().LocalPosition = new Vector3(0, 0, 0); ;
+            curlyCircle.AddComponent<CurlyCircle>();
         }
     }
 }
