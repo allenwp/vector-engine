@@ -57,7 +57,7 @@ namespace VectorEngine.Output
 			AsioDriver driver = AsioDriver.SelectDriver(AsioDriver.InstalledDrivers[driverNumber - 1]);
 
 			// popup the driver's control panel for configuration
-			driver.ShowControlPanel();
+			//driver.ShowControlPanel();
 
 			// now dump some details
 			Console.WriteLine("  Driver name = " + driver.DriverName);

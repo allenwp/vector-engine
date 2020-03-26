@@ -19,12 +19,11 @@ namespace VectorEngine.Output
         /// <summary>
         /// Number of samples for each blank
         /// </summary>
-        public static readonly int BLANKING_LENGTH = 10;
+        public static int BlankingLength = 10;
 
+        #region Double Buffers
         public static Sample[] Buffer1;
         public static Sample[] Buffer2;
-
-        public static ulong FrameCount = 0;
 
         public enum ReadStateEnum
         {
@@ -43,8 +42,11 @@ namespace VectorEngine.Output
             WrittingBuffer2
         }
         public static volatile int WriteState = (int)WriteStateEnum.WaitingToWriteBuffer1;
+        #endregion
 
         public static volatile int StarvedSamples = 0;
+
+        public static ulong FrameCount = 0;
 
         public static void ClearBuffer(Sample[] buffer)
         {

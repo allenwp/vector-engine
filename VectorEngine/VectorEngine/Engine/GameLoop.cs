@@ -7,8 +7,7 @@ namespace VectorEngine.Engine
 {
     public class GameLoop
     {
-        static List<Shape> shapes = new List<Shape>();
-
+        static Sample previousFinalSample = Sample.Blank;
         public static void Loop()
         {
             Init();
@@ -43,7 +42,8 @@ namespace VectorEngine.Engine
                 }
 
                 // Finally, prepare and fill the FrameOutput buffer:
-                Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples); // FrameOutput.GetCalibrationFrame();
+                Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample); // FrameOutput.GetCalibrationFrame();
+                previousFinalSample = finalBuffer[finalBuffer.Length - 1];
 
                 // "Blit" the buffer and progress the frame buffer write state
                 if (writeState == FrameOutput.WriteStateEnum.WrittingBuffer1)
@@ -82,7 +82,8 @@ namespace VectorEngine.Engine
             }
         }
 
-        private static Sample[] CreateFrameBuffer(List<Sample[]> samples)
+        /// <param name="previousFrameEndSample">The sample that was drawn right before starting to draw this frame. (Last sample from the previous frame)</param>
+        private static Sample[] CreateFrameBuffer(List<Sample[]> samples, Sample previousFrameEndSample)
         {
             // Remove all empty sample arrays
             samples.RemoveAll(delegate (Sample[] array)
@@ -143,7 +144,7 @@ namespace VectorEngine.Engine
             {
                 sampleCount += sampleArray.Length;
             }
-            sampleCount += samples.Count * FrameOutput.BLANKING_LENGTH; // TODO: Dynamic blanking length based on distance between samples! Also: Adjustable based on the oscilloscope you're using! (I think I have a crappy one)
+            sampleCount += samples.Count * FrameOutput.BlankingLength; // TODO: Dynamic blanking length based on distance between samples! Also: Adjustable based on the oscilloscope you're using! (I think I have a crappy one)
 
             Sample[] finalBuffer;
             // Set up the final buffer with the correct sample length
@@ -161,13 +162,18 @@ namespace VectorEngine.Engine
 
             // Copy the full set of samples into the final buffer:
             int destinationIndex = 0;
+            Sample previousSample = previousFrameEndSample;
             foreach (var sampleArray in samples)
             {
                 // Set blanking based on the first sample:
-                for (int b = 0; b < FrameOutput.BLANKING_LENGTH; b++)
+                for (int b = 0; b < FrameOutput.BlankingLength; b++)
                 {
-                    // TODO: Decellerate towards final spot to help beam settle!!
-                    finalBuffer[destinationIndex] = sampleArray[0];
+                    Sample tweenSample = new Sample();
+                    float tweenValue = (b + 1) / (float)FrameOutput.BlankingLength;
+                    tweenSample.X = MathHelper.Lerp(previousSample.X, sampleArray[0].X, tweenValue);
+                    tweenSample.Y = MathHelper.Lerp(previousSample.Y, sampleArray[0].Y, tweenValue);
+
+                    finalBuffer[destinationIndex] = tweenSample;
                     finalBuffer[destinationIndex].Brightness = 0f;
                     destinationIndex++;
                 }
@@ -175,6 +181,7 @@ namespace VectorEngine.Engine
                 // Then copy the samples over:
                 Array.Copy(sampleArray, 0, finalBuffer, destinationIndex, sampleArray.Length);
                 destinationIndex += sampleArray.Length;
+                previousSample = sampleArray[sampleArray.Length - 1];
             }
 
             return finalBuffer;
