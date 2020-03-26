@@ -13,7 +13,10 @@ namespace VectorEngine.DemoGame.Shapes
         public int CurlCount = 20;
         public float CurlSize = 0.2f;
 
-        int baseSampleCount = 1000;
+        public float AnimationSpeed = 0.1f;
+        public float AnimationOffset = 0f;
+
+        int baseSampleCount = 3000;
         public override List<Sample3D[]> GetSamples3D(float fidelity)
         {
             List<Sample3D[]> result = new List<Sample3D[]>(1);
@@ -21,10 +24,13 @@ namespace VectorEngine.DemoGame.Shapes
             Sample3D[] sample3DArray = new Sample3D[sampleCount];
             for (int i = 0; i < sampleCount; i++)
             {
-                var value = MathHelper.Lerp(0, (float)(Math.PI * 2), (float)i / (float)(sampleCount - 1));
+                var progress = (float)i / (float)(sampleCount - 1);
+                progress = Tween.EaseOutPower(progress, 3) + AnimationOffset;
+
+                var value = MathHelper.Lerp(0, (float)(Math.PI * 2), progress);
                 var point3D = new Vector3((float)Math.Sin(value), (float)Math.Cos(value), 0);
 
-                var secondValue = MathHelper.Lerp(0, (float)(Math.PI * 2), (float)i / (float)(sampleCount - 1) * CurlCount);
+                var secondValue = MathHelper.Lerp(0, (float)(Math.PI * 2), progress * CurlCount);
                 var secondCirclePoint = CurlSize * new Vector3((float)Math.Sin(secondValue), (float)Math.Cos(secondValue), 0);
                 point3D += secondCirclePoint;
 

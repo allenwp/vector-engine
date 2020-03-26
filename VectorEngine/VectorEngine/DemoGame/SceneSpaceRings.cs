@@ -17,6 +17,7 @@ namespace VectorEngine.DemoGame
             // "Update" systems:
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
             EntityAdmin.Instance.Systems.Add(new RotateSystem());
+            EntityAdmin.Instance.Systems.Add(new CurlyCircleSystem());
 
 
             // "Draw" systems:
@@ -28,7 +29,7 @@ namespace VectorEngine.DemoGame
             // Order *kinda* matters here: it's the draw order for Shapes
 
             var camera = new Entity();
-            camera.AddComponent<Transform>().LocalPosition = new Vector3(0,0,5f);
+            camera.AddComponent<Transform>().LocalPosition = new Vector3(0,0,3f);
             camera.AddComponent<Camera>();
             camera.AddComponent<GamepadBasicFPSMovement>();
 
@@ -49,6 +50,7 @@ namespace VectorEngine.DemoGame
             var curlyCircle = new Entity();
             curlyCircle.AddComponent<Transform>().LocalPosition = new Vector3(0, 0, 0); ;
             curlyCircle.AddComponent<CurlyCircle>();
+            curlyCircle.AddComponent<Rotate>().Speed = 0.05f;
         }
     }
 }
