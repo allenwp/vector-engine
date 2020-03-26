@@ -8,7 +8,7 @@ namespace VectorEngine.DemoGame
     {
         public override void Tick()
         {
-            foreach ((Rotate rotate, Transform transform) in EntityAdmin.Instance.GetTuple<Rotate, Transform>())
+            foreach ((var rotate, var transform) in EntityAdmin.Instance.GetTuple<Rotate, Transform>())
             {
                 rotate.LerpAmount += rotate.Speed * GameTime.LastFrameTime;
                 if (rotate.LerpAmount > 1f)

@@ -14,9 +14,9 @@ namespace VectorEngine.Engine
 
             List<Sample[]> result = new List<Sample[]>();
 
-            foreach ((Transform cameraTransform, Camera camera) in cameraTuples)
+            foreach ((var cameraTransform, var camera) in cameraTuples)
             {
-                foreach ((Transform transform, Shape shape) in shapeTuples)
+                foreach ((var transform, var shape) in shapeTuples)
                 {
                     // TODO: optimize this by using parallels library
 

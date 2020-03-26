@@ -12,7 +12,7 @@ namespace VectorEngine.Engine
     {
         public override void Tick()
         {
-            foreach ((Transform transform, Camera camera) in EntityAdmin.Instance.GetTuple<Transform, Camera>())
+            foreach ((var transform, var camera) in EntityAdmin.Instance.GetTuple<Transform, Camera>())
             {
                 var worldPosition = transform.Position;
                 var worldTarget = worldPosition + Vector3.Transform(Vector3.Forward, transform.Rotation);
