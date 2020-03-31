@@ -42,6 +42,17 @@ namespace VectorEngine.Engine
                     return LocalRotation;
                 }
             }
+            set
+            {
+                if (Parent != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    LocalRotation = value;
+                }
+            }
         }
         public Vector3 Position
         {
@@ -56,6 +67,17 @@ namespace VectorEngine.Engine
                     return LocalPosition;
                 }
             }
+            set
+            {
+                if (Parent != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    LocalPosition = value;
+                }
+            }
         }
         public Vector3 Scale
         {
@@ -68,6 +90,17 @@ namespace VectorEngine.Engine
                 else
                 {
                     return LocalScale;
+                }
+            }
+            set
+            {
+                if (Parent != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    LocalScale = value;
                 }
             }
         }

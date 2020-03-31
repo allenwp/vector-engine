@@ -62,13 +62,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoGame\Follow.cs" />
+    <Compile Include="DemoGame\FollowSystem.cs" />
     <Compile Include="DemoGame\GamepadBasicFPSMovement.cs" />
     <Compile Include="DemoGame\GamepadBasicFPSMovementSystem.cs" />
+    <Compile Include="DemoGame\Propulsion.cs" />
+    <Compile Include="DemoGame\PropulsionSystem.cs" />
+    <Compile Include="DemoGame\SceneShapeTest.cs" />
     <Compile Include="DemoGame\SceneSpaceRings.cs" />
     <Compile Include="DemoGame\SceneRotatingCubesAndGridPoints.cs" />
     <Compile Include="DemoGame\RotateSystem.cs" />
     <Compile Include="DemoGame\Shapes\CurlyCircle.cs" />
     <Compile Include="DemoGame\Shapes\CurlyCircleSystem.cs" />
+    <Compile Include="DemoGame\Shapes\PlayerShip.cs" />
+    <Compile Include="DemoGame\Shapes\PlayerShipSystem.cs" />
     <Compile Include="DemoGame\Shapes\WigglyCircle.cs" />
     <Compile Include="DemoGame\Shapes\Circle.cs" />
     <Compile Include="DemoGame\Shapes\Cube.cs" />
