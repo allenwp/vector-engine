@@ -14,11 +14,11 @@ namespace VectorEngine.Engine
         public List<Component> Components = new List<Component>();
 
         #region Tuples
-        public IEnumerable<T1> GetComponents<T1>() where T1 : Component
+        public IEnumerable<T1> GetComponents<T1>(bool includeInactive = false) where T1 : Component
         {
             var result = new Dictionary<Entity, T1>();
 
-            foreach (var component in Components.Where( comp => comp is T1))
+            foreach (var component in Components.Where(comp => comp is T1 && (includeInactive ? true : comp.IsActive)))
             {
                 if (result.ContainsKey(component.Entity))
                 {
@@ -30,11 +30,11 @@ namespace VectorEngine.Engine
             return result.Values.ToList();
         }
 
-        public IEnumerable<(T1, T2)> GetTuple<T1, T2>() where T1 : Component where T2 : Component
+        public IEnumerable<(T1, T2)> GetTuple<T1, T2>(bool includeInactive = false) where T1 : Component where T2 : Component
         {
             var tuples = new Dictionary<Entity, (T1, T2)>();
 
-            foreach (var component in Components.Where(comp => comp is T1))
+            foreach (var component in Components.Where(comp => comp is T1 && (includeInactive ? true : comp.IsActive)))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {
@@ -50,7 +50,7 @@ namespace VectorEngine.Engine
                 tuples[component.Entity] = tuple;
             }
 
-            foreach (var component in Components.Where(comp => comp is T2))
+            foreach (var component in Components.Where(comp => comp is T2 && (includeInactive ? true : comp.IsActive)))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {
@@ -73,11 +73,11 @@ namespace VectorEngine.Engine
             return tuples.Values.ToList();
         }
 
-        public IEnumerable<(T1, T2, T3)> GetTuple<T1, T2, T3>() where T1 : Component where T2 : Component where T3 : Component
+        public IEnumerable<(T1, T2, T3)> GetTuple<T1, T2, T3>(bool includeInactive = false) where T1 : Component where T2 : Component where T3 : Component
         {
             var tuples = new Dictionary<Entity, (T1, T2, T3)>();
 
-            foreach (var component in Components.Where(comp => comp is T1))
+            foreach (var component in Components.Where(comp => comp is T1 && (includeInactive ? true : comp.IsActive)))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {
@@ -93,7 +93,7 @@ namespace VectorEngine.Engine
                 tuples[component.Entity] = tuple;
             }
 
-            foreach (var component in Components.Where(comp => comp is T2))
+            foreach (var component in Components.Where(comp => comp is T2 && (includeInactive ? true : comp.IsActive)))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {
@@ -109,7 +109,7 @@ namespace VectorEngine.Engine
                 tuples[component.Entity] = tuple;
             }
 
-            foreach (var component in Components.Where(comp => comp is T3))
+            foreach (var component in Components.Where(comp => comp is T3 && (includeInactive ? true : comp.IsActive)))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {
@@ -133,11 +133,11 @@ namespace VectorEngine.Engine
             return tuples.Values.ToList();
         }
 
-        public IEnumerable<(T1, T2, T3, T4)> GetTuple<T1, T2, T3, T4>() where T1 : Component where T2 : Component where T3 : Component where T4 : Component
+        public IEnumerable<(T1, T2, T3, T4)> GetTuple<T1, T2, T3, T4>(bool includeInactive = false) where T1 : Component where T2 : Component where T3 : Component where T4 : Component
         {
             var tuples = new Dictionary<Entity, (T1, T2, T3, T4)>();
 
-            foreach (var component in Components.Where(comp => comp is T1))
+            foreach (var component in Components.Where(comp => comp is T1 && (includeInactive ? true : comp.IsActive)))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {
@@ -153,7 +153,7 @@ namespace VectorEngine.Engine
                 tuples[component.Entity] = tuple;
             }
 
-            foreach (var component in Components.Where(comp => comp is T2))
+            foreach (var component in Components.Where(comp => comp is T2 && (includeInactive ? true : comp.IsActive)))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {
@@ -169,7 +169,7 @@ namespace VectorEngine.Engine
                 tuples[component.Entity] = tuple;
             }
 
-            foreach (var component in Components.Where(comp => comp is T3))
+            foreach (var component in Components.Where(comp => comp is T3 && (includeInactive ? true : comp.IsActive)))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {
@@ -185,7 +185,7 @@ namespace VectorEngine.Engine
                 tuples[component.Entity] = tuple;
             }
 
-            foreach (var component in Components.Where(comp => comp is T4))
+            foreach (var component in Components.Where(comp => comp is T4 && (includeInactive ? true : comp.IsActive)))
             {
                 if (!tuples.ContainsKey(component.Entity))
                 {

@@ -8,6 +8,8 @@ namespace VectorEngine.Engine
 {
     public class Entity
     {
+        public bool Enabled = true;
+
         public List<Component> Components = new List<Component>();
 
         public T AddComponent<T> () where T : Component, new()

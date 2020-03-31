@@ -12,6 +12,8 @@ namespace VectorEngine.Engine
     /// </summary>
     public class Component
     {
+        public bool Enabled = true;
+        public bool IsActive { get { return Enabled && Entity.Enabled; } }
         public Entity Entity;
     }
 }
