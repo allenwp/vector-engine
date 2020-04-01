@@ -73,10 +73,13 @@
     <Compile Include="DemoGame\SceneSpaceRings.cs" />
     <Compile Include="DemoGame\SceneRotatingCubesAndGridPoints.cs" />
     <Compile Include="DemoGame\RotateSystem.cs" />
+    <Compile Include="DemoGame\SeaOfWaves.cs" />
+    <Compile Include="DemoGame\SeaOfWavesSystem.cs" />
     <Compile Include="DemoGame\Shapes\CurlyCircle.cs" />
     <Compile Include="DemoGame\Shapes\CurlyCircleSystem.cs" />
     <Compile Include="DemoGame\Shapes\PlayerShip.cs" />
     <Compile Include="DemoGame\Shapes\PlayerShipSystem.cs" />
+    <Compile Include="DemoGame\Shapes\WaveTile.cs" />
     <Compile Include="DemoGame\Shapes\WigglyCircle.cs" />
     <Compile Include="DemoGame\Shapes\Circle.cs" />
     <Compile Include="DemoGame\Shapes\Cube.cs" />

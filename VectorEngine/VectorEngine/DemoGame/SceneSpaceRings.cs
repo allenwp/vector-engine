@@ -20,6 +20,7 @@ namespace VectorEngine.DemoGame
             EntityAdmin.Instance.Systems.Add(new RotateSystem());
             EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
             EntityAdmin.Instance.Systems.Add(new FollowSystem());
+            EntityAdmin.Instance.Systems.Add(new SeaOfWavesSystem());
             EntityAdmin.Instance.Systems.Add(new CurlyCircleSystem());
 
             // "Draw" systems:
@@ -32,8 +33,8 @@ namespace VectorEngine.DemoGame
             var player = new Entity();
             player.AddComponent<Transform>().LocalScale = new Vector3(0.2f);
             player.AddComponent<GamepadBasicFPSMovement>();
-            player.AddComponent<PlayerShip>();
-            player.AddComponent<Propulsion>();
+            //player.AddComponent<PlayerShip>();
+            //player.AddComponent<Propulsion>();
 
             var camera = new Entity();
             camera.AddComponent<Transform>().LocalPosition = new Vector3(0,0,3f);
@@ -42,7 +43,11 @@ namespace VectorEngine.DemoGame
             follow.EntityToFollow = player;
             follow.FollowDistance = 4f;
 
-            CreateRings();
+            //CreateRings();
+
+            var seaEntity = new Entity();
+            var sea = seaEntity.AddComponent<SeaOfWaves>();
+            sea.Waves = SeaOfWavesSystem.CreateSea();
         }
 
         public static void CreateRings()

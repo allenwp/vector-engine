@@ -30,7 +30,7 @@ namespace VectorEngine.DemoGame
             var camTransform = camera.AddComponent<Transform>();
             camera.AddComponent<Camera>();
             camera.AddComponent<GamepadBasicFPSMovement>();
-            camTransform.LocalPosition = new Vector3(0, 0, 1f);
+            camTransform.LocalPosition = new Vector3(2f, 0.5f, 8f);
 
             var cube1 = CreateCube();
             var cube2 = CreateCube();

@@ -199,7 +199,7 @@ namespace VectorEngine.Engine
 
         static void Init()
         {
-            DemoGame.SceneShapeTest.Init();
+            DemoGame.SceneSpaceRings.Init();
         }
     }
 }
