@@ -50,7 +50,7 @@ namespace VectorEngine.DemoGame
             var curlyCircle = new Entity();
             curlyCircle.AddComponent<Transform>().LocalPosition = new Vector3(0, 0, 0); ;
             curlyCircle.AddComponent<CurlyCircle>();
-            curlyCircle.AddComponent<Rotate>().Speed = 0.05f;
+            curlyCircle.AddComponent<Rotate>().Speed = 0.1f;
         }
     }
 }

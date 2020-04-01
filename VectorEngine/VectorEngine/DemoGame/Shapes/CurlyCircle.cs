@@ -16,7 +16,7 @@ namespace VectorEngine.DemoGame.Shapes
         public float AnimationSpeed = 0.1f;
         public float AnimationOffset = 0f;
 
-        int baseSampleCount = 3000;
+        int baseSampleCount = 4000;
         public override List<Sample3D[]> GetSamples3D(float fidelity)
         {
             List<Sample3D[]> result = new List<Sample3D[]>(1);

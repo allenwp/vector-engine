@@ -23,6 +23,7 @@ namespace VectorEngine.Output
         private static float blankingLength = 14f;
         public  static int BlankingLength(Sample sample1, Sample sample2)
         {
+            return 25;
             // Clamp these because that's what's going to happen at output time anyway
             sample1.Clamp();
             sample2.Clamp();
