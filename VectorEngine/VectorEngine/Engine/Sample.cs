@@ -49,5 +49,29 @@ namespace VectorEngine.Engine
             Y = y;
             Brightness = brightness;
         }
+
+        /// <summary>
+        /// Clamps the sample to (-1, -1) and (1, 1)
+        /// </summary>
+        public void Clamp()
+        {
+            if (X < -1f)
+            {
+                X = -1f;
+            }
+            else if (X > 1f)
+            {
+                X = 1f;
+            }
+
+            if (Y < -1f)
+            {
+                Y = -1f;
+            }
+            else if (Y > 1f)
+            {
+                Y = 1f;
+            }
+        }
     }
 }

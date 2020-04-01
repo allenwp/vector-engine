@@ -42,7 +42,8 @@ namespace VectorEngine.Engine
                 }
 
                 // Finally, prepare and fill the FrameOutput buffer:
-                Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample); // FrameOutput.GetCalibrationFrame();
+                int blankingSampleCount;
+                Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount); // FrameOutput.GetCalibrationFrame();
                 previousFinalSample = finalBuffer[finalBuffer.Length - 1];
 
                 // "Blit" the buffer and progress the frame buffer write state
@@ -77,13 +78,13 @@ namespace VectorEngine.Engine
                 if (FrameOutput.FrameCount % 100 == 0)
                 {
                     int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
-                    Console.WriteLine(" Framerate: " + frameRate + "fps (" + finalBuffer.Length + " + " + starvedSamples + " starved samples)");
+                    Console.WriteLine(" Framerate: " + frameRate + "fps (" + finalBuffer.Length + " + " + starvedSamples + " starved samples | " + blankingSampleCount + " blanking samples between shapes)");
                 }
             }
         }
 
         /// <param name="previousFrameEndSample">The sample that was drawn right before starting to draw this frame. (Last sample from the previous frame)</param>
-        private static Sample[] CreateFrameBuffer(List<Sample[]> samples, Sample previousFrameEndSample)
+        private static Sample[] CreateFrameBuffer(List<Sample[]> samples, Sample previousFrameEndSample, out int blankingSamples)
         {
             // Remove all empty sample arrays
             samples.RemoveAll(delegate (Sample[] array)
@@ -144,32 +145,22 @@ namespace VectorEngine.Engine
             {
                 sampleCount += sampleArray.Length;
             }
-            sampleCount += samples.Count * FrameOutput.BlankingLength; // TODO: Dynamic blanking length based on distance between samples! Also: Adjustable based on the oscilloscope you're using! (I think I have a crappy one)
+            int worstCaseBlankingLength = FrameOutput.BlankingLength(new Sample(-1f, -1f, 0), new Sample(1f, 1f, 0));
+            int worstCaseSampleCount = sampleCount + (samples.Count * worstCaseBlankingLength);
 
-            Sample[] finalBuffer;
-            // Set up the final buffer with the correct sample length
-            // This is variable (variable frame rate based on paramenters in FrameOutput class)
-            if (sampleCount <= FrameOutput.TARGET_BUFFER_SIZE)
-            {
-                finalBuffer = new Sample[FrameOutput.TARGET_BUFFER_SIZE];
-                // Only in this case to we need to clear the buffer. In the other cases we will be filling it entirely
-                FrameOutput.ClearBuffer(finalBuffer);
-            }
-            else
-            {
-                finalBuffer = new Sample[sampleCount];
-            }
+            Sample[] finalBuffer = new Sample[worstCaseSampleCount];
 
             // Copy the full set of samples into the final buffer:
             int destinationIndex = 0;
             Sample previousSample = previousFrameEndSample;
             foreach (var sampleArray in samples)
             {
+                int blankingLength = FrameOutput.BlankingLength(previousSample, sampleArray[0]);
                 // Set blanking based on the first sample:
-                for (int b = 0; b < FrameOutput.BlankingLength; b++)
+                for (int b = 0; b < blankingLength; b++)
                 {
                     Sample tweenSample = new Sample();
-                    float tweenValue = Tween.EaseOutPower((b + 1) / (float)FrameOutput.BlankingLength, 2);
+                    float tweenValue = Tween.EaseOutPower((b + 1) / (float)blankingLength, 2);
                     tweenSample.X = MathHelper.Lerp(previousSample.X, sampleArray[0].X, tweenValue);
                     tweenSample.Y = MathHelper.Lerp(previousSample.Y, sampleArray[0].Y, tweenValue);
 
@@ -184,17 +175,31 @@ namespace VectorEngine.Engine
                 previousSample = sampleArray[sampleArray.Length - 1];
             }
 
-            return finalBuffer;
-        }
+            int finalSampleCount = destinationIndex;
+            blankingSamples = finalSampleCount - sampleCount;
 
-        private static float DistanceBetweenSamples(Sample sample1, Sample sample2)
-        {
-            return Vector2.Distance(new Vector2(sample1.X, sample1.Y), new Vector2(sample2.X, sample2.Y));
+            Sample[] trimmedFinalBuffer;
+            // Set up the final buffer with the correct sample length after dynamic blanking has been performed
+            // This is variable (variable frame rate based on paramenters in FrameOutput class)
+            if (finalSampleCount < FrameOutput.TARGET_BUFFER_SIZE)
+            {
+                trimmedFinalBuffer = new Sample[FrameOutput.TARGET_BUFFER_SIZE];
+                // Only in this case to we need to clear the last bits of the buffer.
+                // In the other cases we will be filling it entirely
+                FrameOutput.ClearBuffer(trimmedFinalBuffer, finalSampleCount);
+            }
+            else
+            {
+                trimmedFinalBuffer = new Sample[finalSampleCount];
+            }
+            Array.Copy(finalBuffer, 0, trimmedFinalBuffer, 0, finalSampleCount);
+
+            return trimmedFinalBuffer;
         }
 
         static void Init()
         {
-            DemoGame.SceneSpaceRings.Init();
+            DemoGame.SceneRotatingCubesAndGridPoints.Init();
         }
     }
 }

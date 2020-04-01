@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VectorEngine.Engine;
+using VectorEngine.Engine.Util;
 
 namespace VectorEngine.Output
 {
@@ -17,9 +18,16 @@ namespace VectorEngine.Output
         public static float AspectRatio = 4f / 3.5f;
 
         /// <summary>
-        /// Number of samples for each blank
+        /// Number of samples for each blank at a distance of 1 unit between samples
         /// </summary>
-        public static int BlankingLength = 7;
+        private static float blankingLength = 14f;
+        public  static int BlankingLength(Sample sample1, Sample sample2)
+        {
+            // Clamp these because that's what's going to happen at output time anyway
+            sample1.Clamp();
+            sample2.Clamp();
+            return (int)Math.Ceiling(blankingLength * SampleUtil.DistanceBetweenSamples(sample1, sample2));
+        }
 
         #region Double Buffers
         public static Sample[] Buffer1;
@@ -48,9 +56,9 @@ namespace VectorEngine.Output
 
         public static ulong FrameCount = 0;
 
-        public static void ClearBuffer(Sample[] buffer)
+        public static void ClearBuffer(Sample[] buffer, int startIndex = 0)
         {
-            for(int i = 0; i < buffer.Length; i++)
+            for(int i = startIndex; i < buffer.Length; i++)
             {
                 buffer[i] = Sample.Blank;
             }

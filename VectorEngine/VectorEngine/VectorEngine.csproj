@@ -68,6 +68,7 @@
     <Compile Include="DemoGame\GamepadBasicFPSMovementSystem.cs" />
     <Compile Include="DemoGame\Propulsion.cs" />
     <Compile Include="DemoGame\PropulsionSystem.cs" />
+    <Compile Include="DemoGame\SceneBlogFidelity.cs" />
     <Compile Include="DemoGame\SceneShapeTest.cs" />
     <Compile Include="DemoGame\SceneSpaceRings.cs" />
     <Compile Include="DemoGame\SceneRotatingCubesAndGridPoints.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Engine\Transform.cs" />
     <Compile Include="Engine\GamepadSystem.cs" />
     <Compile Include="Engine\Tween.cs" />
+    <Compile Include="Engine\Util\SampleUtil.cs" />
     <Compile Include="Output\ASIOOutput.cs" />
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
