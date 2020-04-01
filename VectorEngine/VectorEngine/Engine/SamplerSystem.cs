@@ -20,8 +20,7 @@ namespace VectorEngine.Engine
                 {
                     // TODO: optimize this by using parallels library
 
-                    float fidelity = 1f;
-
+                    float fidelity;
                     if (transform.Is3D)
                     {
                         float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, cameraTransform.Position));
@@ -37,8 +36,12 @@ namespace VectorEngine.Engine
                         // The first 1 in the following equation is based on half of the camera's vision being 1 unit of screen space ("TOA" triginometry formula)
                         // This formula uses the half of the camera's vision being 1 unit to match up with drawing the shape as non-3D
                         fidelity = 1f / (distanceFromCamera * (float)Math.Tan(camera.FoV / 2f));
-                        fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
                     }
+                    else
+                    {
+                        fidelity = 1f;
+                    }
+                    fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
 
                     var samples3D = shape.GetSamples3D(fidelity);
 
