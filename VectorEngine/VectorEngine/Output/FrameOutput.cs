@@ -26,7 +26,16 @@ namespace VectorEngine.Output
             // Clamp these because that's what's going to happen at output time anyway
             sample1.Clamp();
             sample2.Clamp();
-            return (int)Math.Ceiling(blankingLength * SampleUtil.DistanceBetweenSamples(sample1, sample2));
+            var distance = SampleUtil.DistanceBetweenSamples(sample1, sample2);
+            if (distance < 0.05f)
+            {
+                // they're so close together, no blanking is needed.
+                return 0;
+            }
+            else
+            {
+                return (int)Math.Ceiling(blankingLength * distance);
+            }
         }
 
         #region Double Buffers
