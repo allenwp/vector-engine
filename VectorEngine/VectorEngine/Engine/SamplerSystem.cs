@@ -65,13 +65,16 @@ namespace VectorEngine.Engine
                 {
                     Vector4 point4D = new Vector4(samples3DArray[i].Position, 1);
                     Vector4 v4 = Vector4.Transform(point4D, worldTransform);
-                    bool clipped = false;
-                    if (is3D)
+
+                    // When samples are disabled, it's the same as when they're clipped
+                    bool clipped = samples3DArray[i].Disabled;
+                    if (!clipped && is3D)
                     {
                         v4 = PerformViewTransform(v4, camera.ViewMatrix);
                         v4 = PerformProjectionTransform(v4, camera.ProjectionMatrix);
                         clipped = Clip(v4);
                     }
+
                     if (!clipped)
                     {
                         if (tempSampleArray == null)
