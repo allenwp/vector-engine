@@ -66,6 +66,8 @@
     <Compile Include="DemoGame\FollowSystem.cs" />
     <Compile Include="DemoGame\GamepadBasicFPSMovement.cs" />
     <Compile Include="DemoGame\GamepadBasicFPSMovementSystem.cs" />
+    <Compile Include="DemoGame\PostProcessing\StrobePostProcessor.cs" />
+    <Compile Include="DemoGame\PostProcessing\StrobePostProcessorSystem.cs" />
     <Compile Include="DemoGame\Propulsion.cs" />
     <Compile Include="DemoGame\PropulsionSystem.cs" />
     <Compile Include="DemoGame\SceneBlogFidelity.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Engine\GameLoop.cs" />
     <Compile Include="Engine\GameTime.cs" />
     <Compile Include="DemoGame\Rotate.cs" />
+    <Compile Include="Engine\PostProcessorLocal3D.cs" />
     <Compile Include="Engine\Sample3D.cs" />
     <Compile Include="Engine\GamepadSingleton.cs" />
     <Compile Include="Engine\SamplerSingleton.cs" />

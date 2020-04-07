@@ -45,9 +45,18 @@ namespace VectorEngine.Engine
 
                     var samples3D = shape.GetSamples3D(fidelity);
 
+                    var postProcessorLocal3D = shape.Entity.GetComponent<PostProcessorLocal3D>();
+                    if (postProcessorLocal3D != null)
+                    {
+                        postProcessorLocal3D.PostProcessLocal3DFuntion(samples3D, postProcessorLocal3D);
+                    }
+
                     result.AddRange(TransformSamples3DToScreen(camera, samples3D, transform.WorldTransform, transform.Is3D));
                 }
+                // This is kinda where screen space post processing of samples per camera could happen
             }
+
+            // This is where screen space post process of samples for all cameras could happen
 
             EntityAdmin.Instance.SingletonSampler.LastSamples = result;
         }
@@ -63,9 +72,13 @@ namespace VectorEngine.Engine
                 int currentArrayIndex = 0;
                 for (int i = 0; i < sampleLength; i++)
                 {
-                    Vector4 point4D = new Vector4(samples3DArray[i].Position, 1);
-                    Vector4 v4 = Vector4.Transform(point4D, worldTransform);
+                    var worldPos = Vector3.Transform(samples3DArray[i].Position, worldTransform);
 
+                    // This is where world space sample post-processing could happen
+                    // for example only show samples in a certain part of the world
+                    // The way this is written though, it would be per-camera rathter than per-shape...
+
+                    Vector4 v4 = new Vector4(worldPos, 1);
                     // When samples are disabled, it's the same as when they're clipped
                     bool clipped = samples3DArray[i].Disabled;
                     if (!clipped && is3D)
