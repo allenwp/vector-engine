@@ -21,9 +21,9 @@ namespace VectorEngine.Engine
             return newComponent;
         }
 
-        public T GetComponent<T> () where T : Component
+        public T GetComponent<T> (bool includeInactive = false) where T : Component
         {
-            return Components.Where(comp => comp is T).FirstOrDefault() as T;
+            return Components.Where(comp => comp is T && (includeInactive ? true : comp.IsActive)).FirstOrDefault() as T;
         }
     }
 }

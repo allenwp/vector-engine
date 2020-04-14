@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using VectorEngine.Output;
 
 namespace VectorEngine.Engine
@@ -48,7 +49,7 @@ namespace VectorEngine.Engine
                     var postProcessorLocal3D = shape.Entity.GetComponent<PostProcessing.PostProcessingGroupLocal3D>();
                     if (postProcessorLocal3D != null)
                     {
-                        foreach (var postProcessor in postProcessorLocal3D.PostProcessors)
+                        foreach (var postProcessor in postProcessorLocal3D.PostProcessors.Where(comp => comp.IsActive))
                         {
                             postProcessor.PostProcess3DFuntion(samples3D, postProcessor);
                         }
