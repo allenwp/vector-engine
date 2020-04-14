@@ -45,10 +45,13 @@ namespace VectorEngine.Engine
 
                     var samples3D = shape.GetSamples3D(fidelity);
 
-                    var postProcessorLocal3D = shape.Entity.GetComponent<PostProcessorLocal3D>();
+                    var postProcessorLocal3D = shape.Entity.GetComponent<PostProcessing.PostProcessingGroupLocal3D>();
                     if (postProcessorLocal3D != null)
                     {
-                        postProcessorLocal3D.PostProcessLocal3DFuntion(samples3D, postProcessorLocal3D);
+                        foreach (var postProcessor in postProcessorLocal3D.PostProcessors)
+                        {
+                            postProcessor.PostProcess3DFuntion(samples3D, postProcessor);
+                        }
                     }
 
                     result.AddRange(TransformSamples3DToScreen(camera, samples3D, transform.WorldTransform, transform.Is3D));

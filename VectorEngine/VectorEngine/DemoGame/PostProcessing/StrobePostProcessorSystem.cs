@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VectorEngine.Engine;
+using VectorEngine.Engine.PostProcessing;
 
 namespace VectorEngine.DemoGame.PostProcessing
 {
@@ -21,7 +22,7 @@ namespace VectorEngine.DemoGame.PostProcessing
             }
         }
 
-        public static void PostProcess(List<Sample3D[]> samples3D, PostProcessorLocal3D postProcessor)
+        public static void PostProcess(List<Sample3D[]> samples3D, PostProcessor3D postProcessor)
         {
             StrobePostProcessor strobe = postProcessor as StrobePostProcessor;
             float animationValue = strobe.AnimationValue * (float)Math.PI * 2f;

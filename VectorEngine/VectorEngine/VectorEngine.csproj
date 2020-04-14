@@ -96,7 +96,8 @@
     <Compile Include="Engine\GameLoop.cs" />
     <Compile Include="Engine\GameTime.cs" />
     <Compile Include="DemoGame\Rotate.cs" />
-    <Compile Include="Engine\PostProcessorLocal3D.cs" />
+    <Compile Include="Engine\PostProcessing\PostProcessingGroupLocal3D.cs" />
+    <Compile Include="Engine\PostProcessing\PostProcessor3D.cs" />
     <Compile Include="Engine\Sample3D.cs" />
     <Compile Include="Engine\GamepadSingleton.cs" />
     <Compile Include="Engine\SamplerSingleton.cs" />
