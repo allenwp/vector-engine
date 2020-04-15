@@ -199,7 +199,8 @@ namespace VectorEngine.Engine
 
         static void Init()
         {
-            DemoGame.SceneSpaceRings.Init();
+            EntityAdmin.Instance.Init();
+            DemoGame.SceneRotatingCubesAndGridPoints.Init();
         }
     }
 }

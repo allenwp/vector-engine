@@ -67,10 +67,10 @@ namespace VectorEngine.Engine
                     var samples3D = shape.GetSamples3D(fidelity);
 
                     // Post process the local space samples:
-                    var postProcessorLocal3D = shape.Entity.GetComponent<PostProcessing.PostProcessingGroupLocal3D>();
-                    if (postProcessorLocal3D != null)
+                    var shapePostProcessor3D = shape.Entity.GetComponent<PostProcessing.PostProcessingGroup3D>();
+                    if (shapePostProcessor3D != null)
                     {
-                        foreach (var postProcessor in postProcessorLocal3D.PostProcessors.Where(comp => comp.IsActive))
+                        foreach (var postProcessor in shapePostProcessor3D.PostProcessors.Where(comp => comp.IsActive))
                         {
                             postProcessor.PostProcess3DFuntion(samples3D, postProcessor);
                         }
@@ -82,17 +82,40 @@ namespace VectorEngine.Engine
                 }
 
                 // We have now collected all our world space samples. Post process them:
-                // TODO: post process
+                var camPostProcessor3D = camera.Entity.GetComponent<PostProcessing.PostProcessingGroup3D>();
+                if (camPostProcessor3D != null)
+                {
+                    foreach (var postProcessor in camPostProcessor3D.PostProcessors.Where(comp => comp.IsActive))
+                    {
+                        postProcessor.PostProcess3DFuntion(worldSpaceResult, postProcessor);
+                    }
+                }
 
                 // World space samples are now ready to be translated to the screen!
                 var screenSpaceResult = TransformSamples3DToScreen(camera, worldSpaceResult);
 
-                // This is where screen space post processing of samples per camera could happen
+                // We now have this camera's screen space samples. Post process them:
+                var camPostProcessor2D = camera.Entity.GetComponent<PostProcessing.PostProcessingGroup2D>();
+                if (camPostProcessor2D != null)
+                {
+                    foreach (var postProcessor in camPostProcessor2D.PostProcessors.Where(comp => comp.IsActive))
+                    {
+                        postProcessor.PostProcess2DFuntion(screenSpaceResult, postProcessor);
+                    }
+                }
 
                 result.AddRange(screenSpaceResult);
             }
 
-            // This is where screen space post process of samples for all cameras could happen
+            // We now have all camera's screen space samples. Post process them:
+            var samplerPostProcessor2D = EntityAdmin.Instance.SingletonSampler.Entity.GetComponent<PostProcessing.PostProcessingGroup2D>();
+            if (samplerPostProcessor2D != null)
+            {
+                foreach (var postProcessor in samplerPostProcessor2D.PostProcessors.Where(comp => comp.IsActive))
+                {
+                    postProcessor.PostProcess2DFuntion(result, postProcessor);
+                }
+            }
 
             EntityAdmin.Instance.SingletonSampler.LastSamples = result;
         }

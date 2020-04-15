@@ -13,6 +13,11 @@ namespace VectorEngine.Engine
         public List<ECSSystem> Systems = new List<ECSSystem>();
         public List<Component> Components = new List<Component>();
 
+        public void Init()
+        {
+            CreateSingletons();
+        }
+
         #region Tuples
         public IEnumerable<T1> GetComponents<T1>(bool includeInactive = false) where T1 : Component
         {
@@ -212,12 +217,20 @@ namespace VectorEngine.Engine
         #endregion
 
         #region Singleton Components (System States)
-        // These could each have their own entity and be added to the components list.
-        // This would give the beneift of simpler serialization.
-        // So if any of these need to be serialized, they should be converted to components
-        // of entities.
-        public SamplerSingleton SingletonSampler { get; } = new SamplerSingleton();
-        public GamepadSingleton SingletonGamepad { get; } = new GamepadSingleton();
+        public static T CreateSingleton<T>() where T : Component, new()
+        {
+            var entity = new Entity();
+            return entity.AddComponent<T>();
+        }
+
+        public SamplerSingleton SingletonSampler { get; private set; }
+        public GamepadSingleton SingletonGamepad { get; private set; }
+
+        private void CreateSingletons()
+        {
+            SingletonSampler = CreateSingleton<SamplerSingleton>();
+            SingletonGamepad = CreateSingleton<GamepadSingleton>();
+        }
         #endregion
     }
 }
