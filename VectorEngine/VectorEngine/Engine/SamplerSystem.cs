@@ -63,8 +63,10 @@ namespace VectorEngine.Engine
 
                     fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
 
+                    // Now we have the fidelity for this shape. Get the samples:
                     var samples3D = shape.GetSamples3D(fidelity);
 
+                    // Post process the local space samples:
                     var postProcessorLocal3D = shape.Entity.GetComponent<PostProcessing.PostProcessingGroupLocal3D>();
                     if (postProcessorLocal3D != null)
                     {
@@ -74,17 +76,20 @@ namespace VectorEngine.Engine
                         }
                     }
 
+                    // Transform the samples into world space and record them in the sample stream:
                     TransformSamples3DToWorldSpace(samples3D, transform.WorldTransform);
                     worldSpaceResult.AddRange(samples3D);
-
-                    // uhhh... this all breaks down because of is3D being per shape :(
-                    // But I probably do want to have an idea of whether an array of samples is3D or not during post processing
-                    // is3D or not, I might want a world based post processing
-                    result.AddRange(TransformSamples3DToScreen(camera, samples3D, transform.WorldTransform));
                 }
 
+                // We have now collected all our world space samples. Post process them:
+                // TODO: post process
 
-                // This is kinda where screen space post processing of samples per camera could happen if I move stuff around
+                // World space samples are now ready to be translated to the screen!
+                var screenSpaceResult = TransformSamples3DToScreen(camera, worldSpaceResult);
+
+                // This is where screen space post processing of samples per camera could happen
+
+                result.AddRange(screenSpaceResult);
             }
 
             // This is where screen space post process of samples for all cameras could happen
@@ -110,7 +115,7 @@ namespace VectorEngine.Engine
             }
         }
 
-        public static List<Sample[]> TransformSamples3DToScreen(Camera camera, List<Sample3D[]> samples3D, Matrix worldTransform)
+        public static List<Sample[]> TransformSamples3DToScreen(Camera camera, List<Sample3D[]> samples3D)
         {
             List<Sample[]> result = new List<Sample[]>();
             foreach (var samples3DArray in samples3D)
