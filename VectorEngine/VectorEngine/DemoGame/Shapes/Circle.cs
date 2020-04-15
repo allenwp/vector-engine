@@ -10,7 +10,7 @@ namespace VectorEngine.DemoGame.Shapes
 {
     public class Circle : Shape
     {
-        int baseSampleCount = 200;
+        int baseSampleCount = 1000;
         public override List<Sample3D[]> GetSamples3D(float fidelity)
         {
             List<Sample3D[]> result = new List<Sample3D[]>(1);

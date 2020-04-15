@@ -10,7 +10,22 @@ namespace VectorEngine.Engine
 {
     public class Camera : Component
     {
+        public enum TypeEnum { Perspective, Orthographic }
+
+        public TypeEnum Type = TypeEnum.Perspective;
+
+        /// <summary>
+        /// Only used if Type == TypeEnum.Perspective
+        /// </summary>
         public float FoV = MathHelper.ToRadians(60);
+
+        /// <summary>
+        /// A size of 2 with a related transform of (0,0,z) will allow drawing
+        /// "directly to the screen" with 1:1 coordinate mapping.
+        /// Only used if Type == TypeEnum.Orthographic
+        /// </summary>
+        public float Size = 2f;
+
         public float NearPlane = 1;
         public float FarPlane = 1000;
 

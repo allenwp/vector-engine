@@ -19,7 +19,18 @@ namespace VectorEngine.Engine
                 var up = Vector3.Transform(Vector3.Up, transform.Rotation);
                 camera.ViewMatrix = Matrix.CreateLookAt(transform.Position, worldTarget, up);
 
-                camera.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(camera.FoV, FrameOutput.AspectRatio, camera.NearPlane, camera.FarPlane);
+                if (camera.Type == Camera.TypeEnum.Perspective)
+                {
+                    camera.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(camera.FoV, FrameOutput.AspectRatio, camera.NearPlane, camera.FarPlane);
+                }
+                else if (camera.Type == Camera.TypeEnum.Orthographic)
+                {
+                    camera.ProjectionMatrix = Matrix.CreateOrthographic(camera.Size * FrameOutput.AspectRatio, camera.Size, camera.NearPlane, camera.FarPlane);
+                }
+                else
+                {
+                    throw new NotImplementedException("Camera type not supported");
+                }
             }
         }
     }

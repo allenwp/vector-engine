@@ -17,6 +17,8 @@ namespace VectorEngine.Engine
 
             foreach ((var cameraTransform, var camera) in cameraTuples)
             {
+                List<Sample3D[]> worldSpaceResult = new List<Sample3D[]>();
+
                 int highestLayer = 0;
                 foreach ((var transform, var shape) in shapeTuples)
                 {
@@ -34,7 +36,7 @@ namespace VectorEngine.Engine
                     // TODO: optimize this by using parallels library
 
                     float fidelity;
-                    if (transform.Is3D)
+                    if (camera.Type == Camera.TypeEnum.Perspective)
                     {
                         float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, cameraTransform.Position));
                         float minDistanceFromCamera = camera.NearPlane;
@@ -50,10 +52,15 @@ namespace VectorEngine.Engine
                         // This formula uses the half of the camera's vision being 1 unit to match up with drawing the shape as non-3D
                         fidelity = 1f / (distanceFromCamera * (float)Math.Tan(camera.FoV / 2f));
                     }
-                    else
+                    else if (camera.Type == Camera.TypeEnum.Orthographic)
                     {
                         fidelity = 1f;
                     }
+                    else
+                    {
+                        throw new Exception("Unsupported camera type");
+                    }
+
                     fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
 
                     var samples3D = shape.GetSamples3D(fidelity);
@@ -67,8 +74,16 @@ namespace VectorEngine.Engine
                         }
                     }
 
-                    result.AddRange(TransformSamples3DToScreen(camera, samples3D, transform.WorldTransform, transform.Is3D));
+                    TransformSamples3DToWorldSpace(samples3D, transform.WorldTransform);
+                    worldSpaceResult.AddRange(samples3D);
+
+                    // uhhh... this all breaks down because of is3D being per shape :(
+                    // But I probably do want to have an idea of whether an array of samples is3D or not during post processing
+                    // is3D or not, I might want a world based post processing
+                    result.AddRange(TransformSamples3DToScreen(camera, samples3D, transform.WorldTransform));
                 }
+
+
                 // This is kinda where screen space post processing of samples per camera could happen if I move stuff around
             }
 
@@ -84,7 +99,18 @@ namespace VectorEngine.Engine
             return false;
         }
 
-        public static List<Sample[]> TransformSamples3DToScreen(Camera camera, List<Sample3D[]> samples3D, Matrix worldTransform, bool is3D)
+        public static void TransformSamples3DToWorldSpace(List<Sample3D[]> samples3D, Matrix worldTransform)
+        {
+            foreach (var samples3DArray in samples3D)
+            {
+                for (int i = 0; i < samples3DArray.Length; i++)
+                {
+                    samples3DArray[i].Position = Vector3.Transform(samples3DArray[i].Position, worldTransform);
+                }
+            }
+        }
+
+        public static List<Sample[]> TransformSamples3DToScreen(Camera camera, List<Sample3D[]> samples3D, Matrix worldTransform)
         {
             List<Sample[]> result = new List<Sample[]>();
             foreach (var samples3DArray in samples3D)
@@ -95,21 +121,11 @@ namespace VectorEngine.Engine
                 int currentArrayIndex = 0;
                 for (int i = 0; i < sampleLength; i++)
                 {
-                    var worldPos = Vector3.Transform(samples3DArray[i].Position, worldTransform);
-
-                    // This is where world space sample post-processing could happen
-                    // for example only show samples in a certain part of the world
-                    // The way this is written though, it would be per-camera rathter than per-shape...
-
-                    // TOOD: Maybe add a per-shape world space post processing? This would mean breaking out the above code
-                    // to be in a separate loop that first does all world transforms before applying camera transforms
-
-                    // I also want to add the idea of "layers" and filtering based on each camera...
-
+                    var worldPos = samples3DArray[i].Position;
                     Vector4 v4 = new Vector4(worldPos, 1);
                     // When samples are disabled, it's the same as when they're clipped
                     bool clipped = samples3DArray[i].Disabled;
-                    if (!clipped && is3D)
+                    if (!clipped)
                     {
                         v4 = PerformViewTransform(v4, camera.ViewMatrix);
                         v4 = PerformProjectionTransform(v4, camera.ProjectionMatrix);
@@ -123,7 +139,7 @@ namespace VectorEngine.Engine
                             tempSampleArray = new Sample[sampleLength];
                         }
 
-                        Vector2 result2D = PerformViewportTransform(v4, is3D, FrameOutput.AspectRatio);
+                        Vector2 result2D = PerformViewportTransform(v4, true, FrameOutput.AspectRatio);
                         tempSampleArray[currentArrayIndex].X = result2D.X;
                         tempSampleArray[currentArrayIndex].Y = result2D.Y;
                         tempSampleArray[currentArrayIndex].Brightness = samples3DArray[i].Brightness;

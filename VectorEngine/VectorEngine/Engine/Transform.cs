@@ -9,14 +9,6 @@ namespace VectorEngine.Engine
 {
     public class Transform : Component
     {
-        /// <summary>
-        /// Set this to false if you want to draw "directly to the screen" rather than using a Camera
-        /// If false, this doesn't need to be transformed by any camera's view or projection transforms.
-        /// It will also always have a fidelity of 1 because it does not use any cameras.
-        /// World and viewport transforms will still occur on on these transforms.
-        /// </summary>
-        public bool Is3D = true;
-
         public Transform Parent = null;
         public List<Transform> Children = new List<Transform>();
 
