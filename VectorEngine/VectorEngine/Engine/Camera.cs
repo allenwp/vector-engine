@@ -16,5 +16,12 @@ namespace VectorEngine.Engine
 
         public Matrix ViewMatrix;
         public Matrix ProjectionMatrix;
+
+        /// <summary>
+        /// Each bit of this represents a filter layer on the camera.
+        /// 1 means it will render Shapes on that filter layer.
+        /// 0 means it will NOT render Shapes on that filter layer.
+        /// </summary>
+        public uint Filter = uint.MaxValue;
     }
 }

@@ -17,7 +17,19 @@ namespace VectorEngine.Engine
 
             foreach ((var cameraTransform, var camera) in cameraTuples)
             {
+                int highestLayer = 0;
                 foreach ((var transform, var shape) in shapeTuples)
+                {
+                    if (shape.Layer > highestLayer)
+                    {
+                        highestLayer = shape.Layer;
+                    }
+                }
+
+                foreach ((var transform, var shape) in shapeTuples.Where(tuple =>
+                    tuple.Item2.Layer == highestLayer
+                    && (camera.Filter & tuple.Item2.CameraFilterLayers) != 0
+                    && !FrustumCull(camera, cameraTransform, tuple.Item1, tuple.Item2)))
                 {
                     // TODO: optimize this by using parallels library
 
@@ -57,12 +69,19 @@ namespace VectorEngine.Engine
 
                     result.AddRange(TransformSamples3DToScreen(camera, samples3D, transform.WorldTransform, transform.Is3D));
                 }
-                // This is kinda where screen space post processing of samples per camera could happen
+                // This is kinda where screen space post processing of samples per camera could happen if I move stuff around
             }
 
             // This is where screen space post process of samples for all cameras could happen
 
             EntityAdmin.Instance.SingletonSampler.LastSamples = result;
+        }
+
+        /// <returns>true if the shape should be culled.</returns>
+        public static bool FrustumCull(Camera camera, Transform cameraTransform, Transform transform, Shape shape)
+        {
+            // TODO: write a frustum culling method
+            return false;
         }
 
         public static List<Sample[]> TransformSamples3DToScreen(Camera camera, List<Sample3D[]> samples3D, Matrix worldTransform, bool is3D)
@@ -81,6 +100,11 @@ namespace VectorEngine.Engine
                     // This is where world space sample post-processing could happen
                     // for example only show samples in a certain part of the world
                     // The way this is written though, it would be per-camera rathter than per-shape...
+
+                    // TOOD: Maybe add a per-shape world space post processing? This would mean breaking out the above code
+                    // to be in a separate loop that first does all world transforms before applying camera transforms
+
+                    // I also want to add the idea of "layers" and filtering based on each camera...
 
                     Vector4 v4 = new Vector4(worldPos, 1);
                     // When samples are disabled, it's the same as when they're clipped
