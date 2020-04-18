@@ -14,11 +14,11 @@ namespace VectorEngine.DemoGame.Shapes
         public float DrawLength = 1f;
 
         int baseSampleCount = 150;
-        public override List<Sample3D[]> GetSamples3D(float fidelity)
+        public override List<Sample3DStream> GetSamples3D(float fidelity)
         {
-            List<Sample3D[]> result = new List<Sample3D[]>(1);
+            List<Sample3DStream> result = new List<Sample3DStream>(1);
             int sampleCount = (int)Math.Round(baseSampleCount * fidelity);
-            Sample3D[] sample3DArray = new Sample3D[sampleCount];
+            Sample3DStream sampleStream = Sample3DPool.GetStream(sampleCount);
             int finalSampleStartIndex = sampleCount;
             int finalSampleCount = 0;
             for (int i = 0; i < sampleCount; i++)
@@ -35,17 +35,16 @@ namespace VectorEngine.DemoGame.Shapes
                 finalSampleCount++;
                 var value = MathHelper.Lerp(0, (float)(Math.PI * 2), progress);
                 var point3D = new Vector3(progress, (float)Math.Sin(value), 0);
-                sample3DArray[i].Position = point3D;
-                sample3DArray[i].Brightness = 1f;
+                sampleStream[i] = new Sample3D() { Position = point3D, Brightness = 1f };
             }
 
-            var finalSample3DArray = new Sample3D[finalSampleCount];
+            var finalStream = Sample3DPool.GetStream(finalSampleCount);
             if (finalSampleCount > 0)
             {
-                Array.Copy(sample3DArray, finalSampleStartIndex, finalSample3DArray, 0, finalSampleCount);
+                Array.Copy(sampleStream.Pool, sampleStream.PoolIndex(finalSampleStartIndex), finalStream.Pool, finalStream.PoolIndex(0), finalSampleCount);
             }
 
-            result.Add(finalSample3DArray);
+            result.Add(finalStream);
             return result;
         }
     }

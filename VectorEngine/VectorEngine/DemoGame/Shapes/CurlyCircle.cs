@@ -17,11 +17,11 @@ namespace VectorEngine.DemoGame.Shapes
         public float AnimationOffset = 0f;
 
         int baseSampleCount = 3000;
-        public override List<Sample3D[]> GetSamples3D(float fidelity)
+        public override List<Sample3DStream> GetSamples3D(float fidelity)
         {
-            List<Sample3D[]> result = new List<Sample3D[]>(1);
+            List<Sample3DStream> result = new List<Sample3DStream>(1);
             int sampleCount = (int)Math.Round(baseSampleCount * fidelity);
-            Sample3D[] sample3DArray = new Sample3D[sampleCount];
+            Sample3DStream sampleStream = Sample3DPool.GetStream(sampleCount);
             for (int i = 0; i < sampleCount; i++)
             {
                 var progress = (float)i / (float)(sampleCount - 1);
@@ -34,10 +34,9 @@ namespace VectorEngine.DemoGame.Shapes
                 var secondCirclePoint = CurlSize * new Vector3((float)Math.Sin(secondValue), (float)Math.Cos(secondValue), 0);
                 point3D += secondCirclePoint;
 
-                sample3DArray[i].Position = point3D;
-                sample3DArray[i].Brightness = 1f;
+                sampleStream[i] = new Sample3D() { Position = point3D, Brightness = 1f };
             }
-            result.Add(sample3DArray);
+            result.Add(sampleStream);
             return result;
         }
     }

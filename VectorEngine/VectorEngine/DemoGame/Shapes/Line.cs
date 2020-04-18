@@ -16,19 +16,18 @@ namespace VectorEngine.DemoGame.Shapes
         public Vector3 Start;
         public Vector3 End;
 
-        public override List<Sample3D[]> GetSamples3D(float fidelity)
+        public override List<Sample3DStream> GetSamples3D(float fidelity)
         {
-            List<Sample3D[]> result = new List<Sample3D[]>(1);
+            List<Sample3DStream> result = new List<Sample3DStream>(1);
             int sampleLength = (int)Math.Round(LineLength * fidelity);
 
-            Sample3D[] sample3DArray = new Sample3D[sampleLength];
+            Sample3DStream sampleStream = Sample3DPool.GetStream(sampleLength);
             for(int i = 0; i < sampleLength; i++)
             {
                 var point3D = Vector3.Lerp(Start, End, (float)i / (float)(sampleLength - 1));
-                sample3DArray[i].Position = point3D;
-                sample3DArray[i].Brightness = 1f;
+                sampleStream[i] = new Sample3D() { Position = point3D, Brightness = 1f };
             }
-            result.Add(sample3DArray);
+            result.Add(sampleStream);
 
             return result;
         }

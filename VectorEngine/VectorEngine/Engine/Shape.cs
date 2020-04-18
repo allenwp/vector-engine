@@ -34,6 +34,6 @@ namespace VectorEngine.Engine
         /// what physicsal size the shape will be when it is rendered to the screen.
         /// This is based on the worldTransform and camera transforms.</param>
         /// <returns></returns>
-        public abstract List<Sample3D[]> GetSamples3D(float fidelity);
+        public abstract List<Sample3DStream> GetSamples3D(float fidelity);
     }
 }

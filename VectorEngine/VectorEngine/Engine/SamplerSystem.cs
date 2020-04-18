@@ -17,7 +17,7 @@ namespace VectorEngine.Engine
 
             foreach ((var cameraTransform, var camera) in cameraTuples)
             {
-                List<Sample3D[]> worldSpaceResult = new List<Sample3D[]>();
+                List<Sample3DStream> worldSpaceResult = new List<Sample3DStream>();
 
                 int highestLayer = 0;
                 foreach ((var transform, var shape) in shapeTuples)
@@ -127,32 +127,32 @@ namespace VectorEngine.Engine
             return false;
         }
 
-        public static void TransformSamples3DToWorldSpace(List<Sample3D[]> samples3D, Matrix worldTransform)
+        public static void TransformSamples3DToWorldSpace(List<Sample3DStream> samples3D, Matrix worldTransform)
         {
-            foreach (var samples3DArray in samples3D)
+            foreach (var stream in samples3D)
             {
-                for (int i = 0; i < samples3DArray.Length; i++)
+                for (int i = 0; i < stream.Length; i++)
                 {
-                    samples3DArray[i].Position = Vector3.Transform(samples3DArray[i].Position, worldTransform);
+                    stream.Pool[stream.PoolIndex(i)].Position = Vector3.Transform(stream[i].Position, worldTransform);
                 }
             }
         }
 
-        public static List<Sample[]> TransformSamples3DToScreen(Camera camera, List<Sample3D[]> samples3D)
+        public static List<Sample[]> TransformSamples3DToScreen(Camera camera, List<Sample3DStream> samples3D)
         {
             List<Sample[]> result = new List<Sample[]>();
-            foreach (var samples3DArray in samples3D)
+            foreach (var stream in samples3D)
             {
-                int sampleLength = samples3DArray.Length;
+                int sampleLength = stream.Length;
 
                 Sample[] tempSampleArray = null;
                 int currentArrayIndex = 0;
                 for (int i = 0; i < sampleLength; i++)
                 {
-                    var worldPos = samples3DArray[i].Position;
+                    var worldPos = stream[i].Position;
                     Vector4 v4 = new Vector4(worldPos, 1);
                     // When samples are disabled, it's the same as when they're clipped
-                    bool clipped = samples3DArray[i].Disabled;
+                    bool clipped = stream[i].Disabled;
                     if (!clipped)
                     {
                         v4 = PerformViewTransform(v4, camera.ViewMatrix);
@@ -170,7 +170,7 @@ namespace VectorEngine.Engine
                         Vector2 result2D = PerformViewportTransform(v4, true, FrameOutput.AspectRatio);
                         tempSampleArray[currentArrayIndex].X = result2D.X;
                         tempSampleArray[currentArrayIndex].Y = result2D.Y;
-                        tempSampleArray[currentArrayIndex].Brightness = samples3DArray[i].Brightness;
+                        tempSampleArray[currentArrayIndex].Brightness = stream[i].Brightness;
 
                         currentArrayIndex++;
                     }

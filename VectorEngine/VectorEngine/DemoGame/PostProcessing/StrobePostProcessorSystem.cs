@@ -22,17 +22,18 @@ namespace VectorEngine.DemoGame.PostProcessing
             }
         }
 
-        public static void PostProcess(List<Sample3D[]> samples3D, PostProcessor3D postProcessor)
+        public static void PostProcess(List<Sample3DStream> samples3D, PostProcessor3D postProcessor)
         {
             StrobePostProcessor strobe = postProcessor as StrobePostProcessor;
             float animationValue = strobe.AnimationValue * (float)Math.PI * 2f;
-            foreach (var samples3DArray in samples3D)
+            foreach (var stream in samples3D)
             {
-                int sampleLength = samples3DArray.Length;
+                int sampleLength = stream.Length;
                 for (int i = 0; i < sampleLength; i++)
                 {
-                    var sinValue = Math.Sin((samples3DArray[i].Position.Y * strobe.Scale) + animationValue);
-                    samples3DArray[i].Disabled = sinValue < 0;
+                    var poolIndex = stream.PoolIndex(i);
+                    var sinValue = Math.Sin((stream.Pool[poolIndex].Position.Y * strobe.Scale) + animationValue);
+                    stream.Pool[poolIndex].Disabled = sinValue < 0;
                 }
             }
         }

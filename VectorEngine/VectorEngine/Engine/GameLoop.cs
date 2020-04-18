@@ -35,6 +35,9 @@ namespace VectorEngine.Engine
                 }
                 FrameOutput.WriteState = (int)writeState;
 
+                // Prep for creating this frame by clearing out old data from the pools
+                Sample3DPool.ClearPool();
+
                 // Tick the systems
                 foreach (ECSSystem system in EntityAdmin.Instance.Systems)
                 {
@@ -200,7 +203,7 @@ namespace VectorEngine.Engine
         static void Init()
         {
             EntityAdmin.Instance.Init();
-            DemoGame.SceneRotatingCubesAndGridPoints.Init();
+            DemoGame.SceneSpaceRings.Init();
         }
     }
 }

@@ -29,9 +29,9 @@ namespace VectorEngine.DemoGame.Shapes
             lines.Add(new Line() { Start = new Vector3(-0.5f, -0.5f, -0.5f), End = new Vector3(-0.5f, -0.5f, 0.5f) });
         }
 
-        public override List<Sample3D[]> GetSamples3D(float fidelity)
+        public override List<Sample3DStream> GetSamples3D(float fidelity)
         {
-            List<Sample3D[]> samples = new List<Sample3D[]>();
+            List<Sample3DStream> samples = new List<Sample3DStream>();
             foreach (var line in lines)
             {
                 samples.AddRange(line.GetSamples3D(fidelity));
