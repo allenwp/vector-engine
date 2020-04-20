@@ -79,7 +79,7 @@ namespace VectorEngine.Engine
 
                 swFrameTime.Stop();
                 RecordPerfTime(swFrameTime, ref frameTimePerf);
-                syncOverheadTime = PerfTime.Initial;
+                swFrameSyncOverhead.Reset();
                 swFrameSyncOverhead.Start();
 
                 // "Blit" the buffer and progress the frame buffer write state
@@ -118,7 +118,7 @@ namespace VectorEngine.Engine
                 if (FrameOutput.FrameCount % 100 == 0)
                 {
                     int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
-                    Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking samples between shapes) | Frame w: " + frameTimePerf.worst + " b: " + frameTimePerf.best + " a: " + frameTimePerf.average + " Sync w: " + syncOverheadTime.worst + " b: " + syncOverheadTime.best + " a: " + syncOverheadTime.average);
+                    Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking samples between shapes) | Frame w: " + frameTimePerf.worst + " b: " + frameTimePerf.best + " a: " + frameTimePerf.average + " | Sync w: " + syncOverheadTime.worst + " b: " + syncOverheadTime.best + " a: " + syncOverheadTime.average);
                     frameTimePerf = PerfTime.Initial;
                     syncOverheadTime = PerfTime.Initial;
                 }
