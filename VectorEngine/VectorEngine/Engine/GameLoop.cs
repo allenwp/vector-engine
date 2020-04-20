@@ -1,16 +1,42 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using VectorEngine.Output;
 
 namespace VectorEngine.Engine
 {
+    struct PerfTime
+    {
+        public float best;
+        public float worst;
+        public int count;
+        public float cumulative;
+        public float average { get => cumulative / count; }
+
+        public static readonly PerfTime Initial = new PerfTime(float.MaxValue, float.MinValue, 0, 0);
+
+        public PerfTime(float best, float worst, int count, float cumulative)
+        {
+            this.best = best;
+            this.worst = worst;
+            this.count = count;
+            this.cumulative = cumulative;
+        }
+    }
+
     public class GameLoop
     {
         static Sample previousFinalSample = Sample.Blank;
         public static void Loop()
         {
             Init();
+
+            var syncOverheadTime = PerfTime.Initial;
+            var frameTimePerf = PerfTime.Initial;
+
+            var swFrameSyncOverhead = new Stopwatch();
+            swFrameSyncOverhead.Start();
 
             while (true)
             {
@@ -35,6 +61,11 @@ namespace VectorEngine.Engine
                 }
                 FrameOutput.WriteState = (int)writeState;
 
+                swFrameSyncOverhead.Stop();
+                RecordPerfTime(swFrameSyncOverhead, ref syncOverheadTime);
+                var swFrameTime = new Stopwatch();
+                swFrameTime.Start();
+
                 // Tick the systems
                 foreach (ECSSystem system in EntityAdmin.Instance.Systems)
                 {
@@ -45,6 +76,11 @@ namespace VectorEngine.Engine
                 int blankingSampleCount;
                 Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount); // FrameOutput.GetCalibrationFrame();
                 previousFinalSample = finalBuffer[finalBuffer.Length - 1];
+
+                swFrameTime.Stop();
+                RecordPerfTime(swFrameTime, ref frameTimePerf);
+                syncOverheadTime = PerfTime.Initial;
+                swFrameSyncOverhead.Start();
 
                 // "Blit" the buffer and progress the frame buffer write state
                 if (writeState == FrameOutput.WriteStateEnum.WrittingBuffer1)
@@ -65,6 +101,10 @@ namespace VectorEngine.Engine
 
                 // Update GameTime:
                 GameTime.LastFrameSampleCount = finalBuffer.Length + starvedSamples;
+                if (starvedSamples > 0)
+                {
+                    Console.WriteLine("Added " + starvedSamples + " starved samples to GameTime.LastFrameSampleCount.");
+                }
 
                 var oldFrameCount = FrameOutput.FrameCount; // to make sure we don't reinitialize when it overflows
                 FrameOutput.FrameCount++;
@@ -78,7 +118,9 @@ namespace VectorEngine.Engine
                 if (FrameOutput.FrameCount % 100 == 0)
                 {
                     int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
-                    Console.WriteLine(" Framerate: " + frameRate + "fps (" + finalBuffer.Length + " + " + starvedSamples + " starved samples | " + blankingSampleCount + " blanking samples between shapes)");
+                    Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking samples between shapes) | Frame w: " + frameTimePerf.worst + " b: " + frameTimePerf.best + " a: " + frameTimePerf.average + " Sync w: " + syncOverheadTime.worst + " b: " + syncOverheadTime.best + " a: " + syncOverheadTime.average);
+                    frameTimePerf = PerfTime.Initial;
+                    syncOverheadTime = PerfTime.Initial;
                 }
             }
         }
@@ -200,7 +242,22 @@ namespace VectorEngine.Engine
         static void Init()
         {
             EntityAdmin.Instance.Init();
-            DemoGame.SceneRotatingCubesAndGridPoints.Init();
+            DemoGame.SceneSpaceRings.Init();
+        }
+
+        static void RecordPerfTime(Stopwatch stopwatch, ref PerfTime perfTime)
+        {
+            var time = stopwatch.ElapsedMilliseconds;
+            perfTime.cumulative += time;
+            perfTime.count++;
+            if (time > perfTime.worst)
+            {
+                perfTime.worst = time;
+            }
+            if (time < perfTime.best)
+            {
+                perfTime.best = time;
+            }
         }
     }
 }

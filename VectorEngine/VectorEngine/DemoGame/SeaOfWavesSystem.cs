@@ -32,19 +32,19 @@ namespace VectorEngine.DemoGame
             }
         }
 
-        public static List<List<WaveTileAnimated>> CreateSea()
+        public static List<List<WaveTile>> CreateSea()
         {
             var rowCount = 30;
             var tileCount = 20;
 
-            var result = new List<List<WaveTileAnimated>>(rowCount);
+            var result = new List<List<WaveTile>>(rowCount);
             for (int row = 0; row < rowCount; row++)
             {
-                var list = new List<WaveTileAnimated>(tileCount);
+                var list = new List<WaveTile>(tileCount);
                 for (int tileIndex = 0; tileIndex < tileCount; tileIndex++)
                 {
                     var entity = new Entity();
-                    var tile = entity.AddComponent<WaveTileAnimated>();
+                    var tile = entity.AddComponent<WaveTile>();
                     tile.DrawLength = 0.5f;
                     var transform = entity.AddComponent<Transform>();
                     transform.LocalScale = new Vector3(5f, 1f, 1f);
