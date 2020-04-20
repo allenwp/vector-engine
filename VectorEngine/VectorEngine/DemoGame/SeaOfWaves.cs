@@ -11,6 +11,6 @@ namespace VectorEngine.DemoGame
     {
         public float AnimationValue;
         public float AnimationSpeed = 1f;
-        public List<List<Shapes.WaveTile>> Waves;
+        public List<List<Shapes.WaveTileAnimated>> Waves;
     }
 }
