@@ -82,7 +82,7 @@
     <Compile Include="DemoGame\Shapes\PlayerShip.cs" />
     <Compile Include="DemoGame\Shapes\PlayerShipSystem.cs" />
     <Compile Include="DemoGame\Shapes\Square.cs" />
-    <Compile Include="DemoGame\Shapes\WaveTile.cs" />
+    <Compile Include="DemoGame\Shapes\WaveTileAnimated.cs" />
     <Compile Include="DemoGame\Shapes\WigglyCircle.cs" />
     <Compile Include="DemoGame\Shapes\Circle.cs" />
     <Compile Include="DemoGame\Shapes\Cube.cs" />
