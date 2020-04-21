@@ -76,8 +76,6 @@ namespace VectorEngine.Engine
                 (Transform, Shape)[] tuples = tuplesCollection.ToArray();
                 List<Sample3D[]>[] parallelOutputSamples = new List<Sample3D[]>[tuples.Length];
 
-                var rangePartitioner = Partitioner.Create(0, tuples.Length);
-
                 Parallel.For(0, tuples.Length,
                     i => parallelOutputSamples[i] = GetSample3Ds(camera, cameraTransform, tuples[i].Item1, tuples[i].Item2));
 
