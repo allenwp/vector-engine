@@ -36,7 +36,6 @@ namespace VectorEngine.Engine
                 //    && (camera.Filter & tuple.Item2.CameraFilterLayers) != 0
                 //    && !FrustumCull(camera, cameraTransform, tuple.Item1, tuple.Item2)))
                 //{
-                //    // TODO: optimize this by using parallels library
                 //    var samples3D = GetSample3Ds(camera, cameraTransform, transform, shape);
                 //    worldSpaceResult.AddRange(samples3D);
                 //}
