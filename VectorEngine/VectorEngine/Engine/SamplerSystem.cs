@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using VectorEngine.Output;
 
 namespace VectorEngine.Engine
@@ -28,57 +30,61 @@ namespace VectorEngine.Engine
                     }
                 }
 
-                foreach ((var transform, var shape) in shapeTuples.Where(tuple =>
+                #region Old single threaded code
+                //foreach ((var transform, var shape) in shapeTuples.Where(tuple =>
+                //    tuple.Item2.Layer == highestLayer
+                //    && (camera.Filter & tuple.Item2.CameraFilterLayers) != 0
+                //    && !FrustumCull(camera, cameraTransform, tuple.Item1, tuple.Item2)))
+                //{
+                //    // TODO: optimize this by using parallels library
+                //    var samples3D = GetSample3Ds(camera, cameraTransform, transform, shape);
+                //    worldSpaceResult.AddRange(samples3D);
+                //}
+                #endregion
+
+                #region Using a Partitioner: Initial tests show that this is marginally slower than simply not having a Partitioner.
+                //var tuplesCollection = shapeTuples.Where(tuple =>
+                //    tuple.Item2.Layer == highestLayer
+                //    && (camera.Filter & tuple.Item2.CameraFilterLayers) != 0
+                //    && !FrustumCull(camera, cameraTransform, tuple.Item1, tuple.Item2));
+
+                //(Transform, Shape)[] tuples = tuplesCollection.ToArray();
+                //List<Sample3D[]>[] parallelOutputSamples = new List<Sample3D[]>[tuples.Length];
+
+                //var rangePartitioner = Partitioner.Create(0, tuples.Length);
+
+                //Parallel.ForEach(rangePartitioner,
+                //    (range, loopState) =>
+                //    {
+                //        for (int i = range.Item1; i < range.Item2; i++)
+                //        {
+                //            parallelOutputSamples[i] = GetSample3Ds(camera, cameraTransform, tuples[i].Item1, tuples[i].Item2);
+                //        }
+                //    });
+
+                //for (int i = 0; i < parallelOutputSamples.Length; i++)
+                //{
+                //    worldSpaceResult.AddRange(parallelOutputSamples[i]);
+                //}
+                #endregion
+
+                // Create the world space result using the Parallel library:
+                var tuplesCollection = shapeTuples.Where(tuple =>
                     tuple.Item2.Layer == highestLayer
                     && (camera.Filter & tuple.Item2.CameraFilterLayers) != 0
-                    && !FrustumCull(camera, cameraTransform, tuple.Item1, tuple.Item2)))
+                    && !FrustumCull(camera, cameraTransform, tuple.Item1, tuple.Item2));
+
+                (Transform, Shape)[] tuples = tuplesCollection.ToArray();
+                List<Sample3D[]>[] parallelOutputSamples = new List<Sample3D[]>[tuples.Length];
+
+                var rangePartitioner = Partitioner.Create(0, tuples.Length);
+
+                Parallel.For(0, tuples.Length,
+                    i => parallelOutputSamples[i] = GetSample3Ds(camera, cameraTransform, tuples[i].Item1, tuples[i].Item2));
+
+                for (int i = 0; i < parallelOutputSamples.Length; i++)
                 {
-                    // TODO: optimize this by using parallels library
-
-                    float fidelity;
-                    if (camera.Type == Camera.TypeEnum.Perspective)
-                    {
-                        float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, cameraTransform.Position));
-                        float minDistanceFromCamera = camera.NearPlane;
-                        if (distanceFromCamera < minDistanceFromCamera)
-                        {
-                            distanceFromCamera = minDistanceFromCamera;
-                        }
-
-                        // Fidelity is relative to the "non-3D" plane equivalent being the distance where half of the camera's FoV shows 1 unit on an axis,
-                        // which matches the coordinate space that this engine uses, which is -1 to 1 (or 1 unit for half the screen)
-                        // For a fidelity of 1, the distance from camera must equal (1 / (tan(FoV / 2))) ("TOA" triginometry formula)
-                        // The first 1 in the following equation is based on half of the camera's vision being 1 unit of screen space ("TOA" triginometry formula)
-                        // This formula uses the half of the camera's vision being 1 unit to match up with drawing the shape as non-3D
-                        fidelity = 1f / (distanceFromCamera * (float)Math.Tan(camera.FoV / 2f));
-                    }
-                    else if (camera.Type == Camera.TypeEnum.Orthographic)
-                    {
-                        fidelity = 1f;
-                    }
-                    else
-                    {
-                        throw new Exception("Unsupported camera type");
-                    }
-
-                    fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
-
-                    // Now we have the fidelity for this shape. Get the samples:
-                    var samples3D = shape.GetSamples3D(fidelity);
-
-                    // Post process the local space samples:
-                    var shapePostProcessor3D = shape.Entity.GetComponent<PostProcessing.PostProcessingGroup3D>();
-                    if (shapePostProcessor3D != null)
-                    {
-                        foreach (var postProcessor in shapePostProcessor3D.PostProcessors.Where(comp => comp.IsActive))
-                        {
-                            postProcessor.PostProcess3DFuntion(samples3D, postProcessor);
-                        }
-                    }
-
-                    // Transform the samples into world space and record them in the sample stream:
-                    TransformSamples3DToWorldSpace(samples3D, transform.WorldTransform);
-                    worldSpaceResult.AddRange(samples3D);
+                    worldSpaceResult.AddRange(parallelOutputSamples[i]);
                 }
 
                 // We have now collected all our world space samples. Post process them:
@@ -118,6 +124,54 @@ namespace VectorEngine.Engine
             }
 
             EntityAdmin.Instance.SingletonSampler.LastSamples = result;
+        }
+
+        public static List<Sample3D[]> GetSample3Ds(in Camera camera, in Transform cameraTransform, in Transform transform, in Shape shape)
+        {
+            float fidelity;
+            if (camera.Type == Camera.TypeEnum.Perspective)
+            {
+                float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, cameraTransform.Position));
+                float minDistanceFromCamera = camera.NearPlane;
+                if (distanceFromCamera < minDistanceFromCamera)
+                {
+                    distanceFromCamera = minDistanceFromCamera;
+                }
+
+                // Fidelity is relative to the "non-3D" plane equivalent being the distance where half of the camera's FoV shows 1 unit on an axis,
+                // which matches the coordinate space that this engine uses, which is -1 to 1 (or 1 unit for half the screen)
+                // For a fidelity of 1, the distance from camera must equal (1 / (tan(FoV / 2))) ("TOA" triginometry formula)
+                // The first 1 in the following equation is based on half of the camera's vision being 1 unit of screen space ("TOA" triginometry formula)
+                // This formula uses the half of the camera's vision being 1 unit to match up with drawing the shape as non-3D
+                fidelity = 1f / (distanceFromCamera * (float)Math.Tan(camera.FoV / 2f));
+            }
+            else if (camera.Type == Camera.TypeEnum.Orthographic)
+            {
+                fidelity = 1f;
+            }
+            else
+            {
+                throw new Exception("Unsupported camera type");
+            }
+
+            fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
+
+            // Now we have the fidelity for this shape. Get the samples:
+            var samples3D = shape.GetSamples3D(fidelity);
+
+            // Post process the local space samples:
+            var shapePostProcessor3D = shape.Entity.GetComponent<PostProcessing.PostProcessingGroup3D>();
+            if (shapePostProcessor3D != null)
+            {
+                foreach (var postProcessor in shapePostProcessor3D.PostProcessors.Where(comp => comp.IsActive))
+                {
+                    postProcessor.PostProcess3DFuntion(samples3D, postProcessor);
+                }
+            }
+
+            // Transform the samples into world space and record them in the sample stream:
+            TransformSamples3DToWorldSpace(samples3D, transform.WorldTransform);
+            return samples3D;
         }
 
         /// <returns>true if the shape should be culled.</returns>
