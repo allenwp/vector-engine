@@ -31,8 +31,9 @@ namespace VectorEngine.DemoGame
             // Order *kinda* matters here: it's the draw order for Shapes
 
             var player = new Entity();
-            player.AddComponent<Transform>().LocalScale = new Vector3(0.2f);
-            player.AddComponent<GamepadBasicFPSMovement>();
+            player.AddComponent<Transform>().LocalPosition = new Vector3(0, 1f, -4f);
+            //player.AddComponent<GamepadBasicFPSMovement>();
+            player.AddComponent<Rotate>().Speed = -.2f;
             //player.AddComponent<PlayerShip>();
             //player.AddComponent<Propulsion>();
 
