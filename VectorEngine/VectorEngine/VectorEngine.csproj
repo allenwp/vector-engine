@@ -66,6 +66,8 @@
     <Compile Include="DemoGame\FollowSystem.cs" />
     <Compile Include="DemoGame\GamepadBasicFPSMovement.cs" />
     <Compile Include="DemoGame\GamepadBasicFPSMovementSystem.cs" />
+    <Compile Include="DemoGame\PostProcessing\RadialPulsePostProcessorSystem.cs" />
+    <Compile Include="DemoGame\PostProcessing\RadialPulsePostProcessor.cs" />
     <Compile Include="DemoGame\PostProcessing\StrobePostProcessor.cs" />
     <Compile Include="DemoGame\PostProcessing\StrobePostProcessorSystem.cs" />
     <Compile Include="DemoGame\Propulsion.cs" />
