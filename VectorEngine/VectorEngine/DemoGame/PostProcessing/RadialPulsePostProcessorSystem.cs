@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,19 +32,23 @@ namespace VectorEngine.DemoGame.PostProcessing
 
         public static void PostProcess(List<Sample3D[]> samples3D, PostProcessor3D postProcessor)
         {
-            // TODO: Parallel?
             RadialPulsePostProcessor pulse = postProcessor as RadialPulsePostProcessor;
-            foreach (var samples3DArray in samples3D)
+
+            var pos = pulse.Position;
+            var min = pulse.CurrentMinDistance;
+            var max = pulse.CurrentMaxDistance;
+            var rangePartitioner = Partitioner.Create(samples3D);
+            Parallel.ForEach(rangePartitioner, (samples3DArray) =>
             {
                 for (int i = 0; i < samples3DArray.Length; i++)
                 {
-                    float distance = Vector3.Distance(samples3DArray[i].Position, pulse.Position);
-                    if (distance > pulse.CurrentMaxDistance || distance < pulse.CurrentMinDistance)
+                    float distance = Vector3.Distance(samples3DArray[i].Position, pos);
+                    if (distance > max || distance < min)
                     {
                         samples3DArray[i].Disabled = true;
                     }
                 }
-            }
+            });
         }
     }
 }
