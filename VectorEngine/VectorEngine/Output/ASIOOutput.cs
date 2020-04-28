@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using BlueWave.Interop.Asio;
+using Microsoft.Xna.Framework;
 using VectorEngine.Engine;
 
 namespace VectorEngine.Output
@@ -121,9 +122,9 @@ namespace VectorEngine.Output
 			AsioDriver driver = sender as AsioDriver;
 
 			// get the stereo output channels
-			Channel xOutput = driver.OutputChannels[0];
-			Channel yOutput = driver.OutputChannels[1];
-			Channel zOutput = driver.OutputChannels[2];
+			Channel xOutput = driver.OutputChannels[2];
+			Channel yOutput = driver.OutputChannels[3];
+			Channel zOutput = driver.OutputChannels[0];
 
 			FeedAsioBuffers(xOutput, yOutput, zOutput, 0);
 
@@ -134,6 +135,23 @@ namespace VectorEngine.Output
 			//	xOutput[index] = (float)Math.Sin(t);
 			//	yOutput[index] = (float)Math.Sin(t);
 			//	zOutput[index] = (float)Math.Sin(t);
+			//}
+
+			// Code for testing blanking:
+			//for (int index = 0; index < xOutput.BufferSize; index++)
+			//{
+			//	t = Microsoft.Xna.Framework.MathHelper.Lerp(0, (float)Math.PI, (float)index / xOutput.BufferSize);
+			//	xOutput[index] = (float)Math.Sin(t);
+			//	yOutput[index] = (float)Math.Cos(t);
+
+			//	if (yOutput[index] > 0.5f || yOutput[index] < -0.5f)
+			//	{
+			//		zOutput[index] = 1f;// (float)Math.Sin(t);
+			//	}
+			//	else
+			//	{
+			//		zOutput[index] = 0f;// (float)Math.Sin(t);
+			//	}
 			//}
 
 			// Code for debugging flicker to 0,0:
@@ -161,7 +179,7 @@ namespace VectorEngine.Output
 				{
 					xOutput[i] = -1f;
 					yOutput[i] = -1f;
-					brightnessOutput[i] = 0f;
+					brightnessOutput[i] = 1f; // no brightness is 1
 				}
 				return;
 			}
@@ -214,7 +232,7 @@ namespace VectorEngine.Output
 				Sample sample = PrepareSampleForScreen(currentFrameBuffer[frameIndex]);
 				xOutput[i] = sample.X;
 				yOutput[i] = sample.Y;
-				brightnessOutput[i] = sample.Brightness;
+				brightnessOutput[i] = MathHelper.Clamp(sample.Brightness, 0f, 1f) * -1f + 1f; // 0 is full brightness, 1 is no brightness
 
 				frameIndex++;
 			}
