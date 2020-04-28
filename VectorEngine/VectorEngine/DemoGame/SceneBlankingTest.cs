@@ -9,7 +9,7 @@ using VectorEngine.Engine;
 
 namespace VectorEngine.DemoGame
 {
-    public class SceneShapeTest
+    public class SceneBlankingTest
     {
         public static void Init()
         {
@@ -33,24 +33,23 @@ namespace VectorEngine.DemoGame
             camera.AddComponent<Camera>();
             camera.AddComponent<GamepadBasicFPSMovement>();
 
-            //var wiggleCircle = new Entity();
-            //wiggleCircle.AddComponent<Transform>();
-            //var rotate = wiggleCircle.AddComponent<Rotate>();
-            //rotate.Axis = Rotate.AxisEnum.z;
-            //wiggleCircle.AddComponent<WigglyCircle>();
+            //var curlyCircle = new Entity();
+            //curlyCircle.AddComponent<Transform>().LocalPosition = new Vector3(0, 0, 0); ;
+            //curlyCircle.AddComponent<CurlyCircle>();
+            //curlyCircle.AddComponent<Rotate>().Speed = 0.1f;
 
-            //var wiggleCircle2 = new Entity();
-            //var transform = wiggleCircle2.AddComponent<Transform>();
-            //transform.LocalScale = new Vector3(0.9f);
-            //rotate = wiggleCircle2.AddComponent<Rotate>();
-            //rotate.Axis = Rotate.AxisEnum.z;
-            //rotate.Speed = rotate.Speed * -1f;
-            //wiggleCircle2.AddComponent<WigglyCircle>();
+            AddLine(new Vector3(-1, 1, 0), new Vector3(1, 1, 0));
+            AddLine(new Vector3(1, 0, 0), new Vector3(-1, 0, 0));
+            AddLine(new Vector3(1, -1, 0), new Vector3(-1, -1, 0));
+        }
 
-            var curlyCircle = new Entity();
-            curlyCircle.AddComponent<Transform>().LocalPosition = new Vector3(0, 0, 0); ;
-            curlyCircle.AddComponent<CurlyCircle>();
-            curlyCircle.AddComponent<Rotate>().Speed = 0.1f;
+        static void AddLine(Vector3 start, Vector3 end)
+        {
+            var line1 = new Entity();
+            line1.AddComponent<Transform>();
+            var line = line1.AddComponent<Line>();
+            line.Start = start;
+            line.End = end;
         }
     }
 }
