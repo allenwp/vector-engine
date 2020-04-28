@@ -11,6 +11,8 @@ namespace VectorEngine.Output
 {
     public class ASIOOutput
     {
+		private static float[] blankingChannelDelayBuffer = new float[FrameOutput.BLANKING_CHANNEL_DELAY];
+
 		public static void StartDriver()
 		{
 			// TODO:This call to highest priority probably doesn't mean anything at all
@@ -127,6 +129,8 @@ namespace VectorEngine.Output
 			Channel zOutput = driver.OutputChannels[0];
 
 			FeedAsioBuffers(xOutput, yOutput, zOutput, 0);
+
+			ApplyBlankingChannelDelay(zOutput);
 
 			// Code for a test tone to make sure ASIO device is working well:
 			//for (int index = 0; index < xOutput.BufferSize; index++)
@@ -255,6 +259,26 @@ namespace VectorEngine.Output
 			// TODO: adjust brightness to match voltage needed for z-input on oscilloscope.
 
 			return sample;
+		}
+
+		private static void ApplyBlankingChannelDelay(Channel blankingChannel)
+		{
+			float[] originalStream = new float[blankingChannel.BufferSize];
+			for (int i = 0; i < originalStream.Length; i++)
+			{
+				originalStream[i] = blankingChannel[i];
+			}
+			for (int i = 0; i < originalStream.Length; i++)
+			{
+				if (i < blankingChannelDelayBuffer.Length)
+				{
+					blankingChannel[i] = blankingChannelDelayBuffer[i];
+				}
+				else
+				{
+					blankingChannel[i] = originalStream[i - blankingChannelDelayBuffer.Length];
+				}
+			}
 		}
 	}
 }

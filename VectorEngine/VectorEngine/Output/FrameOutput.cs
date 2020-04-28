@@ -38,6 +38,8 @@ namespace VectorEngine.Output
             }
         }
 
+        public static readonly int BLANKING_CHANNEL_DELAY = 17; // My PreSonus DAC has a delay on the channel I use for blanking -_-
+
         #region Double Buffers
         public static Sample[] Buffer1;
         public static Sample[] Buffer2;
