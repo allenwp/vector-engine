@@ -236,7 +236,7 @@ namespace VectorEngine.Output
 				Sample sample = PrepareSampleForScreen(currentFrameBuffer[frameIndex]);
 				xOutput[i] = sample.X;
 				yOutput[i] = sample.Y;
-				brightnessOutput[i] = MathHelper.Clamp(sample.Brightness, 0f, 1f) * -1f + 1f; // 0 is full brightness, 1 is no brightness
+				brightnessOutput[i] = MathHelper.Clamp(sample.Brightness, 0f, 1f) * -2f + 1f; // -1 is full brightness, 1 is no brightness
 
 				frameIndex++;
 			}
