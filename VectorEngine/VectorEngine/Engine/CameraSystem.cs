@@ -21,11 +21,11 @@ namespace VectorEngine.Engine
 
                 if (camera.Type == Camera.TypeEnum.Perspective)
                 {
-                    camera.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(camera.FoV, FrameOutput.AspectRatio, camera.NearPlane, camera.FarPlane);
+                    camera.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(camera.FoV, FrameOutput.DisplayProfile.AspectRatio, camera.NearPlane, camera.FarPlane);
                 }
                 else if (camera.Type == Camera.TypeEnum.Orthographic)
                 {
-                    camera.ProjectionMatrix = Matrix.CreateOrthographic(camera.Size * FrameOutput.AspectRatio, camera.Size, camera.NearPlane, camera.FarPlane);
+                    camera.ProjectionMatrix = Matrix.CreateOrthographic(camera.Size * FrameOutput.DisplayProfile.AspectRatio, camera.Size, camera.NearPlane, camera.FarPlane);
                 }
                 else
                 {

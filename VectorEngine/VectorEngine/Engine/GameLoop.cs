@@ -187,7 +187,7 @@ namespace VectorEngine.Engine
             {
                 sampleCount += sampleArray.Length;
             }
-            int worstCaseBlankingLength = FrameOutput.BlankingLength(new Sample(-1f, -1f, 0), new Sample(1f, 1f, 0));
+            int worstCaseBlankingLength = FrameOutput.DisplayProfile.BlankingLength(new Sample(-1f, -1f, 0), new Sample(1f, 1f, 0));
             int worstCaseSampleCount = sampleCount + (samples.Count * worstCaseBlankingLength);
 
             Sample[] finalBuffer = new Sample[worstCaseSampleCount];
@@ -197,7 +197,7 @@ namespace VectorEngine.Engine
             Sample previousSample = previousFrameEndSample;
             foreach (var sampleArray in samples)
             {
-                int blankingLength = FrameOutput.BlankingLength(previousSample, sampleArray[0]);
+                int blankingLength = FrameOutput.DisplayProfile.BlankingLength(previousSample, sampleArray[0]);
                 // Set blanking based on the first sample:
                 for (int b = 0; b < blankingLength; b++)
                 {
@@ -242,7 +242,7 @@ namespace VectorEngine.Engine
         static void Init()
         {
             EntityAdmin.Instance.Init();
-            DemoGame.SceneSpaceRings.Init();
+            DemoGame.SceneRotatingCubesAndGridPoints.Init();
         }
 
         static void RecordPerfTime(Stopwatch stopwatch, ref PerfTime perfTime)

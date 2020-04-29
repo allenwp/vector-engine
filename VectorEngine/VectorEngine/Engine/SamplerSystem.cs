@@ -218,7 +218,7 @@ namespace VectorEngine.Engine
                             tempSampleArray = new Sample[sampleLength];
                         }
 
-                        Vector2 result2D = PerformViewportTransform(v4, true, FrameOutput.AspectRatio);
+                        Vector2 result2D = PerformViewportTransform(v4, true, FrameOutput.DisplayProfile.AspectRatio);
                         tempSampleArray[currentArrayIndex].X = result2D.X;
                         tempSampleArray[currentArrayIndex].Y = result2D.Y;
                         tempSampleArray[currentArrayIndex].Brightness = samples3DArray[i].Brightness;

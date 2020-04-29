@@ -244,10 +244,11 @@ namespace VectorEngine.Output
 
 		public static Sample PrepareSampleForScreen(Sample sample)
 		{
-			if (FrameOutput.AspectRatio > 1f)
+			float aspectRatio = FrameOutput.DisplayProfile.AspectRatio;
+			if (aspectRatio > 1f)
 			{
-				sample.X /= FrameOutput.AspectRatio;
-				sample.Y /= FrameOutput.AspectRatio;
+				sample.X /= aspectRatio;
+				sample.Y /= aspectRatio;
 			}
 			else
 			{

@@ -123,6 +123,8 @@
     <Compile Include="GUI\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Output\DisplayProfile.cs" />
+    <Compile Include="Output\DisplayProfileOscL212.cs" />
     <Compile Include="Output\FrameOutput.cs" />
     <Compile Include="GUI\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

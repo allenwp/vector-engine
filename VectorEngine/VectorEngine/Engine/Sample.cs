@@ -38,7 +38,7 @@ namespace VectorEngine.Engine
             get
             {
                 Sample blank = new Sample(-1f, -1f, 0);
-                blank.X *= FrameOutput.AspectRatio;
+                blank.X *= FrameOutput.DisplayProfile.AspectRatio;
                 return blank;
             }
         }

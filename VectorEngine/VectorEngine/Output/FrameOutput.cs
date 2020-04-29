@@ -15,30 +15,12 @@ namespace VectorEngine.Output
         public static readonly float TARGET_FRAMES_PER_SECOND = 80f;
         public static readonly int TARGET_BUFFER_SIZE = (int)Math.Round(SAMPLES_PER_SECOND / TARGET_FRAMES_PER_SECOND);
 
-        public static float AspectRatio = 4f / 3.5f;
+        public static DisplayProfile DisplayProfile = new DisplayProfileOscL212();
 
         /// <summary>
-        /// Number of samples for each blank at a distance of 1 unit between samples
+        /// My PreSonus DAC has a delay on the channel I use for blanking -_-
         /// </summary>
-        private static float blankingLength = 14f;
-        public  static int BlankingLength(Sample sample1, Sample sample2)
-        {
-            // Clamp these because that's what's going to happen at output time anyway
-            sample1.Clamp();
-            sample2.Clamp();
-            var distance = SampleUtil.DistanceBetweenSamples(sample1, sample2);
-            if (distance < 0.01f)
-            {
-                // they're so close together, no blanking is needed.
-                return 0;
-            }
-            else
-            {
-                return (int)Math.Ceiling(blankingLength * distance);
-            }
-        }
-
-        public static readonly int BLANKING_CHANNEL_DELAY = 17; // My PreSonus DAC has a delay on the channel I use for blanking -_-
+        public static readonly int BLANKING_CHANNEL_DELAY = 17;
 
         #region Double Buffers
         public static Sample[] Buffer1;
@@ -84,13 +66,15 @@ namespace VectorEngine.Output
 
             int bufferIndex = 0;
 
-            bufferIndex = CalibrationDrawPoint(-AspectRatio, -1, buffer, brightestSampleCount, bufferIndex);
-            bufferIndex = CalibrationDrawPoint(-AspectRatio, 0, buffer, brightestSampleCount, bufferIndex);
-            bufferIndex = CalibrationDrawPoint(-AspectRatio, 1, buffer, brightestSampleCount, bufferIndex);
+            float aspectRatio = DisplayProfile.AspectRatio;
+
+            bufferIndex = CalibrationDrawPoint(-aspectRatio, -1, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(-aspectRatio, 0, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(-aspectRatio, 1, buffer, brightestSampleCount, bufferIndex);
             bufferIndex = CalibrationDrawPoint(0, 1, buffer, brightestSampleCount, bufferIndex);
-            bufferIndex = CalibrationDrawPoint(AspectRatio, 1, buffer, brightestSampleCount, bufferIndex);
-            bufferIndex = CalibrationDrawPoint(AspectRatio, 0, buffer, brightestSampleCount, bufferIndex);
-            bufferIndex = CalibrationDrawPoint(AspectRatio, -1, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(aspectRatio, 1, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(aspectRatio, 0, buffer, brightestSampleCount, bufferIndex);
+            bufferIndex = CalibrationDrawPoint(aspectRatio, -1, buffer, brightestSampleCount, bufferIndex);
             bufferIndex = CalibrationDrawPoint(0, -1, buffer, brightestSampleCount, bufferIndex);
 
             return buffer;
