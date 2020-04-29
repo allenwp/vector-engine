@@ -27,7 +27,7 @@ namespace VectorEngine.Output
             sample1.Clamp();
             sample2.Clamp();
             var distance = SampleUtil.DistanceBetweenSamples(sample1, sample2);
-            if (distance < 0.05f)
+            if (distance < 0.01f)
             {
                 // they're so close together, no blanking is needed.
                 return 0;
