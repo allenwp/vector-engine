@@ -62,7 +62,15 @@ namespace VectorEngine.DemoGame
             for (int i = 0; i < count; i++)
             {
                 var entity = new Entity("TransformTest" + i);
+                if(i == 1)
+                {
+                    entity.Enabled = false;
+                }
                 var trans = entity.AddComponent<Transform>();
+                if (i == 2)
+                {
+                    trans.Enabled = false;
+                }
                 trans.Parent = parent;
                 trans.LocalPosition = new Vector3(0, 0, i * -20f);
                 if (trans.Parent == null || trans.Parent.Parent == null || trans.Parent.Parent.Parent == null)
