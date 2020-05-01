@@ -30,21 +30,21 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.systemsGroupBox = new System.Windows.Forms.GroupBox();
+            this.systemsTextBox = new System.Windows.Forms.TextBox();
             this.sceneGraphGroupBox = new System.Windows.Forms.GroupBox();
+            this.sceneGraphTreeView = new System.Windows.Forms.TreeView();
             this.entitiesGroupBox = new System.Windows.Forms.GroupBox();
+            this.entitesTreeView = new System.Windows.Forms.TreeView();
             this.componentGroupBox = new System.Windows.Forms.GroupBox();
             this.midiKnobGroupBox = new System.Windows.Forms.GroupBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.treeView1 = new System.Windows.Forms.TreeView();
-            this.systemsTextBox = new System.Windows.Forms.TextBox();
-            this.treeView2 = new System.Windows.Forms.TreeView();
             this.tableLayoutPanel1.SuspendLayout();
             this.systemsGroupBox.SuspendLayout();
             this.sceneGraphGroupBox.SuspendLayout();
@@ -84,9 +84,20 @@
             this.systemsGroupBox.TabStop = false;
             this.systemsGroupBox.Text = "Systems Order";
             // 
+            // systemsTextBox
+            // 
+            this.systemsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.systemsTextBox.Location = new System.Drawing.Point(3, 18);
+            this.systemsTextBox.Multiline = true;
+            this.systemsTextBox.Name = "systemsTextBox";
+            this.systemsTextBox.ReadOnly = true;
+            this.systemsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.systemsTextBox.Size = new System.Drawing.Size(290, 111);
+            this.systemsTextBox.TabIndex = 0;
+            // 
             // sceneGraphGroupBox
             // 
-            this.sceneGraphGroupBox.Controls.Add(this.treeView1);
+            this.sceneGraphGroupBox.Controls.Add(this.sceneGraphTreeView);
             this.sceneGraphGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sceneGraphGroupBox.Location = new System.Drawing.Point(3, 141);
             this.sceneGraphGroupBox.Name = "sceneGraphGroupBox";
@@ -96,9 +107,17 @@
             this.sceneGraphGroupBox.TabStop = false;
             this.sceneGraphGroupBox.Text = "Scene Graph";
             // 
+            // sceneGraphTreeView
+            // 
+            this.sceneGraphTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sceneGraphTreeView.Location = new System.Drawing.Point(3, 18);
+            this.sceneGraphTreeView.Name = "sceneGraphTreeView";
+            this.sceneGraphTreeView.Size = new System.Drawing.Size(290, 331);
+            this.sceneGraphTreeView.TabIndex = 0;
+            // 
             // entitiesGroupBox
             // 
-            this.entitiesGroupBox.Controls.Add(this.treeView2);
+            this.entitiesGroupBox.Controls.Add(this.entitesTreeView);
             this.entitiesGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.entitiesGroupBox.Location = new System.Drawing.Point(305, 3);
             this.entitiesGroupBox.Name = "entitiesGroupBox";
@@ -107,6 +126,14 @@
             this.entitiesGroupBox.TabIndex = 2;
             this.entitiesGroupBox.TabStop = false;
             this.entitiesGroupBox.Text = "Entities and Components";
+            // 
+            // entitesTreeView
+            // 
+            this.entitesTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.entitesTreeView.Location = new System.Drawing.Point(3, 18);
+            this.entitesTreeView.Name = "entitesTreeView";
+            this.entitesTreeView.Size = new System.Drawing.Size(290, 469);
+            this.entitesTreeView.TabIndex = 0;
             // 
             // componentGroupBox
             // 
@@ -136,6 +163,27 @@
             this.midiKnobGroupBox.TabIndex = 4;
             this.midiKnobGroupBox.TabStop = false;
             this.midiKnobGroupBox.Text = "MIDI Knobs";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(222, 59);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(66, 22);
+            this.textBox4.TabIndex = 7;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(150, 59);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(66, 22);
+            this.textBox3.TabIndex = 6;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(78, 59);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(66, 22);
+            this.textBox2.TabIndex = 5;
             // 
             // textBox1
             // 
@@ -181,54 +229,6 @@
             this.button1.Text = "2";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(78, 59);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(66, 22);
-            this.textBox2.TabIndex = 5;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(150, 59);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(66, 22);
-            this.textBox3.TabIndex = 6;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(222, 59);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(66, 22);
-            this.textBox4.TabIndex = 7;
-            // 
-            // treeView1
-            // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(3, 18);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(290, 331);
-            this.treeView1.TabIndex = 0;
-            // 
-            // systemsTextBox
-            // 
-            this.systemsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.systemsTextBox.Location = new System.Drawing.Point(3, 18);
-            this.systemsTextBox.Multiline = true;
-            this.systemsTextBox.Name = "systemsTextBox";
-            this.systemsTextBox.ReadOnly = true;
-            this.systemsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.systemsTextBox.Size = new System.Drawing.Size(290, 111);
-            this.systemsTextBox.TabIndex = 0;
-            // 
-            // treeView2
-            // 
-            this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView2.Location = new System.Drawing.Point(3, 18);
-            this.treeView2.Name = "treeView2";
-            this.treeView2.Size = new System.Drawing.Size(290, 469);
-            this.treeView2.TabIndex = 0;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -264,9 +264,9 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView sceneGraphTreeView;
         private System.Windows.Forms.TextBox systemsTextBox;
-        private System.Windows.Forms.TreeView treeView2;
+        private System.Windows.Forms.TreeView entitesTreeView;
     }
 }
 

@@ -13,6 +13,22 @@ namespace VectorEngine.Engine
         public List<ECSSystem> Systems = new List<ECSSystem>();
         public List<Component> Components = new List<Component>();
 
+        public List<Entity> Entities
+        {
+            get
+            {
+                var result = new List<Entity>();
+                foreach (var component in Components)
+                {
+                    if(!result.Contains(component.Entity))
+                    {
+                        result.Add(component.Entity);
+                    }
+                }
+                return result;
+            }
+        }
+
         public void Init()
         {
             CreateSingletons();

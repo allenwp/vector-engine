@@ -43,7 +43,7 @@ namespace VectorEngine.DemoGame
                 var list = new List<WaveTile>(tileCount);
                 for (int tileIndex = 0; tileIndex < tileCount; tileIndex++)
                 {
-                    var entity = new Entity();
+                    var entity = new Entity("WaveTile");
                     var tile = entity.AddComponent<WaveTile>();
                     tile.DrawLength = 0.5f;
                     var transform = entity.AddComponent<Transform>();

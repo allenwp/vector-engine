@@ -8,9 +8,17 @@ namespace VectorEngine.Engine
 {
     public class Entity
     {
+        public string Name;
+
         public bool Enabled = true;
 
         public List<Component> Components = new List<Component>();
+
+        public Entity() : this("Entity") { }
+        public Entity(string name)
+        {
+            Name = name;
+        }
 
         public T AddComponent<T> () where T : Component, new()
         {

@@ -75,6 +75,7 @@
     <Compile Include="DemoGame\SceneBlogFidelity.cs" />
     <Compile Include="DemoGame\SceneBlankingTest.cs" />
     <Compile Include="DemoGame\SceneShapeTest.cs" />
+    <Compile Include="DemoGame\SceneEditorTest.cs" />
     <Compile Include="DemoGame\SceneSpaceRings.cs" />
     <Compile Include="DemoGame\SceneRotatingCubesAndGridPoints.cs" />
     <Compile Include="DemoGame\RotateSystem.cs" />

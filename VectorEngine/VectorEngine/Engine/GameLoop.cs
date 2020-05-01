@@ -242,7 +242,7 @@ namespace VectorEngine.Engine
         static void Init()
         {
             EntityAdmin.Instance.Init();
-            DemoGame.SceneRotatingCubesAndGridPoints.Init();
+            DemoGame.SceneEditorTest.Init();
         }
 
         static void RecordPerfTime(Stopwatch stopwatch, ref PerfTime perfTime)
