@@ -69,5 +69,33 @@ namespace VectorEngineGUI
         {
 
         }
+
+        private void sceneGraphTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            var relatedNode = FindEnityTreeNode(e.Node.Tag, entitesTreeView.Nodes);
+            entitesTreeView.SelectedNode = relatedNode;
+            //entitesTreeView.Focus(); This should work but it doesn't :/
+        }
+
+        private TreeNode FindEnityTreeNode(object tag, TreeNodeCollection nodes)
+        {
+            foreach (var node in nodes)
+            {
+                var treeNode = node as TreeNode;
+                if (treeNode.Tag == tag)
+                {
+                    return treeNode;
+                }
+                else
+                {
+                    var childResult = FindEnityTreeNode(tag, treeNode.Nodes);
+                    if (childResult != null)
+                    {
+                        return childResult;
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

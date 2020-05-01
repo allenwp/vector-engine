@@ -110,10 +110,12 @@
             // sceneGraphTreeView
             // 
             this.sceneGraphTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sceneGraphTreeView.HotTracking = true;
             this.sceneGraphTreeView.Location = new System.Drawing.Point(3, 18);
             this.sceneGraphTreeView.Name = "sceneGraphTreeView";
             this.sceneGraphTreeView.Size = new System.Drawing.Size(290, 331);
             this.sceneGraphTreeView.TabIndex = 0;
+            this.sceneGraphTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.sceneGraphTreeView_AfterSelect);
             // 
             // entitiesGroupBox
             // 
@@ -130,6 +132,7 @@
             // entitesTreeView
             // 
             this.entitesTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.entitesTreeView.HideSelection = false;
             this.entitesTreeView.Location = new System.Drawing.Point(3, 18);
             this.entitesTreeView.Name = "entitesTreeView";
             this.entitesTreeView.Size = new System.Drawing.Size(290, 469);
