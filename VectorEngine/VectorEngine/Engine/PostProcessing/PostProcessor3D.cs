@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VectorEngine.Engine.PostProcessing
+namespace VectorEngine.PostProcessing
 {
     public abstract class PostProcessor3D : Component
     {

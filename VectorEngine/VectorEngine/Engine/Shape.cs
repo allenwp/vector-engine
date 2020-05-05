@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VectorEngine.Output;
 
-namespace VectorEngine.Engine
+namespace VectorEngine
 {
     public abstract class Shape : Component
     {

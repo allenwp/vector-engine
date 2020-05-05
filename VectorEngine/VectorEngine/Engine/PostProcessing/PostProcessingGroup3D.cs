@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VectorEngine.Engine.PostProcessing
+namespace VectorEngine.PostProcessing
 {
     /// <summary>
     /// If applied to an Entity with a Shape, this post-processing will occur in LOCAL space

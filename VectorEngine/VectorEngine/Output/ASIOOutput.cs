@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using BlueWave.Interop.Asio;
 using Microsoft.Xna.Framework;
-using VectorEngine.Engine;
+using VectorEngine;
 
 namespace VectorEngine.Output
 {

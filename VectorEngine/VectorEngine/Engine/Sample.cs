@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VectorEngine.Output;
 
-namespace VectorEngine.Engine
+namespace VectorEngine
 {
     /// <summary>
     /// A single sample, in screen space, to be passed on to the vector display.

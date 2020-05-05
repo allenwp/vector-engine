@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using VectorEngine.Output;
 
-namespace VectorEngine.Engine
+namespace VectorEngine
 {
     struct PerfTime
     {

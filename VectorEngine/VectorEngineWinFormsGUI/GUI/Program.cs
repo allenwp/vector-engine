@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using VectorEngine.Engine;
+using VectorEngine;
 
 namespace VectorEngineGUI
 {

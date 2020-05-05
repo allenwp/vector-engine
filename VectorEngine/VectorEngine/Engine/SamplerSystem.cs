@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VectorEngine.Output;
 
-namespace VectorEngine.Engine
+namespace VectorEngine
 {
     public class SamplerSystem : ECSSystem
     {

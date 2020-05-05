@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VectorEngine.Engine.Util
+namespace VectorEngine.Util
 {
     public static class SampleUtil
     {

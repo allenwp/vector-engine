@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using VectorEngine.Engine;
+using VectorEngine;
 
 namespace VectorEngine.DemoGame
 {

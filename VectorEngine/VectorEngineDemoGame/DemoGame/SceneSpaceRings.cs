@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VectorEngine.DemoGame.Shapes;
-using VectorEngine.Engine;
+using VectorEngine;
 
 namespace VectorEngine.DemoGame
 {
@@ -42,7 +42,7 @@ namespace VectorEngine.DemoGame
             var camera = new Entity();
             camera.AddComponent<Transform>().LocalPosition = new Vector3(0,0,3f);
             camera.AddComponent<Camera>();
-            var ppGroup = camera.AddComponent<Engine.PostProcessing.PostProcessingGroup3D>();
+            var ppGroup = camera.AddComponent<VectorEngine.PostProcessing.PostProcessingGroup3D>();
             ppGroup.PostProcessors.Add(camera.AddComponent<PostProcessing.RadialPulsePostProcessor>());
             var follow = camera.AddComponent<Follow>();
             follow.EntityToFollow = player;

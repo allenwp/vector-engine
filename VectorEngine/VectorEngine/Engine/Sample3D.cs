@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VectorEngine.Engine
+namespace VectorEngine
 {
     public struct Sample3D
     {

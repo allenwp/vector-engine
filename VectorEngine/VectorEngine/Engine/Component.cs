@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VectorEngine.Engine
+namespace VectorEngine
 {
     /// <summary>
     /// Stores game state and has no behaviours.
