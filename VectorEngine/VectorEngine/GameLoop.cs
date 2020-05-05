@@ -6,25 +6,6 @@ using VectorEngine.Output;
 
 namespace VectorEngine
 {
-    struct PerfTime
-    {
-        public float best;
-        public float worst;
-        public int count;
-        public float cumulative;
-        public float average { get => cumulative / count; }
-
-        public static readonly PerfTime Initial = new PerfTime(float.MaxValue, float.MinValue, 0, 0);
-
-        public PerfTime(float best, float worst, int count, float cumulative)
-        {
-            this.best = best;
-            this.worst = worst;
-            this.count = count;
-            this.cumulative = cumulative;
-        }
-    }
-
     public class GameLoop
     {
         public static Action SceneInit;
@@ -64,7 +45,7 @@ namespace VectorEngine
                 FrameOutput.WriteState = (int)writeState;
 
                 swFrameSyncOverhead.Stop();
-                RecordPerfTime(swFrameSyncOverhead, ref syncOverheadTime);
+                PerfTime.RecordPerfTime(swFrameSyncOverhead, ref syncOverheadTime);
                 var swFrameTime = new Stopwatch();
                 swFrameTime.Start();
 
@@ -80,7 +61,7 @@ namespace VectorEngine
                 previousFinalSample = finalBuffer[finalBuffer.Length - 1];
 
                 swFrameTime.Stop();
-                RecordPerfTime(swFrameTime, ref frameTimePerf);
+                PerfTime.RecordPerfTime(swFrameTime, ref frameTimePerf);
                 swFrameSyncOverhead.Reset();
                 swFrameSyncOverhead.Start();
 
@@ -245,21 +226,6 @@ namespace VectorEngine
         {
             EntityAdmin.Instance.Init();
             SceneInit();
-        }
-
-        static void RecordPerfTime(Stopwatch stopwatch, ref PerfTime perfTime)
-        {
-            var time = stopwatch.ElapsedMilliseconds;
-            perfTime.cumulative += time;
-            perfTime.count++;
-            if (time > perfTime.worst)
-            {
-                perfTime.worst = time;
-            }
-            if (time < perfTime.best)
-            {
-                perfTime.best = time;
-            }
         }
     }
 }
