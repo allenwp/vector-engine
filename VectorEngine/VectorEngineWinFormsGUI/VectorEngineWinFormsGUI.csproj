@@ -97,10 +97,6 @@
     <None Include="GUI\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlueWave.Interop.Asio\Bluewave.Interop.Asio.vcxproj">
-      <Project>{6db00ba8-efde-4d3a-8983-f01857a36c1a}</Project>
-      <Name>BlueWave.Interop.Asio</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MonoGame.Framework\MonoGame.Framework.csproj">
       <Project>{a69321f8-f579-4ce9-b6be-ccd5ca04a9e7}</Project>
       <Name>MonoGame.Framework</Name>
