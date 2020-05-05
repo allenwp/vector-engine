@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngineWinFormsGUI", "VectorEngineWinFormsGUI\VectorEngineWinFormsGUI.csproj", "{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D91F5E44-7597-4F32-A9E4-7C930C711F17} = {D91F5E44-7597-4F32-A9E4-7C930C711F17}
-		{EDEE24DB-3608-4224-988C-10952996BEC0} = {EDEE24DB-3608-4224-988C-10952996BEC0}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlueWave.Interop.Asio", "BlueWave.Interop.Asio\Bluewave.Interop.Asio.vcxproj", "{6DB00BA8-EFDE-4D3A-8983-F01857A36C1A}"
