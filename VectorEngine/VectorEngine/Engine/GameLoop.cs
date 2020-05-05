@@ -27,6 +27,8 @@ namespace VectorEngine.Engine
 
     public class GameLoop
     {
+        public static Action SceneInit;
+
         static Sample previousFinalSample = Sample.Blank;
         public static void Loop()
         {
@@ -242,7 +244,7 @@ namespace VectorEngine.Engine
         static void Init()
         {
             EntityAdmin.Instance.Init();
-            DemoGame.SceneEditorTest.Init();
+            SceneInit();
         }
 
         static void RecordPerfTime(Stopwatch stopwatch, ref PerfTime perfTime)
