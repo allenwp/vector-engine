@@ -35,7 +35,6 @@ namespace VectorEngine.DemoGame
 
             var player = new Entity("Player");
             var trans = player.AddComponent<Transform>();
-            EntityAdmin.Instance.RootTransforms.Add(trans);
             trans.LocalScale = new Vector3(0.2f);
             player.AddComponent<GamepadBasicFPSMovement>();
             //player.AddComponent<PlayerShip>();
@@ -43,7 +42,6 @@ namespace VectorEngine.DemoGame
 
             var camera = new Entity("Camera");
             trans = camera.AddComponent<Transform>();
-            EntityAdmin.Instance.RootTransforms.Add(trans);
             trans.LocalPosition = new Vector3(0,0,3f);
             camera.AddComponent<Camera>();
             var ppGroup = camera.AddComponent<VectorEngine.PostProcessing.PostProcessingGroup3D>();
@@ -71,21 +69,17 @@ namespace VectorEngine.DemoGame
                     entity.Enabled = false;
                 }
                 var trans = entity.AddComponent<Transform>();
-                if(parent == null)
-                {
-                    EntityAdmin.Instance.RootTransforms.Add(trans);
-                }
                 if (i == 2)
                 {
                     trans.Enabled = false;
                 }
-                trans.Parent = parent;
+                Transform.AssignParent(trans, parent);
                 trans.LocalPosition = new Vector3(0, 0, i * -20f);
                 if (trans.Parent == null || trans.Parent.Parent == null || trans.Parent.Parent.Parent == null)
                 {
                     foreach (var child in CreateTransforms(trans))
                     {
-                        trans.Children.Add(child);
+                        Transform.AssignParent(child, trans);
                     }
                 }
                 result.Add(trans);

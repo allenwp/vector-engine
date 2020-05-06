@@ -8,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace VectorEngine
 {
-    public class Transform : Component
+    public partial class Transform : Component
     {
-        public Transform Parent = null;
+        public Transform Parent { get; private set; }
+
+        /// <summary>
+        /// Do not modify. Use Transform.AssignParent instead!
+        /// </summary>
         public ObservableCollection<Transform> Children { get; private set; }
 
         public Transform()

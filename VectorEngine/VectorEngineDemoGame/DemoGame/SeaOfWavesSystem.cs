@@ -47,7 +47,6 @@ namespace VectorEngine.DemoGame
                     var tile = entity.AddComponent<WaveTile>();
                     tile.DrawLength = 0.5f;
                     var transform = entity.AddComponent<Transform>();
-                    EntityAdmin.Instance.RootTransforms.Add(transform);
                     transform.LocalScale = new Vector3(5f, 1f, 1f);
                     transform.LocalPosition = new Vector3(tileIndex * transform.LocalScale.X - ((tileCount * transform.LocalScale.X) / 2f), 0, row * -3f);
                     list.Add(tile);

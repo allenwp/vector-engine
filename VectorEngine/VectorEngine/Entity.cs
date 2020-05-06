@@ -29,6 +29,12 @@ namespace VectorEngine
             newComponent.Entity = this;
             Components.Add(newComponent);
             EntityAdmin.Instance.Components.Add(newComponent);
+            // Transforms are a special case that are used in the editor, etc.
+            var transform = newComponent as Transform;
+            if (transform as Transform != null)
+            {
+                EntityAdmin.Instance.RootTransforms.Add(transform);
+            }
             return newComponent;
         }
 
