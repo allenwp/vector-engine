@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,6 +29,37 @@ namespace VectorEngineWPFGUI
             sceneGraphTreeView.DataContext = EntityAdmin.Instance.RootTransforms;
         }
 
+        private void SceneGraphTreeViewSelectionChanged(object sender, RoutedPropertyChangedEventArgs<Object> e)
+        {
+            var newTransform = e.NewValue as Transform;
+            if(newTransform != null)
+            {
+                var newEntity = newTransform.Entity;
+                var tvi = Util.Util.FindTviFromObjectRecursive(entitiesTreeView, newEntity);
+                if (tvi != null)
+                {
+                    tvi.IsExpanded = true;
+
+                    // It takes time to expand. And we can't get the TVI until it's finished expanding.
+                    // So wait a bit and do this on another thread.
+                    var sc = SynchronizationContext.Current;
+                    new Thread(new ThreadStart(() =>
+                    {
+                        Thread.Sleep(50);
+                        sc.Send(o =>
+                        {
+                            var transTvi = Util.Util.FindTviFromObjectRecursive(tvi, newTransform);
+                            if (transTvi != null)
+                            {
+                                transTvi.IsSelected = true;
+                                transTvi.BringIntoView();
+                            }
+                        }, null);
+                    })).Start();
+                }
+            }
+        }
+
         Transform draggedItem;
         TreeViewItem _target;
 
@@ -40,8 +72,7 @@ namespace VectorEngineWPFGUI
                     draggedItem = sceneGraphTreeView.SelectedItem as Transform;
                     if (draggedItem != null)
                     {
-                        DragDropEffects finalDropEffect = DragDrop.DoDragDrop(sceneGraphTreeView, sceneGraphTreeView.SelectedValue,
-                            DragDropEffects.Move);
+                        DragDropEffects finalDropEffect = DragDrop.DoDragDrop(sceneGraphTreeView, sceneGraphTreeView.SelectedValue, DragDropEffects.Move);
                         //Checking target is not null and item is dragging(moving)
                         if (finalDropEffect == DragDropEffects.Move)
                         {
@@ -101,13 +132,13 @@ namespace VectorEngineWPFGUI
                 {
                     _target = TargetItem;
                     e.Effects = DragDropEffects.Move;
-
                 }
             }
             catch (Exception)
             {
             }
         }
+
         private bool CheckDropTarget(Transform _sourceItem, TreeViewItem _targetItem)
         {
             // Can only drag onto other ones of the same type
