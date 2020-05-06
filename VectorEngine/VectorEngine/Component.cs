@@ -12,8 +12,15 @@ namespace VectorEngine
     /// </summary>
     public class Component
     {
+        public string Name { get { return GetType().Name; } }
+
         public bool Enabled = true;
         public bool IsActive { get { return Enabled && Entity.Enabled; } }
         public Entity Entity;
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

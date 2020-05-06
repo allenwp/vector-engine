@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,24 +11,10 @@ namespace VectorEngine
     {
         public static EntityAdmin Instance { get; } = new EntityAdmin();
 
-        public List<ECSSystem> Systems = new List<ECSSystem>();
+        public ObservableCollection<ECSSystem> Systems = new ObservableCollection<ECSSystem>();
         public List<Component> Components = new List<Component>();
 
-        public List<Entity> Entities
-        {
-            get
-            {
-                var result = new List<Entity>();
-                foreach (var component in Components)
-                {
-                    if(!result.Contains(component.Entity))
-                    {
-                        result.Add(component.Entity);
-                    }
-                }
-                return result;
-            }
-        }
+        public ObservableCollection<Entity> Entities = new ObservableCollection<Entity>();
 
         public void Init()
         {

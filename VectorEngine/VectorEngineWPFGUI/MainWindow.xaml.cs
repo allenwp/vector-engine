@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VectorEngine;
 
 namespace VectorEngineWPFGUI
 {
@@ -23,6 +24,8 @@ namespace VectorEngineWPFGUI
         public MainWindow()
         {
             InitializeComponent();
+            systemsListBox.ItemsSource = EntityAdmin.Instance.Systems;
+            entitiesTreeView.DataContext = EntityAdmin.Instance.Entities;
         }
     }
 }

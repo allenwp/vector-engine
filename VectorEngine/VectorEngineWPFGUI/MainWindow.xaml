@@ -4,9 +4,49 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VectorEngineWPFGUI"
+        xmlns:vectorEngine="clr-namespace:VectorEngine;assembly=VectorEngine"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1500">
     <Grid>
-        
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="0" Width="0"/>
+        <GroupBox x:Name="groupBox" Header="Systems Order">
+            <ListBox x:Name="systemsListBox" />
+        </GroupBox>
+        <GroupBox x:Name="groupBox1" Grid.Column="1" Header="Entities and Components" Grid.RowSpan="3">
+            <GroupBox.Resources>
+                <HierarchicalDataTemplate x:Key="ComponentTemplate" >
+                    <TextBlock Text="{Binding Path=Name}" />
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate x:Key="EntityTemplate"
+                    ItemsSource="{Binding Path=Components}" 
+                    ItemTemplate="{StaticResource ComponentTemplate}">
+                    <TextBlock Text="{Binding Path=Name}" />
+                </HierarchicalDataTemplate>
+            </GroupBox.Resources>
+            <TreeView x:Name="entitiesTreeView" ItemsSource="{Binding}" ItemTemplate="{StaticResource EntityTemplate}"/>
+        </GroupBox>
+        <GroupBox x:Name="groupBox2" Header="Scene Graph" Grid.Row="1" Grid.RowSpan="2">
+            <TreeView x:Name="sceneGraphTreeView"/>
+        </GroupBox>
+        <GroupBox x:Name="groupBox3" Grid.Column="2" Header="Selected Component" Grid.RowSpan="2">
+        </GroupBox>
+        <GroupBox x:Name="groupBox4" Grid.Column="2" Header="MIDI Knobs" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" >
+                <Button x:Name="button" Content="2"/>
+                <Button x:Name="button1" Content="4"/>
+                <Button x:Name="button2" Content="6"/>
+                <Button x:Name="button3" Content="8"/>
+            </StackPanel>
+        </GroupBox>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="23*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
     </Grid>
 </Window>
