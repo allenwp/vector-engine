@@ -8,8 +8,22 @@ namespace VectorEngine
 {
     public partial class Transform : Component
     {
-        public static void AssignParent(Transform child, Transform parent)
+        public static void AssignParent(Transform child, Transform parent, bool ignoreExceptions = false)
         {
+            var tempParent = parent;
+            while (tempParent != null)
+            {
+                if (tempParent == child)
+                {
+                    if (ignoreExceptions)
+                    {
+                        return;
+                    }
+                    throw new Exception("Can't assign child to parent because child is already a parent of child!");
+                }
+                tempParent = tempParent.Parent;
+            }
+
             if (child.Parent != null)
             {
                 child.Parent.Children.Remove(child);
