@@ -34,13 +34,17 @@ namespace VectorEngine.DemoGame
             // Order *kinda* matters here: it's the draw order for Shapes
 
             var player = new Entity("Player");
-            player.AddComponent<Transform>().LocalScale = new Vector3(0.2f);
+            var trans = player.AddComponent<Transform>();
+            EntityAdmin.Instance.RootTransforms.Add(trans);
+            trans.LocalScale = new Vector3(0.2f);
             player.AddComponent<GamepadBasicFPSMovement>();
             //player.AddComponent<PlayerShip>();
             //player.AddComponent<Propulsion>();
 
             var camera = new Entity("Camera");
-            camera.AddComponent<Transform>().LocalPosition = new Vector3(0,0,3f);
+            trans = camera.AddComponent<Transform>();
+            EntityAdmin.Instance.RootTransforms.Add(trans);
+            trans.LocalPosition = new Vector3(0,0,3f);
             camera.AddComponent<Camera>();
             var ppGroup = camera.AddComponent<VectorEngine.PostProcessing.PostProcessingGroup3D>();
             ppGroup.PostProcessors.Add(camera.AddComponent<PostProcessing.RadialPulsePostProcessor>());
@@ -67,6 +71,10 @@ namespace VectorEngine.DemoGame
                     entity.Enabled = false;
                 }
                 var trans = entity.AddComponent<Transform>();
+                if(parent == null)
+                {
+                    EntityAdmin.Instance.RootTransforms.Add(trans);
+                }
                 if (i == 2)
                 {
                     trans.Enabled = false;
@@ -75,7 +83,10 @@ namespace VectorEngine.DemoGame
                 trans.LocalPosition = new Vector3(0, 0, i * -20f);
                 if (trans.Parent == null || trans.Parent.Parent == null || trans.Parent.Parent.Parent == null)
                 {
-                    trans.Children = CreateTransforms(trans);
+                    foreach (var child in CreateTransforms(trans))
+                    {
+                        trans.Children.Add(child);
+                    }
                 }
                 result.Add(trans);
             }

@@ -26,6 +26,7 @@ namespace VectorEngineWPFGUI
             InitializeComponent();
             systemsListBox.ItemsSource = EntityAdmin.Instance.Systems;
             entitiesTreeView.DataContext = EntityAdmin.Instance.Entities;
+            sceneGraphTreeView.DataContext = EntityAdmin.Instance.RootTransforms;
         }
     }
 }

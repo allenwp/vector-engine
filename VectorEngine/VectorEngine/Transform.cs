@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,12 @@ namespace VectorEngine
     public class Transform : Component
     {
         public Transform Parent = null;
-        public List<Transform> Children = new List<Transform>();
+        public ObservableCollection<Transform> Children { get; private set; }
+
+        public Transform()
+        {
+            Children = new ObservableCollection<Transform>();
+        }
 
         // Should this be in a System rather than in a Component(?) I think it belongs here...
         public Matrix WorldTransform

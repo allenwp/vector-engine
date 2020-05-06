@@ -26,7 +26,13 @@
             <TreeView x:Name="entitiesTreeView" ItemsSource="{Binding}" ItemTemplate="{StaticResource EntityTemplate}"/>
         </GroupBox>
         <GroupBox x:Name="groupBox2" Header="Scene Graph" Grid.Row="1" Grid.RowSpan="2">
-            <TreeView x:Name="sceneGraphTreeView"/>
+            <GroupBox.Resources>
+                <HierarchicalDataTemplate x:Key="TransformTemplate"
+                    ItemsSource="{Binding Path=Children}">
+                    <TextBlock Text="{Binding Path=EntityName}" />
+                </HierarchicalDataTemplate>
+            </GroupBox.Resources>
+            <TreeView x:Name="sceneGraphTreeView" ItemsSource="{Binding}" ItemTemplate="{StaticResource TransformTemplate}"/>
         </GroupBox>
         <GroupBox x:Name="groupBox3" Grid.Column="2" Header="Selected Component" Grid.RowSpan="2">
         </GroupBox>

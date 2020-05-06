@@ -15,6 +15,7 @@ namespace VectorEngine
         public List<Component> Components = new List<Component>();
 
         public ObservableCollection<Entity> Entities = new ObservableCollection<Entity>();
+        public ObservableCollection<Transform> RootTransforms = new ObservableCollection<Transform>();
 
         public void Init()
         {

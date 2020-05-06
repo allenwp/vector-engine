@@ -14,6 +14,11 @@ namespace VectorEngine
     {
         public string Name { get { return GetType().Name; } }
 
+        /// <summary>
+        /// Used for the WPF editor because I don't know how to do stuff yet.
+        /// </summary>
+        public string EntityName { get => Entity.Name; }
+
         public bool Enabled = true;
         public bool IsActive { get { return Enabled && Entity.Enabled; } }
         public Entity Entity;
