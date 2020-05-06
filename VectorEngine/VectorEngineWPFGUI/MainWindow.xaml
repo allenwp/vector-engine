@@ -35,9 +35,9 @@
             <TreeView x:Name="sceneGraphTreeView" ItemsSource="{Binding}" ItemTemplate="{StaticResource TransformTemplate}" AllowDrop="True" SelectedItemChanged="SceneGraphTreeViewSelectionChanged">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
-                        <EventSetter Event="TreeViewItem.DragOver"  Handler="treeView_DragOver"/>
-                        <EventSetter Event="TreeViewItem.Drop" Handler="treeView_Drop"/>
-                        <EventSetter Event="TreeViewItem.MouseMove" Handler="treeView_MouseMove"/>
+                        <EventSetter Event="TreeViewItem.DragOver"  Handler="SceneGraphTreeView_DragOver"/>
+                        <EventSetter Event="TreeViewItem.Drop" Handler="SceneGraphTreeView_Drop"/>
+                        <EventSetter Event="TreeViewItem.MouseMove" Handler="SceneGraphTreeView_MouseMove"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>

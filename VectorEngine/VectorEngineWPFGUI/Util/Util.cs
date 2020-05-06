@@ -36,5 +36,15 @@ namespace VectorEngineWPFGUI.Util
             }
             return null;
         }
+
+        public static void SelectObjectInTreeView(ItemsControl ic, object obj)
+        {
+            var transTvi = FindTviFromObjectRecursive(ic, obj);
+            if (transTvi != null)
+            {
+                transTvi.IsSelected = true;
+                transTvi.BringIntoView();
+            }
+        }
     }
 }

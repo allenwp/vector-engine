@@ -29,6 +29,11 @@ namespace VectorEngineWPFGUI
             sceneGraphTreeView.DataContext = EntityAdmin.Instance.RootTransforms;
         }
 
+        #region Scene Graph Tree View
+
+        Transform draggedItem;
+        TreeViewItem _target;
+
         private void SceneGraphTreeViewSelectionChanged(object sender, RoutedPropertyChangedEventArgs<Object> e)
         {
             var newTransform = e.NewValue as Transform;
@@ -48,22 +53,14 @@ namespace VectorEngineWPFGUI
                         Thread.Sleep(50);
                         sc.Send(o =>
                         {
-                            var transTvi = Util.Util.FindTviFromObjectRecursive(tvi, newTransform);
-                            if (transTvi != null)
-                            {
-                                transTvi.IsSelected = true;
-                                transTvi.BringIntoView();
-                            }
+                            Util.Util.SelectObjectInTreeView(tvi, newTransform);
                         }, null);
                     })).Start();
                 }
             }
         }
 
-        Transform draggedItem;
-        TreeViewItem _target;
-
-        private void treeView_MouseMove(object sender, MouseEventArgs e)
+        private void SceneGraphTreeView_MouseMove(object sender, MouseEventArgs e)
         {
             try
             {
@@ -81,14 +78,34 @@ namespace VectorEngineWPFGUI
                                 // A Move drop was accepted
                                 var parent = _target.Header as Transform;
                                 Transform.AssignParent(draggedItem, parent, true);
-                                _target = null;
-                                draggedItem = null;
+
+                                var tvi = Util.Util.FindTviFromObjectRecursive(sceneGraphTreeView, parent);
+                                if (tvi != null)
+                                {
+                                    tvi.IsExpanded = true;
+
+                                    // It takes time to expand. And we can't get the TVI until it's finished expanding.
+                                    // So wait a bit and do this on another thread.
+                                    var sc = SynchronizationContext.Current;
+                                    var transformToSelect = draggedItem;
+                                    new Thread(new ThreadStart(() =>
+                                    {
+                                        Thread.Sleep(50);
+                                        sc.Send(o =>
+                                        {
+                                            Util.Util.SelectObjectInTreeView(sceneGraphTreeView, transformToSelect);
+                                        }, null);
+                                    })).Start();
+                                }
                             }
                             else
                             {
                                 Transform.AssignParent(draggedItem, null, true);
-                                draggedItem = null;
+                                Util.Util.SelectObjectInTreeView(sceneGraphTreeView, draggedItem);
                             }
+
+                            _target = null;
+                            draggedItem = null;
                         }
                     }
                 }
@@ -98,13 +115,13 @@ namespace VectorEngineWPFGUI
             }
         }
 
-        private void treeView_DragOver(object sender, DragEventArgs e)
+        private void SceneGraphTreeView_DragOver(object sender, DragEventArgs e)
         {
             try
             {
                 // Verify that this is a valid drop and then store the drop target
-                TreeViewItem item = GetNearestContainer(e.OriginalSource as UIElement);
-                if (CheckDropTarget(draggedItem, item))
+                TreeViewItem item = SceneGraphTreeView_GetNearestContainer(e.OriginalSource as UIElement);
+                if (SceneGraphTreeView_CheckDropTarget(draggedItem, item))
                 {
                     e.Effects = DragDropEffects.Move;
                 }
@@ -119,7 +136,7 @@ namespace VectorEngineWPFGUI
             }
         }
 
-        private void treeView_Drop(object sender, DragEventArgs e)
+        private void SceneGraphTreeView_Drop(object sender, DragEventArgs e)
         {
             try
             {
@@ -127,7 +144,7 @@ namespace VectorEngineWPFGUI
                 e.Handled = true;
 
                 // Verify that this is a valid drop and then store the drop target
-                TreeViewItem TargetItem = GetNearestContainer(e.OriginalSource as UIElement);
+                TreeViewItem TargetItem = SceneGraphTreeView_GetNearestContainer(e.OriginalSource as UIElement);
                 if (TargetItem != null && draggedItem != null)
                 {
                     _target = TargetItem;
@@ -139,13 +156,13 @@ namespace VectorEngineWPFGUI
             }
         }
 
-        private bool CheckDropTarget(Transform _sourceItem, TreeViewItem _targetItem)
+        private bool SceneGraphTreeView_CheckDropTarget(Transform _sourceItem, TreeViewItem _targetItem)
         {
             // Can only drag onto other ones of the same type
             return _targetItem.Header.GetType() == _sourceItem.GetType();
         }
 
-        private TreeViewItem GetNearestContainer(UIElement element)
+        private TreeViewItem SceneGraphTreeView_GetNearestContainer(UIElement element)
         {
             // Walk up the element tree to the nearest tree view item.
             TreeViewItem container = element as TreeViewItem;
@@ -156,5 +173,6 @@ namespace VectorEngineWPFGUI
             }
             return container;
         }
+        #endregion
     }
 }
