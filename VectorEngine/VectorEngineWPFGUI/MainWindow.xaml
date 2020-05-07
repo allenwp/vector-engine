@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VectorEngineWPFGUI"
         xmlns:vectorEngine="clr-namespace:VectorEngine;assembly=VectorEngine"
+        xmlns:wpg="clr-namespace:System.Windows.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1500">
     <Grid>
@@ -23,7 +24,7 @@
                     <TextBlock Text="{Binding Path=Name}" />
                 </HierarchicalDataTemplate>
             </GroupBox.Resources>
-            <TreeView x:Name="entitiesTreeView" ItemsSource="{Binding}" ItemTemplate="{StaticResource EntityTemplate}"/>
+            <TreeView x:Name="entitiesTreeView" ItemsSource="{Binding}" ItemTemplate="{StaticResource EntityTemplate}" SelectedItemChanged="EntityTreeViewSelectionChanged" />
         </GroupBox>
         <GroupBox x:Name="groupBox2" Header="Scene Graph" Grid.Row="1" Grid.RowSpan="2">
             <GroupBox.Resources>
@@ -43,6 +44,10 @@
             </TreeView>
         </GroupBox>
         <GroupBox x:Name="groupBox3" Grid.Column="2" Header="Selected Component" Grid.RowSpan="2">
+            <wpg:WpfPropertyGrid x:Name="selectedComponentPropertyGrid"
+            HelpVisible="True" 
+            ToolbarVisible="True"
+            PropertySort="NoSort" />
         </GroupBox>
         <GroupBox x:Name="groupBox4" Grid.Column="2" Header="MIDI Knobs" Grid.Row="2">
             <StackPanel Orientation="Horizontal" >

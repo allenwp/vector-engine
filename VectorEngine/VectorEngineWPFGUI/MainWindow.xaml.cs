@@ -29,6 +29,11 @@ namespace VectorEngineWPFGUI
             sceneGraphTreeView.DataContext = EntityAdmin.Instance.RootTransforms;
         }
 
+        private void EntityTreeViewSelectionChanged(object sender, RoutedPropertyChangedEventArgs<Object> e)
+        {
+            selectedComponentPropertyGrid.SelectedObject = e.NewValue;
+        }
+
         #region Scene Graph Tree View
 
         Transform draggedItem;

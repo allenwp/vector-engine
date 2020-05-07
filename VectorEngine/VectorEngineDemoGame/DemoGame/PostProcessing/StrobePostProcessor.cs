@@ -12,8 +12,8 @@ namespace VectorEngine.DemoGame.PostProcessing
     {
         public override PostProcess3DDelegate PostProcess3DFuntion { get => StrobePostProcessorSystem.PostProcess; }
 
-        public float AnimationValue = 0;
-        public float AnimationSpeed = 1f;
-        public float Scale = 25f;
+        public float AnimationValue { get; set; } = 0;
+        public float AnimationSpeed { get; set; } = 1f;
+        public float Scale { get; set; } = 25f;
     }
 }
