@@ -33,27 +33,27 @@ namespace VectorEngine.DemoGame
             // Create scene objects
             // Order *kinda* matters here: it's the draw order for Shapes
 
-            var player = new Entity("Player");
-            var trans = player.AddComponent<Transform>();
+            var player = Entity.Create("Player");
+            var trans = Entity.AddComponent<Transform>(player);
             trans.LocalScale = new Vector3(0.2f);
-            player.AddComponent<GamepadBasicFPSMovement>();
+            Entity.AddComponent<GamepadBasicFPSMovement>(player);
             //player.AddComponent<PlayerShip>();
             //player.AddComponent<Propulsion>();
 
-            var camera = new Entity("Camera");
-            trans = camera.AddComponent<Transform>();
+            var camera = Entity.Create("Camera");
+            trans = Entity.AddComponent<Transform>(camera);
             trans.LocalPosition = new Vector3(0,0,3f);
-            camera.AddComponent<Camera>();
-            var ppGroup = camera.AddComponent<VectorEngine.PostProcessing.PostProcessingGroup3D>();
-            ppGroup.PostProcessors.Add(camera.AddComponent<PostProcessing.RadialPulsePostProcessor>());
-            var follow = camera.AddComponent<Follow>();
+            Entity.AddComponent<Camera>(camera);
+            var ppGroup = Entity.AddComponent<VectorEngine.PostProcessing.PostProcessingGroup3D>(camera);
+            ppGroup.PostProcessors.Add(Entity.AddComponent<PostProcessing.RadialPulsePostProcessor>(camera));
+            var follow = Entity.AddComponent<Follow>(camera);
             follow.EntityToFollow = player;
             follow.FollowDistance = 4f;
 
             var transforms = CreateTransforms(null);
 
-            var seaEntity = new Entity("Sea");
-            var sea = seaEntity.AddComponent<SeaOfWaves>();
+            var seaEntity = Entity.Create("Sea");
+            var sea = Entity.AddComponent<SeaOfWaves>(seaEntity);
             sea.Waves = SeaOfWavesSystem.CreateSea();
         }
 
@@ -63,12 +63,12 @@ namespace VectorEngine.DemoGame
             var result = new List<Transform>(count);
             for (int i = 0; i < count; i++)
             {
-                var entity = new Entity("TransformTest" + i);
+                var entity = Entity.Create("TransformTest" + i);
                 if(i == 1)
                 {
                     entity.Enabled = false;
                 }
-                var trans = entity.AddComponent<Transform>();
+                var trans = Entity.AddComponent<Transform>(entity);
                 if (i == 2)
                 {
                     trans.Enabled = false;

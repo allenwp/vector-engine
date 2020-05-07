@@ -221,10 +221,10 @@ namespace VectorEngine
         #endregion
 
         #region Singleton Components (System States)
-        public static T CreateSingleton<T>() where T : Component, new()
+        public static T CreateSingleton<T>(string name) where T : Component, new()
         {
-            var entity = new Entity();
-            return entity.AddComponent<T>();
+            var entity = Entity.Create(name);
+            return Entity.AddComponent<T>(entity);
         }
 
         public SamplerSingleton SingletonSampler { get; private set; }
@@ -232,8 +232,8 @@ namespace VectorEngine
 
         private void CreateSingletons()
         {
-            SingletonSampler = CreateSingleton<SamplerSingleton>();
-            SingletonGamepad = CreateSingleton<GamepadSingleton>();
+            SingletonSampler = CreateSingleton<SamplerSingleton>("Sampler Singleton");
+            SingletonGamepad = CreateSingleton<GamepadSingleton>("Gamepad Singleton");
         }
         #endregion
     }

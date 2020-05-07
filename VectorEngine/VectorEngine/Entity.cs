@@ -7,35 +7,21 @@ using System.Threading.Tasks;
 
 namespace VectorEngine
 {
-    public class Entity
+    public partial class Entity
     {
         public string Name { get; set; }
 
-        public bool Enabled = true;
+        public bool Enabled { get; set; } = true;
 
+        /// <summary>
+        /// Don't modify this directly, use Entity static util methods instead.
+        /// </summary>
         public ObservableCollection<Component> Components { get; private set; }
 
-        public Entity() : this("Entity") { }
-        public Entity(string name)
+        private Entity(string name)
         {
             Name = name;
             Components = new ObservableCollection<Component>();
-            EntityAdmin.Instance.Entities.Add(this);
-        }
-
-        public T AddComponent<T> () where T : Component, new()
-        {
-            var newComponent = new T();
-            newComponent.Entity = this;
-            Components.Add(newComponent);
-            EntityAdmin.Instance.Components.Add(newComponent);
-            // Transforms are a special case that are used in the editor, etc.
-            var transform = newComponent as Transform;
-            if (transform as Transform != null)
-            {
-                EntityAdmin.Instance.RootTransforms.Add(transform);
-            }
-            return newComponent;
         }
 
         public T GetComponent<T> (bool includeInactive = false) where T : Component

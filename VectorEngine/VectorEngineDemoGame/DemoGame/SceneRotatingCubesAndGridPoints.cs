@@ -28,10 +28,10 @@ namespace VectorEngine.DemoGame
             // Create scene objects
             // Order *kinda* matters here: it's the draw order for Shapes
 
-            var camera = new Entity();
-            var camTransform = camera.AddComponent<Transform>();
-            camera.AddComponent<Camera>();
-            camera.AddComponent<GamepadBasicFPSMovement>();
+            var camera = Entity.Create("Camera");
+            var camTransform = Entity.AddComponent<Transform>(camera);
+            Entity.AddComponent<Camera>(camera);
+            Entity.AddComponent<GamepadBasicFPSMovement>(camera);
             camTransform.LocalPosition = new Vector3(2f, 0.5f, 8f);
 
             var cube1 = CreateCube();
@@ -52,21 +52,21 @@ namespace VectorEngine.DemoGame
 
         public static Entity CreateCube()
         {
-            var entity = new Entity();
-            entity.AddComponent<Transform>();
-            entity.AddComponent<Cube>();
+            var entity = Entity.Create("Cube");
+            Entity.AddComponent<Transform>(entity);
+            Entity.AddComponent<Cube>(entity);
             //RandomlyConfigureRotate(entity.AddComponent<Rotate>());
-            var pp = entity.AddComponent<PostProcessingGroup3D>();
-            pp.PostProcessors.Add(entity.AddComponent<PostProcessing.StrobePostProcessor>());
+            var pp = Entity.AddComponent<PostProcessingGroup3D>(entity);
+            pp.PostProcessors.Add(Entity.AddComponent<PostProcessing.StrobePostProcessor>(entity));
             return entity;
         }
 
         public static Entity CreateGridPoint(Vector3 pos)
         {
-            var entity = new Entity();
-            var trans = entity.AddComponent<Transform>();
-            entity.AddComponent<GridPoint>();
-            RandomlyConfigureRotate(entity.AddComponent<Rotate>());
+            var entity = Entity.Create("Grid Point");
+            var trans = Entity.AddComponent<Transform>(entity);
+            Entity.AddComponent<GridPoint>(entity);
+            RandomlyConfigureRotate(Entity.AddComponent<Rotate>(entity));
             trans.LocalPosition = pos;
             return entity;
         }

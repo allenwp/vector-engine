@@ -28,18 +28,18 @@ namespace VectorEngine.DemoGame
             // Create scene objects
             // Order *kinda* matters here: it's the draw order for Shapes
 
-            var camera = new Entity();
-            camera.AddComponent<Transform>().LocalPosition = new Vector3(0,0,2f);
-            camera.AddComponent<Camera>();
-            camera.AddComponent<GamepadBasicFPSMovement>();
+            var camera = Entity.Create("Camera");
+            Entity.AddComponent<Transform>(camera).LocalPosition = new Vector3(0,0,2f);
+            Entity.AddComponent<Camera>(camera);
+            Entity.AddComponent<GamepadBasicFPSMovement>(camera);
 
-            //var wiggleCircle = new Entity();
+            //var wiggleCircle = Entity.Create("wiggleCircle");
             //wiggleCircle.AddComponent<Transform>();
             //var rotate = wiggleCircle.AddComponent<Rotate>();
             //rotate.Axis = Rotate.AxisEnum.z;
             //wiggleCircle.AddComponent<WigglyCircle>();
 
-            //var wiggleCircle2 = new Entity();
+            //var wiggleCircle2 = Entity.Create("wiggleCircle2");
             //var transform = wiggleCircle2.AddComponent<Transform>();
             //transform.LocalScale = new Vector3(0.9f);
             //rotate = wiggleCircle2.AddComponent<Rotate>();
@@ -61,9 +61,9 @@ namespace VectorEngine.DemoGame
 
         public static Entity CreateGridPoint(Vector3 pos)
         {
-            var entity = new Entity();
-            var trans = entity.AddComponent<Transform>();
-            entity.AddComponent<GridPoint>();
+            var entity = Entity.Create("");
+            var trans = Entity.AddComponent<Transform>(entity);
+            Entity.AddComponent<GridPoint>(entity);
             trans.LocalPosition = pos;
             return entity;
         }

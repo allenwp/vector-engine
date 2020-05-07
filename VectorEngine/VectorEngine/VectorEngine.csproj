@@ -65,6 +65,7 @@
     <Compile Include="Shape.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="Tween.cs" />
+    <Compile Include="Util\EntityUtil.cs" />
     <Compile Include="Util\TransformUtil.cs" />
     <Compile Include="Util\SampleUtil.cs" />
     <Compile Include="Output\ASIOOutput.cs" />

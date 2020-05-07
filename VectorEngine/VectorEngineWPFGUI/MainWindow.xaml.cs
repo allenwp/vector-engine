@@ -33,6 +33,11 @@ namespace VectorEngineWPFGUI
         {
             selectedComponentPropertyGrid.SelectedObject = e.NewValue;
         }
+        private void CreateEntity_Click(object sender, RoutedEventArgs e)
+        {
+            var entity = Entity.Create("New Entity");
+            Util.Util.SelectObjectInTreeView(entitiesTreeView, entity);
+        }
 
         #region Scene Graph Tree View
 
@@ -179,5 +184,6 @@ namespace VectorEngineWPFGUI
             return container;
         }
         #endregion
+
     }
 }
