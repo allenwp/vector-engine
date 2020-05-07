@@ -28,10 +28,10 @@ namespace VectorEngine.DemoGame
             // Create scene objects
             // Order *kinda* matters here: it's the draw order for Shapes
 
-            var camera = Entity.Create("Camera");
-            var camTransform = Entity.AddComponent<Transform>(camera);
-            Entity.AddComponent<Camera>(camera);
-            Entity.AddComponent<GamepadBasicFPSMovement>(camera);
+            var camera = EntityAdmin.Instance.CreateEntity("Camera");
+            var camTransform = EntityAdmin.Instance.AddComponent<Transform>(camera);
+            EntityAdmin.Instance.AddComponent<Camera>(camera);
+            EntityAdmin.Instance.AddComponent<GamepadBasicFPSMovement>(camera);
             camTransform.LocalPosition = new Vector3(2f, 0.5f, 8f);
 
             var cube1 = CreateCube();
@@ -52,21 +52,21 @@ namespace VectorEngine.DemoGame
 
         public static Entity CreateCube()
         {
-            var entity = Entity.Create("Cube");
-            Entity.AddComponent<Transform>(entity);
-            Entity.AddComponent<Cube>(entity);
+            var entity = EntityAdmin.Instance.CreateEntity("Cube");
+            EntityAdmin.Instance.AddComponent<Transform>(entity);
+            EntityAdmin.Instance.AddComponent<Cube>(entity);
             //RandomlyConfigureRotate(entity.AddComponent<Rotate>());
-            var pp = Entity.AddComponent<PostProcessingGroup3D>(entity);
-            pp.PostProcessors.Add(Entity.AddComponent<PostProcessing.StrobePostProcessor>(entity));
+            var pp = EntityAdmin.Instance.AddComponent<PostProcessingGroup3D>(entity);
+            pp.PostProcessors.Add(EntityAdmin.Instance.AddComponent<PostProcessing.StrobePostProcessor>(entity));
             return entity;
         }
 
         public static Entity CreateGridPoint(Vector3 pos)
         {
-            var entity = Entity.Create("Grid Point");
-            var trans = Entity.AddComponent<Transform>(entity);
-            Entity.AddComponent<GridPoint>(entity);
-            RandomlyConfigureRotate(Entity.AddComponent<Rotate>(entity));
+            var entity = EntityAdmin.Instance.CreateEntity("Grid Point");
+            var trans = EntityAdmin.Instance.AddComponent<Transform>(entity);
+            EntityAdmin.Instance.AddComponent<GridPoint>(entity);
+            RandomlyConfigureRotate(EntityAdmin.Instance.AddComponent<Rotate>(entity));
             trans.LocalPosition = pos;
             return entity;
         }

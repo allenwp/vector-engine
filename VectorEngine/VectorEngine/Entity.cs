@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace VectorEngine
 {
-    public partial class Entity
+    public class Entity
     {
         public string Name { get; set; }
 
+        /// <summary>
+        /// TODO: check to see if there is a transform component and, if so, check parent entity. Maybe introduce the idea of "self enabled"
+        /// </summary>
         public bool Enabled { get; set; } = true;
 
         /// <summary>
@@ -18,7 +21,11 @@ namespace VectorEngine
         /// </summary>
         public ObservableCollection<Component> Components { get; private set; }
 
-        private Entity(string name)
+        /// <summary>
+        /// Do not use. Create through EntityAdmin instead!
+        /// </summary>
+        /// <param name="name"></param>
+        public Entity(string name)
         {
             Name = name;
             Components = new ObservableCollection<Component>();

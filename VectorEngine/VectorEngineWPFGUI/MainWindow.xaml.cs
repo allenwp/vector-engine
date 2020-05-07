@@ -35,8 +35,60 @@ namespace VectorEngineWPFGUI
         }
         private void CreateEntity_Click(object sender, RoutedEventArgs e)
         {
-            var entity = Entity.Create("New Entity");
+            var entity = EntityAdmin.Instance.CreateEntity("New Entity");
             Util.Util.SelectObjectInTreeView(entitiesTreeView, entity);
+        }
+        private void DestroyEntity_Click(object sender, RoutedEventArgs e)
+        {
+            var entity = entitiesTreeView.SelectedItem as Entity;
+            if (entity == null)
+            {
+                var component = entitiesTreeView.SelectedItem as Component;
+                if (component != null)
+                {
+                    entity = component.Entity;
+                }
+            }
+
+            if (entity != null)
+            {
+                EntityAdmin.Instance.DestroyEntity(entity);
+            }
+        }
+        private void AddComponent_Click(object sender, RoutedEventArgs e)
+        {
+            var entity = entitiesTreeView.SelectedItem as Entity;
+            if (entity == null)
+            {
+                var component = entitiesTreeView.SelectedItem as Component;
+                if (component != null)
+                {
+                    entity = component.Entity;
+                }
+            }
+
+            if(entity != null)
+            {
+                // Temporary test code to simply add a transform
+                if (entity.GetComponent<Transform>() != null)
+                {
+                    EntityAdmin.Instance.AddComponent<Transform>(entity);
+                }
+            }
+        }
+        private void RemoveComponent_Click(object sender, RoutedEventArgs e)
+        {
+            var component = entitiesTreeView.SelectedItem as Component;
+            if (component != null)
+            {
+                EntityAdmin.Instance.RemoveComponent(component);
+            }
+
+            var entity = entitiesTreeView.SelectedItem as Entity;
+            if (entity != null)
+            {
+                EntityAdmin.Instance.DestroyEntity(entity);
+            }
         }
 
         #region Scene Graph Tree View

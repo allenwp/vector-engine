@@ -22,6 +22,75 @@ namespace VectorEngine
             CreateSingletons();
         }
 
+        #region Creation and Destruction of Entities and Components
+        public Entity CreateEntity(string name)
+        {
+            var result = new Entity(name);
+            Entities.Add(result); // TODO: make a queue of entities to add, destory. and also a queue of components to add, destroy
+            return result;
+        }
+
+        public void DestroyEntity(Entity entity)
+        {
+            var transform = entity.GetComponent<Transform>();
+            if (transform != null)
+            {
+                foreach (var child in transform.Children)
+                {
+                    DestroyEntity(child.Entity);
+                }
+            }
+
+            var componentsToRemove = entity.Components.ToArray();
+            foreach (var component in componentsToRemove)
+            {
+                RemoveComponent(component);
+            }
+            Entities.Remove(entity); // TODO: make a queue of entities to add, destory. and also a queue of components to add, destroy
+        }
+
+        public T AddComponent<T>(Entity entity) where T : Component, new()
+        {
+            var newComponent = new T();
+            newComponent.Entity = entity;
+            entity.Components.Add(newComponent);
+            Components.Add(newComponent); // TODO: make a queue of entities to add, destory. and also a queue of components to add, destroy
+            // Transforms are a special case that are used in the editor, etc.
+            var transform = newComponent as Transform;
+            if (transform as Transform != null)
+            {
+                RootTransforms.Add(transform);
+            }
+            return newComponent;
+        }
+
+        public void RemoveComponent<T>(Entity entity) where T : Component, new()
+        {
+            RemoveComponent(entity.GetComponent<T>(true));
+        }
+
+        public void RemoveComponent(Component component)
+        {
+            var transform = component as Transform;
+            if (transform as Transform != null)
+            {
+                foreach (var child in transform.Children)
+                {
+                    Transform.AssignParent(child, null);
+                }
+                if (transform.Parent == null)
+                {
+                    RootTransforms.Remove(transform);
+                }
+            }
+
+            Components.Remove(component); // TODO: make a queue of entities to add, destory. and also a queue of components to add, destroy
+            // And do this stuff only after they've been removed:
+            component.Entity.Components.Remove(component);
+            component.Entity = null;
+        }
+        #endregion
+
         #region Tuples
         public IEnumerable<T1> GetComponents<T1>(bool includeInactive = false) where T1 : Component
         {
@@ -223,8 +292,8 @@ namespace VectorEngine
         #region Singleton Components (System States)
         public static T CreateSingleton<T>(string name) where T : Component, new()
         {
-            var entity = Entity.Create(name);
-            return Entity.AddComponent<T>(entity);
+            var entity = EntityAdmin.Instance.CreateEntity(name);
+            return EntityAdmin.Instance.AddComponent<T>(entity);
         }
 
         public SamplerSingleton SingletonSampler { get; private set; }

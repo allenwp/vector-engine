@@ -27,6 +27,7 @@
                 <TreeView x:Name="entitiesTreeView" ItemsSource="{Binding}" ItemTemplate="{StaticResource EntityTemplate}" SelectedItemChanged="EntityTreeViewSelectionChanged" />
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
                     <Button x:Name="createEntity" Content="New Entity" Click="CreateEntity_Click" />
+                    <Button x:Name="destroyEntity" Content="Destroy Entity" Click="DestroyEntity_Click" />
                 </StackPanel>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -55,11 +56,24 @@
             </TreeView>
         </GroupBox>
         <GroupBox x:Name="groupBox3" Grid.Column="2" Header="Selected Component" Grid.RowSpan="2">
-            <wpg:WpfPropertyGrid x:Name="selectedComponentPropertyGrid"
+            <Grid>
+                <wpg:WpfPropertyGrid x:Name="selectedComponentPropertyGrid"
             HelpVisible="True" 
             ToolbarVisible="True"
             PropertySort="Categorized" />
-        </GroupBox>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <Button x:Name="addComponent" Content="Add Component" Click="AddComponent_Click" />
+                <Button x:Name="removeComponent" Content="Remove Component" Click="RemoveComponent_Click" />
+            </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+        </Grid>
+    </GroupBox>
         <GroupBox x:Name="groupBox4" Grid.Column="2" Header="MIDI Knobs" Grid.Row="2">
             <StackPanel Orientation="Horizontal" >
                 <Button x:Name="button" Content="2"/>

@@ -43,10 +43,10 @@ namespace VectorEngine.DemoGame
                 var list = new List<WaveTile>(tileCount);
                 for (int tileIndex = 0; tileIndex < tileCount; tileIndex++)
                 {
-                    var entity = Entity.Create("WaveTile");
-                    var tile = Entity.AddComponent<WaveTile>(entity);
+                    var entity = EntityAdmin.Instance.CreateEntity("WaveTile");
+                    var tile = EntityAdmin.Instance.AddComponent<WaveTile>(entity);
                     tile.DrawLength = 0.5f;
-                    var transform = Entity.AddComponent<Transform>(entity);
+                    var transform = EntityAdmin.Instance.AddComponent<Transform>(entity);
                     transform.LocalScale = new Vector3(5f, 1f, 1f);
                     transform.LocalPosition = new Vector3(tileIndex * transform.LocalScale.X - ((tileCount * transform.LocalScale.X) / 2f), 0, row * -3f);
                     list.Add(tile);

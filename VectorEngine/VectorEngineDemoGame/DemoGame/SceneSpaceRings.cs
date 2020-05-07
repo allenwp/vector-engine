@@ -33,25 +33,25 @@ namespace VectorEngine.DemoGame
             // Create scene objects
             // Order *kinda* matters here: it's the draw order for Shapes
 
-            var player = Entity.Create("Player");
-            Entity.AddComponent<Transform>(player).LocalScale = new Vector3(0.2f);
-            Entity.AddComponent<GamepadBasicFPSMovement>(player);
+            var player = EntityAdmin.Instance.CreateEntity("Player");
+            EntityAdmin.Instance.AddComponent<Transform>(player).LocalScale = new Vector3(0.2f);
+            EntityAdmin.Instance.AddComponent<GamepadBasicFPSMovement>(player);
             //player.AddComponent<PlayerShip>();
             //player.AddComponent<Propulsion>();
 
-            var camera = Entity.Create("Camera");
-            Entity.AddComponent<Transform>(camera).LocalPosition = new Vector3(0,0,3f);
-            Entity.AddComponent<Camera>(camera);
-            var ppGroup = Entity.AddComponent<VectorEngine.PostProcessing.PostProcessingGroup3D>(camera);
-            ppGroup.PostProcessors.Add(Entity.AddComponent<PostProcessing.RadialPulsePostProcessor>(camera));
-            var follow = Entity.AddComponent<Follow>(camera);
+            var camera = EntityAdmin.Instance.CreateEntity("Camera");
+            EntityAdmin.Instance.AddComponent<Transform>(camera).LocalPosition = new Vector3(0,0,3f);
+            EntityAdmin.Instance.AddComponent<Camera>(camera);
+            var ppGroup = EntityAdmin.Instance.AddComponent<VectorEngine.PostProcessing.PostProcessingGroup3D>(camera);
+            ppGroup.PostProcessors.Add(EntityAdmin.Instance.AddComponent<PostProcessing.RadialPulsePostProcessor>(camera));
+            var follow = EntityAdmin.Instance.AddComponent<Follow>(camera);
             follow.EntityToFollow = player;
             follow.FollowDistance = 4f;
 
             //CreateRings();
 
-            var seaEntity = Entity.Create("Sea");
-            var sea = Entity.AddComponent<SeaOfWaves>(seaEntity);
+            var seaEntity = EntityAdmin.Instance.CreateEntity("Sea");
+            var sea = EntityAdmin.Instance.AddComponent<SeaOfWaves>(seaEntity);
             sea.Waves = SeaOfWavesSystem.CreateSea();
         }
 
@@ -59,9 +59,9 @@ namespace VectorEngine.DemoGame
         {
             for (int i = 0; i < 20; i++)
             {
-                var entity = Entity.Create("Ring");
-                Entity.AddComponent<Transform>(entity).LocalPosition = new Vector3(0, 0, i * -20f);
-                Entity.AddComponent<CurlyCircle>(entity);
+                var entity = EntityAdmin.Instance.CreateEntity("Ring");
+                EntityAdmin.Instance.AddComponent<Transform>(entity).LocalPosition = new Vector3(0, 0, i * -20f);
+                EntityAdmin.Instance.AddComponent<CurlyCircle>(entity);
             }
         }
     }
