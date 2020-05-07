@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -116,5 +117,35 @@ namespace VectorEngine
         public Quaternion LocalRotation = Quaternion.Identity;
         public Vector3 LocalPosition = Vector3.Zero;
         public Vector3 LocalScale = Vector3.One;
+
+        #region Temporary Editor Junk
+        private float yaw;
+        [Category("Editor Accessors")]
+        public float LocalYaw { get { return yaw; } set { yaw = value; UpdateLocalRotation(); } }
+        private float pitch;
+        [Category("Editor Accessors")]
+        public float LocalPitch { get { return pitch; } set { pitch = value; UpdateLocalRotation(); } }
+        private float roll;
+        [Category("Editor Accessors")]
+        public float LocalRoll { get { return roll; } set { roll = value; UpdateLocalRotation(); } }
+        private void UpdateLocalRotation()
+        {
+            LocalRotation = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
+        }
+
+        [Category("Editor Accessors")]
+        public float LocalPositionX { get => LocalPosition.X; set => LocalPosition.X = value; }
+        [Category("Editor Accessors")]
+        public float LocalPositionY { get => LocalPosition.Y; set => LocalPosition.Y = value; }
+        [Category("Editor Accessors")]
+        public float LocalPositionZ { get => LocalPosition.Z; set => LocalPosition.Z = value; }
+
+        [Category("Editor Accessors")]
+        public float LocalScaleX { get => LocalScale.X; set => LocalScale.X = value; }
+        [Category("Editor Accessors")]
+        public float LocalScaleY { get => LocalScale.Y; set => LocalScale.Y = value; }
+        [Category("Editor Accessors")]
+        public float LocalScaleZ { get => LocalScale.Z; set => LocalScale.Z = value; }
+        #endregion
     }
 }
