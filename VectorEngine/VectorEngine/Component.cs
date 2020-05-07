@@ -18,8 +18,8 @@ namespace VectorEngine
         /// </summary>
         public string EntityName { get => Entity.Name; }
 
-        public bool Enabled { get; set; } = true;
-        public bool IsActive { get { return Enabled && Entity.Enabled; } }
+        public bool SelfEnabled { get; set; } = true;
+        public bool IsActive { get { return SelfEnabled && Entity.IsActive; } }
 
         /// <summary>
         /// Don't modify this directly. It will be handled by the static Entity util methods

@@ -10,11 +10,30 @@ namespace VectorEngine
     public class Entity
     {
         public string Name { get; set; }
-
-        /// <summary>
-        /// TODO: check to see if there is a transform component and, if so, check parent entity. Maybe introduce the idea of "self enabled"
-        /// </summary>
-        public bool Enabled { get; set; } = true;
+        
+        public bool SelfEnabled { get; set; } = true;
+        public bool IsActive
+        {
+            get
+            {
+                if (!SelfEnabled)
+                {
+                    return false;
+                }
+                else
+                {
+                    var transform = GetComponent<Transform>(true);
+                    if (transform != null && transform.Parent != null)
+                    {
+                        return transform.Parent.Entity.IsActive;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Don't modify this directly, use Entity static util methods instead.

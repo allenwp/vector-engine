@@ -34,13 +34,13 @@ namespace VectorEngineGUI
                 {
                     componentsTreeNodes[i] = new TreeNode(components[i].GetType().Name);
                     componentsTreeNodes[i].Tag = components[i];
-                    if (!components[i].Enabled)
+                    if (!components[i].IsActive)
                     {
                         componentsTreeNodes[i].ForeColor = Color.Gray;
                     }
                 }
                 var entityTreeNode = new TreeNode(entity.Name, componentsTreeNodes) { Tag = entity };
-                if(!entity.Enabled)
+                if(!entity.IsActive)
                 {
                     entityTreeNode.ForeColor = Color.Gray;
                 }
@@ -69,7 +69,7 @@ namespace VectorEngineGUI
                 {
                     nodes[i] = new TreeNode(transform.Entity.Name) { Tag = transform };
                 }
-                if (!transform.Enabled || !transform.Entity.Enabled)
+                if (!transform.IsActive)
                 {
                     nodes[i].ForeColor = Color.Gray;
                 }

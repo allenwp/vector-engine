@@ -32,7 +32,7 @@ namespace VectorEngine
 
         public void DestroyEntity(Entity entity)
         {
-            var transform = entity.GetComponent<Transform>();
+            var transform = entity.GetComponent<Transform>(true);
             if (transform != null)
             {
                 foreach (var child in transform.Children)

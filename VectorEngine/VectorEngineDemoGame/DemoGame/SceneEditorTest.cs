@@ -66,12 +66,12 @@ namespace VectorEngine.DemoGame
                 var entity = EntityAdmin.Instance.CreateEntity("TransformTest" + i);
                 if(i == 1)
                 {
-                    entity.Enabled = false;
+                    entity.SelfEnabled = false;
                 }
                 var trans = EntityAdmin.Instance.AddComponent<Transform>(entity);
                 if (i == 2)
                 {
-                    trans.Enabled = false;
+                    trans.SelfEnabled = false;
                 }
                 Transform.AssignParent(trans, parent);
                 trans.LocalPosition = new Vector3(0, 0, i * -20f);

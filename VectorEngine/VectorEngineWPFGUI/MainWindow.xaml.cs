@@ -70,7 +70,7 @@ namespace VectorEngineWPFGUI
             if(entity != null)
             {
                 // Temporary test code to simply add a transform
-                if (entity.GetComponent<Transform>() != null)
+                if (entity.GetComponent<Transform>(true) != null)
                 {
                     EntityAdmin.Instance.AddComponent<Transform>(entity);
                 }
