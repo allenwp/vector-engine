@@ -70,7 +70,7 @@ namespace VectorEngineWPFGUI
             if(entity != null)
             {
                 // Temporary test code to simply add a transform
-                if (entity.GetComponent<Transform>(true) != null)
+                if (entity.GetComponent<Transform>(true) == null)
                 {
                     EntityAdmin.Instance.AddComponent<Transform>(entity);
                 }
@@ -82,12 +82,6 @@ namespace VectorEngineWPFGUI
             if (component != null)
             {
                 EntityAdmin.Instance.RemoveComponent(component);
-            }
-
-            var entity = entitiesTreeView.SelectedItem as Entity;
-            if (entity != null)
-            {
-                EntityAdmin.Instance.DestroyEntity(entity);
             }
         }
 
