@@ -49,6 +49,9 @@ namespace VectorEngine
                 var swFrameTime = new Stopwatch();
                 swFrameTime.Start();
 
+                EntityAdmin.Instance.AddQueuedComponents();
+                EntityAdmin.Instance.RemoveQueuedComponents();
+
                 // Tick the systems
                 foreach (ECSSystem system in EntityAdmin.Instance.Systems)
                 {

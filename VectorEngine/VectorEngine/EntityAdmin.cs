@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,7 +15,13 @@ namespace VectorEngine
         public ObservableCollection<ECSSystem> Systems = new ObservableCollection<ECSSystem>();
         public List<Component> Components = new List<Component>();
 
+        /// <summary>
+        /// DO NOT USE. Only for use by the editor.
+        /// </summary>
         public ObservableCollection<Entity> Entities = new ObservableCollection<Entity>();
+        /// <summary>
+        /// DO NOT USE. Only for use by the editor.
+        /// </summary>
         public ObservableCollection<Transform> RootTransforms = new ObservableCollection<Transform>();
 
         public void Init()
@@ -23,10 +30,13 @@ namespace VectorEngine
         }
 
         #region Creation and Destruction of Entities and Components
+        List<Component> componentsToAdd = new List<Component>();
+        List<Component> componentsToRemove = new List<Component>();
+
         public Entity CreateEntity(string name)
         {
             var result = new Entity(name);
-            Entities.Add(result); // TODO: make a queue of entities to add, destory. and also a queue of components to add, destroy
+            Entities.Add(result);
             return result;
         }
 
@@ -46,7 +56,7 @@ namespace VectorEngine
             {
                 RemoveComponent(component);
             }
-            Entities.Remove(entity); // TODO: make a queue of entities to add, destory. and also a queue of components to add, destroy
+            Entities.Remove(entity);
         }
 
         public T AddComponent<T>(Entity entity) where T : Component, new()
@@ -54,13 +64,13 @@ namespace VectorEngine
             var newComponent = new T();
             newComponent.Entity = entity;
             entity.Components.Add(newComponent);
-            Components.Add(newComponent); // TODO: make a queue of entities to add, destory. and also a queue of components to add, destroy
             // Transforms are a special case that are used in the editor, etc.
             var transform = newComponent as Transform;
             if (transform as Transform != null)
             {
                 RootTransforms.Add(transform);
             }
+            componentsToAdd.Add(newComponent);
             return newComponent;
         }
 
@@ -71,23 +81,46 @@ namespace VectorEngine
 
         public void RemoveComponent(Component component)
         {
-            var transform = component as Transform;
-            if (transform as Transform != null)
-            {
-                foreach (var child in transform.Children)
-                {
-                    Transform.AssignParent(child, null);
-                }
-                if (transform.Parent == null)
-                {
-                    RootTransforms.Remove(transform);
-                }
-            }
+            componentsToRemove.Add(component);
+        }
 
-            Components.Remove(component); // TODO: make a queue of entities to add, destory. and also a queue of components to add, destroy
-            // And do this stuff only after they've been removed:
-            component.Entity.Components.Remove(component);
-            component.Entity = null;
+        /// <summary>
+        /// To be called once per frame.
+        /// </summary>
+        public void AddQueuedComponents()
+        {
+            foreach (var component in componentsToAdd)
+            {
+                Components.Add(component);
+            }
+            componentsToAdd.Clear();
+        }
+
+        /// <summary>
+        /// To be called once per frame.
+        /// </summary>
+        public void RemoveQueuedComponents()
+        {
+            foreach (var component in componentsToRemove)
+            {
+                var transform = component as Transform;
+                if (transform as Transform != null)
+                {
+                    foreach (var child in transform.Children)
+                    {
+                        Transform.AssignParent(child, null);
+                    }
+                    if (transform.Parent == null)
+                    {
+                        RootTransforms.Remove(transform);
+                    }
+                }
+
+                Components.Remove(component);
+                component.Entity.Components.Remove(component);
+                component.Entity = null;
+            }
+            componentsToRemove.Clear();
         }
         #endregion
 

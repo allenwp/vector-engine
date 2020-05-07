@@ -37,6 +37,7 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
+                    return LocalRotation;
                     throw new NotImplementedException();
                 }
                 else
@@ -48,6 +49,7 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
+                    LocalRotation = value;
                     throw new NotImplementedException();
                 }
                 else
@@ -62,6 +64,7 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
+                    return LocalPosition;
                     throw new NotImplementedException();
                 }
                 else
@@ -73,6 +76,7 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
+                    LocalPosition = value;
                     throw new NotImplementedException();
                 }
                 else
@@ -87,6 +91,7 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
+                    return LocalScale;
                     throw new NotImplementedException();
                 }
                 else
@@ -98,6 +103,7 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
+                    LocalScale = value;
                     throw new NotImplementedException();
                 }
                 else
