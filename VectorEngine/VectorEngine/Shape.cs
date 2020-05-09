@@ -8,6 +8,7 @@ using VectorEngine.Output;
 
 namespace VectorEngine
 {
+    [RequiresSystem(typeof(SamplerSystem))]
     public abstract class Shape : Component
     {
         /// <summary>

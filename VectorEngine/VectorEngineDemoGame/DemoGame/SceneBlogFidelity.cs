@@ -61,7 +61,7 @@ namespace VectorEngine.DemoGame
 
         public static Entity CreateGridPoint(Vector3 pos)
         {
-            var entity = EntityAdmin.Instance.CreateEntity("");
+            var entity = EntityAdmin.Instance.CreateEntity("GridPoint");
             var trans = EntityAdmin.Instance.AddComponent<Transform>(entity);
             EntityAdmin.Instance.AddComponent<GridPoint>(entity);
             trans.LocalPosition = pos;

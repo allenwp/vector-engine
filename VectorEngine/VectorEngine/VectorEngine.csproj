@@ -58,6 +58,7 @@
     <Compile Include="PostProcessing\PostProcessingGroup3D.cs" />
     <Compile Include="PostProcessing\PostProcessor2D.cs" />
     <Compile Include="PostProcessing\PostProcessor3D.cs" />
+    <Compile Include="RequiresSystem.cs" />
     <Compile Include="Sample.cs" />
     <Compile Include="Sample3D.cs" />
     <Compile Include="SamplerSingleton.cs" />

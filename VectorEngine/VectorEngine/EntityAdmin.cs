@@ -61,6 +61,11 @@ namespace VectorEngine
 
         public T AddComponent<T>(Entity entity) where T : Component, new()
         {
+            if (!RequiresSystem.HasECSSystemForType(typeof(T), this))
+            {
+                throw new Exception("A required system for type " + typeof(T) + " is not in the EntityAdmin's system list!");
+            }
+
             var newComponent = new T();
             newComponent.Entity = entity;
             entity.Components.Add(newComponent);
