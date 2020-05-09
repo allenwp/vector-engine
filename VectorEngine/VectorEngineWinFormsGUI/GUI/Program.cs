@@ -16,6 +16,7 @@ namespace VectorEngineGUI
             GameLoop.SceneInit = VectorEngine.DemoGame.SceneEditorTest.Init;
             Thread thread = new Thread(new ThreadStart(GameLoop.Loop));
             thread.Name = "Game Loop Thread";
+            thread.IsBackground = true; // So that it aborts along with the application
             // this apartment state is required for the ASIOOutput.StartDriver method
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
