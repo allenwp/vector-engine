@@ -16,13 +16,13 @@ namespace VectorEngine.DemoGame
             // Order maters here. It's the execution order.
             // "Update" systems:
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
+            EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
             EntityAdmin.Instance.Systems.Add(new RotateSystem());
             EntityAdmin.Instance.Systems.Add(new CurlyCircleSystem());
 
 
             // "Draw" systems:
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
-            EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
             EntityAdmin.Instance.Systems.Add(new SamplerSystem());
 
             // Create scene objects
