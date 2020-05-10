@@ -40,13 +40,16 @@ namespace VectorEngine.DemoGame
             var cube2 = CreateCube();
             cube2.GetComponent<Transform>().LocalPosition.X += 2f;
 
+            var gridPointParentEntity = EntityAdmin.Instance.CreateEntity("GridPoint Parent");
+            var gridPointParent = EntityAdmin.Instance.AddComponent<Transform>(gridPointParentEntity);
+
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
                     for (int k = 0; k < 2; k++)
                     {
-                        CreateGridPoint(new Vector3(i * 0.5f, (k + 1) * -0.5f, j * 0.5f));
+                        CreateGridPoint(new Vector3(i * 0.5f, (k + 1) * -0.5f, j * 0.5f), gridPointParent);
                     }
                 }
             }
@@ -63,13 +66,14 @@ namespace VectorEngine.DemoGame
             return entity;
         }
 
-        public static Entity CreateGridPoint(Vector3 pos)
+        public static Entity CreateGridPoint(Vector3 pos, Transform parent)
         {
             var entity = EntityAdmin.Instance.CreateEntity("Grid Point");
             var trans = EntityAdmin.Instance.AddComponent<Transform>(entity);
             EntityAdmin.Instance.AddComponent<GridPoint>(entity);
             RandomlyConfigureRotate(EntityAdmin.Instance.AddComponent<Rotate>(entity));
             trans.LocalPosition = pos;
+            Transform.AssignParent(trans, parent);
             return entity;
         }
 
