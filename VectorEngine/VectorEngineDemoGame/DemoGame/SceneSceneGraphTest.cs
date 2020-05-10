@@ -33,7 +33,7 @@ namespace VectorEngine.DemoGame
             EntityAdmin.Instance.AddComponent<Transform>(entity);
             EntityAdmin.Instance.AddComponent<GridPoint>(entity);
 
-            entity = EntityAdmin.Instance.CreateEntity("Root GridPoint");
+            entity = EntityAdmin.Instance.CreateEntity("Another GridPoint");
             EntityAdmin.Instance.AddComponent<Rotate>(entity);
             EntityAdmin.Instance.AddComponent<Transform>(entity).LocalPosition = new Vector3(0.5f, 0, 0f);
             EntityAdmin.Instance.AddComponent<GridPoint>(entity);

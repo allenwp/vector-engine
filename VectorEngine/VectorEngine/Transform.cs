@@ -13,6 +13,8 @@ namespace VectorEngine
     {
         public Transform Parent { get; private set; }
 
+        public bool UseThisPSRForWorldTrans { get; set; } = false;
+
         /// <summary>
         /// Do not modify. Use Transform.AssignParent instead!
         /// </summary>
@@ -24,11 +26,34 @@ namespace VectorEngine
         }
 
         // Should this be in a System rather than in a Component(?) I think it belongs here...
+        public Matrix LocalWorldTransform
+        {
+            get
+            {
+                return Matrix.CreateScale(LocalScale) * Matrix.CreateFromQuaternion(LocalRotation) * Matrix.CreateTranslation(LocalPosition);
+            }
+        }
+
+        // Should this be in a System rather than in a Component(?) I think it belongs here...
         public Matrix WorldTransform
         {
             get
             {
-                return Matrix.CreateScale(Scale) * Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(Position);
+                if (Parent != null)
+                {
+                    if (UseThisPSRForWorldTrans)
+                    {
+                        return Matrix.CreateScale(Scale) * Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(Position);
+                    }
+                    else
+                    {
+                        return LocalWorldTransform * Parent.WorldTransform;
+                    }
+                }
+                else
+                {
+                    return LocalWorldTransform;
+                }
             }
         }
 
@@ -46,18 +71,17 @@ namespace VectorEngine
                     return LocalRotation;
                 }
             }
-            set
-            {
-                if (Parent != null)
-                {
-                    LocalRotation = value;
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    LocalRotation = value;
-                }
-            }
+            //set
+            //{
+            //    if (Parent != null)
+            //    {
+            //        throw new NotImplementedException();
+            //    }
+            //    else
+            //    {
+            //        LocalRotation = value;
+            //    }
+            //}
         }
         public Vector3 Position
         {
@@ -73,18 +97,17 @@ namespace VectorEngine
                     return LocalPosition;
                 }
             }
-            set
-            {
-                if (Parent != null)
-                {
-                    LocalPosition = value;
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    LocalPosition = value;
-                }
-            }
+            //set
+            //{
+            //    if (Parent != null)
+            //    {
+            //        throw new NotImplementedException();
+            //    }
+            //    else
+            //    {
+            //        LocalPosition = value;
+            //    }
+            //}
         }
         public Vector3 Scale
         {
@@ -100,18 +123,17 @@ namespace VectorEngine
                     return LocalScale;
                 }
             }
-            set
-            {
-                if (Parent != null)
-                {
-                    LocalScale = value;
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    LocalScale = value;
-                }
-            }
+            //set
+            //{
+            //    if (Parent != null)
+            //    {
+            //        throw new NotImplementedException();
+            //    }
+            //    else
+            //    {
+            //        LocalScale = value;
+            //    }
+            //}
         }
 
         public Quaternion LocalRotation = Quaternion.Identity;

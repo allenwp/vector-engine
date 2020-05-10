@@ -14,11 +14,12 @@ namespace VectorEngine.DemoGame
         {
             foreach ((var transform, var follow) in EntityAdmin.Instance.GetTuple<Transform, Follow>())
             {
-                Transform transToFollow = follow.EntityToFollow.GetComponent<Transform>();
-                transform.Position = transToFollow.Position;
-                transform.Rotation = transToFollow.Rotation;
+                throw new NotImplementedException("This system depends on having fully functional get and set for world space position and rotation. I haven't implemented those yet.");
+                //Transform transToFollow = follow.EntityToFollow.GetComponent<Transform>();
+                //transform.Position = transToFollow.Position;
+                //transform.Rotation = transToFollow.Rotation;
 
-                transform.LocalPosition -= Vector3.Transform(Vector3.Forward * follow.FollowDistance, transform.LocalRotation);
+                //transform.LocalPosition -= Vector3.Transform(Vector3.Forward * follow.FollowDistance, transform.LocalRotation);
             }
         }
     }
