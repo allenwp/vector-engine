@@ -111,6 +111,8 @@ namespace VectorEngine
             }
         }
 
+        delegate void AddSamplesDelegate(Sample[] sampleArray);
+
         /// <param name="previousFrameEndSample">The sample that was drawn right before starting to draw this frame. (Last sample from the previous frame)</param>
         private static Sample[] CreateFrameBuffer(List<Sample[]> samples, Sample previousFrameEndSample, out int blankingSamples)
         {
@@ -174,21 +176,22 @@ namespace VectorEngine
                 sampleCount += sampleArray.Length;
             }
             int worstCaseBlankingLength = FrameOutput.DisplayProfile.BlankingLength(new Sample(-1f, -1f, 0), new Sample(1f, 1f, 0));
-            int worstCaseSampleCount = sampleCount + (samples.Count * worstCaseBlankingLength);
+            int worstCaseSampleCount = sampleCount + (samples.Count * worstCaseBlankingLength) + worstCaseBlankingLength + 1; // one more on the end to return to blanking point.
 
             Sample[] finalBuffer = new Sample[worstCaseSampleCount];
 
             // Copy the full set of samples into the final buffer:
             int destinationIndex = 0;
             Sample previousSample = previousFrameEndSample;
-            foreach (var sampleArray in samples)
+
+            AddSamplesDelegate addSamples = delegate(Sample[] sampleArray)
             {
                 int blankingLength = FrameOutput.DisplayProfile.BlankingLength(previousSample, sampleArray[0]);
                 // Set blanking based on the first sample:
                 for (int b = 0; b < blankingLength; b++)
                 {
                     Sample tweenSample = new Sample();
-                    float tweenValue = Tween.EaseOutPower((b + 1) / (float)blankingLength, 2);
+                    float tweenValue = Tween.EaseInOutPower((b + 1) / (float)blankingLength, 2);
                     tweenSample.X = MathHelper.Lerp(previousSample.X, sampleArray[0].X, tweenValue);
                     tweenSample.Y = MathHelper.Lerp(previousSample.Y, sampleArray[0].Y, tweenValue);
 
@@ -201,9 +204,21 @@ namespace VectorEngine
                 Array.Copy(sampleArray, 0, finalBuffer, destinationIndex, sampleArray.Length);
                 destinationIndex += sampleArray.Length;
                 previousSample = sampleArray[sampleArray.Length - 1];
+            };
+
+            foreach (var sampleArray in samples)
+            {
+                addSamples(sampleArray);
             }
 
             int finalSampleCount = destinationIndex;
+            if (finalSampleCount < FrameOutput.TARGET_BUFFER_SIZE)
+            {
+                // Since we're going to be blanking for the end of this frame, we need to do the same easeinout blanking before we get to the rest postition.
+                addSamples(new Sample[1] { Sample.Blank });
+                finalSampleCount = destinationIndex;
+            }
+
             blankingSamples = finalSampleCount - sampleCount;
 
             Sample[] trimmedFinalBuffer;
