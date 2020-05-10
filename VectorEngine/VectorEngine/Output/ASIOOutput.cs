@@ -115,6 +115,8 @@ namespace VectorEngine.Output
 		}
 
 		//static double t = 0;
+		//static ulong frameCount = 0;
+		//static bool high = false;
 		/// <summary>
 		/// Called when a buffer update is required
 		/// </summary>
@@ -132,6 +134,7 @@ namespace VectorEngine.Output
 
 			ApplyBlankingChannelDelay(zOutput);
 
+			#region Debugging code
 			// Code for a test tone to make sure ASIO device is working well:
 			//for (int index = 0; index < xOutput.BufferSize; index++)
 			//{
@@ -167,9 +170,32 @@ namespace VectorEngine.Output
 			//		Console.WriteLine("output is 0");
 			//	}
 			//}
+
+			//// Code for debugging oscilloscope faulty(?) X input that looks like it's not properly DC Coupled
+			//frameCount++;
+			//if (frameCount % 300 == 0)
+			//{
+			//	high = !high;
+			//}
+			//for (int i = 0; i < xOutput.BufferSize; i++)
+			//{
+			//	float value;
+			//	if (i < xOutput.BufferSize / 2)
+			//	{
+			//		value = high ? 0.65f : -0.65f;
+			//	}
+			//	else
+			//	{
+			//		value = high ? 0.1f : -0.1f;
+			//	}
+			//	xOutput[i] = value;
+			//	yOutput[i] = value;
+			//	zOutput[i] = 0f;
+			//}
+			#endregion
 		}
 
-		static int frameIndex = 0;
+        static int frameIndex = 0;
 		private static void FeedAsioBuffers(Channel xOutput, Channel yOutput, Channel brightnessOutput, int startIndex)
 		{
 			if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
