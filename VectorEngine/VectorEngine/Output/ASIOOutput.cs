@@ -264,12 +264,14 @@ namespace VectorEngine.Output
 
 		private static void ApplyBlankingChannelDelay(Channel blankingChannel)
 		{
-			float[] originalStream = new float[blankingChannel.BufferSize];
-			for (int i = 0; i < originalStream.Length; i++)
+			int bufferLength = blankingChannel.BufferSize;
+
+			float[] originalStream = new float[bufferLength];
+			for (int i = 0; i < bufferLength; i++)
 			{
 				originalStream[i] = blankingChannel[i];
 			}
-			for (int i = 0; i < originalStream.Length; i++)
+			for (int i = 0; i < bufferLength; i++)
 			{
 				if (i < blankingChannelDelayBuffer.Length)
 				{
@@ -280,6 +282,7 @@ namespace VectorEngine.Output
 					blankingChannel[i] = originalStream[i - blankingChannelDelayBuffer.Length];
 				}
 			}
+			Array.Copy(originalStream, originalStream.Length - blankingChannelDelayBuffer.Length, blankingChannelDelayBuffer, 0, blankingChannelDelayBuffer.Length);
 		}
 	}
 }
