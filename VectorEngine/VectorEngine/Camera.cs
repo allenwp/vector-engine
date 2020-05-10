@@ -8,6 +8,7 @@ using VectorEngine.Output;
 
 namespace VectorEngine
 {
+    [RequiresSystem(typeof(CameraSystem))]
     public class Camera : Component
     {
         public enum TypeEnum { Perspective, Orthographic }

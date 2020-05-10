@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace VectorEngine
 {
+    [RequiresSystem(typeof(GamepadSystem))]
     public class GamepadSingleton : Component
     {
         public GamePadState PreviousGamepadState;

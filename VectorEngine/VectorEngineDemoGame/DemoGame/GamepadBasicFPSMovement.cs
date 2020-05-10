@@ -7,6 +7,8 @@ using VectorEngine;
 
 namespace VectorEngine.DemoGame
 {
+    [RequiresSystem(typeof(GamepadBasicFPSMovementSystem))]
+    [RequiresSystem(typeof(GamepadSystem))]
     public class GamepadBasicFPSMovement : Component
     {
         public float TranslateSpeed = 1.5f;

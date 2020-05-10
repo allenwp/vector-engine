@@ -7,6 +7,7 @@ using VectorEngine;
 
 namespace VectorEngine.DemoGame
 {
+    [RequiresSystem(typeof(RotateSystem))]
     public class Rotate : Component
     {
         public enum AxisEnum { x = 0, y, z }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectorEngine.PostProcessing
 {
+    [RequiresSystem(typeof(SamplerSystem))]
     public abstract class PostProcessor2D : Component
     {
         public delegate void PostProcess2DDelegate(List<Sample[]> samples, PostProcessor2D postProcessor);

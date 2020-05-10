@@ -12,6 +12,7 @@ namespace VectorEngine.PostProcessing
     /// If applied to an Entity with a Camera, this post-processing will occur in WORLD space
     /// to an entire Camera's Sample3D stream before it has been transformed to screen space.
     /// </summary>
+    [RequiresSystem(typeof(SamplerSystem))]
     public class PostProcessingGroup3D : Component
     {
         // Explicit list for no good reason other than looking up tuples of multiple post processing effects

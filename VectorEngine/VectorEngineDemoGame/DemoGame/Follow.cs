@@ -7,6 +7,7 @@ using VectorEngine;
 
 namespace VectorEngine.DemoGame
 {
+    [RequiresSystem(typeof(FollowSystem))]
     public class Follow : Component
     {
         public Entity EntityToFollow;

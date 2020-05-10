@@ -26,7 +26,6 @@ namespace VectorEngine
 
         public void Init()
         {
-            CreateSingletons();
         }
 
         #region Creation and Destruction of Entities and Components
@@ -337,7 +336,10 @@ namespace VectorEngine
         public SamplerSingleton SingletonSampler { get; private set; }
         public GamepadSingleton SingletonGamepad { get; private set; }
 
-        private void CreateSingletons()
+        /// <summary>
+        ///  Currently must be called by scenes once systems are set up.
+        /// </summary>
+        public void CreateSingletons()
         {
             SingletonSampler = CreateSingleton<SamplerSingleton>("Sampler Singleton");
             SingletonGamepad = CreateSingleton<GamepadSingleton>("Gamepad Singleton");

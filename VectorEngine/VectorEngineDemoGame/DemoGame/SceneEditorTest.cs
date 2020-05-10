@@ -30,6 +30,8 @@ namespace VectorEngine.DemoGame
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
             EntityAdmin.Instance.Systems.Add(new SamplerSystem());
 
+            EntityAdmin.Instance.CreateSingletons();
+
             // Create scene objects
             // Order *kinda* matters here: it's the draw order for Shapes
 

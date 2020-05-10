@@ -7,6 +7,7 @@ using VectorEngine;
 
 namespace VectorEngine.DemoGame
 {
+    [RequiresSystem(typeof(SeaOfWavesSystem))]
     public class SeaOfWaves : Component
     {
         public float AnimationValue;

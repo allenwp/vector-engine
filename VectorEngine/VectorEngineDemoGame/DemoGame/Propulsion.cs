@@ -7,6 +7,8 @@ using VectorEngine;
 
 namespace VectorEngine.DemoGame
 {
+
+    [RequiresSystem(typeof(PropulsionSystem))]
     public class Propulsion : Component
     {
         public float Speed = 10f;
