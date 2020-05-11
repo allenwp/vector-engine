@@ -10,6 +10,9 @@ namespace VectorEngine.DemoGame
 {
     public class SceneSceneGraphTest
     {
+
+        static Random random = new Random();
+
         public static void Init()
         {
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
@@ -27,16 +30,41 @@ namespace VectorEngine.DemoGame
             EntityAdmin.Instance.AddComponent<Transform>(entity).LocalPosition = new Vector3(0,0,2f);
             EntityAdmin.Instance.AddComponent<GamepadBasicFPSMovement>(entity);
 
+            for (int i = 0; i < 4; i++)
+            {
+                CreateTransforms(null);
+            }
+        }
+        public static List<Transform> CreateTransforms(Transform parent)
+        {
+            int count = 1;
+            var result = new List<Transform>(count);
+            for (int i = 0; i < count; i++)
+            {
+                var entity = EntityAdmin.Instance.CreateEntity("TransformTest" + i);
+                var trans = EntityAdmin.Instance.AddComponent<Transform>(entity);
+                EntityAdmin.Instance.AddComponent<Cube>(entity);
+                Transform.AssignParent(trans, parent);
 
-            entity = EntityAdmin.Instance.CreateEntity("Root GridPoint");
-            EntityAdmin.Instance.AddComponent<Rotate>(entity);
-            EntityAdmin.Instance.AddComponent<Transform>(entity);
-            EntityAdmin.Instance.AddComponent<GridPoint>(entity);
+                trans.LocalPosition = new Vector3(Rand(), Rand(), Rand());
+                trans.LocalScale = new Vector3(Rand(), Rand(), Rand());
+                trans.LocalRotation = Quaternion.CreateFromYawPitchRoll(Rand(), Rand(), Rand());
 
-            entity = EntityAdmin.Instance.CreateEntity("Another GridPoint");
-            EntityAdmin.Instance.AddComponent<Rotate>(entity);
-            EntityAdmin.Instance.AddComponent<Transform>(entity).LocalPosition = new Vector3(0.5f, 0, 0f);
-            EntityAdmin.Instance.AddComponent<GridPoint>(entity);
+                if (trans.Parent == null || trans.Parent.Parent == null || trans.Parent.Parent.Parent == null)
+                {
+                    foreach (var child in CreateTransforms(trans))
+                    {
+                        Transform.AssignParent(child, trans);
+                    }
+                }
+                result.Add(trans);
+            }
+            return result;
+        }
+
+        public static float Rand()
+        {
+            return ((float)random.NextDouble() + 0.3f) * (random.Next(2) > 0 ? -1 : 1);
         }
     }
 }
