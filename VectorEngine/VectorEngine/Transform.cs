@@ -41,14 +41,7 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
-                    if (UseThisPSRForWorldTrans)
-                    {
-                        return Matrix.CreateScale(Scale) * Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(Position);
-                    }
-                    else
-                    {
-                        return LocalWorldTransform * Parent.WorldTransform;
-                    }
+                    return LocalWorldTransform * Parent.WorldTransform;
                 }
                 else
                 {
@@ -63,8 +56,14 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
-                    return LocalRotation;
-                    throw new NotImplementedException();
+                    Vector3 scale;
+                    Quaternion rot;
+                    Vector3 pos;
+                    if (!(LocalWorldTransform * Parent.WorldTransform).Decompose(out scale, out rot, out pos))
+                    {
+                        throw new Exception("Could not decompose matrix");
+                    }
+                    return rot;
                 }
                 else
                 {
@@ -89,8 +88,17 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
-                    return LocalPosition;
-                    throw new NotImplementedException();
+                    Vector3 scale;
+                    Quaternion rot;
+                    Vector3 pos;
+                    if (!(LocalWorldTransform * Parent.WorldTransform).Decompose(out scale, out rot, out pos))
+                    {
+                        throw new Exception("Could not decompose matrix");
+                    }
+                    return pos;
+
+                    // This also works:
+                    //return Vector3.Transform(Vector3.Zero, LocalWorldTransform * Parent.WorldTransform);
                 }
                 else
                 {
@@ -115,8 +123,17 @@ namespace VectorEngine
             {
                 if (Parent != null)
                 {
-                    return LocalScale;
-                    throw new NotImplementedException();
+                    Vector3 scale;
+                    Quaternion rot;
+                    Vector3 pos;
+                    if (!(LocalWorldTransform * Parent.WorldTransform).Decompose(out scale, out rot, out pos))
+                    {
+                        throw new Exception("Could not decompose matrix");
+                    }
+                    return scale;
+
+                    // It's possible this also works, but I didn't test it.
+                    //return Vector3.Transform(Vector3.Zero, LocalWorldTransform * Parent.WorldTransform) - Position;
                 }
                 else
                 {
