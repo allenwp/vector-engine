@@ -266,10 +266,10 @@ namespace VectorEngine.Output
 					return;
 				}
 
-				Sample sample = PrepareSampleForScreen(currentFrameBuffer[frameIndex]);
-				xOutput[i] = sample.X;
-				yOutput[i] = sample.Y;
-				brightnessOutput[i] = MathHelper.Clamp(sample.Brightness, 0f, 1f) * -2f + 1f; // -1 is full brightness, 1 is no brightness
+				Sample adjustedSample = PrepareSampleForScreen(currentFrameBuffer[frameIndex]);
+				xOutput[i] = adjustedSample.X;
+				yOutput[i] = adjustedSample.Y;
+				brightnessOutput[i] = adjustedSample.Brightness;
 
 				frameIndex++;
 			}
@@ -290,7 +290,8 @@ namespace VectorEngine.Output
 				// X is whatever range it needs to be to match the aspect ratio.
 			}
 
-			// TODO: adjust brightness to match voltage needed for z-input on oscilloscope.
+			// -1 is full brightness, 1 is no brightness
+			sample.Brightness = MathHelper.Clamp(sample.Brightness, 0f, 1f) * -2f + 1f;
 
 			return sample;
 		}
