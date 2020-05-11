@@ -151,7 +151,7 @@ namespace VectorEngine
                 throw new Exception("Unsupported camera type");
             }
 
-            fidelity *= MathHelper.Max(MathHelper.Max(transform.Scale.X, transform.Scale.Y), transform.Scale.Z); // Multiply fidelity by max scale
+            fidelity *= MathHelper.Max(MathHelper.Max(Math.Abs(transform.Scale.X), Math.Abs(transform.Scale.Y)), Math.Abs(transform.Scale.Z)); // Multiply fidelity by max scale
 
             // Now we have the fidelity for this shape. Get the samples:
             var samples3D = shape.GetSamples3D(fidelity);
