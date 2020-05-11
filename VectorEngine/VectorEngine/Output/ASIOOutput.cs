@@ -134,6 +134,13 @@ namespace VectorEngine.Output
 
 			ApplyBlankingChannelDelay(zOutput);
 
+			// Copy x output into the last of the four channels to give a demo of what the audio sounds like
+			Channel audioDemo = driver.OutputChannels[1];
+			for (int i = 0; i < xOutput.BufferSize; i++)
+			{
+				audioDemo[i] = xOutput[i];
+			}
+
 			#region Debugging code
 			// Code for a test tone to make sure ASIO device is working well:
 			//for (int index = 0; index < xOutput.BufferSize; index++)
