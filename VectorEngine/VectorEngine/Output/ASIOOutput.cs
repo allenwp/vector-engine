@@ -15,12 +15,6 @@ namespace VectorEngine.Output
 
 		public static void StartDriver()
 		{
-			// TODO:This call to highest priority probably doesn't mean anything at all
-			// because it's a different thread that that handles the events...
-			// Unless... this thread will determine the other thread's priority based on its own??
-			// no messing, this is high priority stuff
-			Thread.CurrentThread.Priority = ThreadPriority.Highest;
-
 			// make sure we have at least one ASIO driver installed
 			if (AsioDriver.InstalledDrivers.Length == 0)
 			{
@@ -214,6 +208,7 @@ namespace VectorEngine.Output
 				// Clear the rest of the buffer with blanking frames
 				for (int i = startIndex; i < xOutput.BufferSize; i++)
 				{
+					// TODO: this should probably just pause on the last position instead (which might be blanking position, but might not be)
 					xOutput[i] = -1f;
 					yOutput[i] = -1f;
 					brightnessOutput[i] = 1f; // no brightness is 1

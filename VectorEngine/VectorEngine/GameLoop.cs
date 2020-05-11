@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using VectorEngine.Output;
 
 namespace VectorEngine
@@ -13,6 +14,11 @@ namespace VectorEngine
         static Sample previousFinalSample = Sample.Blank;
         public static void Loop()
         {
+            // ASIO or other output should be the highest priority thread so that it can
+            // at least feed blanking samples to the screen if the game loop doesn't finish
+            // rendering in time. The game loop is one priority lower, but still above normal.
+            Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
+
             Init();
 
             var syncOverheadTime = PerfTime.Initial;
