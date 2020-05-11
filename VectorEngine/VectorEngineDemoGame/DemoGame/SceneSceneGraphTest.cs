@@ -50,6 +50,11 @@ namespace VectorEngine.DemoGame
                 trans.LocalScale = new Vector3(Rand(), Rand(), Rand());
                 trans.LocalRotation = Quaternion.CreateFromYawPitchRoll(Rand(), Rand(), Rand());
 
+                if (random.Next(3) == 0)
+                {
+                    EntityAdmin.Instance.AddComponent<Rotate>(entity);
+                }
+
                 if (trans.Parent == null || trans.Parent.Parent == null || trans.Parent.Parent.Parent == null)
                 {
                     foreach (var child in CreateTransforms(trans))
