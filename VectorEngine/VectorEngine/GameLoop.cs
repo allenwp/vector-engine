@@ -104,7 +104,7 @@ namespace VectorEngine
                 if (FrameOutput.FrameCount % 100 == 0)
                 {
                     int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
-                    Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking samples between shapes) | Frame w: " + frameTimePerf.worst + " b: " + frameTimePerf.best + " a: " + frameTimePerf.average + " | Sync w: " + syncOverheadTime.worst + " b: " + syncOverheadTime.best + " a: " + syncOverheadTime.average);
+                    Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking samples between shapes) | Frame worst: " + frameTimePerf.worst + " best: " + frameTimePerf.best + " avg: " + frameTimePerf.average + " | Output Sync longest: " + syncOverheadTime.worst + " shortest: " + syncOverheadTime.best + " avg: " + syncOverheadTime.average);
                     frameTimePerf = PerfTime.Initial;
                     syncOverheadTime = PerfTime.Initial;
                 }
