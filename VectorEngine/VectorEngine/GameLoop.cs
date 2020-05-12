@@ -66,7 +66,8 @@ namespace VectorEngine
 
                 // Finally, prepare and fill the FrameOutput buffer:
                 int blankingSampleCount;
-                Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount); // FrameOutput.GetCalibrationFrame();
+                int wastedSampleCount;
+                Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount, out wastedSampleCount); // FrameOutput.GetCalibrationFrame();
                 previousFinalSample = finalBuffer[finalBuffer.Length - 1];
 
                 swFrameTime.Stop();
@@ -110,7 +111,7 @@ namespace VectorEngine
                 if (FrameOutput.FrameCount % 100 == 0)
                 {
                     int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
-                    Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking samples between shapes) | Frame worst: " + frameTimePerf.worst + " best: " + frameTimePerf.best + " avg: " + frameTimePerf.average + " | Output Sync longest: " + syncOverheadTime.worst + " shortest: " + syncOverheadTime.best + " avg: " + syncOverheadTime.average);
+                    Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking between shapes, " + wastedSampleCount + " wasted) | Frame worst: " + frameTimePerf.worst + " best: " + frameTimePerf.best + " avg: " + frameTimePerf.average + " | Output Sync longest: " + syncOverheadTime.worst + " shortest: " + syncOverheadTime.best + " avg: " + syncOverheadTime.average);
                     frameTimePerf = PerfTime.Initial;
                     syncOverheadTime = PerfTime.Initial;
                 }
@@ -120,7 +121,7 @@ namespace VectorEngine
         delegate void AddSamplesDelegate(Sample[] sampleArray);
 
         /// <param name="previousFrameEndSample">The sample that was drawn right before starting to draw this frame. (Last sample from the previous frame)</param>
-        private static Sample[] CreateFrameBuffer(List<Sample[]> samples, Sample previousFrameEndSample, out int blankingSamples)
+        private static Sample[] CreateFrameBuffer(List<Sample[]> samples, Sample previousFrameEndSample, out int blankingSamples, out int wastedSamples)
         {
             // Remove all empty sample arrays
             samples.RemoveAll(delegate (Sample[] array)
@@ -242,6 +243,8 @@ namespace VectorEngine
                 trimmedFinalBuffer = new Sample[finalSampleCount];
             }
             Array.Copy(finalBuffer, 0, trimmedFinalBuffer, 0, finalSampleCount);
+
+            wastedSamples = trimmedFinalBuffer.Length - finalSampleCount;
 
             return trimmedFinalBuffer;
         }
