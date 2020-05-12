@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EDEE24DB-3608-4224-988C-10952996BEC0}</ProjectGuid>
+    <ProjectGuid>{06F9CDE5-D41F-4236-8134-37FF379FF8CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VectorEngine.DemoGame</RootNamespace>
-    <AssemblyName>VectorEngineDemoGame</AssemblyName>
+    <RootNamespace>VectorEngineExtras</RootNamespace>
+    <AssemblyName>VectorEngineExtras</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,51 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DemoGame\Follow.cs" />
-    <Compile Include="DemoGame\FollowSystem.cs" />
-    <Compile Include="DemoGame\PostProcessing\RadialPulsePostProcessor.cs" />
-    <Compile Include="DemoGame\PostProcessing\RadialPulsePostProcessorSystem.cs" />
-    <Compile Include="DemoGame\Propulsion.cs" />
-    <Compile Include="DemoGame\PropulsionSystem.cs" />
-    <Compile Include="DemoGame\SceneBlankingTest.cs" />
-    <Compile Include="DemoGame\SceneBlogFidelity.cs" />
-    <Compile Include="DemoGame\SceneEditorTest.cs" />
-    <Compile Include="DemoGame\SceneRotatingCubesAndGridPoints.cs" />
-    <Compile Include="DemoGame\SceneShapeTest.cs" />
-    <Compile Include="DemoGame\SceneSpaceRings.cs" />
-    <Compile Include="DemoGame\SeaOfWaves.cs" />
-    <Compile Include="DemoGame\SeaOfWavesSystem.cs" />
-    <Compile Include="DemoGame\Shapes\Circle.cs" />
-    <Compile Include="DemoGame\Shapes\Cube.cs" />
-    <Compile Include="DemoGame\Shapes\CurlyCircle.cs" />
-    <Compile Include="DemoGame\Shapes\CurlyCircleSystem.cs" />
-    <Compile Include="DemoGame\Shapes\GridPoint.cs" />
-    <Compile Include="DemoGame\Shapes\Line.cs" />
-    <Compile Include="DemoGame\Shapes\PlayerShip.cs" />
-    <Compile Include="DemoGame\Shapes\PlayerShipSystem.cs" />
-    <Compile Include="DemoGame\Shapes\Square.cs" />
-    <Compile Include="DemoGame\Shapes\WaveTile.cs" />
-    <Compile Include="DemoGame\Shapes\WaveTileAnimated.cs" />
-    <Compile Include="DemoGame\Shapes\WigglyCircle.cs" />
+    <Compile Include="GamepadBasicFPSMovement.cs" />
+    <Compile Include="GamepadBasicFPSMovementSystem.cs" />
+    <Compile Include="PostProcessing\StrobePostProcessor.cs" />
+    <Compile Include="PostProcessing\StrobePostProcessorSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DemoGame\SceneSceneGraphTest.cs" />
+    <Compile Include="Rotate.cs" />
+    <Compile Include="RotateSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame.Framework\MonoGame.Framework.csproj">
       <Project>{a69321f8-f579-4ce9-b6be-ccd5ca04a9e7}</Project>
       <Name>MonoGame.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VectorEngineExtras\VectorEngineExtras.csproj">
-      <Project>{06f9cde5-d41f-4236-8134-37ff379ff8cf}</Project>
-      <Name>VectorEngineExtras</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VectorEngine\VectorEngine.csproj">
       <Project>{d91f5e44-7597-4f32-a9e4-7c930c711f17}</Project>
       <Name>VectorEngine</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DemoGame\SceneGraphEditorScrap\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

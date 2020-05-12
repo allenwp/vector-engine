@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VectorEngine;
 
-namespace VectorEngine.DemoGame
+namespace VectorEngine.Extras
 {
     [RequiresSystem(typeof(GamepadBasicFPSMovementSystem))]
     [RequiresSystem(typeof(GamepadSystem))]

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using VectorEngine;
 using VectorEngine.PostProcessing;
 
-namespace VectorEngine.DemoGame.PostProcessing
+namespace VectorEngine.Extras.PostProcessing
 {
     public class StrobePostProcessorSystem : ECSSystem
     {

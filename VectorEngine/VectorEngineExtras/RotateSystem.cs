@@ -2,7 +2,7 @@
 using System;
 using VectorEngine;
 
-namespace VectorEngine.DemoGame
+namespace VectorEngine.Extras
 {
     public class RotateSystem : ECSSystem
     {

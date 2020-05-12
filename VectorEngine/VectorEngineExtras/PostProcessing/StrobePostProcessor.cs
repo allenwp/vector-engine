@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using VectorEngine;
 using VectorEngine.PostProcessing;
 
-namespace VectorEngine.DemoGame.PostProcessing
+namespace VectorEngine.Extras.PostProcessing
 {
+    [RequiresSystem(typeof(StrobePostProcessorSystem))]
     public class StrobePostProcessor : PostProcessor3D
     {
         public override PostProcess3DDelegate PostProcess3DFuntion { get => StrobePostProcessorSystem.PostProcess; }
