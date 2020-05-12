@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="Field.cs" />
     <Compile Include="FieldSystem.cs" />
+    <Compile Include="PostProcessing\PolarCoordHorizonMaskPostProcessor.cs" />
     <Compile Include="PostProcessing\PolarCoordinatesPostProcessor.cs" />
+    <Compile Include="PostProcessing\PolarCoordHorizonMaskPostProcessorSystem.cs" />
     <Compile Include="PostProcessing\PolarCoordinatesPostProcessorSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Propulsion.cs" />

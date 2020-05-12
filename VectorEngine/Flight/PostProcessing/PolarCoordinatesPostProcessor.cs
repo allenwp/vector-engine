@@ -12,7 +12,6 @@ namespace Flight.PostProcessing
     public class PolarCoordinatesPostProcessor : PostProcessor3D
     {
         public Transform Origin { get; set; }
-        public float Radius { get; set; } = 1f;
         public float ZScale { get; set; } = 0.1f;
 
         public override PostProcess3DDelegate PostProcess3DFuntion => PolarCoordinatesPostProcessorSystem.PostProcess;

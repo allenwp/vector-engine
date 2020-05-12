@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VectorEngine;
+using VectorEngine.Extras;
 using VectorEngine.Extras.PostProcessing;
 using VectorEngine.PostProcessing;
 
@@ -87,11 +88,12 @@ namespace Flight
             trans.LocalScale.Y = 20f;
             trans.LocalScale.Z = trans.LocalScale.X = 8f;
             EntityAdmin.Instance.AddComponent<CurlySpire>(entity);
-            //EntityAdmin.Instance.AddComponent<Rotate>(entity); // meh, I could go either way
+            EntityAdmin.Instance.AddComponent<Rotate>(entity).Speed = 2.5f;
             var strobe = EntityAdmin.Instance.AddComponent<StrobePostProcessor>(entity);
             strobe.AnimationSpeed = 1.7f;
             strobe.Scale = -33f;
             strobe.AnimationValue = (float)rand.NextDouble();
+            strobe.SelfEnabled = false;
             var ppg = EntityAdmin.Instance.AddComponent<PostProcessingGroup3D>(entity);
             ppg.PostProcessors.Add(strobe);
             return trans;

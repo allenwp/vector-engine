@@ -23,7 +23,6 @@ namespace Flight.PostProcessing
             PolarCoordinatesPostProcessor polarPP = postProcessor as PolarCoordinatesPostProcessor;
 
             var origin = polarPP.Origin.Position;
-            var radius = polarPP.Radius;
             var zScale = polarPP.ZScale;
 
             var rangePartitioner = Partitioner.Create(samples3D);

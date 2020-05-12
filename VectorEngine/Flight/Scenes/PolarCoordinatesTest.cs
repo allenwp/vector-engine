@@ -39,7 +39,6 @@ namespace Flight.Scenes
             EntityAdmin.Instance.AddComponent<Propulsion>(originEntity);
             var polarPP = EntityAdmin.Instance.AddComponent<PostProcessing.PolarCoordinatesPostProcessor>(entity);
             polarPP.Origin = originTrans;
-            polarPP.Radius = 5f;
             ppg.PostProcessors.Add(polarPP);
 
             Transform.AssignParent(camTrans, originTrans);
