@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using VectorEngine.DemoGame.Shapes;
 using VectorEngine;
 using VectorEngine.PostProcessing;
+using VectorEngine.Extras;
+using VectorEngine.Extras.PostProcessing;
 
 namespace VectorEngine.DemoGame
 {
@@ -19,7 +21,7 @@ namespace VectorEngine.DemoGame
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
             EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
             EntityAdmin.Instance.Systems.Add(new RotateSystem());
-            EntityAdmin.Instance.Systems.Add(new PostProcessing.StrobePostProcessorSystem());
+            EntityAdmin.Instance.Systems.Add(new StrobePostProcessorSystem());
 
             // "Draw" systems:
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
@@ -62,7 +64,7 @@ namespace VectorEngine.DemoGame
             EntityAdmin.Instance.AddComponent<Cube>(entity);
             //RandomlyConfigureRotate(entity.AddComponent<Rotate>());
             var pp = EntityAdmin.Instance.AddComponent<PostProcessingGroup3D>(entity);
-            pp.PostProcessors.Add(EntityAdmin.Instance.AddComponent<PostProcessing.StrobePostProcessor>(entity));
+            pp.PostProcessors.Add(EntityAdmin.Instance.AddComponent<StrobePostProcessor>(entity));
             return entity;
         }
 

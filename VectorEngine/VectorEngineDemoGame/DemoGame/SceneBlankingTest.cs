@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VectorEngine.DemoGame.Shapes;
 using VectorEngine;
+using VectorEngine.Extras;
 
 namespace VectorEngine.DemoGame
 {

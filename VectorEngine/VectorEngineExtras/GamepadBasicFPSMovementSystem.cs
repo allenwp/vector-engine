@@ -19,15 +19,15 @@ namespace VectorEngine.Extras
                 var rotateSpeed = movement.RotateSpeed * GameTime.LastFrameTime;
                 movement.Yaw -= gamePadState.ThumbSticks.Right.X * rotateSpeed;
                 movement.Pitch += gamePadState.ThumbSticks.Right.Y * rotateSpeed;
-                movement.Roll -= gamePadState.Triggers.Right * rotateSpeed;
-                movement.Roll += gamePadState.Triggers.Left * rotateSpeed;
+                movement.Roll -= gamePadState.Buttons.RightShoulder == ButtonState.Pressed ? rotateSpeed : 0;
+                movement.Roll += gamePadState.Buttons.LeftShoulder == ButtonState.Pressed ? rotateSpeed : 0;
                 transform.LocalRotation = Quaternion.CreateFromYawPitchRoll(movement.Yaw, movement.Pitch, movement.Roll);
 
                 var movementSpeed = movement.TranslateSpeed * GameTime.LastFrameTime;
                 var changeX = gamePadState.ThumbSticks.Left.X * movementSpeed;
                 var changeZ = -1 * gamePadState.ThumbSticks.Left.Y * movementSpeed;
-                var changeY = gamePadState.Buttons.RightShoulder == ButtonState.Pressed ? movementSpeed : 0;
-                changeY -= gamePadState.Buttons.LeftShoulder == ButtonState.Pressed ? movementSpeed : 0;
+                var changeY = gamePadState.Triggers.Right * movementSpeed;
+                changeY -= gamePadState.Triggers.Left * movementSpeed;
                 var change = new Vector3(changeX, changeY, changeZ);
                 change = Vector3.Transform(change, transform.LocalRotation);
 
