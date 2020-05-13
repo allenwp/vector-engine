@@ -21,6 +21,9 @@ namespace Flight
 
                 transform.LocalPosition.X = MathHelper.Clamp(transform.LocalPosition.X, playerControls.XMin, playerControls.XMax);
                 transform.LocalPosition.Y = MathHelper.Clamp(transform.LocalPosition.Y, playerControls.YMin, playerControls.YMax);
+
+                var roll = (gamePadState.Triggers.Left - gamePadState.Triggers.Right) * playerControls.MaxRoll;
+                transform.LocalRotation = Quaternion.CreateFromYawPitchRoll(0, 0, roll);
             }
         }
     }

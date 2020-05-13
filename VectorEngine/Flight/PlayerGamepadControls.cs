@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,7 @@ namespace Flight
         public float YMax { get; set; } = 25f;
 
         public float Speed { get; set; } = 50f;
+        public float RollSpeed { get; set; } = 1f;
+        public float MaxRoll { get; set; } = MathHelper.PiOver4;
     }
 }
