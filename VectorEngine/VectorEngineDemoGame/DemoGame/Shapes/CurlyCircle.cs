@@ -10,11 +10,11 @@ namespace VectorEngine.DemoGame.Shapes
 {
     public class CurlyCircle : Shape
     {
-        public int CurlCount = 20;
-        public float CurlSize = 0.2f;
+        public int CurlCount { get; set; } = 20;
+        public float CurlSize { get; set; } = 0.2f;
 
-        public float AnimationSpeed = 0.1f;
-        public float AnimationOffset = 0f;
+        public float AnimationSpeed { get; set; } = 0.1f;
+        public float AnimationOffset { get; set; } = 0f;
 
         int baseSampleCount = 3000;
         public override List<Sample3D[]> GetSamples3D(float fidelity)
