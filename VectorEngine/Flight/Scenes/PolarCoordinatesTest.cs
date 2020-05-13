@@ -16,7 +16,6 @@ namespace Flight.Scenes
         {
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
             EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
-            EntityAdmin.Instance.Systems.Add(new PropulsionSystem());
             EntityAdmin.Instance.Systems.Add(new PostProcessing.PolarCoordinatesPostProcessorSystem());
 
             // "Draw" systems:
@@ -36,7 +35,6 @@ namespace Flight.Scenes
             var originTrans = EntityAdmin.Instance.AddComponent<Transform>(originEntity);
             originTrans.LocalPosition.Z = 5;
             originTrans.LocalPosition.Y = -50;
-            EntityAdmin.Instance.AddComponent<Propulsion>(originEntity);
             var polarPP = EntityAdmin.Instance.AddComponent<PostProcessing.PolarCoordinatesPostProcessor>(entity);
             polarPP.Origin = originTrans;
             ppg.PostProcessors.Add(polarPP);

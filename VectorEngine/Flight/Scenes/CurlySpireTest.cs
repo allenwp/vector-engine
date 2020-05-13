@@ -17,10 +17,10 @@ namespace Flight.Scenes
         {
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
             EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
-            EntityAdmin.Instance.Systems.Add(new PropulsionSystem());
             EntityAdmin.Instance.Systems.Add(new PostProcessing.PolarCoordinatesPostProcessorSystem());
             EntityAdmin.Instance.Systems.Add(new StrobePostProcessorSystem());
             EntityAdmin.Instance.Systems.Add(new RotateSystem());
+            EntityAdmin.Instance.Systems.Add(new PlayerShipShapesSystem());
 
             // "Draw" systems:
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
@@ -33,7 +33,21 @@ namespace Flight.Scenes
             var camTrans = EntityAdmin.Instance.AddComponent<Transform>(entity);
             EntityAdmin.Instance.AddComponent<GamepadBasicFPSMovement>(entity);
 
-            CreateCurlySpire();
+            // Player
+            entity = EntityAdmin.Instance.CreateEntity("Player Ship");
+            var shipTransform = EntityAdmin.Instance.AddComponent<Transform>(entity);
+            var shipShapes = EntityAdmin.Instance.AddComponent<PlayerShipShapes>(entity);
+            for (int i = 0; i < 10; i++)
+            {
+                var shipRingEntity = EntityAdmin.Instance.CreateEntity("Player Ship Shape " + i);
+                var shipRingTransform = EntityAdmin.Instance.AddComponent<Transform>(shipRingEntity);
+                EntityAdmin.Instance.AddComponent<PlayerShipRing>(shipRingEntity);
+
+                shipShapes.RingShapes.Add(shipRingTransform);
+                Transform.AssignParent(shipRingTransform, shipTransform);
+            }
+
+            //CreateCurlySpire();
         }
 
         public static void CreateCurlySpire()
