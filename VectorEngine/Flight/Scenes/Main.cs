@@ -24,11 +24,16 @@ namespace Flight.Scenes
             EntityAdmin.Instance.Systems.Add(new TrackSystem());
             EntityAdmin.Instance.Systems.Add(new FieldSystem());
             EntityAdmin.Instance.Systems.Add(new PlayerShipShapesSystem());
+            EntityAdmin.Instance.Systems.Add(new ShadowSystem());
+
+            EntityAdmin.Instance.Systems.Add(new StaticBurstCollisionSystem());
+            EntityAdmin.Instance.Systems.Add(new StaticBurstSystem());
 
             // Post Processing Systems:
             EntityAdmin.Instance.Systems.Add(new StrobePostProcessorSystem());
             EntityAdmin.Instance.Systems.Add(new PolarCoordinatesPostProcessorSystem());
             EntityAdmin.Instance.Systems.Add(new PolarCoordHorizonMaskPostProcessorSystem());
+            EntityAdmin.Instance.Systems.Add(new StaticPostProcessorSystem());
 
             // "Draw" systems:
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
@@ -44,6 +49,7 @@ namespace Flight.Scenes
             var camTrans = EntityAdmin.Instance.AddComponent<Transform>(entity);
             camTrans.LocalPosition = new Vector3(0, 0, 100);
             var ppg = EntityAdmin.Instance.AddComponent<PostProcessingGroup3D>(entity);
+            var ppg2D = EntityAdmin.Instance.AddComponent<PostProcessingGroup2D>(entity);
 
             // Track
             entity = EntityAdmin.Instance.CreateEntity("Track Point");
@@ -65,18 +71,17 @@ namespace Flight.Scenes
             polarMaskPP.YCutoff = -5;
             ppg.PostProcessors.Add(polarMaskPP);
 
+            var staticPP = EntityAdmin.Instance.AddComponent<StaticPostProcessor>(cam.Entity);
+            ppg2D.PostProcessors.Add(staticPP);
+            EntityAdmin.Instance.AddComponent<StaticBurst>(cam.Entity);
+
             Transform.AssignParent(originTrans, trackTrans);
             Transform.AssignParent(camTrans, trackTrans);
-
-            // Field
-            entity = EntityAdmin.Instance.CreateEntity("Field");
-            var field = EntityAdmin.Instance.AddComponent<Field>(entity);
-            FieldSystem.PopulateField(field);
 
             // Player
             entity = EntityAdmin.Instance.CreateEntity("Player Ship");
             var shipTransform = EntityAdmin.Instance.AddComponent<Transform>(entity);
-            shipTransform.LocalPosition.Z = 40f;
+            shipTransform.LocalPosition.Z = 50f;
             EntityAdmin.Instance.AddComponent<PlayerGamepadControls>(entity);
             var shipShapes = EntityAdmin.Instance.AddComponent<PlayerShipShapes>(entity);
             for (int i = 0; i < 10; i++)
@@ -89,6 +94,20 @@ namespace Flight.Scenes
                 Transform.AssignParent(shipRingTransform, shipTransform);
             }
             Transform.AssignParent(shipTransform, trackTrans);
+
+            // Player shadow
+            entity = EntityAdmin.Instance.CreateEntity("Player Shadow");
+            var shadowTrans = EntityAdmin.Instance.AddComponent<Transform>(entity);
+            var shadow = EntityAdmin.Instance.AddComponent<Shadow>(entity);
+            EntityAdmin.Instance.AddComponent<Dot>(entity);
+            shadow.ShadowSource = shipTransform;
+            //Transform.AssignParent(shadowTrans, trackTrans);
+
+
+            // Field
+            entity = EntityAdmin.Instance.CreateEntity("Field");
+            var field = EntityAdmin.Instance.AddComponent<Field>(entity);
+            FieldSystem.PopulateField(field, shipTransform);
         }
     }
 }

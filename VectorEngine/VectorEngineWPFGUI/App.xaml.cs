@@ -19,7 +19,7 @@ namespace VectorEngineWPFGUI
         {
             base.OnStartup(e);
 
-            GameLoop.SceneInit = Flight.Scenes.CurlySpireTest.Init;
+            GameLoop.SceneInit = Flight.Scenes.Main.Init;
             Thread thread = new Thread(new ThreadStart(GameLoop.Loop));
             thread.Name = "Game Loop Thread";
             thread.IsBackground = true; // So that it aborts along with the application

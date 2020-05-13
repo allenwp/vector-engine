@@ -47,7 +47,9 @@
     <Compile Include="PlayerGamepadControlsSystem.cs" />
     <Compile Include="PlayerShipShapes.cs" />
     <Compile Include="PlayerShipShapesSystem.cs" />
+    <Compile Include="PostProcessing\StaticPostProcessor.cs" />
     <Compile Include="PostProcessing\PolarCoordHorizonMaskPostProcessor.cs" />
+    <Compile Include="PostProcessing\StaticPostProcessorSystem.cs" />
     <Compile Include="PostProcessing\PolarCoordinatesPostProcessor.cs" />
     <Compile Include="PostProcessing\PolarCoordHorizonMaskPostProcessorSystem.cs" />
     <Compile Include="PostProcessing\PolarCoordinatesPostProcessorSystem.cs" />
@@ -55,9 +57,17 @@
     <Compile Include="Scenes\CurlySpireTest.cs" />
     <Compile Include="Scenes\Main.cs" />
     <Compile Include="Scenes\PolarCoordinatesTest.cs" />
+    <Compile Include="Shadow.cs" />
+    <Compile Include="ShadowSystem.cs" />
+    <Compile Include="Shapes\Cube.cs" />
     <Compile Include="Shapes\CurlySpire.cs" />
     <Compile Include="Shapes\Dot.cs" />
+    <Compile Include="Shapes\Line.cs" />
     <Compile Include="Shapes\PlayerShipRing.cs" />
+    <Compile Include="StaticBurst.cs" />
+    <Compile Include="StaticBurstCollision.cs" />
+    <Compile Include="StaticBurstCollisionSystem.cs" />
+    <Compile Include="StaticBurstSystem.cs" />
     <Compile Include="Track.cs" />
     <Compile Include="TrackSystem.cs" />
   </ItemGroup>
