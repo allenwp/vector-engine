@@ -31,23 +31,24 @@ namespace Flight.Scenes
             var entity = EntityAdmin.Instance.CreateEntity("Camera");
             EntityAdmin.Instance.AddComponent<Camera>(entity);
             var camTrans = EntityAdmin.Instance.AddComponent<Transform>(entity);
+            camTrans.LocalPosition = new Microsoft.Xna.Framework.Vector3(0, 0.5f, 1.3f);
             EntityAdmin.Instance.AddComponent<GamepadBasicFPSMovement>(entity);
 
-            // Player
-            entity = EntityAdmin.Instance.CreateEntity("Player Ship");
-            var shipTransform = EntityAdmin.Instance.AddComponent<Transform>(entity);
-            var shipShapes = EntityAdmin.Instance.AddComponent<PlayerShipShapes>(entity);
-            for (int i = 0; i < 10; i++)
-            {
-                var shipRingEntity = EntityAdmin.Instance.CreateEntity("Player Ship Shape " + i);
-                var shipRingTransform = EntityAdmin.Instance.AddComponent<Transform>(shipRingEntity);
-                EntityAdmin.Instance.AddComponent<PlayerShipRing>(shipRingEntity);
+            //// Player
+            //entity = EntityAdmin.Instance.CreateEntity("Player Ship");
+            //var shipTransform = EntityAdmin.Instance.AddComponent<Transform>(entity);
+            //var shipShapes = EntityAdmin.Instance.AddComponent<PlayerShipShapes>(entity);
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    var shipRingEntity = EntityAdmin.Instance.CreateEntity("Player Ship Shape " + i);
+            //    var shipRingTransform = EntityAdmin.Instance.AddComponent<Transform>(shipRingEntity);
+            //    EntityAdmin.Instance.AddComponent<PlayerShipRing>(shipRingEntity);
 
-                shipShapes.RingShapes.Add(shipRingTransform);
-                Transform.AssignParent(shipRingTransform, shipTransform);
-            }
+            //    shipShapes.RingShapes.Add(shipRingTransform);
+            //    Transform.AssignParent(shipRingTransform, shipTransform);
+            //}
 
-            //CreateCurlySpire();
+            CreateCurlySpire();
         }
 
         public static void CreateCurlySpire()
