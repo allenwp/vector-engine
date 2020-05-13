@@ -10,7 +10,7 @@ using VectorEngine.Extras;
 
 namespace VectorEngine.DemoGame
 {
-    public class SceneShapeTest
+    public class SceneRotatingCube
     {
         public static void Init()
         {
@@ -32,7 +32,7 @@ namespace VectorEngine.DemoGame
             // Order *kinda* matters here: it's the draw order for Shapes
 
             var camera = EntityAdmin.Instance.CreateEntity("Camera");
-            EntityAdmin.Instance.AddComponent<Transform>(camera).LocalPosition = new Vector3(0, 0, 3f);
+            EntityAdmin.Instance.AddComponent<Transform>(camera).LocalPosition = new Vector3(0, 0, 2f);
             EntityAdmin.Instance.AddComponent<Camera>(camera);
             EntityAdmin.Instance.AddComponent<GamepadBasicFPSMovement>(camera);
 
@@ -50,10 +50,10 @@ namespace VectorEngine.DemoGame
             //rotate.Speed = rotate.Speed * -1f;
             //wiggleCircle2.AddComponent<WigglyCircle>();
 
-            var curlyCircle = EntityAdmin.Instance.CreateEntity("curlyCircle");
+            var curlyCircle = EntityAdmin.Instance.CreateEntity("Cube");
             EntityAdmin.Instance.AddComponent<Transform>(curlyCircle).LocalPosition = new Vector3(0, 0, 0); ;
-            EntityAdmin.Instance.AddComponent<CurlyCircle>(curlyCircle);
-            EntityAdmin.Instance.AddComponent<Rotate>(curlyCircle).Speed = 0.05f;
+            EntityAdmin.Instance.AddComponent<Cube>(curlyCircle);
+            EntityAdmin.Instance.AddComponent<Rotate>(curlyCircle).Speed = 0.1f;
         }
     }
 }

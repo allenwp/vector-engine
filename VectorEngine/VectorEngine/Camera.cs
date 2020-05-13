@@ -11,9 +11,9 @@ namespace VectorEngine
     [RequiresSystem(typeof(CameraSystem))]
     public class Camera : Component
     {
-        public enum TypeEnum { Perspective, Orthographic }
+        public enum ProjectionTypeEnum { Perspective, Orthographic }
 
-        public TypeEnum Type = TypeEnum.Perspective;
+        public ProjectionTypeEnum ProjectionType = ProjectionTypeEnum.Perspective;
 
         /// <summary>
         /// Only used if Type == TypeEnum.Perspective
@@ -25,7 +25,7 @@ namespace VectorEngine
         /// "directly to the screen" with 1:1 coordinate mapping.
         /// Only used if Type == TypeEnum.Orthographic
         /// </summary>
-        public float Size = 2f;
+        public float OrthographicSize = 2f;
 
         public float NearPlane = 1;
         public float FarPlane = 1000;

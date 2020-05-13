@@ -50,6 +50,7 @@
     <Compile Include="DemoGame\SceneBlankingTest.cs" />
     <Compile Include="DemoGame\SceneBlogFidelity.cs" />
     <Compile Include="DemoGame\SceneEditorTest.cs" />
+    <Compile Include="DemoGame\SceneRotatingCube.cs" />
     <Compile Include="DemoGame\SceneRotatingCubesAndGridPoints.cs" />
     <Compile Include="DemoGame\SceneShapeTest.cs" />
     <Compile Include="DemoGame\SceneSpaceRings.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="DemoGame\Shapes\WigglyCircle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DemoGame\SceneSceneGraphTest.cs" />
+    <Compile Include="SceneSquareCalibration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame.Framework\MonoGame.Framework.csproj">
@@ -84,8 +86,6 @@
       <Name>VectorEngine</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DemoGame\SceneGraphEditorScrap\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

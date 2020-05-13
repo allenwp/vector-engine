@@ -126,7 +126,7 @@ namespace VectorEngine
         public static List<Sample3D[]> GetSample3Ds(in Camera camera, in Transform cameraTransform, in Transform transform, in Shape shape)
         {
             float fidelity;
-            if (camera.Type == Camera.TypeEnum.Perspective)
+            if (camera.ProjectionType == Camera.ProjectionTypeEnum.Perspective)
             {
                 float distanceFromCamera = Math.Abs(Vector3.Distance(transform.Position, cameraTransform.Position));
                 float minDistanceFromCamera = camera.NearPlane;
@@ -142,7 +142,7 @@ namespace VectorEngine
                 // This formula uses the half of the camera's vision being 1 unit to match up with drawing the shape as non-3D
                 fidelity = 1f / (distanceFromCamera * (float)Math.Tan(camera.FoV / 2f));
             }
-            else if (camera.Type == Camera.TypeEnum.Orthographic)
+            else if (camera.ProjectionType == Camera.ProjectionTypeEnum.Orthographic)
             {
                 fidelity = 1f;
             }

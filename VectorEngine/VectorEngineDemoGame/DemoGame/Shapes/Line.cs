@@ -11,15 +11,25 @@ namespace VectorEngine.DemoGame.Shapes
 {
     public class Line : Shape
     {
-        public int LineLength = 130;
+        public float BaseFidelity;
 
         public Vector3 Start;
         public Vector3 End;
 
+        public Line()
+        {
+            BaseFidelity = 130;
+        }
+
+        public Line(float baseFidelity)
+        {
+            BaseFidelity = baseFidelity;
+        }
+
         public override List<Sample3D[]> GetSamples3D(float fidelity)
         {
             List<Sample3D[]> result = new List<Sample3D[]>(1);
-            int sampleLength = (int)Math.Round(LineLength * fidelity);
+            int sampleLength = (int)Math.Round(BaseFidelity * fidelity);
 
             Sample3D[] sample3DArray = new Sample3D[sampleLength];
             for(int i = 0; i < sampleLength; i++)

@@ -19,13 +19,13 @@ namespace VectorEngine
                 var up = Vector3.Transform(Vector3.Up, transform.Rotation);
                 camera.ViewMatrix = Matrix.CreateLookAt(transform.Position, worldTarget, up);
 
-                if (camera.Type == Camera.TypeEnum.Perspective)
+                if (camera.ProjectionType == Camera.ProjectionTypeEnum.Perspective)
                 {
                     camera.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(camera.FoV, FrameOutput.DisplayProfile.AspectRatio, camera.NearPlane, camera.FarPlane);
                 }
-                else if (camera.Type == Camera.TypeEnum.Orthographic)
+                else if (camera.ProjectionType == Camera.ProjectionTypeEnum.Orthographic)
                 {
-                    camera.ProjectionMatrix = Matrix.CreateOrthographic(camera.Size * FrameOutput.DisplayProfile.AspectRatio, camera.Size, camera.NearPlane, camera.FarPlane);
+                    camera.ProjectionMatrix = Matrix.CreateOrthographic(camera.OrthographicSize * FrameOutput.DisplayProfile.AspectRatio, camera.OrthographicSize, camera.NearPlane, camera.FarPlane);
                 }
                 else
                 {
