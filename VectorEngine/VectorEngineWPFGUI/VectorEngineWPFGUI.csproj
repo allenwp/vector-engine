@@ -58,6 +58,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MIDI.cs" />
+    <Compile Include="MyMidiDeviceWatcher.cs" />
     <Compile Include="Util\Util.cs" />
     <Compile Include="WpfPropertyGrid.cs" />
     <Page Include="MainWindow.xaml">

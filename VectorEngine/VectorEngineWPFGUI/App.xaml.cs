@@ -26,6 +26,11 @@ namespace VectorEngineWPFGUI
             // this apartment state is required for the ASIOOutput.StartDriver method
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
+
+            MIDI midi = new MIDI();
+            midi.SetupWatchers();
+            Thread.Sleep(1000);
+            Task.Run(midi.SetupMidiPorts);
         }
     }
 }
