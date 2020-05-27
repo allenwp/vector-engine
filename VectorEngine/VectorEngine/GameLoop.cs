@@ -9,112 +9,116 @@ namespace VectorEngine
 {
     public class GameLoop
     {
-        public static Action SceneInit;
+        // Some performance counters
+        static PerfTime syncOverheadTime = PerfTime.Initial;
+        static PerfTime frameTimePerf = PerfTime.Initial;
+        static Stopwatch swFrameSyncOverhead = new Stopwatch();
 
+        /// <summary>
+        /// Used for determining how blanking should behave for the first sample of a new frame.
+        /// </summary>
         static Sample previousFinalSample = Sample.Blank;
-        public static void Loop()
+
+        public static void Init(Action sceneInit)
         {
             // ASIO or other output should be the highest priority thread so that it can
             // at least feed blanking samples to the screen if the game loop doesn't finish
             // rendering in time. The game loop is one priority lower, but still above normal.
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 
-            Init();
+            EntityAdmin.Instance.Init();
+            sceneInit();
 
-            var syncOverheadTime = PerfTime.Initial;
-            var frameTimePerf = PerfTime.Initial;
+            swFrameSyncOverhead.Start();
+        }
 
-            var swFrameSyncOverhead = new Stopwatch();
+        public static void Tick()
+        {
+            // If we're still waiting for the output to finish reading a buffer, don't do anything else
+            if ((FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
+                || (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer2))
+            {
+                // TODO: do something better with thread locks or Parallel library or something that doesn't involve spinning
+                return;
+            }
+
+            // We're no longer waiting on output to finish with its buffer.
+            // Progress the FrameOutput state
+            FrameOutput.WriteStateEnum writeState;
+            if (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1)
+            {
+                writeState = FrameOutput.WriteStateEnum.WrittingBuffer1;
+            }
+            else
+            {
+                writeState = FrameOutput.WriteStateEnum.WrittingBuffer2;
+            }
+            FrameOutput.WriteState = (int)writeState;
+
+            swFrameSyncOverhead.Stop();
+            PerfTime.RecordPerfTime(swFrameSyncOverhead, ref syncOverheadTime);
+            var swFrameTime = new Stopwatch();
+            swFrameTime.Start();
+
+            EntityAdmin.Instance.AddQueuedComponents();
+            EntityAdmin.Instance.RemoveQueuedComponents();
+
+            // Tick the systems
+            foreach (ECSSystem system in EntityAdmin.Instance.Systems)
+            {
+                system.Tick();
+            }
+
+            // Finally, prepare and fill the FrameOutput buffer:
+            int blankingSampleCount;
+            int wastedSampleCount;
+            Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount, out wastedSampleCount); // FrameOutput.GetCalibrationFrame();
+            previousFinalSample = finalBuffer[finalBuffer.Length - 1];
+
+            swFrameTime.Stop();
+            PerfTime.RecordPerfTime(swFrameTime, ref frameTimePerf);
+            swFrameSyncOverhead.Reset();
             swFrameSyncOverhead.Start();
 
-            while (true)
+            // "Blit" the buffer and progress the frame buffer write state
+            if (writeState == FrameOutput.WriteStateEnum.WrittingBuffer1)
             {
-                // If we're still waiting for the output to finish reading a buffer, don't do anything else
-                if ((FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
-                    || (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer2))
-                {
-                    // TODO: do something better with thread locks or Parallel library or something that doesn't involve spinning
-                    continue;
-                }
+                FrameOutput.Buffer1 = finalBuffer;
+                FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2;
+            }
+            else
+            {
+                FrameOutput.Buffer2 = finalBuffer;
+                FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1;
+            }
 
-                // We're no longer waiting on output to finish with its buffer.
-                // Progress the FrameOutput state
-                FrameOutput.WriteStateEnum writeState;
-                if (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1)
-                {
-                    writeState = FrameOutput.WriteStateEnum.WrittingBuffer1;
-                }
-                else
-                {
-                    writeState = FrameOutput.WriteStateEnum.WrittingBuffer2;
-                }
-                FrameOutput.WriteState = (int)writeState;
+            // This part regarding the number of starved samples is not thread perfect, but I think it should be
+            // correct more than 99.9% of the time...
+            int starvedSamples = FrameOutput.StarvedSamples;
+            FrameOutput.StarvedSamples = 0;
 
-                swFrameSyncOverhead.Stop();
-                PerfTime.RecordPerfTime(swFrameSyncOverhead, ref syncOverheadTime);
-                var swFrameTime = new Stopwatch();
-                swFrameTime.Start();
+            // Update GameTime:
+            GameTime.LastFrameSampleCount = finalBuffer.Length + starvedSamples;
+            if (starvedSamples > 0)
+            {
+                Console.WriteLine("Added " + starvedSamples + " starved samples to GameTime.LastFrameSampleCount.");
+            }
 
-                EntityAdmin.Instance.AddQueuedComponents();
-                EntityAdmin.Instance.RemoveQueuedComponents();
+            var oldFrameCount = FrameOutput.FrameCount; // to make sure we don't reinitialize when it overflows
+            FrameOutput.FrameCount++;
 
-                // Tick the systems
-                foreach (ECSSystem system in EntityAdmin.Instance.Systems)
-                {
-                    system.Tick();
-                }
+            if (FrameOutput.FrameCount == 1 && oldFrameCount < FrameOutput.FrameCount)
+            {
+                Console.WriteLine("Finished creating first frame buffer! Starting ASIOOutput now.");
+                ASIOOutput.StartDriver();
+            }
 
-                // Finally, prepare and fill the FrameOutput buffer:
-                int blankingSampleCount;
-                int wastedSampleCount;
-                Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount, out wastedSampleCount); // FrameOutput.GetCalibrationFrame();
-                previousFinalSample = finalBuffer[finalBuffer.Length - 1];
-
-                swFrameTime.Stop();
-                PerfTime.RecordPerfTime(swFrameTime, ref frameTimePerf);
-                swFrameSyncOverhead.Reset();
-                swFrameSyncOverhead.Start();
-
-                // "Blit" the buffer and progress the frame buffer write state
-                if (writeState == FrameOutput.WriteStateEnum.WrittingBuffer1)
-                {
-                    FrameOutput.Buffer1 = finalBuffer;
-                    FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2;
-                }
-                else
-                {
-                    FrameOutput.Buffer2 = finalBuffer;
-                    FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1;
-                }
-
-                // This part regarding the number of starved samples is not thread perfect, but I think it should be
-                // correct more than 99.9% of the time...
-                int starvedSamples = FrameOutput.StarvedSamples;
-                FrameOutput.StarvedSamples = 0;
-
-                // Update GameTime:
-                GameTime.LastFrameSampleCount = finalBuffer.Length + starvedSamples;
-                if (starvedSamples > 0)
-                {
-                    Console.WriteLine("Added " + starvedSamples + " starved samples to GameTime.LastFrameSampleCount.");
-                }
-
-                var oldFrameCount = FrameOutput.FrameCount; // to make sure we don't reinitialize when it overflows
-                FrameOutput.FrameCount++;
-
-                if (FrameOutput.FrameCount == 1 && oldFrameCount < FrameOutput.FrameCount)
-                {
-                    Console.WriteLine("Finished creating first frame buffer! Starting ASIOOutput now.");
-                    ASIOOutput.StartDriver();
-                }
-
-                if (FrameOutput.FrameCount % 100 == 0)
-                {
-                    int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
-                    Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking between shapes, " + wastedSampleCount + " wasted) | Frame worst: " + frameTimePerf.worst + " best: " + frameTimePerf.best + " avg: " + frameTimePerf.average + " | Output Sync longest: " + syncOverheadTime.worst + " shortest: " + syncOverheadTime.best + " avg: " + syncOverheadTime.average);
-                    frameTimePerf = PerfTime.Initial;
-                    syncOverheadTime = PerfTime.Initial;
-                }
+            if (FrameOutput.FrameCount % 100 == 0)
+            {
+                int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
+                Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking between shapes, " + wastedSampleCount + " wasted) | Frame worst: " + frameTimePerf.worst + " best: " + frameTimePerf.best + " avg: " + frameTimePerf.average + " | Output Sync longest: " + syncOverheadTime.worst + " shortest: " + syncOverheadTime.best + " avg: " + syncOverheadTime.average);
+                frameTimePerf = PerfTime.Initial;
+                syncOverheadTime = PerfTime.Initial;
             }
         }
 
@@ -247,12 +251,6 @@ namespace VectorEngine
             wastedSamples = trimmedFinalBuffer.Length - finalSampleCount;
 
             return trimmedFinalBuffer;
-        }
-
-        static void Init()
-        {
-            EntityAdmin.Instance.Init();
-            SceneInit();
         }
     }
 }

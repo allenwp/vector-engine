@@ -10,13 +10,14 @@ namespace VectorEngineConsole
 {
     class Program
     {
-        [STAThread]
+        [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
         {
-            // this apartment state is required for the ASIOOutput.StartDriver method
-            Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
-            GameLoop.SceneInit = VectorEngine.DemoGame.SceneRotatingCubesAndGridPoints.Init;
-            GameLoop.Loop();
+            GameLoop.Init(VectorEngine.DemoGame.SceneRotatingCubesAndGridPoints.Init);
+            while (true)
+            {
+                GameLoop.Tick();
+            }
         }
     }
 }

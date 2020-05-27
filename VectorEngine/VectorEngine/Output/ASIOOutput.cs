@@ -15,6 +15,10 @@ namespace VectorEngine.Output
 
         public static void StartDriver()
         {
+            // This apartment state is required for the ASIOOutput.StartDriver method
+            // If an execption is thrown here that's because you need [STAThread] attribute on the thread's start method
+            Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
+
             // make sure we have at least one ASIO driver installed
             if (AsioDriver.InstalledDrivers.Length == 0)
             {
