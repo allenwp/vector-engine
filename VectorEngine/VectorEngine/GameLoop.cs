@@ -12,7 +12,9 @@ namespace VectorEngine
         // Some performance counters
         static PerfTime syncOverheadTime = PerfTime.Initial;
         static PerfTime frameTimePerf = PerfTime.Initial;
+        static PerfTime hostTimePerf = PerfTime.Initial;
         static Stopwatch swFrameSyncOverhead = new Stopwatch();
+        static Stopwatch swHostTime = new Stopwatch();
 
         /// <summary>
         /// Used for determining how blanking should behave for the first sample of a new frame.
@@ -29,11 +31,13 @@ namespace VectorEngine
             EntityAdmin.Instance.Init();
             sceneInit();
 
-            swFrameSyncOverhead.Start();
         }
 
         public static void Tick()
         {
+            swHostTime.Stop();
+            PerfTime.RecordPerfTime(swHostTime, ref hostTimePerf);
+            swFrameSyncOverhead.Start();
             // If we're still waiting for the output to finish reading a buffer, don't do anything else
             if ((FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
                 || (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer2))
@@ -116,10 +120,14 @@ namespace VectorEngine
             if (FrameOutput.FrameCount % 100 == 0)
             {
                 int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
-                Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking between shapes, " + wastedSampleCount + " wasted) | Frame worst: " + frameTimePerf.worst + " best: " + frameTimePerf.best + " avg: " + frameTimePerf.average + " | Output Sync longest: " + syncOverheadTime.worst + " shortest: " + syncOverheadTime.best + " avg: " + syncOverheadTime.average);
+                Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking between shapes, " + wastedSampleCount + " wasted) | Frame worst: " + frameTimePerf.worst + " best: " + frameTimePerf.best + " avg: " + frameTimePerf.average + " | Output Sync longest: " + syncOverheadTime.worst + " shortest: " + syncOverheadTime.best + " avg: " + syncOverheadTime.average + " | Host worst: " + hostTimePerf.worst + " best: " + hostTimePerf.best + " avg: " + hostTimePerf.average);
                 frameTimePerf = PerfTime.Initial;
                 syncOverheadTime = PerfTime.Initial;
+                hostTimePerf = PerfTime.Initial;
             }
+            swFrameSyncOverhead.Stop();
+            swHostTime.Reset();
+            swHostTime.Start();
         }
 
         delegate void AddSamplesDelegate(Sample[] sampleArray);
