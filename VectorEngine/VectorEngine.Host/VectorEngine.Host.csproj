@@ -63,6 +63,9 @@
     <PackageReference Include="ImGui.NET">
       <Version>1.75.0</Version>
     </PackageReference>
+    <PackageReference Include="SharpDX">
+      <Version>4.2.0</Version>
+    </PackageReference>
     <PackageReference Include="Veldrid">
       <Version>4.3.3</Version>
     </PackageReference>
@@ -75,6 +78,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Flight\Flight.csproj">
+      <Project>{05b306bb-2ed0-4093-9bd8-cace93a8f2c0}</Project>
+      <Name>Flight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VectorEngineDemoGame\VectorEngineDemoGame.csproj">
+      <Project>{edee24db-3608-4224-988c-10952996bec0}</Project>
+      <Name>VectorEngineDemoGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VectorEngine\VectorEngine.csproj">
+      <Project>{d91f5e44-7597-4f32-a9e4-7c930c711f17}</Project>
+      <Name>VectorEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

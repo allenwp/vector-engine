@@ -21,6 +21,7 @@ namespace VectorEngine.Host
 
         private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
 
+        [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
         {
             // Create window, GraphicsDevice, and all resources necessary for the demo.
@@ -29,6 +30,9 @@ namespace VectorEngine.Host
                 new GraphicsDeviceOptions(true, null, true),
                 out _window,
                 out _gd);
+
+            _gd.MainSwapchain.SyncToVerticalBlank = false;
+
             _window.Resized += () =>
             {
                 _gd.MainSwapchain.Resize((uint)_window.Width, (uint)_window.Height);
@@ -37,12 +41,12 @@ namespace VectorEngine.Host
             _cl = _gd.ResourceFactory.CreateCommandList();
             _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
 
-            //GameLoop.Init(Flight.Scenes.Main.Init);
+            GameLoop.Init(DemoGame.SceneRotatingCube.Init);
 
             // Main application loop
             while (_window.Exists)
             {
-                //GameLoop.Tick();
+                GameLoop.Tick();
 
                 InputSnapshot snapshot = _window.PumpEvents();
                 if (!_window.Exists) { break; }
