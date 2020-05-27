@@ -19,16 +19,25 @@ namespace VectorEngineWPFGUI
         {
             base.OnStartup(e);
 
-            GameLoop.SceneInit = Flight.Scenes.Main.Init;
-            Thread thread = new Thread(new ThreadStart(GameLoop.Loop));
+            Thread thread = new Thread(new ThreadStart(Loop));
             thread.Name = "Game Loop Thread";
             thread.IsBackground = true; // So that it aborts along with the application
+            thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
 
             MIDI midi = new MIDI();
             midi.SetupWatchers();
             Thread.Sleep(1000);
             Task.Run(midi.SetupMidiPorts);
+        }
+
+        public static void Loop()
+        {
+            GameLoop.Init(Flight.Scenes.Main.Init);
+            while (true)
+            {
+                GameLoop.Tick();
+            }
         }
     }
 }
