@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VectorEngine;
 
-namespace VectorEngineConsole
+namespace VectorEngine.ConsoleHost
 {
     class Program
     {

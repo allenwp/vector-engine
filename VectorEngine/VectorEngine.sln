@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngineWinFormsGUI", "VectorEngineWinFormsGUI\VectorEngineWinFormsGUI.csproj", "{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D91F5E44-7597-4F32-A9E4-7C930C711F17} = {D91F5E44-7597-4F32-A9E4-7C930C711F17}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlueWave.Interop.Asio", "BlueWave.Interop.Asio\Bluewave.Interop.Asio.vcxproj", "{6DB00BA8-EFDE-4D3A-8983-F01857A36C1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework", "MonoGame.Framework\MonoGame.Framework.csproj", "{A69321F8-F579-4CE9-B6BE-CCD5CA04A9E7}"
@@ -30,13 +25,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngineWPFGUI", "Vecto
 		{A69321F8-F579-4CE9-B6BE-CCD5CA04A9E7} = {A69321F8-F579-4CE9-B6BE-CCD5CA04A9E7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngineConsole", "VectorEngineConsole\VectorEngineConsole.csproj", "{FF6254B6-31B2-4FE6-B407-A1C3182BD8C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngine.ConsoleHost", "VectorEngine.ConsoleHost\VectorEngine.ConsoleHost.csproj", "{FF6254B6-31B2-4FE6-B407-A1C3182BD8C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flight", "Flight\Flight.csproj", "{05B306BB-2ED0-4093-9BD8-CACE93A8F2C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngineExtras", "VectorEngineExtras\VectorEngineExtras.csproj", "{06F9CDE5-D41F-4236-8134-37FF379FF8CF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorEngine.Editor", "VectorEngine.Editor\VectorEngine.Editor.csproj", "{C5320AB9-633C-406F-9EDB-6A633DC6AD6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngine.Extras", "VectorEngine.Extras\VectorEngine.Extras.csproj", "{06F9CDE5-D41F-4236-8134-37FF379FF8CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngine.Host", "VectorEngine.Host\VectorEngine.Host.csproj", "{E7576920-D031-4002-AF07-F3C84DE49537}"
 EndProject
@@ -48,14 +41,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}.Debug|x86.Build.0 = Debug|Any CPU
-		{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}.Release|x86.ActiveCfg = Release|Any CPU
-		{BEB6FFFD-D207-47C4-81DA-15D2D60294E2}.Release|x86.Build.0 = Release|Any CPU
 		{6DB00BA8-EFDE-4D3A-8983-F01857A36C1A}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{6DB00BA8-EFDE-4D3A-8983-F01857A36C1A}.Debug|x86.ActiveCfg = Debug|Win32
 		{6DB00BA8-EFDE-4D3A-8983-F01857A36C1A}.Debug|x86.Build.0 = Debug|Win32
@@ -118,14 +103,6 @@ Global
 		{06F9CDE5-D41F-4236-8134-37FF379FF8CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{06F9CDE5-D41F-4236-8134-37FF379FF8CF}.Release|x86.ActiveCfg = Release|Any CPU
 		{06F9CDE5-D41F-4236-8134-37FF379FF8CF}.Release|x86.Build.0 = Release|Any CPU
-		{C5320AB9-633C-406F-9EDB-6A633DC6AD6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C5320AB9-633C-406F-9EDB-6A633DC6AD6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C5320AB9-633C-406F-9EDB-6A633DC6AD6D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C5320AB9-633C-406F-9EDB-6A633DC6AD6D}.Debug|x86.Build.0 = Debug|Any CPU
-		{C5320AB9-633C-406F-9EDB-6A633DC6AD6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C5320AB9-633C-406F-9EDB-6A633DC6AD6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C5320AB9-633C-406F-9EDB-6A633DC6AD6D}.Release|x86.ActiveCfg = Release|Any CPU
-		{C5320AB9-633C-406F-9EDB-6A633DC6AD6D}.Release|x86.Build.0 = Release|Any CPU
 		{E7576920-D031-4002-AF07-F3C84DE49537}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7576920-D031-4002-AF07-F3C84DE49537}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7576920-D031-4002-AF07-F3C84DE49537}.Debug|x86.ActiveCfg = Debug|Any CPU
