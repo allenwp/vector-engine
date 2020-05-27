@@ -6,6 +6,11 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Prefer32Bit>true</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ImGui.NET" Version="1.75.0" />
     <PackageReference Include="Veldrid" Version="4.3.3" />
@@ -27,6 +32,11 @@
     <Content Include="deps/cimgui/win-x64/cimgui.dll" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="deps/cimgui/osx-x64/cimgui.dylib" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="deps/cimgui/linux-x64/cimgui.so" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flight\Flight.csproj" />
+    <ProjectReference Include="..\VectorEngineDemoGame\VectorEngineDemoGame.csproj" />
   </ItemGroup>
 
 </Project>
