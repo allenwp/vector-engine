@@ -26,6 +26,8 @@ namespace VectorEngine.Output
         public static Sample[] Buffer1;
         public static Sample[] Buffer2;
 
+        public static object Buffer1Lock = new object();
+        public static object Buffer2Lock = new object();
         public enum ReadStateEnum
         {
             WaitingToReadBuffer1 = 0,
@@ -33,16 +35,8 @@ namespace VectorEngine.Output
             WaitingToReadBuffer2,
             ReadingBuffer2
         }
-        public static volatile int ReadState = (int)ReadStateEnum.WaitingToReadBuffer1;
-
-        public enum WriteStateEnum
-        {
-            WaitingToWriteBuffer1 = 0,
-            WrittingBuffer1,
-            WaitingToWriteBuffer2,
-            WrittingBuffer2
-        }
-        public static volatile int WriteState = (int)WriteStateEnum.WaitingToWriteBuffer1;
+        public static int ReadState = (int)ReadStateEnum.WaitingToReadBuffer1;
+        public static int LastWriteBuffer = 2;
         #endregion
 
         public static volatile int StarvedSamples = 0;

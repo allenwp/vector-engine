@@ -242,21 +242,34 @@ namespace VectorEngine.Output
         static int frameIndex = 0;
         private static void FeedAsioBuffers(Channel xOutput, Channel yOutput, Channel brightnessOutput, int startIndex)
         {
-            if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
-                || (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer2 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer2))
+            object lockObj = null;
+            if (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1
+                || FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
             {
-                int blankedSampleCount = xOutput.BufferSize - startIndex;
-                FrameOutput.StarvedSamples += blankedSampleCount;
-                Console.WriteLine("AUDIO BUFFER IS STARVED FOR FRAMES! Blanking for " + blankedSampleCount);
-                // Clear the rest of the buffer with blanking frames
-                for (int i = startIndex; i < xOutput.BufferSize; i++)
+                lockObj = FrameOutput.Buffer1Lock;
+            }
+            else if (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer2
+                || FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer2)
+            {
+                lockObj = FrameOutput.Buffer2Lock;
+            }
+            if (!Monitor.IsEntered(lockObj))
+            {
+                if (!Monitor.TryEnter(lockObj))
                 {
-                    // TODO: this should probably just pause on the last position instead (which might be blanking position, but might not be)
-                    xOutput[i] = -1f;
-                    yOutput[i] = -1f;
-                    brightnessOutput[i] = 1f; // no brightness is 1
+                    int blankedSampleCount = xOutput.BufferSize - startIndex;
+                    FrameOutput.StarvedSamples += blankedSampleCount;
+                    Console.WriteLine("AUDIO BUFFER IS STARVED FOR FRAMES! Blanking for " + blankedSampleCount);
+                    // Clear the rest of the buffer with blanking frames
+                    for (int i = startIndex; i < xOutput.BufferSize; i++)
+                    {
+                        // TODO: this should probably just pause on the last position instead (which might be blanking position, but might not be)
+                        xOutput[i] = -1f;
+                        yOutput[i] = -1f;
+                        brightnessOutput[i] = 1f; // no brightness is 1
+                    }
+                    return;
                 }
-                return;
             }
 
             Sample[] currentFrameBuffer = null;
@@ -284,6 +297,8 @@ namespace VectorEngine.Output
                 // Move to the next buffer if needed by recursively calling this method:
                 if (frameIndex >= currentFrameBuffer.Length)
                 {
+                    Monitor.Exit(lockObj);
+
                     readState = (FrameOutput.ReadStateEnum)FrameOutput.ReadState;
                     switch (readState)
                     {

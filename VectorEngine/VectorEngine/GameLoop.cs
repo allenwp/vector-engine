@@ -38,92 +38,78 @@ namespace VectorEngine
             swHostTime.Stop();
             PerfTime.RecordPerfTime(swHostTime, ref hostTimePerf);
             swFrameSyncOverhead.Start();
-            // If we're still waiting for the output to finish reading a buffer, don't do anything else
-            if ((FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
-                || (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer2))
+
+            // This is simple but doesn't work: Sometimes ASIO won't have a lock on either buffer because one buffer finished with the exact number of samples needed.
+            // It also seems to deadlock from time to time. Might be related to the above situation.
+            var lockObj = FrameOutput.LastWriteBuffer == 2 ? FrameOutput.Buffer1Lock : FrameOutput.Buffer2Lock;
+            lock (lockObj)
             {
-                // TODO: do something better with thread locks or Parallel library or something that doesn't involve spinning
-                return;
-            }
+                swFrameSyncOverhead.Stop();
+                PerfTime.RecordPerfTime(swFrameSyncOverhead, ref syncOverheadTime);
+                var swFrameTime = new Stopwatch();
+                swFrameTime.Start();
 
-            // We're no longer waiting on output to finish with its buffer.
-            // Progress the FrameOutput state
-            FrameOutput.WriteStateEnum writeState;
-            if (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1)
-            {
-                writeState = FrameOutput.WriteStateEnum.WrittingBuffer1;
-            }
-            else
-            {
-                writeState = FrameOutput.WriteStateEnum.WrittingBuffer2;
-            }
-            FrameOutput.WriteState = (int)writeState;
+                EntityAdmin.Instance.AddQueuedComponents();
+                EntityAdmin.Instance.RemoveQueuedComponents();
 
-            swFrameSyncOverhead.Stop();
-            PerfTime.RecordPerfTime(swFrameSyncOverhead, ref syncOverheadTime);
-            var swFrameTime = new Stopwatch();
-            swFrameTime.Start();
+                // Tick the systems
+                foreach (ECSSystem system in EntityAdmin.Instance.Systems)
+                {
+                    system.Tick();
+                }
 
-            EntityAdmin.Instance.AddQueuedComponents();
-            EntityAdmin.Instance.RemoveQueuedComponents();
+                // Finally, prepare and fill the FrameOutput buffer:
+                int blankingSampleCount;
+                int wastedSampleCount;
+                Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount, out wastedSampleCount); // FrameOutput.GetCalibrationFrame();
+                previousFinalSample = finalBuffer[finalBuffer.Length - 1];
 
-            // Tick the systems
-            foreach (ECSSystem system in EntityAdmin.Instance.Systems)
-            {
-                system.Tick();
-            }
+                swFrameTime.Stop();
+                PerfTime.RecordPerfTime(swFrameTime, ref frameTimePerf);
+                swFrameSyncOverhead.Reset();
+                swFrameSyncOverhead.Start();
 
-            // Finally, prepare and fill the FrameOutput buffer:
-            int blankingSampleCount;
-            int wastedSampleCount;
-            Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount, out wastedSampleCount); // FrameOutput.GetCalibrationFrame();
-            previousFinalSample = finalBuffer[finalBuffer.Length - 1];
+                // "Blit" the buffer and progress the frame buffer write state
+                if (FrameOutput.LastWriteBuffer == 2)
+                {
+                    FrameOutput.Buffer1 = finalBuffer;
+                    FrameOutput.LastWriteBuffer = 1;
+                }
+                else
+                {
+                    FrameOutput.Buffer2 = finalBuffer;
+                    FrameOutput.LastWriteBuffer = 2;
+                }
 
-            swFrameTime.Stop();
-            PerfTime.RecordPerfTime(swFrameTime, ref frameTimePerf);
-            swFrameSyncOverhead.Reset();
-            swFrameSyncOverhead.Start();
+                // This part regarding the number of starved samples is not thread perfect, but I think it should be
+                // correct more than 99.9% of the time...
+                int starvedSamples = FrameOutput.StarvedSamples;
+                FrameOutput.StarvedSamples = 0;
 
-            // "Blit" the buffer and progress the frame buffer write state
-            if (writeState == FrameOutput.WriteStateEnum.WrittingBuffer1)
-            {
-                FrameOutput.Buffer1 = finalBuffer;
-                FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2;
-            }
-            else
-            {
-                FrameOutput.Buffer2 = finalBuffer;
-                FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1;
-            }
+                // Update GameTime:
+                GameTime.LastFrameSampleCount = finalBuffer.Length + starvedSamples;
+                if (starvedSamples > 0)
+                {
+                    Console.WriteLine("Added " + starvedSamples + " starved samples to GameTime.LastFrameSampleCount.");
+                }
 
-            // This part regarding the number of starved samples is not thread perfect, but I think it should be
-            // correct more than 99.9% of the time...
-            int starvedSamples = FrameOutput.StarvedSamples;
-            FrameOutput.StarvedSamples = 0;
+                var oldFrameCount = FrameOutput.FrameCount; // to make sure we don't reinitialize when it overflows
+                FrameOutput.FrameCount++;
 
-            // Update GameTime:
-            GameTime.LastFrameSampleCount = finalBuffer.Length + starvedSamples;
-            if (starvedSamples > 0)
-            {
-                Console.WriteLine("Added " + starvedSamples + " starved samples to GameTime.LastFrameSampleCount.");
-            }
+                if (FrameOutput.FrameCount == 1 && oldFrameCount < FrameOutput.FrameCount)
+                {
+                    Console.WriteLine("Finished creating first frame buffer! Starting ASIOOutput now.");
+                    ASIOOutput.StartDriver();
+                }
 
-            var oldFrameCount = FrameOutput.FrameCount; // to make sure we don't reinitialize when it overflows
-            FrameOutput.FrameCount++;
-
-            if (FrameOutput.FrameCount == 1 && oldFrameCount < FrameOutput.FrameCount)
-            {
-                Console.WriteLine("Finished creating first frame buffer! Starting ASIOOutput now.");
-                ASIOOutput.StartDriver();
-            }
-
-            if (FrameOutput.FrameCount % 100 == 0)
-            {
-                int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
-                Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking between shapes, " + wastedSampleCount + " wasted) | Frame worst: " + frameTimePerf.worst + " best: " + frameTimePerf.best + " avg: " + frameTimePerf.average + " | Output Sync longest: " + syncOverheadTime.worst + " shortest: " + syncOverheadTime.best + " avg: " + syncOverheadTime.average + " | Host worst: " + hostTimePerf.worst + " best: " + hostTimePerf.best + " avg: " + hostTimePerf.average);
-                frameTimePerf = PerfTime.Initial;
-                syncOverheadTime = PerfTime.Initial;
-                hostTimePerf = PerfTime.Initial;
+                if (FrameOutput.FrameCount % 100 == 0)
+                {
+                    int frameRate = (int)Math.Round(1 / ((float)GameTime.LastFrameSampleCount / FrameOutput.SAMPLES_PER_SECOND));
+                    Console.WriteLine(" " + finalBuffer.Length + " + " + starvedSamples + " starved samples = " + frameRate + " fps (" + blankingSampleCount + " blanking between shapes, " + wastedSampleCount + " wasted) | Frame worst: " + frameTimePerf.worst + " best: " + frameTimePerf.best + " avg: " + frameTimePerf.average + " | Output Sync longest: " + syncOverheadTime.worst + " shortest: " + syncOverheadTime.best + " avg: " + syncOverheadTime.average + " | Host worst: " + hostTimePerf.worst + " best: " + hostTimePerf.best + " avg: " + hostTimePerf.average);
+                    frameTimePerf = PerfTime.Initial;
+                    syncOverheadTime = PerfTime.Initial;
+                    hostTimePerf = PerfTime.Initial;
+                }
             }
             swFrameSyncOverhead.Stop();
             swHostTime.Reset();
