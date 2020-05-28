@@ -38,7 +38,7 @@ namespace VectorEngine.Output
         public enum WriteStateEnum
         {
             WaitingToWriteBuffer1 = 0,
-            WrittingBuffer1 = 0,
+            WrittingBuffer1,
             WaitingToWriteBuffer2,
             WrittingBuffer2
         }
