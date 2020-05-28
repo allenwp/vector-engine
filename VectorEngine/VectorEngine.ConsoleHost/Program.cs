@@ -17,6 +17,12 @@ namespace VectorEngine.ConsoleHost
             while (true)
             {
                 GameLoop.Tick();
+                // Debug test code to simulate tricky double buffer situations
+                //if (new Random().Next(60) == 0)
+                //{
+                //    Console.WriteLine("Sleeping to simulate a long Host time.");
+                //    Thread.Sleep(200);
+                //}
             }
         }
     }

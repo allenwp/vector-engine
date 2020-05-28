@@ -242,8 +242,8 @@ namespace VectorEngine.Output
         static int frameIndex = 0;
         private static void FeedAsioBuffers(Channel xOutput, Channel yOutput, Channel brightnessOutput, int startIndex)
         {
-            if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1)
-                || (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer2 && FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer2))
+            if ((FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1 && (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer1 || FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1))
+                || (FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer2 && (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WrittingBuffer2 || FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2)))
             {
                 int blankedSampleCount = xOutput.BufferSize - startIndex;
                 FrameOutput.StarvedSamples += blankedSampleCount;
@@ -288,9 +288,11 @@ namespace VectorEngine.Output
                     switch (readState)
                     {
                         case FrameOutput.ReadStateEnum.ReadingBuffer1:
+                            FrameOutput.Buffer1 = null; // We're done with it, so clear it. This makes problems with the double buffer system more obvious. (Fail early mentality)
                             FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer2;
                             break;
                         case FrameOutput.ReadStateEnum.ReadingBuffer2:
+                            FrameOutput.Buffer2 = null; // We're done with it, so clear it. This makes problems with the double buffer system more obvious. (Fail early mentality)
                             FrameOutput.ReadState = (int)FrameOutput.ReadStateEnum.WaitingToReadBuffer1;
                             break;
                         case FrameOutput.ReadStateEnum.WaitingToReadBuffer1:
@@ -311,6 +313,10 @@ namespace VectorEngine.Output
 
                 frameIndex++;
             }
+
+            // TODO: clear the buffer and progress the read state if we've completely exausted the current frame but haven't yet moved onto the next!
+            // (Not sure where exactly or how exactly this should happen, but it's just a minor perofrmance improvement for an edge case. Not need because
+            // the next time the ASIO buffer is fed, it will simiply move on to the next frame anyway.)
         }
 
         public static Sample PrepareSampleForScreen(Sample sample)

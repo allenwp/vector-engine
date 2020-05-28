@@ -79,6 +79,13 @@ namespace VectorEngine
             Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount, out wastedSampleCount); // FrameOutput.GetCalibrationFrame();
             previousFinalSample = finalBuffer[finalBuffer.Length - 1];
 
+            // Debug test code to simulate tricky double buffer situations
+            //if (new Random().Next(60) == 0)
+            //{
+            //    Console.WriteLine("Sleeping to simulate a long frame time.");
+            //    Thread.Sleep(200);
+            //}
+
             swFrameTime.Stop();
             PerfTime.RecordPerfTime(swFrameTime, ref frameTimePerf);
             swFrameSyncOverhead.Reset();
