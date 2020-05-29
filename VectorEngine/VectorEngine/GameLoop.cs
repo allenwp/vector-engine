@@ -21,6 +21,14 @@ namespace VectorEngine
         /// </summary>
         static Sample previousFinalSample = Sample.Blank;
 
+        static bool firstFrame = true;
+        enum WriteStateEnum
+        {
+            Buffer1,
+            Buffer2
+        }
+        static WriteStateEnum WriteState = WriteStateEnum.Buffer1;
+
         public static void Init(Action sceneInit)
         {
             // ASIO or other output should be the highest priority thread so that it can
@@ -38,26 +46,16 @@ namespace VectorEngine
             swHostTime.Stop();
             PerfTime.RecordPerfTime(swHostTime, ref hostTimePerf);
             swFrameSyncOverhead.Start();
+
+            WriteStateEnum writeState = (WriteStateEnum)WriteState;
             // If we're still waiting for the output to finish reading a buffer, don't do anything else
-            if ((FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer1)
-                || (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2 && FrameOutput.ReadState == (int)FrameOutput.ReadStateEnum.ReadingBuffer2))
+            if (!firstFrame
+                && ((writeState == WriteStateEnum.Buffer1 && FrameOutput.Buffer1 != null)
+                    || (writeState == WriteStateEnum.Buffer2 && FrameOutput.Buffer2 != null)))
             {
-                // TODO: do something better with thread locks or Parallel library or something that doesn't involve spinning
+                // TODO: do something better with thread locks or Parallel library or something that doesn't involve spinning??
                 return;
             }
-
-            // We're no longer waiting on output to finish with its buffer.
-            // Progress the FrameOutput state
-            FrameOutput.WriteStateEnum writeState;
-            if (FrameOutput.WriteState == (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1)
-            {
-                writeState = FrameOutput.WriteStateEnum.WrittingBuffer1;
-            }
-            else
-            {
-                writeState = FrameOutput.WriteStateEnum.WrittingBuffer2;
-            }
-            FrameOutput.WriteState = (int)writeState;
 
             swFrameSyncOverhead.Stop();
             PerfTime.RecordPerfTime(swFrameSyncOverhead, ref syncOverheadTime);
@@ -82,8 +80,8 @@ namespace VectorEngine
             // Debug test code to simulate tricky double buffer situations
             //if (new Random().Next(60) == 0)
             //{
-            //    Console.WriteLine("Sleeping to simulate a long frame time.");
-            //    Thread.Sleep(200);
+            //    //Console.WriteLine("Sleeping to simulate a long frame time.");
+            //    Thread.Sleep(7);
             //}
 
             swFrameTime.Stop();
@@ -92,15 +90,15 @@ namespace VectorEngine
             swFrameSyncOverhead.Start();
 
             // "Blit" the buffer and progress the frame buffer write state
-            if (writeState == FrameOutput.WriteStateEnum.WrittingBuffer1)
+            if (writeState == WriteStateEnum.Buffer1)
             {
                 FrameOutput.Buffer1 = finalBuffer;
-                FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer2;
+                WriteState = WriteStateEnum.Buffer2;
             }
             else
             {
                 FrameOutput.Buffer2 = finalBuffer;
-                FrameOutput.WriteState = (int)FrameOutput.WriteStateEnum.WaitingToWriteBuffer1;
+                WriteState = WriteStateEnum.Buffer1;
             }
 
             // This part regarding the number of starved samples is not thread perfect, but I think it should be
@@ -115,11 +113,11 @@ namespace VectorEngine
                 Console.WriteLine("Added " + starvedSamples + " starved samples to GameTime.LastFrameSampleCount.");
             }
 
-            var oldFrameCount = FrameOutput.FrameCount; // to make sure we don't reinitialize when it overflows
             FrameOutput.FrameCount++;
 
-            if (FrameOutput.FrameCount == 1 && oldFrameCount < FrameOutput.FrameCount)
+            if (firstFrame)
             {
+                firstFrame = false;
                 Console.WriteLine("Finished creating first frame buffer! Starting ASIOOutput now.");
                 ASIOOutput.StartDriver();
             }

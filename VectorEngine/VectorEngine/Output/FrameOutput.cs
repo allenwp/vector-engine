@@ -23,30 +23,23 @@ namespace VectorEngine.Output
         public static readonly int BLANKING_CHANNEL_DELAY = 17;
 
         #region Double Buffers
-        public static Sample[] Buffer1;
-        public static Sample[] Buffer2;
-
-        public enum ReadStateEnum
-        {
-            WaitingToReadBuffer1 = 0,
-            ReadingBuffer1,
-            WaitingToReadBuffer2,
-            ReadingBuffer2
-        }
-        public static volatile int ReadState = (int)ReadStateEnum.WaitingToReadBuffer1;
-
-        public enum WriteStateEnum
-        {
-            WaitingToWriteBuffer1 = 0,
-            WrittingBuffer1,
-            WaitingToWriteBuffer2,
-            WrittingBuffer2
-        }
-        public static volatile int WriteState = (int)WriteStateEnum.WaitingToWriteBuffer1;
+        /// <summary>
+        /// GameLoop checks to see if it's null before writting.
+        /// Output should set to null when it's finished reading.
+        /// </summary>
+        public static volatile Sample[] Buffer1;
+        /// <summary>
+        /// GameLoop checks to see if it's null before writting.
+        /// Output should set to null when it's finished reading.
+        /// </summary>
+        public static volatile Sample[] Buffer2;
         #endregion
 
         public static volatile int StarvedSamples = 0;
 
+        /// <summary>
+        /// This will eventually overflow and loop back to 0.
+        /// </summary>
         public static ulong FrameCount = 0;
 
         public static void ClearBuffer(Sample[] buffer, int startIndex = 0)
