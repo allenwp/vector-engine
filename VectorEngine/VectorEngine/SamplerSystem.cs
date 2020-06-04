@@ -15,6 +15,17 @@ namespace VectorEngine
             var cameraTuples = EntityAdmin.Instance.GetTuple<Transform, Camera>();
             var shapeTuples = EntityAdmin.Instance.GetTuple<Transform, Shape>();
 
+            // Grab only the highest priority cameras:
+            uint highestPriority = 0;
+            foreach ((var cameraTransform, var camera) in cameraTuples)
+            {
+                if (camera.Priority > highestPriority)
+                {
+                    highestPriority = camera.Priority;
+                }
+            }
+            cameraTuples = cameraTuples.Where(tuple => tuple.Item2.Priority == highestPriority);
+
             List<Sample[]> result = new List<Sample[]>();
 
             foreach ((var cameraTransform, var camera) in cameraTuples)
@@ -110,7 +121,7 @@ namespace VectorEngine
                 result.AddRange(screenSpaceResult);
             }
 
-            // We now have all camera's screen space samples. Post process them:
+            // We now have all cameras' screen space samples. Post process them:
             var samplerPostProcessor2D = EntityAdmin.Instance.SingletonSampler.Entity.GetComponent<PostProcessing.PostProcessingGroup2D>();
             if (samplerPostProcessor2D != null)
             {

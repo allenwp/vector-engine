@@ -39,5 +39,11 @@ namespace VectorEngine
         /// 0 means it will NOT render Shapes on that filter layer.
         /// </summary>
         public uint Filter = uint.MaxValue;
+
+        /// <summary>
+        /// Only cameras on the highest Priority will render.
+        /// This is used for the Editor camera, but can be used for other effects.
+        /// </summary>
+        public uint Priority = 0;
     }
 }

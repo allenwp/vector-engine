@@ -100,6 +100,10 @@ namespace VectorEngineWPFGUI
             if (receivedMidiMessage.Type == MidiMessageType.NoteOn)
             {
                 Console.WriteLine("Pressed button number: " + ((MidiNoteOnMessage)receivedMidiMessage).Note);
+                if (((MidiNoteOnMessage)receivedMidiMessage).Note == 16)
+                {
+                    App.EditorCamera.SelfEnabled = !App.EditorCamera.SelfEnabled;
+                }
             }
 
             if (receivedMidiMessage.Type == MidiMessageType.ControlChange)

@@ -15,6 +15,8 @@ namespace VectorEngineWPFGUI
     /// </summary>
     public partial class App : Application
     {
+        public static Entity EditorCamera;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -33,7 +35,8 @@ namespace VectorEngineWPFGUI
 
         public static void Loop()
         {
-            GameLoop.Init(Flight.Scenes.Main.Init);
+            GameLoop.Init(VectorEngine.DemoGame.SceneRotatingCubesAndGridPoints.Init);
+            EditorCamera = VectorEngine.Extras.Util.EditorUtil.CreateSceneViewCamera();
             while (true)
             {
                 GameLoop.Tick();
