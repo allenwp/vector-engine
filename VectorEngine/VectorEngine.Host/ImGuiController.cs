@@ -63,7 +63,13 @@ namespace VectorEngine.Host
             IntPtr context = ImGui.CreateContext();
             ImGui.SetCurrentContext(context);
             var fonts = ImGui.GetIO().Fonts;
-            ImGui.GetIO().Fonts.AddFontDefault();
+
+            ImGui.StyleColorsLight();
+            float scale = 1.5f;
+            ImGui.GetStyle().ScaleAllSizes(scale);
+            int fontSize = (int)(13f * scale); // always round down
+            ImGui.GetIO().Fonts.AddFontFromFileTTF("EditorFonts\\SourceCodePro-Regular.ttf", fontSize);
+            // For Defulat font: ImGui.GetIO().Fonts.AddFontDefault();
 
             CreateDeviceResources(gd, outputDescription);
             SetKeyMappings();

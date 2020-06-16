@@ -26,7 +26,7 @@ namespace VectorEngine.Host
         {
             // Create window, GraphicsDevice, and all resources necessary for the demo.
             VeldridStartup.CreateWindowAndGraphicsDevice(
-                new WindowCreateInfo(50, 50, 1280, 720, WindowState.Normal, "Vector Engine Editor"),
+                new WindowCreateInfo(50, 50, 3600, 2000, WindowState.Normal, "Vector Engine Editor"),
                 new GraphicsDeviceOptions(true, null, true),
                 out _window,
                 out _gd);
@@ -41,7 +41,7 @@ namespace VectorEngine.Host
             _cl = _gd.ResourceFactory.CreateCommandList();
             _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
 
-            GameLoop.Init(DemoGame.SceneRotatingCube.Init);
+            GameLoop.Init(Flight.Scenes.Main.Init);
 
             // Main application loop
             while (_window.Exists)
