@@ -112,8 +112,45 @@ namespace VectorEngine.Host
         private static unsafe void SubmitSceneGraphWindow(EntityAdmin admin)
         {
             ImGui.Begin("Scene Graph");
-            // TODO
+
+            var list = EntityAdmin.Instance.GetComponents<Transform>(true).Where(trans => trans.Parent == null).ToList();
+            AddSceneGraphTransforms(list);
+
             ImGui.End();
+        }
+
+        private static void AddSceneGraphTransforms(List<Transform> list)
+        {
+            foreach (var transform in list)
+            {
+                ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.OpenOnDoubleClick | ImGuiTreeNodeFlags.SpanAvailWidth; // OpenOnDoubleClick doesn't seem to work. Not sure why.
+                if (transform.Children.Count == 0)
+                {
+                    nodeFlags |= ImGuiTreeNodeFlags.Leaf;
+                }
+                if (transform == selectedEntityComponent)
+                {
+                    nodeFlags |= ImGuiTreeNodeFlags.Selected;
+                }
+                if (!transform.IsActive)
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
+                }
+                bool expanded = ImGui.TreeNodeEx(transform.Guid.ToString(), nodeFlags, transform.EntityName);
+                if (!transform.IsActive)
+                {
+                    ImGui.PopStyleColor();
+                }
+                if (ImGui.IsItemClicked())
+                {
+                    selectedEntityComponent = transform;
+                }
+                if (expanded)
+                {
+                    AddSceneGraphTransforms(transform.Children.ToList());
+                    ImGui.TreePop();
+                }
+            }
         }
 
         /// <returns>Selected Entity or component or null if none selected</returns>
@@ -144,8 +181,6 @@ namespace VectorEngine.Host
                 Util.ImGuiUtil.EndDisable();
             }
 
-            bool foundSelected = false;
-
             foreach (var entity in admin.Entities)
             {
                 ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.OpenOnDoubleClick | ImGuiTreeNodeFlags.SpanAvailWidth; // OpenOnDoubleClick doesn't seem to work. Not sure why.
@@ -156,7 +191,6 @@ namespace VectorEngine.Host
                 if (entity == selectedEntityComponent)
                 {
                     nodeFlags |= ImGuiTreeNodeFlags.Selected;
-                    foundSelected = true;
                 }
                 if (!entity.IsActive)
                 {
@@ -170,7 +204,6 @@ namespace VectorEngine.Host
                 if (ImGui.IsItemClicked())
                 {
                     selectedEntityComponent = entity;
-                    foundSelected = true;
                 }
                 if (expanded)
                 {
@@ -181,7 +214,6 @@ namespace VectorEngine.Host
                         if (components[i] == selectedEntityComponent)
                         {
                             nodeFlags |= ImGuiTreeNodeFlags.Selected;
-                            foundSelected = true;
                         }            
                         if (!components[i].IsActive)
                         {
@@ -195,7 +227,6 @@ namespace VectorEngine.Host
                         if (ImGui.IsItemClicked())
                         {
                             selectedEntityComponent = components[i];
-                            foundSelected = true;
                         }
                     }
                     ImGui.TreePop();
@@ -203,6 +234,20 @@ namespace VectorEngine.Host
             }
 
             // Don't leak an object that's been destroyed
+            bool foundSelected = false;
+            foreach (var entity in admin.Entities)
+            {
+                if (selectedEntityComponent == entity)
+                {
+                    foundSelected = true;
+                    break;
+                }
+                foundSelected = entity.Components.Contains(selectedEntityComponent);
+                if (foundSelected)
+                {
+                    break;
+                }
+            }
             if (!foundSelected)
             {
                 selectedEntityComponent = null;
