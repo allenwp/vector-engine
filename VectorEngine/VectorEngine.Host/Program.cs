@@ -9,6 +9,7 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
 using ImGuiNET;
+using System.Runtime.InteropServices;
 
 namespace VectorEngine.Host
 {
@@ -20,6 +21,8 @@ namespace VectorEngine.Host
         private static ImGuiController _controller;
 
         private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
+
+        static object selectedEntityComponent = null;
 
 #if DEBUG
         private static bool _showEditor = true;
@@ -91,17 +94,120 @@ namespace VectorEngine.Host
         private static unsafe void SubmitUI(EntityAdmin admin)
         {
             SubmitSystemsWindow(admin);
+            SubmitSceneGraphWindow(admin);
+            SubmitEntitiesWindow(admin);
         }
 
         private static unsafe void SubmitSystemsWindow(EntityAdmin admin)
         {
             ImGui.Begin("Systems Order");
-            ImGui.BeginChild("Scrolling");
             foreach (var system in admin.Systems)
             {
                 ImGui.Text(system.GetType().ToString());
             }
-            ImGui.EndChild();
+            ImGui.End();
+        }
+
+        /// <returns>GUID of selected Transform or Guid.Empty if none selected</returns>
+        private static unsafe void SubmitSceneGraphWindow(EntityAdmin admin)
+        {
+            ImGui.Begin("Scene Graph");
+            // TODO
+            ImGui.End();
+        }
+
+        /// <returns>Selected Entity or component or null if none selected</returns>
+        private static unsafe void SubmitEntitiesWindow(EntityAdmin admin)
+        {
+            ImGui.Begin("Entities and Components");
+
+            if (ImGui.Button("New Entity"))
+            {
+                var entity = admin.CreateEntity("New Entity");
+                selectedEntityComponent = entity;
+            }
+
+            ImGui.SameLine();
+
+            Entity entityToDestroy = selectedEntityComponent as Entity;
+            bool disabled = entityToDestroy == null;
+            if (disabled)
+            {
+                Util.ImGuiUtil.BeginDisable();
+            }
+            if (ImGui.Button("Destroy Entity") && !disabled)
+            {
+                admin.DestroyEntity(entityToDestroy);
+            }
+            if (disabled)
+            {
+                Util.ImGuiUtil.EndDisable();
+            }
+
+            bool foundSelected = false;
+
+            foreach (var entity in admin.Entities)
+            {
+                ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.OpenOnDoubleClick | ImGuiTreeNodeFlags.SpanAvailWidth; // OpenOnDoubleClick doesn't seem to work. Not sure why.
+                if (entity.Components.Count == 0)
+                {
+                    nodeFlags |= ImGuiTreeNodeFlags.Leaf;
+                }
+                if (entity == selectedEntityComponent)
+                {
+                    nodeFlags |= ImGuiTreeNodeFlags.Selected;
+                    foundSelected = true;
+                }
+                if (!entity.IsActive)
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
+                }
+                bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entity.Name);
+                if (!entity.IsActive)
+                {
+                    ImGui.PopStyleColor();
+                }
+                if (ImGui.IsItemClicked())
+                {
+                    selectedEntityComponent = entity;
+                    foundSelected = true;
+                }
+                if (expanded)
+                {
+                    var components = entity.Components;
+                    for (int i = 0; i < components.Count; i++)
+                    {
+                        nodeFlags = ImGuiTreeNodeFlags.Leaf | ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.NoTreePushOnOpen; // This last one means that you can't do aImGui.TreePop(); or things will be messed up. 
+                        if (components[i] == selectedEntityComponent)
+                        {
+                            nodeFlags |= ImGuiTreeNodeFlags.Selected;
+                            foundSelected = true;
+                        }            
+                        if (!components[i].IsActive)
+                        {
+                            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
+                        }
+                        ImGui.TreeNodeEx(components[i].Guid.ToString(), nodeFlags, components[i].Name);
+                        if (!components[i].IsActive)
+                        {
+                            ImGui.PopStyleColor();
+                        }
+                        if (ImGui.IsItemClicked())
+                        {
+                            selectedEntityComponent = components[i];
+                            foundSelected = true;
+                        }
+                    }
+                    ImGui.TreePop();
+                }
+            }
+
+            // Don't leak an object that's been destroyed
+            if (!foundSelected)
+            {
+                selectedEntityComponent = null;
+            }
+
             ImGui.End();
         }
     }

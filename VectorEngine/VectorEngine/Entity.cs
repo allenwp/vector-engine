@@ -11,6 +11,8 @@ namespace VectorEngine
     {
         public string Name { get; set; }
         
+        public Guid Guid { get; private set; }
+
         public bool SelfEnabled { get; set; } = true;
         public bool IsActive
         {
@@ -47,6 +49,7 @@ namespace VectorEngine
         public Entity(string name)
         {
             Name = name;
+            Guid = Guid.NewGuid();
             Components = new ObservableCollection<Component>();
         }
 

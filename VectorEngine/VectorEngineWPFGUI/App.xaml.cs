@@ -35,7 +35,7 @@ namespace VectorEngineWPFGUI
 
         public static void Loop()
         {
-            GameLoop.Init(VectorEngine.DemoGame.SceneRotatingCubesAndGridPoints.Init);
+            GameLoop.Init(Flight.Scenes.Main.Init);
             EditorCamera = VectorEngine.Extras.Util.EditorUtil.CreateSceneViewCamera();
             while (true)
             {

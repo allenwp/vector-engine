@@ -13,6 +13,7 @@ namespace VectorEngine
     public class Component
     {
         public string Name { get => GetType().Name; }
+        public Guid Guid { get; private set; }
         /// <summary>
         /// Used for the WPF editor because I don't know how to do stuff yet.
         /// </summary>
@@ -29,6 +30,11 @@ namespace VectorEngine
         public override string ToString()
         {
             return Name;
+        }
+
+        public Component()
+        {
+            Guid = Guid.NewGuid();
         }
     }
 }
