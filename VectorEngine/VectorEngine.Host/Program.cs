@@ -67,9 +67,9 @@ namespace VectorEngine.Host
 
                 if (_showEditor)
                 {
-                    _controller.Update(1f / 60f, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
+                    _controller.Update(GameTime.LastFrameTime, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
 
-                    SubmitUI();
+                    SubmitUI(EntityAdmin.Instance);
 
                     _cl.Begin();
                     _cl.SetFramebuffer(_gd.MainSwapchain.Framebuffer);
@@ -88,9 +88,21 @@ namespace VectorEngine.Host
             _gd.Dispose();
         }
 
-        private static unsafe void SubmitUI()
+        private static unsafe void SubmitUI(EntityAdmin admin)
         {
-            ImGui.Text("Hello, world!");
+            SubmitSystemsWindow(admin);
+        }
+
+        private static unsafe void SubmitSystemsWindow(EntityAdmin admin)
+        {
+            ImGui.Begin("Systems Order");
+            ImGui.BeginChild("Scrolling");
+            foreach (var system in admin.Systems)
+            {
+                ImGui.Text(system.GetType().ToString());
+            }
+            ImGui.EndChild();
+            ImGui.End();
         }
     }
 }
