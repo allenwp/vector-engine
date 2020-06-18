@@ -24,6 +24,9 @@ namespace VectorEngine.Host
 
         static object selectedEntityComponent = null;
 
+        static bool scrollSceneGraphView = false;
+        static bool scrollEntitiesView = false;
+
 #if DEBUG
         private static bool _showEditor = true;
 #else
@@ -117,6 +120,8 @@ namespace VectorEngine.Host
             AddSceneGraphTransforms(list);
 
             ImGui.End();
+
+            scrollSceneGraphView = false;
         }
 
         private static void AddSceneGraphTransforms(List<Transform> list)
@@ -151,6 +156,10 @@ namespace VectorEngine.Host
                 if (transform == selectedTransform)
                 {
                     nodeFlags |= ImGuiTreeNodeFlags.Selected;
+                    if (scrollSceneGraphView)
+                    {
+                        ImGui.SetScrollHereY();
+                    }
                 }
                 if (!transform.IsActive)
                 {
@@ -179,6 +188,7 @@ namespace VectorEngine.Host
                 if (ImGui.IsItemClicked())
                 {
                     selectedEntityComponent = transform;
+                    scrollEntitiesView = true;
                 }
                 if (expanded)
                 {
@@ -197,6 +207,7 @@ namespace VectorEngine.Host
             {
                 var entity = admin.CreateEntity("New Entity");
                 selectedEntityComponent = entity;
+                scrollSceneGraphView = true;
             }
 
             ImGui.SameLine();
@@ -228,6 +239,10 @@ namespace VectorEngine.Host
                 if (entity == selectedEntityComponent)
                 {
                     nodeFlags |= ImGuiTreeNodeFlags.Selected;
+                    if (scrollEntitiesView)
+                    {
+                        ImGui.SetScrollHereY();
+                    }
                 }
                 if (!entity.IsActive)
                 {
@@ -248,6 +263,7 @@ namespace VectorEngine.Host
                 if (ImGui.IsItemClicked())
                 {
                     selectedEntityComponent = entity;
+                    scrollSceneGraphView = true;
                 }
                 if (expanded)
                 {
@@ -257,6 +273,10 @@ namespace VectorEngine.Host
                         if (components[i] == selectedEntityComponent)
                         {
                             nodeFlags |= ImGuiTreeNodeFlags.Selected;
+                            if (scrollEntitiesView)
+                            {
+                                ImGui.SetScrollHereY();
+                            }
                         }            
                         if (!components[i].IsActive)
                         {
@@ -270,6 +290,7 @@ namespace VectorEngine.Host
                         if (ImGui.IsItemClicked())
                         {
                             selectedEntityComponent = components[i];
+                            scrollSceneGraphView = true;
                         }
                     }
                     ImGui.TreePop();
@@ -297,6 +318,8 @@ namespace VectorEngine.Host
             }
 
             ImGui.End();
+
+            scrollEntitiesView = false;
         }
     }
 }
