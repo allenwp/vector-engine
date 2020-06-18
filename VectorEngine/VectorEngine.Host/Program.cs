@@ -121,6 +121,26 @@ namespace VectorEngine.Host
 
         private static void AddSceneGraphTransforms(List<Transform> list)
         {
+            // The selectedTransform is either the selectedEntityComponent (if it's a Transform) or the Transform associated with the selected Entity/Component.
+            Transform selectedTransform = selectedEntityComponent as Transform;
+            if (selectedTransform == null)
+            {
+                Entity entity = selectedEntityComponent as Entity;
+                if (entity == null)
+                {
+                    Component component = selectedEntityComponent as Component;
+                    if (component != null)
+                    {
+                        entity = component.Entity;
+                    }
+                }
+
+                if (entity != null)
+                {
+                    selectedTransform = entity.GetComponent<Transform>();
+                }
+            }
+
             foreach (var transform in list)
             {
                 ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.OpenOnDoubleClick | ImGuiTreeNodeFlags.SpanAvailWidth; // OpenOnDoubleClick doesn't seem to work. Not sure why.
@@ -128,13 +148,28 @@ namespace VectorEngine.Host
                 {
                     nodeFlags |= ImGuiTreeNodeFlags.Leaf;
                 }
-                if (transform == selectedEntityComponent)
+                if (transform == selectedTransform)
                 {
                     nodeFlags |= ImGuiTreeNodeFlags.Selected;
                 }
                 if (!transform.IsActive)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
+                }
+                bool parentOfSelected = false;
+                Transform parent = selectedTransform as Transform;
+                while (parent != null)
+                {
+                    parent = parent.Parent;
+                    if (parent == transform)
+                    {
+                        parentOfSelected = true;
+                        break;
+                    }
+                }
+                if (parentOfSelected)
+                {
+                    ImGui.SetNextItemOpen(true);
                 }
                 bool expanded = ImGui.TreeNodeEx(transform.Guid.ToString(), nodeFlags, transform.EntityName);
                 if (!transform.IsActive)
@@ -183,6 +218,8 @@ namespace VectorEngine.Host
 
             foreach (var entity in admin.Entities)
             {
+                var components = entity.Components;
+
                 ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.OpenOnDoubleClick | ImGuiTreeNodeFlags.SpanAvailWidth; // OpenOnDoubleClick doesn't seem to work. Not sure why.
                 if (entity.Components.Count == 0)
                 {
@@ -196,6 +233,13 @@ namespace VectorEngine.Host
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
                 }
+                for (int i = 0; i < components.Count; i++)
+                {
+                    if (components[i] == selectedEntityComponent)
+                    {
+                        ImGui.SetNextItemOpen(true);
+                    }
+                }
                 bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entity.Name);
                 if (!entity.IsActive)
                 {
@@ -207,7 +251,6 @@ namespace VectorEngine.Host
                 }
                 if (expanded)
                 {
-                    var components = entity.Components;
                     for (int i = 0; i < components.Count; i++)
                     {
                         nodeFlags = ImGuiTreeNodeFlags.Leaf | ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.NoTreePushOnOpen; // This last one means that you can't do aImGui.TreePop(); or things will be messed up. 
