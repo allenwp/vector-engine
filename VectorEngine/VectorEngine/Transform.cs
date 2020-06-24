@@ -13,8 +13,6 @@ namespace VectorEngine
     {
         public Transform Parent { get; private set; }
 
-        public bool UseThisPSRForWorldTrans { get; set; } = false;
-
         /// <summary>
         /// Do not modify. Use Transform.AssignParent instead!
         /// </summary>
@@ -171,20 +169,6 @@ namespace VectorEngine
         {
             LocalRotation = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
         }
-
-        [Category("Editor Accessors")]
-        public float LocalPositionX { get => LocalPosition.X; set => LocalPosition.X = value; }
-        [Category("Editor Accessors")]
-        public float LocalPositionY { get => LocalPosition.Y; set => LocalPosition.Y = value; }
-        [Category("Editor Accessors")]
-        public float LocalPositionZ { get => LocalPosition.Z; set => LocalPosition.Z = value; }
-
-        [Category("Editor Accessors")]
-        public float LocalScaleX { get => LocalScale.X; set => LocalScale.X = value; }
-        [Category("Editor Accessors")]
-        public float LocalScaleY { get => LocalScale.Y; set => LocalScale.Y = value; }
-        [Category("Editor Accessors")]
-        public float LocalScaleZ { get => LocalScale.Z; set => LocalScale.Z = value; }
         #endregion
     }
 }

@@ -29,7 +29,7 @@ namespace Flight
                     {
                         if (obj.Entity.GetComponent<Dot>() != null)
                         {
-                            obj.LocalPositionZ -= field.Depth;
+                            obj.LocalPosition.Z -= field.Depth;
                         }
                         else
                         {
