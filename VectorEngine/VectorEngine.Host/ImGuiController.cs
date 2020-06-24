@@ -15,6 +15,9 @@ namespace VectorEngine.Host
     /// </summary>
     public class ImGuiController : IDisposable
     {
+        public static ImFontPtr SemiBoldFont;
+        public static ImFontPtr BoldFont;
+
         private GraphicsDevice _gd;
         private bool _frameBegun;
 
@@ -68,8 +71,10 @@ namespace VectorEngine.Host
             float scale = 1.5f;
             ImGui.GetStyle().ScaleAllSizes(scale);
             int fontSize = (int)(13f * scale); // always round down
+            // First font loaded will become the default font:
             ImGui.GetIO().Fonts.AddFontFromFileTTF("EditorFonts\\SourceCodePro-Regular.ttf", fontSize);
-            // For Defulat font: ImGui.GetIO().Fonts.AddFontDefault();
+            SemiBoldFont = ImGui.GetIO().Fonts.AddFontFromFileTTF("EditorFonts\\SourceCodePro-SemiBold.ttf", fontSize);
+            BoldFont = ImGui.GetIO().Fonts.AddFontFromFileTTF("EditorFonts\\SourceCodePro-Bold.ttf", fontSize);
 
             CreateDeviceResources(gd, outputDescription);
             SetKeyMappings();

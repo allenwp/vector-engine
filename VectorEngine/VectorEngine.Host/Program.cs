@@ -244,6 +244,11 @@ namespace VectorEngine.Host
                         ImGui.SetScrollHereY();
                     }
                 }
+
+                if (entity.GetComponent<Transform>() == null)
+                {
+                    ImGui.PushFont(ImGuiController.BoldFont);
+                }
                 if (!entity.IsActive)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
@@ -260,6 +265,11 @@ namespace VectorEngine.Host
                 {
                     ImGui.PopStyleColor();
                 }
+                if (entity.GetComponent<Transform>() == null)
+                {
+                    ImGui.PopFont();
+                }
+
                 if (ImGui.IsItemClicked())
                 {
                     selectedEntityComponent = entity;
