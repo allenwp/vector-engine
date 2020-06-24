@@ -24,7 +24,13 @@ namespace VectorEngine.Host
 
         static object selectedEntityComponent = null;
 
+        /// <summary>
+        /// When true, this the scene graph view should be scrolled to show the selectedEntityComponent.
+        /// </summary>
         static bool scrollSceneGraphView = false;
+        /// <summary>
+        /// When true, this the entities view should be scrolled to show the selectedEntityComponent.
+        /// </summary>
         static bool scrollEntitiesView = false;
 
 #if DEBUG
@@ -99,6 +105,7 @@ namespace VectorEngine.Host
             SubmitSystemsWindow(admin);
             SubmitSceneGraphWindow(admin);
             SubmitEntitiesWindow(admin);
+            SubmitInspectorWindow(admin);
         }
 
         private static unsafe void SubmitSystemsWindow(EntityAdmin admin)
@@ -111,7 +118,6 @@ namespace VectorEngine.Host
             ImGui.End();
         }
 
-        /// <returns>GUID of selected Transform or Guid.Empty if none selected</returns>
         private static unsafe void SubmitSceneGraphWindow(EntityAdmin admin)
         {
             ImGui.Begin("Scene Graph");
@@ -210,16 +216,15 @@ namespace VectorEngine.Host
             }
         }
 
-        /// <returns>Selected Entity or component or null if none selected</returns>
         private static unsafe void SubmitEntitiesWindow(EntityAdmin admin)
         {
             ImGui.Begin("Entities and Components");
 
-            if (ImGui.Button("New Entity"))
+            if (ImGui.Button("Create Entity"))
             {
-                var entity = admin.CreateEntity("New Entity");
+                var entity = admin.CreateEntity("Create Entity");
                 selectedEntityComponent = entity;
-                scrollSceneGraphView = true;
+                scrollEntitiesView = true;
             }
 
             ImGui.SameLine();
@@ -342,6 +347,99 @@ namespace VectorEngine.Host
             ImGui.End();
 
             scrollEntitiesView = false;
+        }
+
+        private static unsafe void SubmitInspectorWindow(EntityAdmin admin)
+        {
+            ImGui.Begin("Inspector");
+
+            ImGuiTreeNodeFlags collapsingHeaderFlags = ImGuiTreeNodeFlags.CollapsingHeader;
+            collapsingHeaderFlags |= ImGuiTreeNodeFlags.DefaultOpen;
+
+            if (selectedEntityComponent != null)
+            {
+                var entity = selectedEntityComponent as Entity;
+                var component = selectedEntityComponent as Component;
+
+                if (entity != null)
+                {
+                    ImGui.PushFont(ImGuiController.BoldFont);
+                    ImGui.Text("Entity: " + entity.Name);
+                    ImGui.PopFont();
+
+                    // TOOD: Show a drop down of all components in the assemblies
+                    if (ImGui.Button("Add Component"))
+                    {
+                        // TODO
+                    }
+                }
+
+                if (component != null)
+                {
+                    ImGui.PushFont(ImGuiController.BoldFont);
+                    ImGui.Text("Entity: " + component.Entity.Name);
+                    ImGui.Text("Component: " + component.Name);
+                    ImGui.PopFont();
+
+                    if (ImGui.Button("Remove Component"))
+                    {
+                        admin.RemoveComponent(component);
+                    }
+                }
+
+                ImGui.NewLine();
+
+                var selectedType = selectedEntityComponent.GetType();
+
+                if (ImGui.CollapsingHeader("Fields", collapsingHeaderFlags))
+                {
+                    var fields = selectedType.GetFields();
+                    foreach (var field in fields)
+                    {
+                        switch (field.FieldType)
+                        {
+                            default:
+                                ImGui.Text(field.Name + " (uncontrollable)");
+                                break;
+                        }
+                    }
+                }
+
+                ImGui.NewLine();
+
+                var properties = selectedType.GetProperties();
+
+                if (ImGui.CollapsingHeader("Properties", collapsingHeaderFlags))
+                {
+                    foreach (var property in properties.Where(prop => prop.CanRead && prop.CanWrite))
+                    {
+                        if (property.PropertyType == string.Empty.GetType())
+                        {
+                            string text = property.GetValue(selectedEntityComponent) as string;
+                            if (ImGui.InputText(property.Name, ref text, 1000))
+                            {
+                                property.SetValue(selectedEntityComponent, text);
+                            }
+                        }
+                        else
+                        {
+                            ImGui.Text(property.Name + " (uncontrollable)");
+                        }
+                    }
+                }
+
+                ImGui.NewLine();
+
+                if (ImGui.CollapsingHeader("Readonly Properties", collapsingHeaderFlags))
+                {
+                    foreach (var property in properties.Where(prop => prop.CanRead && !prop.CanWrite))
+                    {
+                        ImGui.Text(string.Format("{0}: {1}", property.Name, property.GetValue(selectedEntityComponent).ToString()));
+                    }
+                }
+            }
+
+            ImGui.End();
         }
     }
 }
