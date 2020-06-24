@@ -23,6 +23,11 @@ namespace VectorEngine.Host.Reflection
             propertyInfo = info;
         }
 
+        public MemberInfo MemberInfo
+        {
+            get { return fieldInfo != null ? fieldInfo as MemberInfo : propertyInfo as MemberInfo; }
+        }
+
         public Type FieldPropertyType
         {
             get
@@ -54,6 +59,11 @@ namespace VectorEngine.Host.Reflection
             {
                 propertyInfo.SetValue(obj, value);
             }
+        }
+
+        public object[] GetCustomAttributes(bool inherit)
+        {
+            return fieldInfo != null ? fieldInfo.GetCustomAttributes(inherit) : propertyInfo.GetCustomAttributes(inherit);
         }
     }
 }

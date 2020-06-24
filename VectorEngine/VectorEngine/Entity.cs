@@ -11,6 +11,7 @@ namespace VectorEngine
     {
         public string Name { get; set; }
         
+        [EditorHelper.Help("Currently only used by the editor to help layout trees, etc.")]
         public Guid Guid { get; private set; }
 
         public bool SelfEnabled { get; set; } = true;

@@ -46,6 +46,7 @@
     <Compile Include="CameraSystem.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="ECSSystem.cs" />
+    <Compile Include="EditorHelper\HelpAttribute.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityAdmin.cs" />
     <Compile Include="Extensions.cs" />

@@ -10,6 +10,8 @@ using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
 using ImGuiNET;
 using VectorEngine.Host.Reflection;
+using Xna = Microsoft.Xna.Framework;
+using System.Reflection;
 
 namespace VectorEngine.Host
 {
@@ -428,10 +430,10 @@ namespace VectorEngine.Host
             var infoType = info.FieldPropertyType;
             if (infoType == typeof(string))
             {
-                string text = info.GetValue(selectedEntityComponent) as string;
-                if (ImGui.InputText(info.Name, ref text, 1000))
+                string val = info.GetValue(selectedEntityComponent) as string;
+                if (ImGui.InputText(info.Name, ref val, 1000))
                 {
-                    info.SetValue(selectedEntityComponent, text);
+                    info.SetValue(selectedEntityComponent, val);
                 }
             }
             else if (infoType == typeof(bool))
@@ -442,9 +444,122 @@ namespace VectorEngine.Host
                     info.SetValue(selectedEntityComponent, val);
                 }
             }
+            else if (infoType == typeof(float))
+            {
+                float val = (float)info.GetValue(selectedEntityComponent);
+                if (ImGui.DragFloat(info.Name, ref val))
+                {
+                    info.SetValue(selectedEntityComponent, val);
+                }
+            }
+            else if (infoType == typeof(Vector2))
+            {
+                Vector2 val = (Vector2)info.GetValue(selectedEntityComponent);
+                if (ImGui.DragFloat2(info.Name, ref val))
+                {
+                    info.SetValue(selectedEntityComponent, val);
+                }
+            }
+            else if (infoType == typeof(Vector3))
+            {
+                Vector3 val = (Vector3)info.GetValue(selectedEntityComponent);
+                if (ImGui.DragFloat3(info.Name, ref val))
+                {
+                    info.SetValue(selectedEntityComponent, val);
+                }
+            }
+            else if (infoType == typeof(Vector4))
+            {
+                Vector4 val = (Vector4)info.GetValue(selectedEntityComponent);
+                if (ImGui.DragFloat4(info.Name, ref val))
+                {
+                    info.SetValue(selectedEntityComponent, val);
+                }
+            }
+            else if (infoType == typeof(Xna.Vector2))
+            {
+                Xna.Vector2 xnaVal = (Xna.Vector2)info.GetValue(selectedEntityComponent);
+                Vector2 val = new Vector2(xnaVal.X, xnaVal.Y);
+                if (ImGui.DragFloat2(info.Name, ref val))
+                {
+                    xnaVal.X = val.X;
+                    xnaVal.Y = val.Y;
+                    info.SetValue(selectedEntityComponent, xnaVal);
+                }
+            }
+            else if (infoType == typeof(Xna.Vector3))
+            {
+                Xna.Vector3 xnaVal = (Xna.Vector3)info.GetValue(selectedEntityComponent);
+                Vector3 val = new Vector3(xnaVal.X, xnaVal.Y, xnaVal.Z);
+                if (ImGui.DragFloat3(info.Name, ref val))
+                {
+                    xnaVal.X = val.X;
+                    xnaVal.Y = val.Y;
+                    xnaVal.Z = val.Z;
+                    info.SetValue(selectedEntityComponent, xnaVal);
+                }
+            }
+            else if (infoType == typeof(Xna.Vector4))
+            {
+                Xna.Vector4 xnaVal = (Xna.Vector4)info.GetValue(selectedEntityComponent);
+                Vector4 val = new Vector4(xnaVal.X, xnaVal.Y, xnaVal.Z, xnaVal.W);
+                if (ImGui.DragFloat4(info.Name, ref val))
+                {
+                    xnaVal.X = val.X;
+                    xnaVal.Y = val.Y;
+                    xnaVal.Z = val.Z;
+                    xnaVal.W = val.W;
+                    info.SetValue(selectedEntityComponent, xnaVal);
+                }
+            }
+            else if (infoType == typeof(int))
+            {
+                int val = (int)info.GetValue(selectedEntityComponent);
+                if (ImGui.InputInt(info.Name, ref val))
+                {
+                    info.SetValue(selectedEntityComponent, val);
+                }
+            }
+            else if (infoType == typeof(uint))
+            {
+                int val = (int)((uint)info.GetValue(selectedEntityComponent));
+                if (ImGui.InputInt(info.Name, ref val))
+                {
+                    if (val < 0)
+                    {
+                        val = 0;
+                    }
+                    info.SetValue(selectedEntityComponent, (uint)val);
+                }
+            }
+            else if (infoType.IsEnum)
+            {
+                var val = info.GetValue(selectedEntityComponent);
+                var enumNames = infoType.GetEnumNames();
+                int currentIndex = 0;
+                for (int i = 0; i < enumNames.Length; i++)
+                {
+                    if (enumNames[i] == val.ToString())
+                    {
+                        currentIndex = i;
+                    }
+                }
+                if (ImGui.Combo(info.Name, ref currentIndex, enumNames, enumNames.Length))
+                {
+                    info.SetValue(selectedEntityComponent, currentIndex);
+                }
+            }
             else
             {
                 SubmitReadonlyFieldPropertyInspector(info);
+            }
+
+            // TODO: Figure out why inheritance isn't working on this:
+            var helpAttribute = CustomAttributeExtensions.GetCustomAttribute<EditorHelper.HelpAttribute>(info.MemberInfo, true);
+            if (helpAttribute != null)
+            {
+                ImGui.SameLine();
+                HelpMarker(helpAttribute.HelpText);
             }
         }
 
@@ -461,6 +576,21 @@ namespace VectorEngine.Host
                 valText = "null";
             }
             ImGui.Text(string.Format("{0}: {1}", info.Name, valText));
+        }
+
+        // Helper to display a little (?) mark which shows a tooltip when hovered.
+        // In your own code you may want to display an actual icon if you are using a merged icon fonts (see docs/FONTS.txt)
+        static void HelpMarker(string desc)
+        {
+            ImGui.TextDisabled("(?)");
+            if (ImGui.IsItemHovered())
+            {
+                ImGui.BeginTooltip();
+                ImGui.PushTextWrapPos(ImGui.GetFontSize() * 35.0f);
+                ImGui.TextUnformatted(desc);
+                ImGui.PopTextWrapPos();
+                ImGui.EndTooltip();
+            }
         }
     }
 }

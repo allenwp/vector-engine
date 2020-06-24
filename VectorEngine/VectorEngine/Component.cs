@@ -13,6 +13,8 @@ namespace VectorEngine
     public class Component
     {
         public string Name { get => GetType().Name; }
+
+        [EditorHelper.Help("Currently only used by the editor to help layout trees, etc.")]
         public Guid Guid { get; private set; }
         /// <summary>
         /// Used for the WPF editor because I don't know how to do stuff yet.

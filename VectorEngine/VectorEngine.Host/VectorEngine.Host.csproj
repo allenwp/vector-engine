@@ -127,6 +127,10 @@
       <Project>{05b306bb-2ed0-4093-9bd8-cace93a8f2c0}</Project>
       <Name>Flight</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MonoGame.Framework\MonoGame.Framework.csproj">
+      <Project>{a69321f8-f579-4ce9-b6be-ccd5ca04a9e7}</Project>
+      <Name>MonoGame.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VectorEngineDemoGame\VectorEngineDemoGame.csproj">
       <Project>{edee24db-3608-4224-988c-10952996bec0}</Project>
       <Name>VectorEngineDemoGame</Name>
