@@ -161,6 +161,7 @@ namespace VectorEngine.Host
                         ImGui.SetScrollHereY();
                     }
                 }
+
                 if (!transform.IsActive)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
@@ -185,10 +186,21 @@ namespace VectorEngine.Host
                 {
                     ImGui.PopStyleColor();
                 }
+
                 if (ImGui.IsItemClicked())
                 {
                     selectedEntityComponent = transform;
                     scrollEntitiesView = true;
+                }
+                if (ImGui.BeginDragDropSource())
+                {
+                    // TODO: something with this?? ImGui.SetDragDropPayload();
+                    ImGui.EndDragDropSource();
+                }
+                if (ImGui.BeginDragDropTarget())
+                {
+                    var payload = ImGui.GetDragDropPayload();
+                    ImGui.EndDragDropTarget();
                 }
                 if (expanded)
                 {
