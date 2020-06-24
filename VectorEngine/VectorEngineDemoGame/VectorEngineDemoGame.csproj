@@ -52,6 +52,7 @@
     <Compile Include="DemoGame\SceneEditorTest.cs" />
     <Compile Include="DemoGame\SceneRotatingCube.cs" />
     <Compile Include="DemoGame\SceneRotatingCubesAndGridPoints.cs" />
+    <Compile Include="DemoGame\SceneTechSphere.cs" />
     <Compile Include="DemoGame\SceneShapeTest.cs" />
     <Compile Include="DemoGame\SceneSpaceRings.cs" />
     <Compile Include="DemoGame\SeaOfWaves.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="DemoGame\Shapes\Cube.cs" />
     <Compile Include="DemoGame\Shapes\CurlyCircle.cs" />
     <Compile Include="DemoGame\Shapes\CurlyCircleSystem.cs" />
+    <Compile Include="DemoGame\Shapes\DemoShape.cs" />
     <Compile Include="DemoGame\Shapes\GridPoint.cs" />
     <Compile Include="DemoGame\Shapes\Line.cs" />
     <Compile Include="DemoGame\Shapes\PlayerShip.cs" />

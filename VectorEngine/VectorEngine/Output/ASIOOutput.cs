@@ -147,6 +147,12 @@ namespace VectorEngine.Output
                 audioDemo[i] = xOutput[i];
             }
 
+            ////Disable brightness modulation(z - input on scope)
+            //for (int i = 0; i < zOutput.BufferSize; i++)
+            //{
+            //    zOutput[i] = 0;
+            //}
+
             #region Debugging code
             // Code for a test tone to make sure ASIO device is working well:
             //for (int index = 0; index < xOutput.BufferSize; index++)
