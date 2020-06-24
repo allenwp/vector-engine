@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImGuiController.cs" />
+    <Compile Include="Reflection\FieldPropertyInfo.cs" />
     <Compile Include="Util\ImGuiUtil.cs" />
     <Compile Include="MemoryEditor.cs" />
     <Compile Include="Program.cs" />

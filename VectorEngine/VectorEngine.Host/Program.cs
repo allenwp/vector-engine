@@ -9,7 +9,7 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
 using ImGuiNET;
-using System.Runtime.InteropServices;
+using VectorEngine.Host.Reflection;
 
 namespace VectorEngine.Host
 {
@@ -148,7 +148,7 @@ namespace VectorEngine.Host
 
                 if (entity != null)
                 {
-                    selectedTransform = entity.GetComponent<Transform>();
+                    selectedTransform = entity.GetComponent<Transform>(true);
                 }
             }
 
@@ -262,7 +262,7 @@ namespace VectorEngine.Host
                     }
                 }
 
-                if (entity.GetComponent<Transform>() == null)
+                if (entity.GetComponent<Transform>(true) == null)
                 {
                     ImGui.PushFont(ImGuiController.BoldFont);
                 }
@@ -282,7 +282,7 @@ namespace VectorEngine.Host
                 {
                     ImGui.PopStyleColor();
                 }
-                if (entity.GetComponent<Transform>() == null)
+                if (entity.GetComponent<Transform>(true) == null)
                 {
                     ImGui.PopFont();
                 }
@@ -394,14 +394,9 @@ namespace VectorEngine.Host
                 if (ImGui.CollapsingHeader("Fields", collapsingHeaderFlags))
                 {
                     var fields = selectedType.GetFields();
-                    foreach (var field in fields)
+                    foreach (var info in fields)
                     {
-                        switch (field.FieldType)
-                        {
-                            default:
-                                ImGui.Text(field.Name + " (uncontrollable)");
-                                break;
-                        }
+                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info));
                     }
                 }
 
@@ -411,26 +406,15 @@ namespace VectorEngine.Host
 
                 if (ImGui.CollapsingHeader("Properties", collapsingHeaderFlags))
                 {
-                    foreach (var property in properties.Where(prop => prop.CanRead && prop.CanWrite))
+                    foreach (var info in properties.Where(prop => prop.CanRead && prop.CanWrite))
                     {
-                        if (property.PropertyType == string.Empty.GetType())
-                        {
-                            string text = property.GetValue(selectedEntityComponent) as string;
-                            if (ImGui.InputText(property.Name, ref text, 1000))
-                            {
-                                property.SetValue(selectedEntityComponent, text);
-                            }
-                        }
-                        else
-                        {
-                            ImGui.Text(property.Name + " (uncontrollable)");
-                        }
+                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info));
                     }
                 }
 
                 ImGui.NewLine();
 
-                if (ImGui.CollapsingHeader("Readonly Properties", collapsingHeaderFlags))
+                if (ImGui.CollapsingHeader("Read-Only Properties", collapsingHeaderFlags))
                 {
                     foreach (var property in properties.Where(prop => prop.CanRead && !prop.CanWrite))
                     {
@@ -440,6 +424,31 @@ namespace VectorEngine.Host
             }
 
             ImGui.End();
+        }
+
+        static void SubmitFieldPropertyInspector(FieldPropertyInfo info)
+        {
+            var infoType = info.FieldPropertyType;
+            if (infoType == typeof(string))
+            {
+                string text = info.GetValue(selectedEntityComponent) as string;
+                if (ImGui.InputText(info.Name, ref text, 1000))
+                {
+                    info.SetValue(selectedEntityComponent, text);
+                }
+            }
+            else if (infoType == typeof(bool))
+            {
+                bool val = (bool)info.GetValue(selectedEntityComponent);
+                if (ImGui.Checkbox(info.Name, ref val))
+                {
+                    info.SetValue(selectedEntityComponent, val);
+                }
+            }
+            else
+            {
+                ImGui.Text(info.Name + " (uncontrollable)");
+            }
         }
     }
 }
