@@ -79,7 +79,8 @@ namespace VectorEngine.Host
 
                 if (_showEditor)
                 {
-                    _controller.Update(GameTime.LastFrameTime, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
+                    // TODO: figure out why LastFrameTime makes ImGui run stupid fast... (for things like key repeats)
+                    _controller.Update(GameTime.LastFrameTime / 10f, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
 
                     SubmitUI(EntityAdmin.Instance);
 
@@ -400,8 +401,6 @@ namespace VectorEngine.Host
                     }
                 }
 
-                ImGui.NewLine();
-
                 var properties = selectedType.GetProperties();
 
                 if (ImGui.CollapsingHeader("Properties", collapsingHeaderFlags))
@@ -412,13 +411,11 @@ namespace VectorEngine.Host
                     }
                 }
 
-                ImGui.NewLine();
-
                 if (ImGui.CollapsingHeader("Read-Only Properties", collapsingHeaderFlags))
                 {
-                    foreach (var property in properties.Where(prop => prop.CanRead && !prop.CanWrite))
+                    foreach (var info in properties.Where(prop => prop.CanRead && !prop.CanWrite))
                     {
-                        ImGui.Text(string.Format("{0}: {1}", property.Name, property.GetValue(selectedEntityComponent).ToString()));
+                        SubmitReadonlyFieldPropertyInspector(new FieldPropertyInfo(info));
                     }
                 }
             }
@@ -447,8 +444,23 @@ namespace VectorEngine.Host
             }
             else
             {
-                ImGui.Text(info.Name + " (uncontrollable)");
+                SubmitReadonlyFieldPropertyInspector(info);
             }
+        }
+
+        static void SubmitReadonlyFieldPropertyInspector(FieldPropertyInfo info)
+        {
+            string valText;
+            var value = info.GetValue(selectedEntityComponent);
+            if (value != null)
+            {
+                valText = value.ToString();
+            }
+            else
+            {
+                valText = "null";
+            }
+            ImGui.Text(string.Format("{0}: {1}", info.Name, valText));
         }
     }
 }
