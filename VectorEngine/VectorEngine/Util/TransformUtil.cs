@@ -34,22 +34,8 @@ namespace VectorEngine
                 child.Parent.Children.Remove(child);
             }
 
-            if (parent == null)
+            if (parent != null)
             {
-                // Only add it as a root transform if it wasn't already a root transform.
-                if (child.Parent != null)
-                {
-                    admin.RootTransforms.Add(child);
-                }
-            }
-            else
-            {
-                // Only remove it as a root transform if it was already a root transform.
-                if (child.Parent == null)
-                {
-                    admin.RootTransforms.Remove(child);
-                }
-
                 if (parent.Children.Contains(child))
                 {
                     Console.WriteLine("WARNING: assigning a child Transform when it is already a child!");

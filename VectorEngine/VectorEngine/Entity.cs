@@ -41,7 +41,7 @@ namespace VectorEngine
         /// <summary>
         /// Don't modify this directly, use Entity static util methods instead.
         /// </summary>
-        public ObservableCollection<Component> Components { get; private set; }
+        public List<Component> Components { get; private set; }
 
         /// <summary>
         /// Do not use. Create through EntityAdmin instead!
@@ -51,7 +51,7 @@ namespace VectorEngine
         {
             Name = name;
             Guid = Guid.NewGuid();
-            Components = new ObservableCollection<Component>();
+            Components = new List<Component>();
         }
 
         public T GetComponent<T> (bool includeInactive = false) where T : Component

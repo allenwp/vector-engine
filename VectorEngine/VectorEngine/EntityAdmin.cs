@@ -12,17 +12,13 @@ namespace VectorEngine
     {
         public static EntityAdmin Instance { get; } = new EntityAdmin();
 
-        public ObservableCollection<ECSSystem> Systems = new ObservableCollection<ECSSystem>();
+        public List<ECSSystem> Systems = new List<ECSSystem>();
         public List<Component> Components = new List<Component>();
 
         /// <summary>
         /// DO NOT USE. Only for use by the editor.
         /// </summary>
-        public ObservableCollection<Entity> Entities = new ObservableCollection<Entity>();
-        /// <summary>
-        /// DO NOT USE. Only for use by the editor.
-        /// </summary>
-        public ObservableCollection<Transform> RootTransforms = new ObservableCollection<Transform>();
+        public List<Entity> Entities = new List<Entity>();
 
         public void Init()
         {
@@ -70,10 +66,6 @@ namespace VectorEngine
             entity.Components.Add(newComponent);
             // Transforms are a special case that are used in the editor, etc.
             var transform = newComponent as Transform;
-            if (transform as Transform != null)
-            {
-                RootTransforms.Add(transform);
-            }
             componentsToAdd.Add(newComponent);
             return newComponent;
         }
@@ -113,10 +105,6 @@ namespace VectorEngine
                     foreach (var child in transform.Children)
                     {
                         Transform.AssignParent(child, null);
-                    }
-                    if (transform.Parent == null)
-                    {
-                        RootTransforms.Remove(transform);
                     }
                 }
 

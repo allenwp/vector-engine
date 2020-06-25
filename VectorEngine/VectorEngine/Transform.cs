@@ -16,11 +16,11 @@ namespace VectorEngine
         /// <summary>
         /// Do not modify. Use Transform.AssignParent instead!
         /// </summary>
-        public ObservableCollection<Transform> Children { get; private set; }
+        public List<Transform> Children { get; private set; }
 
         public Transform()
         {
-            Children = new ObservableCollection<Transform>();
+            Children = new List<Transform>();
         }
 
         // Should this be in a System rather than in a Component(?) I think it belongs here...
