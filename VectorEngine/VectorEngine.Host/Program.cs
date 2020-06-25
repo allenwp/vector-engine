@@ -25,6 +25,7 @@ namespace VectorEngine.Host
         private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
 
         static object selectedEntityComponent = null;
+        static object draggedObject = null;
 
         /// <summary>
         /// When true, this the scene graph view should be scrolled to show the selectedEntityComponent.
@@ -126,14 +127,14 @@ namespace VectorEngine.Host
             ImGui.Begin("Scene Graph");
 
             var list = EntityAdmin.Instance.GetComponents<Transform>(true).Where(trans => trans.Parent == null).ToList();
-            AddSceneGraphTransforms(list);
+            AddSceneGraphTransforms(admin, list);
 
             ImGui.End();
 
             scrollSceneGraphView = false;
         }
 
-        private static void AddSceneGraphTransforms(List<Transform> list)
+        private static unsafe void AddSceneGraphTransforms(EntityAdmin admin, List<Transform> list)
         {
             // The selectedTransform is either the selectedEntityComponent (if it's a Transform) or the Transform associated with the selected Entity/Component.
             Transform selectedTransform = selectedEntityComponent as Transform;
@@ -171,10 +172,6 @@ namespace VectorEngine.Host
                     }
                 }
 
-                if (!transform.IsActive)
-                {
-                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
-                }
                 bool parentOfSelected = false;
                 Transform parent = selectedTransform as Transform;
                 while (parent != null)
@@ -190,6 +187,10 @@ namespace VectorEngine.Host
                 {
                     ImGui.SetNextItemOpen(true);
                 }
+                if (!transform.IsActive)
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
+                }
                 bool expanded = ImGui.TreeNodeEx(transform.Guid.ToString(), nodeFlags, transform.EntityName);
                 if (!transform.IsActive)
                 {
@@ -203,17 +204,37 @@ namespace VectorEngine.Host
                 }
                 if (ImGui.BeginDragDropSource())
                 {
-                    // TODO: something with this?? ImGui.SetDragDropPayload();
+                    ImGui.SetDragDropPayload(typeof(Transform).FullName, IntPtr.Zero, 0); // Payload is needed to trigger BeginDragDropTarget()
+                    draggedObject = transform;
+                    ImGui.Text(transform.EntityName);
                     ImGui.EndDragDropSource();
                 }
                 if (ImGui.BeginDragDropTarget())
                 {
-                    var payload = ImGui.GetDragDropPayload();
+                    var payload = ImGui.AcceptDragDropPayload(typeof(Transform).FullName);
+                    if (payload.NativePtr != null) // Only when this is non-null does it mean that we've released the drag
+                    {
+                        var draggedTransform = draggedObject as Transform;
+                        if (draggedTransform != null)
+                        {
+                            Transform newParent;
+                            if (draggedTransform.Parent == transform)
+                            {
+                                newParent = null;
+                            }
+                            else
+                            {
+                                newParent = transform;
+                            }
+                            Transform.AssignParent(draggedTransform, newParent, admin, true);
+                        }
+                        draggedObject = null;
+                    }
                     ImGui.EndDragDropTarget();
                 }
                 if (expanded)
                 {
-                    AddSceneGraphTransforms(transform.Children.ToList());
+                    AddSceneGraphTransforms(admin, transform.Children.ToList());
                     ImGui.TreePop();
                 }
             }

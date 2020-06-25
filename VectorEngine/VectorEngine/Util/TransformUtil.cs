@@ -10,6 +10,11 @@ namespace VectorEngine
     {
         public static void AssignParent(Transform child, Transform parent, bool ignoreExceptions = false)
         {
+            AssignParent(child, parent, EntityAdmin.Instance, ignoreExceptions);
+        }
+
+        public static void AssignParent(Transform child, Transform parent, EntityAdmin admin, bool ignoreExceptions = false)
+        {
             var tempParent = parent;
             while (tempParent != null)
             {
@@ -34,7 +39,7 @@ namespace VectorEngine
                 // Only add it as a root transform if it wasn't already a root transform.
                 if (child.Parent != null)
                 {
-                    EntityAdmin.Instance.RootTransforms.Add(child);
+                    admin.RootTransforms.Add(child);
                 }
             }
             else
@@ -42,7 +47,7 @@ namespace VectorEngine
                 // Only remove it as a root transform if it was already a root transform.
                 if (child.Parent == null)
                 {
-                    EntityAdmin.Instance.RootTransforms.Remove(child);
+                    admin.RootTransforms.Remove(child);
                 }
 
                 if (parent.Children.Contains(child))
