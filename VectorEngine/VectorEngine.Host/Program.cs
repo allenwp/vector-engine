@@ -417,7 +417,9 @@ namespace VectorEngine.Host
                 {
                     foreach (var info in properties.Where(prop => prop.CanRead && !prop.CanWrite))
                     {
-                        SubmitReadonlyFieldPropertyInspector(new FieldPropertyInfo(info));
+                        var fieldPropertyInfo = new FieldPropertyInfo(info);
+                        SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo);
+                        SubmitHelpMarker(fieldPropertyInfo);
                     }
                 }
             }
@@ -554,13 +556,7 @@ namespace VectorEngine.Host
                 SubmitReadonlyFieldPropertyInspector(info);
             }
 
-            // TODO: Figure out why inheritance isn't working on this:
-            var helpAttribute = CustomAttributeExtensions.GetCustomAttribute<EditorHelper.HelpAttribute>(info.MemberInfo, true);
-            if (helpAttribute != null)
-            {
-                ImGui.SameLine();
-                HelpMarker(helpAttribute.HelpText);
-            }
+            SubmitHelpMarker(info);
         }
 
         static void SubmitReadonlyFieldPropertyInspector(FieldPropertyInfo info)
@@ -576,6 +572,16 @@ namespace VectorEngine.Host
                 valText = "null";
             }
             ImGui.Text(string.Format("{0}: {1}", info.Name, valText));
+        }
+
+        static void SubmitHelpMarker(FieldPropertyInfo info)
+        {
+            var helpAttribute = CustomAttributeExtensions.GetCustomAttribute<EditorHelper.HelpAttribute>(info.MemberInfo, true);
+            if (helpAttribute != null)
+            {
+                ImGui.SameLine();
+                HelpMarker(helpAttribute.HelpText);
+            }
         }
 
         // Helper to display a little (?) mark which shows a tooltip when hovered.
