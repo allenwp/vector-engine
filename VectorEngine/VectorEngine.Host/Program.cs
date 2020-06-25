@@ -45,6 +45,11 @@ namespace VectorEngine.Host
         [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
         {
+            MIDI midi = new MIDI();
+            midi.SetupWatchers();
+            System.Threading.Thread.Sleep(1000);
+            Task.Run(midi.SetupMidiPorts);
+
             // Create window, GraphicsDevice, and all resources necessary for the demo.
             VeldridStartup.CreateWindowAndGraphicsDevice(
                 new WindowCreateInfo(50, 50, 3600, 2000, WindowState.Normal, "Vector Engine Editor"),

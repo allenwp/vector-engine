@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Midi; // Needs Microsoft.Windows.SDK.Contracts NuGet Package as described here: https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/desktop-to-uwp-enhance
 
-namespace VectorEngineWPFGUI
+namespace VectorEngine.Host
 {
     public class MIDI
     {
@@ -102,7 +102,7 @@ namespace VectorEngineWPFGUI
                 Console.WriteLine("Pressed button number: " + ((MidiNoteOnMessage)receivedMidiMessage).Note);
                 if (((MidiNoteOnMessage)receivedMidiMessage).Note == 16)
                 {
-                    App.EditorCamera.SelfEnabled = !App.EditorCamera.SelfEnabled;
+                    // TODO: App.EditorCamera.SelfEnabled = !App.EditorCamera.SelfEnabled;
                 }
             }
 
