@@ -433,7 +433,8 @@ namespace VectorEngine.Host
 
                 if (ImGui.CollapsingHeader("Properties", collapsingHeaderFlags))
                 {
-                    foreach (var info in properties.Where(prop => prop.CanRead && prop.CanWrite))
+                    // When SetMethod is private, it will still be writable so long as it's class isn't inherited, so check to see if it's public too for the behaviour I want.
+                    foreach (var info in properties.Where(prop => prop.CanRead && prop.CanWrite && prop.SetMethod.IsPublic))
                     {
                         SubmitFieldPropertyInspector(new FieldPropertyInfo(info));
                     }
@@ -441,7 +442,8 @@ namespace VectorEngine.Host
 
                 if (ImGui.CollapsingHeader("Read-Only Properties", collapsingHeaderFlags))
                 {
-                    foreach (var info in properties.Where(prop => prop.CanRead && !prop.CanWrite))
+                    // When SetMethod is private, it will still be writable so long as it's class isn't inherited, so check to see if it's public too for the behaviour I want.
+                    foreach (var info in properties.Where(prop => prop.CanRead && (!prop.CanWrite || !prop.SetMethod.IsPublic)))
                     {
                         var fieldPropertyInfo = new FieldPropertyInfo(info);
                         SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo);
@@ -458,7 +460,11 @@ namespace VectorEngine.Host
             var infoType = info.FieldPropertyType;
             if (infoType == typeof(string))
             {
-                string val = info.GetValue(selectedEntityComponent) as string;
+                string val = (string)info.GetValue(selectedEntityComponent);
+                if (val == null)
+                {
+                    val = string.Empty;
+                }
                 if (ImGui.InputText(info.Name, ref val, 1000))
                 {
                     info.SetValue(selectedEntityComponent, val);
