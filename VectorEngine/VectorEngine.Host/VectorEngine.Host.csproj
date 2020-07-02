@@ -46,9 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImGuiController.cs" />
-    <Compile Include="Midi\ButtonControlState.cs" />
-    <Compile Include="Midi\MIDI.cs" />
     <Compile Include="Midi\MidiControlState.cs" />
+    <Compile Include="Midi\MIDI.cs" />
+    <Compile Include="Midi\MidiState.cs" />
     <Compile Include="Midi\MyMidiDeviceWatcher.cs" />
     <Compile Include="Reflection\FieldPropertyInfo.cs" />
     <Compile Include="Util\ImGuiUtil.cs" />

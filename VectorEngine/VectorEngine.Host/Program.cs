@@ -48,7 +48,7 @@ namespace VectorEngine.Host
 #endif
 
         private static MIDI midi = null;
-        private static MidiControlState midiControlState = new MidiControlState();
+        private static MidiState midiState = new MidiState();
 
         [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
@@ -114,7 +114,7 @@ namespace VectorEngine.Host
                     IMidiMessage midiMessage;
                     while (midi.MidiMessageQueue.TryDequeue(out midiMessage))
                     {
-                        midiControlState.UpdateState(midiMessage);
+                        midiState.UpdateState(midiMessage);
                     }
 
                     // TODO: figure out why LastFrameTime makes ImGui run stupid fast... (for things like key repeats)
@@ -502,15 +502,7 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(bool))
             {
-                if (midiControlState.Assigning)
-                {
-                    if (ImGui.Button("A"))
-                    {
-                        midiControlState.AssignControl(selectedEntityComponent, info);
-                    }
-
-                    ImGui.SameLine();
-                }
+                SubmitAssignment(selectedEntityComponent, info);
 
                 bool val = (bool)info.GetValue(selectedEntityComponent);
                 if (ImGui.Checkbox(info.Name, ref val))
@@ -520,6 +512,8 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(float))
             {
+                SubmitAssignment(selectedEntityComponent, info);
+
                 float val = (float)info.GetValue(selectedEntityComponent);
                 if (ImGui.DragFloat(info.Name, ref val))
                 {
@@ -588,6 +582,8 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(int))
             {
+                SubmitAssignment(selectedEntityComponent, info);
+
                 int val = (int)info.GetValue(selectedEntityComponent);
                 if (ImGui.InputInt(info.Name, ref val))
                 {
@@ -596,6 +592,8 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(uint))
             {
+                SubmitAssignment(selectedEntityComponent, info);
+
                 int val = (int)((uint)info.GetValue(selectedEntityComponent));
                 if (ImGui.InputInt(info.Name, ref val))
                 {
@@ -644,6 +642,20 @@ namespace VectorEngine.Host
                 valText = "null";
             }
             ImGui.Text(string.Format("{0}: {1}", info.Name, valText));
+        }
+
+        static void SubmitAssignment(object selectedEntityComponent, FieldPropertyInfo info)
+        {
+            if (midiState.Assigning)
+            {
+                ImGui.PushID(selectedEntityComponent.ToString() + info.Name);
+                if (ImGui.Button("A"))
+                {
+                    midiState.AssignControl(selectedEntityComponent, info);
+                }
+                ImGui.SameLine();
+                ImGui.PopID();
+            }
         }
 
         static void SubmitHelpMarker(FieldPropertyInfo info)
