@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +11,31 @@ namespace VectorEngine.Host
 {
     public class MIDI
     {
+        public static readonly byte KNOB_CENTER = 64;
+
         MyMidiDeviceWatcher inputDeviceWatcher;
         MyMidiDeviceWatcher outputDeviceWatcher;
 
         MidiInPort midiInPort;
         IMidiOutPort midiOutPort;
 
-        public void SetupWatchers()
-        {
-            inputDeviceWatcher = new MyMidiDeviceWatcher(MidiInPort.GetDeviceSelector());
-            inputDeviceWatcher.StartWatcher();
+        public bool SetupComplete = false;
+        public ConcurrentQueue<IMidiMessage> MidiMessageQueue = new ConcurrentQueue<IMidiMessage>();
 
-            outputDeviceWatcher = new MyMidiDeviceWatcher(MidiOutPort.GetDeviceSelector());
-            outputDeviceWatcher.StartWatcher();
+        public void SetupWatchersAndPorts()
+        {
+            Action enumerationInComplete = new Action(delegate () {
+
+                Action enumerationOutComplete = new Action(delegate () {
+                    SetupMidiPorts();
+                });
+
+                outputDeviceWatcher = new MyMidiDeviceWatcher(MidiOutPort.GetDeviceSelector(), enumerationOutComplete);
+                outputDeviceWatcher.StartWatcher();
+            });
+
+            inputDeviceWatcher = new MyMidiDeviceWatcher(MidiInPort.GetDeviceSelector(), enumerationInComplete);
+            inputDeviceWatcher.StartWatcher();
         }
 
         public void TeardownWatchers()
@@ -48,13 +61,16 @@ namespace VectorEngine.Host
 
             if (inDeviceInformationCollection == null || outDeviceInformationCollection == null)
             {
+                Console.WriteLine("Could not find any MIDI devices.");
+                SetupComplete = true;
                 return;
             }
 
             DeviceInformation inDevInfo = null;
+            string midiControllerName = "X-TOUCH MINI";
             foreach (var info in inDeviceInformationCollection)
             {
-                if (info.Name.Contains("X-TOUCH MINI"))
+                if (info.Name.Contains(midiControllerName))
                 {
                     inDevInfo = info;
                 }
@@ -62,7 +78,7 @@ namespace VectorEngine.Host
             DeviceInformation outDevInfo = null;
             foreach (var info in outDeviceInformationCollection)
             {
-                if (info.Name.Contains("X-TOUCH MINI"))
+                if (info.Name.Contains(midiControllerName))
                 {
                     outDevInfo = info;
                 }
@@ -70,6 +86,8 @@ namespace VectorEngine.Host
 
             if (inDevInfo == null || outDevInfo == null)
             {
+                Console.WriteLine("Could not find a MIDI device with name: " + midiControllerName);
+                SetupComplete = true;
                 return;
             }
 
@@ -77,6 +95,7 @@ namespace VectorEngine.Host
             if (midiInPort == null)
             {
                 Console.WriteLine("Unable to create MidiInPort from input device " + inDevInfo.Name);
+                SetupComplete = true;
                 return;
             }
             midiInPort.MessageReceived += MidiInPort_MessageReceived;
@@ -85,41 +104,36 @@ namespace VectorEngine.Host
             if (midiOutPort == null)
             {
                 Console.WriteLine("Unable to create MidiOutPort from output device " + outDevInfo.Name);
+                SetupComplete = true;
                 return;
             }
+
+            Console.WriteLine("Sucessfully found MIDI device with name: " + inDevInfo.Name);
+
             for (byte controller = 0; controller < 18; controller++)
             {
                 ResetKnob(controller);
             }
+
+            SetupComplete = true;
         }
 
         private void MidiInPort_MessageReceived(MidiInPort sender, MidiMessageReceivedEventArgs args)
         {
             IMidiMessage receivedMidiMessage = args.Message;
-
-            if (receivedMidiMessage.Type == MidiMessageType.NoteOn)
-            {
-                Console.WriteLine("Pressed button number: " + ((MidiNoteOnMessage)receivedMidiMessage).Note);
-                if (((MidiNoteOnMessage)receivedMidiMessage).Note == 16)
-                {
-                    // TODO: App.EditorCamera.SelfEnabled = !App.EditorCamera.SelfEnabled;
-                }
-            }
-
             if (receivedMidiMessage.Type == MidiMessageType.ControlChange)
             {
                 var message = (MidiControlChangeMessage)receivedMidiMessage;
-
-                Console.WriteLine("Turned knob " + message.Controller + " to new value of " + message.ControlValue);
-
                 ResetKnob(message.Controller);
             }
+            
+            MidiMessageQueue.Enqueue(receivedMidiMessage);
         }
 
         private void ResetKnob(byte controller)
         {
             byte channel = 10; // Seems to always be channel 10 on the X-Touch Mini? TODO: If it isn't, fix this.
-            byte controlValue = 64;
+            byte controlValue = KNOB_CENTER;
             IMidiMessage midiMessageToSend = new MidiControlChangeMessage(channel, controller, controlValue);
             midiOutPort.SendMessage(midiMessageToSend);
         }

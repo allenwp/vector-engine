@@ -16,9 +16,12 @@ namespace VectorEngine.Host
 
         public DeviceInformationCollection DeviceInformationCollection { get; set; }
 
-        public MyMidiDeviceWatcher(string midiDeviceSelectorString)
+        public Action OnEnumerationComplete = null;
+
+        public MyMidiDeviceWatcher(string midiDeviceSelectorString, Action onEnumerationComplete)
         {
             deviceSelectorString = midiDeviceSelectorString;
+            OnEnumerationComplete += onEnumerationComplete;
 
             deviceWatcher = DeviceInformation.CreateWatcher(deviceSelectorString);
             deviceWatcher.Added += DeviceWatcher_Added;
@@ -47,43 +50,29 @@ namespace VectorEngine.Host
 
         private async void DeviceWatcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
         {
-            // Update the device list
-            UpdateDevices();
+            await Task.Run(() => UpdateDevices());
         }
 
         private async void DeviceWatcher_Added(DeviceWatcher sender, DeviceInformation args)
         {
-            // Update the device list
-            UpdateDevices();
+            await Task.Run(() => UpdateDevices());
         }
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
         {
-            // Update the device list
-            UpdateDevices();
+            await Task.Run(() => UpdateDevices());
+            OnEnumerationComplete?.Invoke();
         }
 
         private async void DeviceWatcher_Updated(DeviceWatcher sender, DeviceInformationUpdate args)
         {
-            // Update the device list
-            UpdateDevices();
+            await Task.Run( () => UpdateDevices());
         }
 
-        private async void UpdateDevices()
+        private async Task UpdateDevices()
         {
             // Get a list of all MIDI devices
             this.DeviceInformationCollection = await DeviceInformation.FindAllAsync(deviceSelectorString);
-
-
-            if (!this.DeviceInformationCollection.Any())
-            {
-                //deviceListBox.Items.Add("No MIDI devices found!");
-            }
-
-            foreach (var deviceInformation in this.DeviceInformationCollection)
-            {
-                //deviceListBox.Items.Add(deviceInformation.Name);
-            }
         }
     }
 }

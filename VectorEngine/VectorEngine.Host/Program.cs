@@ -12,6 +12,8 @@ using ImGuiNET;
 using VectorEngine.Host.Reflection;
 using Xna = Microsoft.Xna.Framework;
 using System.Reflection;
+using System.Threading;
+using Windows.Devices.Midi;
 
 namespace VectorEngine.Host
 {
@@ -26,6 +28,8 @@ namespace VectorEngine.Host
 
         static object selectedEntityComponent = null;
         static object draggedObject = null;
+
+        public static Entity EditorCamera = null;
 
         /// <summary>
         /// When true, this the scene graph view should be scrolled to show the selectedEntityComponent.
@@ -42,14 +46,11 @@ namespace VectorEngine.Host
         private static bool _showEditor = false;
 #endif
 
+        private static MIDI midi = null;
+
         [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
         {
-            MIDI midi = new MIDI();
-            midi.SetupWatchers();
-            System.Threading.Thread.Sleep(1000);
-            Task.Run(midi.SetupMidiPorts);
-
             // Create window, GraphicsDevice, and all resources necessary for the demo.
             VeldridStartup.CreateWindowAndGraphicsDevice(
                 new WindowCreateInfo(50, 50, 3600, 2000, WindowState.Normal, "Vector Engine Editor"),
@@ -87,6 +88,41 @@ namespace VectorEngine.Host
 
                 if (_showEditor)
                 {
+                    if (EditorCamera == null)
+                    {
+                        EditorCamera = VectorEngine.Extras.Util.EditorUtil.CreateSceneViewCamera();
+                    }
+
+                    if (midi == null)
+                    {
+                        midi = new MIDI();
+                        midi.SetupWatchersAndPorts();
+                        while (!midi.SetupComplete)
+                        {
+                            Thread.Sleep(1);
+                        }
+                    }
+
+                    IMidiMessage midiMessage;
+                    while (midi.MidiMessageQueue.TryDequeue(out midiMessage))
+                    {
+                        if (midiMessage.Type == MidiMessageType.NoteOn)
+                        {
+                            Console.WriteLine("Pressed button number: " + ((MidiNoteOnMessage)midiMessage).Note);
+                            if (((MidiNoteOnMessage)midiMessage).Note == 16)
+                            {
+                                EditorCamera.SelfEnabled = !EditorCamera.SelfEnabled;
+                            }
+                        }
+
+                        if (midiMessage.Type == MidiMessageType.ControlChange)
+                        {
+                            var message = (MidiControlChangeMessage)midiMessage;
+
+                            Console.WriteLine("Turned knob " + message.Controller + " to new value of " + message.ControlValue);
+                        }
+                    }
+
                     // TODO: figure out why LastFrameTime makes ImGui run stupid fast... (for things like key repeats)
                     _controller.Update(GameTime.LastFrameTime / 10f, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
 
