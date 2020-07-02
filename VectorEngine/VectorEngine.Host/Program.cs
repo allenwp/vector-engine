@@ -14,6 +14,7 @@ using Xna = Microsoft.Xna.Framework;
 using System.Reflection;
 using System.Threading;
 using Windows.Devices.Midi;
+using VectorEngine.Host.Midi;
 
 namespace VectorEngine.Host
 {
@@ -47,6 +48,7 @@ namespace VectorEngine.Host
 #endif
 
         private static MIDI midi = null;
+        private static MidiControlState midiControlState = new MidiControlState();
 
         [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
@@ -101,26 +103,18 @@ namespace VectorEngine.Host
                         {
                             Thread.Sleep(1);
                         }
+
+                        // TODO: configure a button 8 to be EditorCamera.SelfEnabled
+                        //if (((MidiNoteOnMessage)midiMessage).Note == 16) // speicial case TODO: Move this to just an automatic assignemnt at start
+                        //{
+                        //    EditorCamera.SelfEnabled = !EditorCamera.SelfEnabled;
+                        //}
                     }
 
                     IMidiMessage midiMessage;
                     while (midi.MidiMessageQueue.TryDequeue(out midiMessage))
                     {
-                        if (midiMessage.Type == MidiMessageType.NoteOn)
-                        {
-                            Console.WriteLine("Pressed button number: " + ((MidiNoteOnMessage)midiMessage).Note);
-                            if (((MidiNoteOnMessage)midiMessage).Note == 16)
-                            {
-                                EditorCamera.SelfEnabled = !EditorCamera.SelfEnabled;
-                            }
-                        }
-
-                        if (midiMessage.Type == MidiMessageType.ControlChange)
-                        {
-                            var message = (MidiControlChangeMessage)midiMessage;
-
-                            Console.WriteLine("Turned knob " + message.Controller + " to new value of " + message.ControlValue);
-                        }
+                        midiControlState.UpdateState(midiMessage);
                     }
 
                     // TODO: figure out why LastFrameTime makes ImGui run stupid fast... (for things like key repeats)
@@ -508,6 +502,16 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(bool))
             {
+                if (midiControlState.Assigning)
+                {
+                    if (ImGui.Button("A"))
+                    {
+                        midiControlState.AssignControl(selectedEntityComponent, info);
+                    }
+
+                    ImGui.SameLine();
+                }
+
                 bool val = (bool)info.GetValue(selectedEntityComponent);
                 if (ImGui.Checkbox(info.Name, ref val))
                 {

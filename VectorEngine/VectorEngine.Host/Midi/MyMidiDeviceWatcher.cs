@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.UI.Core;
 
-namespace VectorEngine.Host
+namespace VectorEngine.Host.Midi
 {
     // Helper class copied from here: https://docs.microsoft.com/en-us/windows/uwp/audio-video-camera/midi
     public class MyMidiDeviceWatcher

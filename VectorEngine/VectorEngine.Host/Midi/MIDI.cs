@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Midi; // Needs Microsoft.Windows.SDK.Contracts NuGet Package as described here: https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/desktop-to-uwp-enhance
 
-namespace VectorEngine.Host
+namespace VectorEngine.Host.Midi
 {
     public class MIDI
     {
