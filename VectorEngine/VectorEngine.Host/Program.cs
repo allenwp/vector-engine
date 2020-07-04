@@ -145,6 +145,7 @@ namespace VectorEngine.Host
             SubmitSceneGraphWindow(admin);
             SubmitEntitiesWindow(admin);
             SubmitInspectorWindow(admin);
+            SubmitMidiWindow();
         }
 
         private static unsafe void SubmitSystemsWindow(EntityAdmin admin)
@@ -455,7 +456,7 @@ namespace VectorEngine.Host
                     var fields = selectedType.GetFields();
                     foreach (var info in fields)
                     {
-                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info));
+                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), selectedEntityComponent);
                     }
                 }
 
@@ -466,7 +467,7 @@ namespace VectorEngine.Host
                     // When SetMethod is private, it will still be writable so long as it's class isn't inherited, so check to see if it's public too for the behaviour I want.
                     foreach (var info in properties.Where(prop => prop.CanRead && prop.CanWrite && prop.SetMethod.IsPublic))
                     {
-                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info));
+                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), selectedEntityComponent);
                     }
                 }
 
@@ -476,7 +477,7 @@ namespace VectorEngine.Host
                     foreach (var info in properties.Where(prop => prop.CanRead && (!prop.CanWrite || !prop.SetMethod.IsPublic)))
                     {
                         var fieldPropertyInfo = new FieldPropertyInfo(info);
-                        SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo);
+                        SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo, selectedEntityComponent);
                         SubmitHelpMarker(fieldPropertyInfo);
                     }
                 }
@@ -485,91 +486,107 @@ namespace VectorEngine.Host
             ImGui.End();
         }
 
-        static void SubmitFieldPropertyInspector(FieldPropertyInfo info)
+        static string GetIdString(FieldPropertyInfo info, object entityComponent)
         {
+            string objectID = entityComponent.ToString();
+            if (entityComponent as Component != null)
+            {
+                objectID = (entityComponent as Component).Guid.ToString();
+            }
+            else if (entityComponent as Entity != null)
+            {
+                objectID = (entityComponent as Entity).Guid.ToString();
+            }
+            return objectID + info.Name;
+        }
+
+        static void SubmitFieldPropertyInspector(FieldPropertyInfo info, object entityComponent, bool showMidi = true)
+        {
+            ImGui.PushID(GetIdString(info, entityComponent));
+
             var infoType = info.FieldPropertyType;
             if (infoType == typeof(string))
             {
-                string val = (string)info.GetValue(selectedEntityComponent);
+                string val = (string)info.GetValue(entityComponent);
                 if (val == null)
                 {
                     val = string.Empty;
                 }
                 if (ImGui.InputText(info.Name, ref val, 1000))
                 {
-                    info.SetValue(selectedEntityComponent, val);
+                    info.SetValue(entityComponent, val);
                 }
             }
             else if (infoType == typeof(bool))
             {
-                SubmitMidiAssignment(selectedEntityComponent, info, MidiState.MidiControlDescriptionType.Button);
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Button);
 
-                bool val = (bool)info.GetValue(selectedEntityComponent);
+                bool val = (bool)info.GetValue(entityComponent);
                 if (ImGui.Checkbox(info.Name, ref val))
                 {
-                    info.SetValue(selectedEntityComponent, val);
+                    info.SetValue(entityComponent, val);
                 }
             }
             else if (infoType == typeof(float))
             {
-                SubmitMidiAssignment(selectedEntityComponent, info, MidiState.MidiControlDescriptionType.Knob);
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                float val = (float)info.GetValue(selectedEntityComponent);
+                float val = (float)info.GetValue(entityComponent);
                 if (ImGui.DragFloat(info.Name, ref val))
                 {
-                    info.SetValue(selectedEntityComponent, val);
+                    info.SetValue(entityComponent, val);
                 }
             }
             else if (infoType == typeof(Vector2))
             {
-                Vector2 val = (Vector2)info.GetValue(selectedEntityComponent);
+                Vector2 val = (Vector2)info.GetValue(entityComponent);
                 if (ImGui.DragFloat2(info.Name, ref val))
                 {
-                    info.SetValue(selectedEntityComponent, val);
+                    info.SetValue(entityComponent, val);
                 }
             }
             else if (infoType == typeof(Vector3))
             {
-                Vector3 val = (Vector3)info.GetValue(selectedEntityComponent);
+                Vector3 val = (Vector3)info.GetValue(entityComponent);
                 if (ImGui.DragFloat3(info.Name, ref val))
                 {
-                    info.SetValue(selectedEntityComponent, val);
+                    info.SetValue(entityComponent, val);
                 }
             }
             else if (infoType == typeof(Vector4))
             {
-                Vector4 val = (Vector4)info.GetValue(selectedEntityComponent);
+                Vector4 val = (Vector4)info.GetValue(entityComponent);
                 if (ImGui.DragFloat4(info.Name, ref val))
                 {
-                    info.SetValue(selectedEntityComponent, val);
+                    info.SetValue(entityComponent, val);
                 }
             }
             else if (infoType == typeof(Xna.Vector2))
             {
-                Xna.Vector2 xnaVal = (Xna.Vector2)info.GetValue(selectedEntityComponent);
+                Xna.Vector2 xnaVal = (Xna.Vector2)info.GetValue(entityComponent);
                 Vector2 val = new Vector2(xnaVal.X, xnaVal.Y);
                 if (ImGui.DragFloat2(info.Name, ref val))
                 {
                     xnaVal.X = val.X;
                     xnaVal.Y = val.Y;
-                    info.SetValue(selectedEntityComponent, xnaVal);
+                    info.SetValue(entityComponent, xnaVal);
                 }
             }
             else if (infoType == typeof(Xna.Vector3))
             {
-                Xna.Vector3 xnaVal = (Xna.Vector3)info.GetValue(selectedEntityComponent);
+                Xna.Vector3 xnaVal = (Xna.Vector3)info.GetValue(entityComponent);
                 Vector3 val = new Vector3(xnaVal.X, xnaVal.Y, xnaVal.Z);
                 if (ImGui.DragFloat3(info.Name, ref val))
                 {
                     xnaVal.X = val.X;
                     xnaVal.Y = val.Y;
                     xnaVal.Z = val.Z;
-                    info.SetValue(selectedEntityComponent, xnaVal);
+                    info.SetValue(entityComponent, xnaVal);
                 }
             }
             else if (infoType == typeof(Xna.Vector4))
             {
-                Xna.Vector4 xnaVal = (Xna.Vector4)info.GetValue(selectedEntityComponent);
+                Xna.Vector4 xnaVal = (Xna.Vector4)info.GetValue(entityComponent);
                 Vector4 val = new Vector4(xnaVal.X, xnaVal.Y, xnaVal.Z, xnaVal.W);
                 if (ImGui.DragFloat4(info.Name, ref val))
                 {
@@ -577,36 +594,36 @@ namespace VectorEngine.Host
                     xnaVal.Y = val.Y;
                     xnaVal.Z = val.Z;
                     xnaVal.W = val.W;
-                    info.SetValue(selectedEntityComponent, xnaVal);
+                    info.SetValue(entityComponent, xnaVal);
                 }
             }
             else if (infoType == typeof(int))
             {
-                SubmitMidiAssignment(selectedEntityComponent, info, MidiState.MidiControlDescriptionType.Knob);
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                int val = (int)info.GetValue(selectedEntityComponent);
+                int val = (int)info.GetValue(entityComponent);
                 if (ImGui.InputInt(info.Name, ref val))
                 {
-                    info.SetValue(selectedEntityComponent, val);
+                    info.SetValue(entityComponent, val);
                 }
             }
             else if (infoType == typeof(uint))
             {
-                SubmitMidiAssignment(selectedEntityComponent, info, MidiState.MidiControlDescriptionType.Knob);
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                int val = (int)((uint)info.GetValue(selectedEntityComponent));
+                int val = (int)((uint)info.GetValue(entityComponent));
                 if (ImGui.InputInt(info.Name, ref val))
                 {
                     if (val < 0)
                     {
                         val = 0;
                     }
-                    info.SetValue(selectedEntityComponent, (uint)val);
+                    info.SetValue(entityComponent, (uint)val);
                 }
             }
             else if (infoType.IsEnum)
             {
-                var val = info.GetValue(selectedEntityComponent);
+                var val = info.GetValue(entityComponent);
                 var enumNames = infoType.GetEnumNames();
                 int currentIndex = 0;
                 for (int i = 0; i < enumNames.Length; i++)
@@ -618,21 +635,22 @@ namespace VectorEngine.Host
                 }
                 if (ImGui.Combo(info.Name, ref currentIndex, enumNames, enumNames.Length))
                 {
-                    info.SetValue(selectedEntityComponent, currentIndex);
+                    info.SetValue(entityComponent, currentIndex);
                 }
             }
             else
             {
-                SubmitReadonlyFieldPropertyInspector(info);
+                SubmitReadonlyFieldPropertyInspector(info, entityComponent);
             }
+            ImGui.PopID();
 
             SubmitHelpMarker(info);
         }
 
-        static void SubmitReadonlyFieldPropertyInspector(FieldPropertyInfo info)
+        static void SubmitReadonlyFieldPropertyInspector(FieldPropertyInfo info, object entityComponent)
         {
             string valText;
-            var value = info.GetValue(selectedEntityComponent);
+            var value = info.GetValue(entityComponent);
             if (value != null)
             {
                 valText = value.ToString();
@@ -644,14 +662,14 @@ namespace VectorEngine.Host
             ImGui.Text(string.Format("{0}: {1}", info.Name, valText));
         }
 
-        static void SubmitMidiAssignment(object selectedEntityComponent, FieldPropertyInfo info, MidiState.MidiControlDescriptionType type)
+        static void SubmitMidiAssignment(object entityComponent, FieldPropertyInfo info, MidiState.MidiControlDescriptionType type)
         {
             if (midiState.Assigning && midiState.LastAssignmentType == type)
             {
-                ImGui.PushID(selectedEntityComponent.ToString() + info.Name);
+                ImGui.PushID(GetIdString(info, entityComponent));
                 if (ImGui.Button("A"))
                 {
-                    midiState.AssignControl(selectedEntityComponent, info);
+                    midiState.AssignControl(entityComponent, info);
                 }
                 ImGui.SameLine();
                 ImGui.PopID();
@@ -681,6 +699,40 @@ namespace VectorEngine.Host
                 ImGui.PopTextWrapPos();
                 ImGui.EndTooltip();
             }
+        }
+
+        private static unsafe void SubmitMidiWindow()
+        {
+            ImGui.Begin("MIDI Controller");
+
+            if (midiState.Assigning)
+            {
+                ImGui.PushFont(ImGuiController.BoldFont);
+                ImGui.TextColored(new Vector4(1,0,0,1), "Assigning " + midiState.LastAssignmentType);
+                ImGui.PopFont();
+            }
+            else
+            {
+                ImGui.NewLine();
+            }
+
+            foreach (var controlStatePair in midiState.ControlStates)
+            {
+                var controlState = controlStatePair.Value;
+                if (controlState.ControlledObject != null)
+                {
+                    var description = midiState.AssignToControlMapping[controlStatePair.Key];
+                    string objectName = controlState.ControlledObject.ToString();
+                    if (controlState.ControlledObject as Component != null)
+                    {
+                        objectName = string.Format("{0}: {1}", (controlState.ControlledObject as Component).EntityName, objectName);
+                    }
+                    ImGui.Text(string.Format("{0} {1}: {2}", description.Type, description.Id, objectName));
+                    SubmitFieldPropertyInspector(controlState.FieldPropertyInfo, controlState.ControlledObject, false);
+                    ImGui.NewLine();
+                }
+            }
+            ImGui.End();
         }
     }
 }

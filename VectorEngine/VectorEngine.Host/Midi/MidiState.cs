@@ -12,7 +12,7 @@ namespace VectorEngine.Host.Midi
     public class MidiState
     {
         public enum MidiControlDescriptionType { Button, Knob }
-        private struct MidiControlDescription
+        public struct MidiControlDescription
         {
             public byte Id;
             public MidiControlDescriptionType Type;
@@ -26,9 +26,9 @@ namespace VectorEngine.Host.Midi
         /// <summary>
         /// When true the editor should be ready to accept a new assignment for the AssigningControl
         /// </summary>
-        public bool Assigning = false;
+        public bool Assigning { get; private set; } = false;
 
-        public MidiControlDescriptionType LastAssignmentType;
+        public MidiControlDescriptionType LastAssignmentType { get; private set; }
 
         /// <summary>
         /// The assignment button that was last pressed.
@@ -38,15 +38,26 @@ namespace VectorEngine.Host.Midi
         /// <summary>
         /// byte is the assign code rather than the actual button / knob
         /// </summary>
-        Dictionary<byte, MidiControlState> ControlStates = new Dictionary<byte, MidiControlState>();
+        public Dictionary<byte, MidiControlState> ControlStates { get; private set; } = new Dictionary<byte, MidiControlState>();
         /// <summary>
         /// Assign: the button that should be pressed to start/end assignemnt of a control.
         /// Control: the control button or knob
         /// </summary>
-        Dictionary<byte, MidiControlDescription> AssignToControlMapping = new Dictionary<byte, MidiControlDescription>();
+        public Dictionary<byte, MidiControlDescription> AssignToControlMapping { get; private set; } = new Dictionary<byte, MidiControlDescription>();
 
         public MidiState()
         {
+            // Knobs
+            for (int i = 0; i < 8; i++)
+            {
+                AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i + 1), Type = MidiControlDescriptionType.Knob };
+            }
+            for (int i = 24; i < 32; i++)
+            {
+                AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i - 13), Type = MidiControlDescriptionType.Knob };
+            }
+
+            // Buttons
             for (int i = 16; i < 24; i++)
             {
                 AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i - 8), Type = MidiControlDescriptionType.Button };
@@ -54,15 +65,6 @@ namespace VectorEngine.Host.Midi
             for (int i = 40; i < 48; i++)
             {
                 AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i - 8), Type = MidiControlDescriptionType.Button };
-            }
-
-            for (int i = 0; i < 8; i ++)
-            {
-                AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i + 1), Type = MidiControlDescriptionType.Knob };
-            }
-            for (int i = 24; i < 32; i ++)
-            {
-                AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i - 13), Type = MidiControlDescriptionType.Knob };
             }
 
             foreach (var pair in AssignToControlMapping)
