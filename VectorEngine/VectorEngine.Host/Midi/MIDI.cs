@@ -110,6 +110,11 @@ namespace VectorEngine.Host.Midi
 
             Console.WriteLine("Sucessfully found MIDI device with name: " + inDevInfo.Name);
 
+            // Sending these MIDI messages to reset the knobs on this thread sometimes causes
+            // a cyclic redundacny check error. Solution might be to simply call this reset sometime later...
+            // Maybe from the main thread after setup is complete?
+            // Or maybe this only happens the first time after resuming from sleep? Maybe because I'm not
+            // cleaning up resources properly?
             for (byte controller = 0; controller < 18; controller++)
             {
                 ResetKnob(controller);

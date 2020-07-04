@@ -11,47 +11,68 @@ namespace VectorEngine.Host.Midi
 {
     public class MidiState
     {
+        private enum MidiControlDescriptionType { Button, Knob }
+        private struct MidiControlDescription
+        {
+            public byte Id;
+            public MidiControlDescriptionType Type;
+
+            public override string ToString()
+            {
+                return Type.ToString() + ": " + Id.ToString();
+            }
+        }
+
         /// <summary>
         /// When true the editor should be ready to accept a new assignment for the AssigningControl
         /// </summary>
         public bool Assigning = false;
         /// <summary>
-        /// The control button or knob, not the assignment button.
+        /// The assignment button that was last pressed.
         /// </summary>
-        public byte AssigningControl = 0;
+        private byte lastAssignmentButton = 0;
 
-        // TOOD: Dictionary<byte, byte> KnobResetScaleToScaleMapping = new Dictionary<byte, byte>();
-
+        /// <summary>
+        /// byte is the assign code rather than the actual button / knob
+        /// </summary>
         Dictionary<byte, MidiControlState> ControlStates = new Dictionary<byte, MidiControlState>();
         /// <summary>
         /// Assign: the button that should be pressed to start/end assignemnt of a control.
         /// Control: the control button or knob
         /// </summary>
-        Dictionary<byte, byte> AssignToControlMapping = new Dictionary<byte, byte>();
+        Dictionary<byte, MidiControlDescription> AssignToControlMapping = new Dictionary<byte, MidiControlDescription>();
 
         public MidiState()
         {
             for (int i = 16; i < 24; i++)
             {
-                AssignToControlMapping[(byte)i] = (byte)(i - 8);
+                AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i - 8), Type = MidiControlDescriptionType.Button };
             }
             for (int i = 40; i < 48; i++)
             {
-                AssignToControlMapping[(byte)i] = (byte)(i - 8);
+                AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i - 8), Type = MidiControlDescriptionType.Button };
             }
 
-            for (int i = 1; i < 8; i += 2)
+            for (int i = 0; i < 8; i ++)
             {
-                AssignToControlMapping[(byte)i] = (byte)(i + 1);
+                AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i + 1), Type = MidiControlDescriptionType.Knob };
             }
-            for (int i = 25; i < 32; i += 2)
+            for (int i = 24; i < 32; i ++)
             {
-                AssignToControlMapping[(byte)i] = (byte)(i - 13);
+                AssignToControlMapping[(byte)i] = new MidiControlDescription() { Id = (byte)(i - 13), Type = MidiControlDescriptionType.Knob };
             }
 
             foreach (var pair in AssignToControlMapping)
             {
-                ControlStates[pair.Value] = new MidiControlState();
+                ControlStates[pair.Key] = new MidiControlState();
+            }
+
+            foreach (var pair in AssignToControlMapping)
+            {
+                if (AssignToControlMapping.Where(checkPair => checkPair.Value.Id == pair.Value.Id && checkPair.Value.Type == pair.Value.Type).Count() > 1)
+                {
+                    throw new Exception("MidiState: Two controls share the same Id and Type!");
+                }
             }
         }
 
@@ -65,27 +86,32 @@ namespace VectorEngine.Host.Midi
                 {
                     // We pressed a button assignment button
                     Assigning = !Assigning;
-                    AssigningControl = AssignToControlMapping[buttonNumber];
+                    lastAssignmentButton = buttonNumber;
                     if (Assigning)
                     {
                         // Clear out the current assignment if we're starting a new assignment.
-                        var controlState = ControlStates[AssigningControl];
+                        var controlState = ControlStates[buttonNumber];
                         controlState.ControlledObject = null;
                         controlState.FieldPropertyInfo = null;
-                        ControlStates[AssigningControl] = controlState;
+                        ControlStates[buttonNumber] = controlState;
                     }
                 }
-                else if (ControlStates.ContainsKey(buttonNumber))
+                else
                 {
-                    // We pressed a button control
-                    var controlState = ControlStates[buttonNumber];
-                    if (controlState.ControlledObject != null)
+                    var collection = AssignToControlMapping.Where(pair => pair.Value.Id == buttonNumber && pair.Value.Type == MidiControlDescriptionType.Button);
+                    if (collection.Count() > 0)
                     {
-                        if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(bool))
+                        // We pressed a button control
+                        byte assignmentCode = collection.FirstOrDefault().Key;
+                        var controlState = ControlStates[assignmentCode];
+                        if (controlState.ControlledObject != null)
                         {
-                            bool val = (bool)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
-                            val = !val;
-                            controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                            if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(bool))
+                            {
+                                bool val = (bool)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                val = !val;
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                            }
                         }
                     }
                 }
@@ -97,9 +123,11 @@ namespace VectorEngine.Host.Midi
                 int delta = message.ControlValue - MIDI.KNOB_CENTER;
                 Console.WriteLine("MIDI: Turned knob " + message.Controller + " with a delta of " + delta);
 
-                if (ControlStates.ContainsKey(message.Controller))
+                var collection = AssignToControlMapping.Where(pair => pair.Value.Id == message.Controller && pair.Value.Type == MidiControlDescriptionType.Knob);
+                if (collection.Count() > 0)
                 {
-                    var controlState = ControlStates[message.Controller];
+                    byte assignmentCode = collection.FirstOrDefault().Key;
+                    var controlState = ControlStates[assignmentCode];
                     if (controlState.ControlledObject != null)
                     {
                         if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(float))
@@ -129,14 +157,19 @@ namespace VectorEngine.Host.Midi
             }
         }
 
-        public void AssignControl(object controlledObject, FieldPropertyInfo rieldPropertyInfo)
+        public void AssignControl(object controlledObject, FieldPropertyInfo fieldPropertyInfo)
         {
-            if (ControlStates.ContainsKey(AssigningControl))
+            AssignControl(controlledObject, fieldPropertyInfo, lastAssignmentButton);
+        }
+
+        public void AssignControl(object controlledObject, FieldPropertyInfo fieldPropertyInfo, byte assignmentButton)
+        {
+            if (ControlStates.ContainsKey(assignmentButton))
             {
-                var controlState = ControlStates[AssigningControl];
+                var controlState = ControlStates[assignmentButton];
                 controlState.ControlledObject = controlledObject;
-                controlState.FieldPropertyInfo = rieldPropertyInfo;
-                ControlStates[AssigningControl] = controlState;
+                controlState.FieldPropertyInfo = fieldPropertyInfo;
+                ControlStates[assignmentButton] = controlState;
             }
 
             Assigning = false;

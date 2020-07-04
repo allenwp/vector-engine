@@ -502,7 +502,7 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(bool))
             {
-                SubmitAssignment(selectedEntityComponent, info);
+                SubmitMidiAssignment(selectedEntityComponent, info);
 
                 bool val = (bool)info.GetValue(selectedEntityComponent);
                 if (ImGui.Checkbox(info.Name, ref val))
@@ -512,7 +512,7 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(float))
             {
-                SubmitAssignment(selectedEntityComponent, info);
+                SubmitMidiAssignment(selectedEntityComponent, info);
 
                 float val = (float)info.GetValue(selectedEntityComponent);
                 if (ImGui.DragFloat(info.Name, ref val))
@@ -582,7 +582,7 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(int))
             {
-                SubmitAssignment(selectedEntityComponent, info);
+                SubmitMidiAssignment(selectedEntityComponent, info);
 
                 int val = (int)info.GetValue(selectedEntityComponent);
                 if (ImGui.InputInt(info.Name, ref val))
@@ -592,7 +592,7 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(uint))
             {
-                SubmitAssignment(selectedEntityComponent, info);
+                SubmitMidiAssignment(selectedEntityComponent, info);
 
                 int val = (int)((uint)info.GetValue(selectedEntityComponent));
                 if (ImGui.InputInt(info.Name, ref val))
@@ -644,7 +644,7 @@ namespace VectorEngine.Host
             ImGui.Text(string.Format("{0}: {1}", info.Name, valText));
         }
 
-        static void SubmitAssignment(object selectedEntityComponent, FieldPropertyInfo info)
+        static void SubmitMidiAssignment(object selectedEntityComponent, FieldPropertyInfo info)
         {
             if (midiState.Assigning)
             {
