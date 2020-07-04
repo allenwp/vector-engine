@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorUI.cs" />
     <Compile Include="ImGuiController.cs" />
     <Compile Include="Midi\MidiControlState.cs" />
     <Compile Include="Midi\MIDI.cs" />
