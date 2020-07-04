@@ -502,7 +502,7 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(bool))
             {
-                SubmitMidiAssignment(selectedEntityComponent, info);
+                SubmitMidiAssignment(selectedEntityComponent, info, MidiState.MidiControlDescriptionType.Button);
 
                 bool val = (bool)info.GetValue(selectedEntityComponent);
                 if (ImGui.Checkbox(info.Name, ref val))
@@ -512,7 +512,7 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(float))
             {
-                SubmitMidiAssignment(selectedEntityComponent, info);
+                SubmitMidiAssignment(selectedEntityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
                 float val = (float)info.GetValue(selectedEntityComponent);
                 if (ImGui.DragFloat(info.Name, ref val))
@@ -582,7 +582,7 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(int))
             {
-                SubmitMidiAssignment(selectedEntityComponent, info);
+                SubmitMidiAssignment(selectedEntityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
                 int val = (int)info.GetValue(selectedEntityComponent);
                 if (ImGui.InputInt(info.Name, ref val))
@@ -592,7 +592,7 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(uint))
             {
-                SubmitMidiAssignment(selectedEntityComponent, info);
+                SubmitMidiAssignment(selectedEntityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
                 int val = (int)((uint)info.GetValue(selectedEntityComponent));
                 if (ImGui.InputInt(info.Name, ref val))
@@ -644,9 +644,9 @@ namespace VectorEngine.Host
             ImGui.Text(string.Format("{0}: {1}", info.Name, valText));
         }
 
-        static void SubmitMidiAssignment(object selectedEntityComponent, FieldPropertyInfo info)
+        static void SubmitMidiAssignment(object selectedEntityComponent, FieldPropertyInfo info, MidiState.MidiControlDescriptionType type)
         {
-            if (midiState.Assigning)
+            if (midiState.Assigning && midiState.LastAssignmentType == type)
             {
                 ImGui.PushID(selectedEntityComponent.ToString() + info.Name);
                 if (ImGui.Button("A"))

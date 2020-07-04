@@ -11,7 +11,7 @@ namespace VectorEngine.Host.Midi
 {
     public class MidiState
     {
-        private enum MidiControlDescriptionType { Button, Knob }
+        public enum MidiControlDescriptionType { Button, Knob }
         private struct MidiControlDescription
         {
             public byte Id;
@@ -27,6 +27,9 @@ namespace VectorEngine.Host.Midi
         /// When true the editor should be ready to accept a new assignment for the AssigningControl
         /// </summary>
         public bool Assigning = false;
+
+        public MidiControlDescriptionType LastAssignmentType;
+
         /// <summary>
         /// The assignment button that was last pressed.
         /// </summary>
@@ -87,6 +90,7 @@ namespace VectorEngine.Host.Midi
                     // We pressed a button assignment button
                     Assigning = !Assigning;
                     lastAssignmentButton = buttonNumber;
+                    LastAssignmentType = AssignToControlMapping[buttonNumber].Type;
                     if (Assigning)
                     {
                         // Clear out the current assignment if we're starting a new assignment.
