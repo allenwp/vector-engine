@@ -606,6 +606,8 @@ namespace VectorEngine.Host
         {
             ImGui.Begin("MIDI Controller");
 
+            ImGui.Text("Knob float step: " + Program.MidiState.KnobControlStep);
+
             if (Program.MidiState.Assigning)
             {
                 ImGui.PushFont(ImGuiController.BoldFont);

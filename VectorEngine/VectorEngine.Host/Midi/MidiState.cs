@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using VectorEngine.Host.Reflection;
 using Windows.Devices.Midi;
-using Windows.UI.Xaml.Controls;
 
 namespace VectorEngine.Host.Midi
 {
@@ -52,6 +51,23 @@ namespace VectorEngine.Host.Midi
         /// The assignment button that was last pressed.
         /// </summary>
         private byte lastAssignmentButton = 0;
+
+        public float SliderValue { get; private set; } = 0.5f;
+
+        /// <summary>
+        /// Logarithmic lerp... TODO: Maybe move this to a math helper or something
+        /// </summary>
+        float logerp(float a, float b, float t)
+        {
+            return (float)(a * Math.Pow(b / a, t));
+        }
+        public float KnobControlStep
+        {  
+            get
+            {
+                return logerp(0.01f, 100f, SliderValue) / 10f;
+            }
+        }
 
         /// <summary>
         /// byte is the assign code rather than the actual button / knob
@@ -201,41 +217,49 @@ namespace VectorEngine.Host.Midi
             if (midiMessage.Type == MidiMessageType.ControlChange)
             {
                 var message = (MidiControlChangeMessage)midiMessage;
-                int delta = message.ControlValue - MIDI.KNOB_CENTER;
-                Console.WriteLine("MIDI: Turned " + GetControlName(message.Controller, MidiControlDescriptionType.Knob) + " with a delta of " + delta);
-
-                var collection = AssignToControlMapping.Where(pair => pair.Value.Id == message.Controller && pair.Value.Type == MidiControlDescriptionType.Knob);
-                if (collection.Count() > 0)
+                if (message.Controller == 9 || message.Controller == 10)
                 {
-                    byte assignmentCode = collection.FirstOrDefault().Key;
-                    var controlState = ControlStates[assignmentCode];
-                    if (controlState.ControlledObject != null)
+                    Console.WriteLine("MIDI: Changed " + GetControlName(message.Controller, MidiControlDescriptionType.Knob) + " to " + message.ControlValue);
+                    SliderValue = message.ControlValue / 127f;
+                }
+                else
+                {
+                    int delta = message.ControlValue - MIDI.KNOB_CENTER;
+                    Console.WriteLine("MIDI: Turned " + GetControlName(message.Controller, MidiControlDescriptionType.Knob) + " with a delta of " + delta);
+
+                    var collection = AssignToControlMapping.Where(pair => pair.Value.Id == message.Controller && pair.Value.Type == MidiControlDescriptionType.Knob);
+                    if (collection.Count() > 0)
                     {
-                        if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(float))
+                        byte assignmentCode = collection.FirstOrDefault().Key;
+                        var controlState = ControlStates[assignmentCode];
+                        if (controlState.ControlledObject != null)
                         {
-                            float val = (float)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
-                            val += delta;
-                            controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
-                        }
-                        else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(int))
-                        {
-                            int val = (int)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
-                            val += delta;
-                            controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
-                        }
-                        else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(uint))
-                        {
-                            int val = (int)((uint)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject));
-                            val += delta;
-                            if (val < 0)
+                            if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(float))
                             {
-                                val = 0;
+                                float val = (float)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                val += delta * KnobControlStep;
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
                             }
-                            controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, (uint)val);
-                        }
-                        else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Vector2))
-                        {
-                            // TODO for all vector types
+                            else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(int))
+                            {
+                                int val = (int)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                val += delta;
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                            }
+                            else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(uint))
+                            {
+                                int val = (int)((uint)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject));
+                                val += delta;
+                                if (val < 0)
+                                {
+                                    val = 0;
+                                }
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, (uint)val);
+                            }
+                            else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Vector2))
+                            {
+                                // TODO for all vector types
+                            }
                         }
                     }
                 }
