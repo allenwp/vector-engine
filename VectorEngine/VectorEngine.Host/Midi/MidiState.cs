@@ -112,11 +112,31 @@ namespace VectorEngine.Host.Midi
                         var controlState = ControlStates[assignmentCode];
                         if (controlState.ControlledObject != null)
                         {
-                            if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(bool))
+                            var info = controlState.FieldPropertyInfo;
+                            if (info.FieldPropertyType == typeof(bool))
                             {
-                                bool val = (bool)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                bool val = (bool)info.GetValue(controlState.ControlledObject);
                                 val = !val;
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                                info.SetValue(controlState.ControlledObject, val);
+                            }
+                            else if (info.FieldPropertyType.IsEnum)
+                            {
+                                var val = info.GetValue(controlState.ControlledObject);
+                                var enumNames = info.FieldPropertyType.GetEnumNames();
+                                int currentIndex = 0;
+                                for (int i = 0; i < enumNames.Length; i++)
+                                {
+                                    if (enumNames[i] == val.ToString())
+                                    {
+                                        currentIndex = i;
+                                    }
+                                }
+                                currentIndex++;
+                                if (currentIndex >= enumNames.Length)
+                                {
+                                    currentIndex = 0;
+                                }
+                                info.SetValue(controlState.ControlledObject, info.FieldPropertyType.GetEnumValues().GetValue(currentIndex));
                             }
                         }
                     }
