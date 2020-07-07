@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Xna = Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using VectorEngine.Host.Reflection;
@@ -30,6 +32,22 @@ namespace VectorEngine.Host.Midi
 
         public MidiControlDescriptionType LastAssignmentType { get; private set; }
 
+        public string LastAssignmentControlString
+        {
+            get
+            {
+                if (AssignToControlMapping.ContainsKey(lastAssignmentButton))
+                {
+                    MidiControlDescription desc = AssignToControlMapping[lastAssignmentButton];
+                    return GetControlName(desc.Id, desc.Type);
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
         /// <summary>
         /// The assignment button that was last pressed.
         /// </summary>
@@ -44,6 +62,43 @@ namespace VectorEngine.Host.Midi
         /// Control: the control button or knob
         /// </summary>
         public Dictionary<byte, MidiControlDescription> AssignToControlMapping { get; private set; } = new Dictionary<byte, MidiControlDescription>();
+
+        public string GetControlName(byte id, MidiControlDescriptionType type)
+        {
+            if (type == MidiControlDescriptionType.Knob)
+            {
+                if (id == 9 || id == 10)
+                {
+                    return string.Format("Slider {0}", id == 9 ? "A" : "B");
+                }
+                else
+                {
+                    // 0 indexed layer and column
+                    int layer = id < 9 ? 0 : 1;
+                    int column;
+                    if (layer < 1)
+                    {
+                        column = (id - 1) % 8;
+                    }
+                    else
+                    {
+                        column = (id - 11) % 8;
+                    }
+                    return string.Format("Knob {0}{1}", layer < 1 ? "A" : "B", column + 1);
+                }
+            }
+            else if (type == MidiControlDescriptionType.Button)
+            {
+                // 0 indexed layer, column, and row
+                int layer = id < 24 ? 0 : 1;
+                int column = id % 8;
+                int row = (id / 8) - (layer > 0 ? 3 : 0);
+
+                string rowString = row < 1 ? "" : (row < 2 ? " First Row" : " Second Row");
+                return string.Format("{0} {1}{2}{3}", row < 1 ? "Knob Button" : "Button", layer < 1 ? "A" : "B", column + 1, rowString);
+            }
+            return "";
+        }
 
         public MidiState()
         {
@@ -86,7 +141,7 @@ namespace VectorEngine.Host.Midi
             if (midiMessage.Type == MidiMessageType.NoteOn)
             {
                 var buttonNumber = ((MidiNoteOnMessage)midiMessage).Note;
-                Console.WriteLine("MIDI: Pressed button number: " + buttonNumber);
+                Console.WriteLine("MIDI: Pressed " + GetControlName(buttonNumber, MidiControlDescriptionType.Button));
                 if (AssignToControlMapping.ContainsKey(buttonNumber))
                 {
                     // We pressed a button assignment button
@@ -147,7 +202,7 @@ namespace VectorEngine.Host.Midi
             {
                 var message = (MidiControlChangeMessage)midiMessage;
                 int delta = message.ControlValue - MIDI.KNOB_CENTER;
-                Console.WriteLine("MIDI: Turned knob " + message.Controller + " with a delta of " + delta);
+                Console.WriteLine("MIDI: Turned " + GetControlName(message.Controller, MidiControlDescriptionType.Knob) + " with a delta of " + delta);
 
                 var collection = AssignToControlMapping.Where(pair => pair.Value.Id == message.Controller && pair.Value.Type == MidiControlDescriptionType.Knob);
                 if (collection.Count() > 0)
@@ -178,6 +233,10 @@ namespace VectorEngine.Host.Midi
                             }
                             controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, (uint)val);
                         }
+                        else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Vector2))
+                        {
+                            // TODO for all vector types
+                        }
                     }
                 }
             }
@@ -195,9 +254,51 @@ namespace VectorEngine.Host.Midi
                 var controlState = ControlStates[assignmentButton];
                 controlState.ControlledObject = controlledObject;
                 controlState.FieldPropertyInfo = fieldPropertyInfo;
+
+                // See if it's a vector and assign subsequent controls if it is.
+                byte vectorSize = 1;
+                if (fieldPropertyInfo.FieldPropertyType == typeof(Vector2)
+                    || fieldPropertyInfo.FieldPropertyType == typeof(Xna.Vector2))
+                {
+                    vectorSize = 2;
+                }
+                else if (fieldPropertyInfo.FieldPropertyType == typeof(Vector3)
+                    || fieldPropertyInfo.FieldPropertyType == typeof(Xna.Vector3))
+                {
+                    vectorSize = 3;
+                }
+                else if (fieldPropertyInfo.FieldPropertyType == typeof(Vector4)
+                    || fieldPropertyInfo.FieldPropertyType == typeof(Xna.Vector4))
+                {
+                    vectorSize = 4;
+                }
+
+                if (vectorSize > 1)
+                {
+                    controlState.IsVector = true;
+                    controlState.VectorIndex = 0;
+                    for (byte i = 1; i < vectorSize; i++)
+                    {
+                        byte vectorAssignmentButton = (byte)(assignmentButton + i);
+                        if (AssignToControlMapping.ContainsKey(vectorAssignmentButton)
+                            && AssignToControlMapping[vectorAssignmentButton].Type == AssignToControlMapping[assignmentButton].Type) // So long as this control is still the same control type
+                        {
+                            var vectorControlState = ControlStates[vectorAssignmentButton];
+                            vectorControlState.ControlledObject = controlledObject;
+                            vectorControlState.FieldPropertyInfo = fieldPropertyInfo;
+                            vectorControlState.IsVector = true;
+                            vectorControlState.VectorIndex = i;
+                            ControlStates[vectorAssignmentButton] = vectorControlState;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
                 ControlStates[assignmentButton] = controlState;
             }
-
             Assigning = false;
         }
     }

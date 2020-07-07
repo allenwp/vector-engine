@@ -426,6 +426,8 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(Vector2))
             {
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
+
                 Vector2 val = (Vector2)info.GetValue(entityComponent);
                 if (ImGui.DragFloat2(info.Name, ref val))
                 {
@@ -434,6 +436,8 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(Vector3))
             {
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
+
                 Vector3 val = (Vector3)info.GetValue(entityComponent);
                 if (ImGui.DragFloat3(info.Name, ref val))
                 {
@@ -442,6 +446,8 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(Vector4))
             {
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
+
                 Vector4 val = (Vector4)info.GetValue(entityComponent);
                 if (ImGui.DragFloat4(info.Name, ref val))
                 {
@@ -450,6 +456,8 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(Xna.Vector2))
             {
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
+
                 Xna.Vector2 xnaVal = (Xna.Vector2)info.GetValue(entityComponent);
                 Vector2 val = new Vector2(xnaVal.X, xnaVal.Y);
                 if (ImGui.DragFloat2(info.Name, ref val))
@@ -461,6 +469,8 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(Xna.Vector3))
             {
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
+
                 Xna.Vector3 xnaVal = (Xna.Vector3)info.GetValue(entityComponent);
                 Vector3 val = new Vector3(xnaVal.X, xnaVal.Y, xnaVal.Z);
                 if (ImGui.DragFloat3(info.Name, ref val))
@@ -473,6 +483,8 @@ namespace VectorEngine.Host
             }
             else if (infoType == typeof(Xna.Vector4))
             {
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
+
                 Xna.Vector4 xnaVal = (Xna.Vector4)info.GetValue(entityComponent);
                 Vector4 val = new Vector4(xnaVal.X, xnaVal.Y, xnaVal.Z, xnaVal.W);
                 if (ImGui.DragFloat4(info.Name, ref val))
@@ -597,7 +609,7 @@ namespace VectorEngine.Host
             if (Program.MidiState.Assigning)
             {
                 ImGui.PushFont(ImGuiController.BoldFont);
-                ImGui.TextColored(new Vector4(1, 0, 0, 1), "Assigning " + Program.MidiState.LastAssignmentType);
+                ImGui.TextColored(new Vector4(1, 0, 0, 1), "Assigning " + Program.MidiState.LastAssignmentControlString);
                 ImGui.PopFont();
             }
             else
@@ -616,7 +628,29 @@ namespace VectorEngine.Host
                     {
                         objectName = string.Format("{0}: {1}", (controlState.ControlledObject as Component).EntityName, objectName);
                     }
-                    if (ImGui.Button(string.Format("{0} {1}: {2}", description.Type, description.Id, objectName)))
+
+                    string vectorField = string.Empty;
+                    if (controlState.IsVector)
+                    {
+                        switch (controlState.VectorIndex)
+                        {
+                            case 0:
+                                vectorField = "X";
+                                break;
+                            case 1:
+                                vectorField = "Y";
+                                break;
+                            case 2:
+                                vectorField = "Z";
+                                break;
+                            case 3:
+                                vectorField = "W";
+                                break;
+                        }
+
+                        vectorField = string.Format(" ({0})", vectorField);
+                    }
+                    if (ImGui.Button(string.Format("{0}: {1}{2}", Program.MidiState.GetControlName(description.Id, description.Type), objectName, vectorField)))
                     {
                         selectedEntityComponent = controlState.ControlledObject;
                         scrollEntitiesView = true;

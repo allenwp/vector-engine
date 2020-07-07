@@ -11,5 +11,7 @@ namespace VectorEngine.Host.Midi
     {
         public object ControlledObject;
         public FieldPropertyInfo FieldPropertyInfo;
+        public bool IsVector;
+        public byte VectorIndex;
     }
 }
