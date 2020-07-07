@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using VectorEngine.Host.Reflection;
 using Windows.Devices.Midi;
 
@@ -62,7 +60,7 @@ namespace VectorEngine.Host.Midi
             return (float)(a * Math.Pow(b / a, t));
         }
         public float KnobControlStep
-        {  
+        {
             get
             {
                 return logerp(0.01f, 100f, SliderValue) / 10f;
@@ -269,6 +267,27 @@ namespace VectorEngine.Host.Midi
         public void AssignControl(object controlledObject, FieldPropertyInfo fieldPropertyInfo)
         {
             AssignControl(controlledObject, fieldPropertyInfo, lastAssignmentButton);
+        }
+
+        public void AssignControl(object controlledObject, string fieldPropertyName, byte assignmentButton)
+        {
+            var propertyInfo = controlledObject.GetType().GetProperty(fieldPropertyName);
+            if (propertyInfo != null)
+            {
+                AssignControl(controlledObject, new FieldPropertyInfo(propertyInfo), assignmentButton);
+            }
+            else
+            {
+                var fieldInfo = controlledObject.GetType().GetField(fieldPropertyName);
+                if (fieldInfo != null)
+                {
+                    AssignControl(controlledObject, new FieldPropertyInfo(fieldInfo), assignmentButton);
+                }
+                else
+                {
+                    throw new Exception("Failed to assign control of property or field with name " + fieldPropertyName);
+                }
+            }
         }
 
         public void AssignControl(object controlledObject, FieldPropertyInfo fieldPropertyInfo, byte assignmentButton)

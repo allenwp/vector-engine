@@ -85,11 +85,7 @@ namespace VectorEngine.Host
                             Thread.Sleep(1);
                         }
 
-                        // TODO: configure a button 8 to be EditorCamera.SelfEnabled
-                        //if (((MidiNoteOnMessage)midiMessage).Note == 16) // speicial case TODO: Move this to just an automatic assignemnt at start
-                        //{
-                        //    EditorCamera.SelfEnabled = !EditorCamera.SelfEnabled;
-                        //}
+                        MidiState.AssignControl(EditorCamera, "SelfEnabled" , 16);
                     }
 
                     IMidiMessage midiMessage;
