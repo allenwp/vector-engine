@@ -619,6 +619,8 @@ namespace VectorEngine.Host
                 ImGui.NewLine();
             }
 
+            ImGui.Separator();
+            
             foreach (var controlStatePair in Program.MidiState.ControlStates)
             {
                 var controlState = controlStatePair.Value;

@@ -256,7 +256,117 @@ namespace VectorEngine.Host.Midi
                             }
                             else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Vector2))
                             {
-                                // TODO for all vector types
+                                var val = (Vector2)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                switch (controlState.VectorIndex)
+                                {
+                                    case 0:
+                                        val.X += delta * KnobControlStep;
+                                        break;
+                                    case 1:
+                                        val.Y += delta * KnobControlStep;
+                                        break;
+                                    default:
+                                        throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
+                                }
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                            }
+                            else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Vector3))
+                            {
+                                var val = (Vector3)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                switch (controlState.VectorIndex)
+                                {
+                                    case 0:
+                                        val.X += delta * KnobControlStep;
+                                        break;
+                                    case 1:
+                                        val.Y += delta * KnobControlStep;
+                                        break;
+                                    case 2:
+                                        val.Z += delta * KnobControlStep;
+                                        break;
+                                    default:
+                                        throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
+                                }
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                            }
+                            else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Vector4))
+                            {
+                                var val = (Vector4)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                switch (controlState.VectorIndex)
+                                {
+                                    case 0:
+                                        val.X += delta * KnobControlStep;
+                                        break;
+                                    case 1:
+                                        val.Y += delta * KnobControlStep;
+                                        break;
+                                    case 2:
+                                        val.Z += delta * KnobControlStep;
+                                        break;
+                                    case 3:
+                                        val.W += delta * KnobControlStep;
+                                        break;
+                                    default:
+                                        throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
+                                }
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                            }
+                            else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Xna.Vector2))
+                            {
+                                var val = (Xna.Vector2)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                switch (controlState.VectorIndex)
+                                {
+                                    case 0:
+                                        val.X += delta * KnobControlStep;
+                                        break;
+                                    case 1:
+                                        val.Y += delta * KnobControlStep;
+                                        break;
+                                    default:
+                                        throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
+                                }
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                            }
+                            else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Xna.Vector3))
+                            {
+                                var val = (Xna.Vector3)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                switch (controlState.VectorIndex)
+                                {
+                                    case 0:
+                                        val.X += delta * KnobControlStep;
+                                        break;
+                                    case 1:
+                                        val.Y += delta * KnobControlStep;
+                                        break;
+                                    case 2:
+                                        val.Z += delta * KnobControlStep;
+                                        break;
+                                    default:
+                                        throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
+                                }
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                            }
+                            else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Xna.Vector4))
+                            {
+                                var val = (Xna.Vector4)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                switch (controlState.VectorIndex)
+                                {
+                                    case 0:
+                                        val.X += delta * KnobControlStep;
+                                        break;
+                                    case 1:
+                                        val.Y += delta * KnobControlStep;
+                                        break;
+                                    case 2:
+                                        val.Z += delta * KnobControlStep;
+                                        break;
+                                    case 3:
+                                        val.W += delta * KnobControlStep;
+                                        break;
+                                    default:
+                                        throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
+                                }
+                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
                             }
                         }
                     }
