@@ -510,6 +510,8 @@ namespace VectorEngine.Host
             }
             else if (infoType.IsEnum)
             {
+                if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Button);
+
                 var val = info.GetValue(entityComponent);
                 var enumNames = infoType.GetEnumNames();
                 int currentIndex = 0;
@@ -522,7 +524,7 @@ namespace VectorEngine.Host
                 }
                 if (ImGui.Combo(info.Name, ref currentIndex, enumNames, enumNames.Length))
                 {
-                    info.SetValue(entityComponent, currentIndex);
+                    info.SetValue(entityComponent, infoType.GetEnumValues().GetValue(currentIndex));
                 }
             }
             else
@@ -614,7 +616,12 @@ namespace VectorEngine.Host
                     {
                         objectName = string.Format("{0}: {1}", (controlState.ControlledObject as Component).EntityName, objectName);
                     }
-                    ImGui.Text(string.Format("{0} {1}: {2}", description.Type, description.Id, objectName));
+                    if (ImGui.Button(string.Format("{0} {1}: {2}", description.Type, description.Id, objectName)))
+                    {
+                        selectedEntityComponent = controlState.ControlledObject;
+                        scrollEntitiesView = true;
+                        scrollSceneGraphView = true;
+                    }
                     SubmitFieldPropertyInspector(controlState.FieldPropertyInfo, controlState.ControlledObject, false);
                     ImGui.NewLine();
                 }
