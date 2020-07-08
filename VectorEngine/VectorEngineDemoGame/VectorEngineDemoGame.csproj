@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DemoGame\Follow.cs" />
     <Compile Include="DemoGame\FollowSystem.cs" />
+    <Compile Include="DemoGame\Shapes\CurlySpire.cs" />
     <Compile Include="DemoGame\MIDIDemo\DotsDisk.cs" />
     <Compile Include="DemoGame\PostProcessing\PolarCoordHorizonMaskPostProcessor.cs" />
     <Compile Include="DemoGame\PostProcessing\PolarCoordHorizonMaskPostProcessorSystem.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VectorEngine.DemoGame.Shapes;
+using VectorEngine.Extras;
 
 namespace VectorEngine.DemoGame
 {
@@ -14,8 +15,9 @@ namespace VectorEngine.DemoGame
         {
             // Order maters here. It's the execution order.
             // "Update" systems:
+            EntityAdmin.Instance.Systems.Add(new GameTimeSystem());
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
-
+            EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
 
             // "Draw" systems:
             EntityAdmin.Instance.Systems.Add(new CameraSystem());

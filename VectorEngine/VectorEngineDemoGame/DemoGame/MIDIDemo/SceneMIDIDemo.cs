@@ -10,6 +10,7 @@ using VectorEngine.PostProcessing;
 using VectorEngine.DemoGame.PostProcessing;
 using VectorEngine.DemoGame.DemoGame.MIDIDemo;
 using VectorEngine.EditorHelper;
+using VectorEngine.DemoGame.Shapes;
 
 namespace VectorEngine.DemoGame.MIDIDemo
 {
@@ -45,8 +46,8 @@ namespace VectorEngine.DemoGame.MIDIDemo
             cam.FarPlane = 1000f;
             cam.NearPlane = 1f;
             var camTrans = EntityAdmin.Instance.AddComponent<Transform>(entity);
-            camTrans.LocalPosition = new Vector3(0, 50f, 174.826f);
-            camTrans.LocalRotation = Quaternion.CreateFromYawPitchRoll(0, -0.2f, 0);
+            camTrans.LocalPosition = new Vector3(0, 0, 174.826f);
+            //camTrans.LocalRotation = Quaternion.CreateFromYawPitchRoll(0, -0.2f, 0);
             var ppg = EntityAdmin.Instance.AddComponent<PostProcessingGroup3D>(entity);
             var ppg2D = EntityAdmin.Instance.AddComponent<PostProcessingGroup2D>(entity);
 
@@ -56,6 +57,7 @@ namespace VectorEngine.DemoGame.MIDIDemo
 
             // Post Processing
             var radialPP = EntityAdmin.Instance.AddComponent<RadialPulsePostProcessor>(cam.Entity);
+            radialPP.SelfEnabled = false;
             StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(4, radialPP, "AnimationSpeed"));
             StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(5, radialPP, "Width"));
             StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(20, radialPP, "SelfEnabled"));
@@ -74,10 +76,25 @@ namespace VectorEngine.DemoGame.MIDIDemo
             ppg2D.PostProcessors.Add(staticPP);
             EntityAdmin.Instance.AddComponent<StaticBurst>(cam.Entity).SelfEnabled = false;
 
+            // Shapes
             var dotDisk1 = DotsDisk.CreateDisk(50, 100);
             StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(0, dotDisk1.Entity.GetComponent<Rotate>(), "Speed"));
             var dotDisk2 = DotsDisk.CreateDisk(50, 100);
             StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(1, dotDisk2.Entity.GetComponent<Rotate>(), "Speed"));
+
+            CreateSpire(new Vector3(0, 0, 50f));
+            CreateSpire(new Vector3(25f, 0, 25f));
+            CreateSpire(new Vector3(-25f, 0, 5f));
+        }
+
+        public static void CreateSpire(Vector3 pos)
+        {
+            var entity = EntityAdmin.Instance.CreateEntity("Spire");
+            EntityAdmin.Instance.AddComponent<CurlySpire>(entity);
+            var trans = EntityAdmin.Instance.AddComponent<Transform>(entity);
+            trans.LocalPosition = pos;
+            trans.LocalScale = new Vector3(10f);
+            EntityAdmin.Instance.AddComponent<Rotate>(entity);
         }
     }
 }

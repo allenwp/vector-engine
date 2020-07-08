@@ -16,7 +16,8 @@ namespace VectorEngine.DemoGame.DemoGame.MIDIDemo
             var rootEntity = EntityAdmin.Instance.CreateEntity("Dots Disk Root");
             var transform = EntityAdmin.Instance.AddComponent<Transform>(rootEntity);
             transform.LocalScale = new Vector3(initialSize);
-            EntityAdmin.Instance.AddComponent<Rotate>(rootEntity);
+            var rotate = EntityAdmin.Instance.AddComponent<Rotate>(rootEntity);
+            rotate.Axis = Rotate.AxisEnum.z;
 
             var rand = new Random();
             for (int i = 0; i < numDots; i++)
@@ -24,9 +25,9 @@ namespace VectorEngine.DemoGame.DemoGame.MIDIDemo
                 var entity = EntityAdmin.Instance.CreateEntity("Dots Disk Dot");
                 EntityAdmin.Instance.AddComponent<Dot>(entity);
                 var dotTrans = EntityAdmin.Instance.AddComponent<Transform>(entity);
-                Vector3 pos = Vector3.Forward;
-                pos.Z *= (float)rand.NextDouble();
-                pos = Vector3.Transform(pos, Matrix.CreateRotationY((float)(rand.NextDouble() * Math.PI * 2)));
+                Vector3 pos = Vector3.Up;
+                pos.Y *= (float)rand.NextDouble();
+                pos = Vector3.Transform(pos, Matrix.CreateRotationZ((float)(rand.NextDouble() * Math.PI * 2)));
                 dotTrans.LocalPosition = pos;
                 Transform.AssignParent(dotTrans, transform);
             }

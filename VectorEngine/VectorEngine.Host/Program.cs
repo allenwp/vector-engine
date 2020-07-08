@@ -51,7 +51,7 @@ namespace VectorEngine.Host
             _cl = _gd.ResourceFactory.CreateCommandList();
             _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
 
-            GameLoop.Init(DemoGame.MIDIDemo.SceneMIDIDemo.Init); //Flight.Scenes.Main.Init
+            GameLoop.Init(DemoGame.MIDIDemo.SceneMIDIDemo.Init); //Flight.Scenes.Main.Init DemoGame.MIDIDemo.SceneMIDIDemo.Init VectorEngine.DemoGame.SceneSquareCalibration.Init
 
             if (!_showEditor)
             {
