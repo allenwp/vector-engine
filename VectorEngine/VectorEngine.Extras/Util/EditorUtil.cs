@@ -14,7 +14,9 @@ namespace VectorEngine.Extras.Util
             EntityAdmin.Instance.AddComponent<Transform>(entity);
             var camera =EntityAdmin.Instance.AddComponent<Camera>(entity);
             camera.Priority = uint.MaxValue;
-            EntityAdmin.Instance.AddComponent<GamepadBasicFPSMovement>(entity);
+            var movement = EntityAdmin.Instance.AddComponent<GamepadBasicFPSMovement>(entity);
+            movement.UseRealTime = true;
+            movement.TranslateSpeed = 100f;
             entity.SelfEnabled = false;
             return entity;
         }

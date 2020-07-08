@@ -54,6 +54,8 @@
     <Compile Include="GamepadSingleton.cs" />
     <Compile Include="GamepadSystem.cs" />
     <Compile Include="GameTime.cs" />
+    <Compile Include="GameTimeSingleton.cs" />
+    <Compile Include="GameTimeSystem.cs" />
     <Compile Include="PerfTime.cs" />
     <Compile Include="PostProcessing\PostProcessingGroup2D.cs" />
     <Compile Include="PostProcessing\PostProcessingGroup3D.cs" />

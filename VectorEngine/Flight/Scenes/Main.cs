@@ -17,6 +17,7 @@ namespace Flight.Scenes
     {
         public static void Init()
         {
+            EntityAdmin.Instance.Systems.Add(new GameTimeSystem());
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
             EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
             EntityAdmin.Instance.Systems.Add(new PlayerGamepadControlsSystem());

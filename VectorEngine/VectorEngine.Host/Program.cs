@@ -85,7 +85,12 @@ namespace VectorEngine.Host
                             Thread.Sleep(1);
                         }
 
-                        MidiState.AssignControl(EditorCamera, "SelfEnabled" , 16);
+                        var gameTimes = EntityAdmin.Instance.GetComponents<GameTimeSingleton>();
+                        if (gameTimes.Count() > 0)
+                        {
+                            MidiState.AssignControl(gameTimes.First(), "Paused", 16);
+                        }
+                        MidiState.AssignControl(EditorCamera, "SelfEnabled", 17);
                     }
 
                     IMidiMessage midiMessage;

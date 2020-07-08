@@ -329,6 +329,7 @@ namespace VectorEngine
         /// </summary>
         public void CreateSingletons()
         {
+            CreateSingleton<GameTimeSingleton>("GameTime Singleton");
             SingletonSampler = CreateSingleton<SamplerSingleton>("Sampler Singleton");
             SingletonGamepad = CreateSingleton<GamepadSingleton>("Gamepad Singleton");
         }

@@ -11,6 +11,8 @@ namespace VectorEngine.Extras
     [RequiresSystem(typeof(GamepadSystem))]
     public class GamepadBasicFPSMovement : Component
     {
+        public bool UseRealTime = false;
+
         public float TranslateSpeed = 1.5f;
         public float RotateSpeed = 1f;
         public float Yaw = 0f;
