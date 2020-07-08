@@ -17,7 +17,7 @@ namespace VectorEngine.DemoGame.PostProcessing
         {
             foreach ((var transform, var pulse) in EntityAdmin.Instance.GetTuple<Transform, RadialPulsePostProcessor>())
             {
-                pulse.Position = transform.Position;
+                //pulse.Position = transform.Position;
 
                 pulse.AnimationValue += GameTime.LastFrameTime * pulse.AnimationSpeed;
                 while (pulse.AnimationValue > 1f)

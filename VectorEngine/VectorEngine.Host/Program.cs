@@ -51,7 +51,13 @@ namespace VectorEngine.Host
             _cl = _gd.ResourceFactory.CreateCommandList();
             _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
 
-            GameLoop.Init(Flight.Scenes.Main.Init);
+            GameLoop.Init(DemoGame.MIDIDemo.SceneMIDIDemo.Init); //Flight.Scenes.Main.Init
+
+            if (!_showEditor)
+            {
+                // prevent leaks hanging around if we never show the editor and initialize MIDI
+                EditorHelper.StartupMIDIAssignments.Assignments.Clear();
+            }
 
             // Main application loop
             while (_window.Exists)
@@ -91,6 +97,12 @@ namespace VectorEngine.Host
                             MidiState.AssignControl(gameTimes.First(), "Paused", 16);
                         }
                         MidiState.AssignControl(EditorCamera, "SelfEnabled", 17);
+
+                        foreach (var assignment in EditorHelper.StartupMIDIAssignments.Assignments)
+                        {
+                            MidiState.AssignControl(assignment.Target, assignment.FieldPropertyName, assignment.AssignmentButton);
+                        }
+                        EditorHelper.StartupMIDIAssignments.Assignments = null; // Prevent leaks
                     }
 
                     IMidiMessage midiMessage;
