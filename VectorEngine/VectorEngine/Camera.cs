@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VectorEngine.EditorHelper;
 using VectorEngine.Output;
 
 namespace VectorEngine
@@ -11,14 +12,37 @@ namespace VectorEngine
     [RequiresSystem(typeof(CameraSystem))]
     public class Camera : Component
     {
+        public const float MinFoV = 0.001f;
+        public const float MaxFoV = (float)Math.PI - 0.001f;
+
         public enum ProjectionTypeEnum { Perspective, Orthographic }
 
         public ProjectionTypeEnum ProjectionType = ProjectionTypeEnum.Perspective;
 
+        private float fov = MathHelper.ToRadians(60);
         /// <summary>
         /// Only used if Type == TypeEnum.Perspective
         /// </summary>
-        public float FoV = MathHelper.ToRadians(60);
+        [Range(MinFoV, MaxFoV)]
+        public float FoV
+        {
+            get
+            {
+                return fov;
+            }
+            set
+            {
+                if (value <= MinFoV)
+                {
+                    value = MinFoV;
+                }
+                else if (value > MaxFoV)
+                {
+                    value = MaxFoV;
+                }
+                fov = value;
+            }
+        }
 
         /// <summary>
         /// A size of 2 with a related transform of (0,0,z) will allow drawing

@@ -341,7 +341,7 @@ namespace VectorEngine.Host
                 if (ImGui.CollapsingHeader("Fields", collapsingHeaderFlags))
                 {
                     var fields = selectedType.GetFields();
-                    foreach (var info in fields)
+                    foreach (var info in fields.Where(field => !field.IsLiteral && !field.IsInitOnly))
                     {
                         SubmitFieldPropertyInspector(new FieldPropertyInfo(info), selectedEntityComponent);
                     }
@@ -391,6 +391,8 @@ namespace VectorEngine.Host
         {
             ImGui.PushID(GetIdString(info, entityComponent));
 
+            var rangeAttribute = CustomAttributeExtensions.GetCustomAttribute<EditorHelper.RangeAttribute>(info.MemberInfo, true);
+
             var infoType = info.FieldPropertyType;
             if (infoType == typeof(string))
             {
@@ -419,7 +421,25 @@ namespace VectorEngine.Host
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
                 float val = (float)info.GetValue(entityComponent);
-                if (ImGui.DragFloat(info.Name, ref val))
+                bool result;
+                if (rangeAttribute != null
+                    && (rangeAttribute.RangeType == EditorHelper.RangeAttribute.RangeTypeEnum.Float
+                        || rangeAttribute.RangeType == EditorHelper.RangeAttribute.RangeTypeEnum.Int))
+                {
+                    if (rangeAttribute.RangeType == EditorHelper.RangeAttribute.RangeTypeEnum.Float)
+                    {
+                        result = ImGui.SliderFloat(info.Name, ref val, rangeAttribute.MinFloat, rangeAttribute.MaxFloat);
+                    }
+                    else
+                    {
+                        result = ImGui.SliderFloat(info.Name, ref val, rangeAttribute.MinInt, rangeAttribute.MaxInt);
+                    }
+                }
+                else
+                {
+                    result = ImGui.DragFloat(info.Name, ref val, 0.1f);
+                }
+                if (result)
                 {
                     info.SetValue(entityComponent, val);
                 }
@@ -501,7 +521,16 @@ namespace VectorEngine.Host
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
                 int val = (int)info.GetValue(entityComponent);
-                if (ImGui.InputInt(info.Name, ref val))
+                bool result;
+                if (rangeAttribute != null && rangeAttribute.RangeType == EditorHelper.RangeAttribute.RangeTypeEnum.Int)
+                {
+                    result = ImGui.SliderInt(info.Name, ref val, rangeAttribute.MinInt, rangeAttribute.MaxInt);
+                }
+                else
+                {
+                    result = ImGui.InputInt(info.Name, ref val);
+                }
+                if (result)
                 {
                     info.SetValue(entityComponent, val);
                 }
@@ -511,7 +540,16 @@ namespace VectorEngine.Host
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
                 int val = (int)((uint)info.GetValue(entityComponent));
-                if (ImGui.InputInt(info.Name, ref val))
+                bool result;
+                if (rangeAttribute != null && rangeAttribute.RangeType == EditorHelper.RangeAttribute.RangeTypeEnum.Int)
+                {
+                    result = ImGui.SliderInt(info.Name, ref val, rangeAttribute.MinInt, rangeAttribute.MaxInt);
+                }
+                else
+                {
+                    result = ImGui.InputInt(info.Name, ref val);
+                }
+                if (result)
                 {
                     if (val < 0)
                     {

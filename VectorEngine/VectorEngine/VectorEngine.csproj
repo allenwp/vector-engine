@@ -47,6 +47,7 @@
     <Compile Include="Component.cs" />
     <Compile Include="ECSSystem.cs" />
     <Compile Include="EditorHelper\HelpAttribute.cs" />
+    <Compile Include="EditorHelper\RangeAttribute.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityAdmin.cs" />
     <Compile Include="Extensions.cs" />
