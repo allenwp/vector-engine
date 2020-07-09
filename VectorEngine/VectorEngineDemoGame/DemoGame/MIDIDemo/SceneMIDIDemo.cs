@@ -11,6 +11,7 @@ using VectorEngine.DemoGame.PostProcessing;
 using VectorEngine.DemoGame.DemoGame.MIDIDemo;
 using VectorEngine.EditorHelper;
 using VectorEngine.DemoGame.Shapes;
+using System.Reflection.Emit;
 
 namespace VectorEngine.DemoGame.MIDIDemo
 {
@@ -21,6 +22,8 @@ namespace VectorEngine.DemoGame.MIDIDemo
             EntityAdmin.Instance.Systems.Add(new GameTimeSystem());
             EntityAdmin.Instance.Systems.Add(new GamepadSystem());
             EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
+
+            EntityAdmin.Instance.Systems.Add(new SpireControlSystem());
 
             EntityAdmin.Instance.Systems.Add(new RotateSystem());
 
@@ -82,19 +85,36 @@ namespace VectorEngine.DemoGame.MIDIDemo
             var dotDisk2 = DotsDisk.CreateDisk(50, 100);
             StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(1, dotDisk2.Entity.GetComponent<Rotate>(), "Speed"));
 
-            CreateSpire(new Vector3(0, 0, 50f));
-            CreateSpire(new Vector3(25f, 0, 25f));
-            CreateSpire(new Vector3(-25f, 0, 5f));
+            var spire = CreateSpire(new Vector3(0, 0, 117.000f));
+            CreateSpire(new Vector3(43.000f, -14.000f, 25f));
+            CreateSpire(new Vector3(-51.000f, -34.000f, 10.000f));
+
+            var spireControl = EntityAdmin.CreateSingleton<SpireControlSingleton>("Spire Control");
+            spireControl.Scale = spire.Entity.GetComponent<Transform>().LocalScale;
+            spireControl.RotateSpeed = spire.Entity.GetComponent<Rotate>().Speed;
+            spireControl.CurlCount = spire.CurlCount;
+            spireControl.StrobeSpeed = spire.Entity.GetComponent<StrobePostProcessor>().AnimationSpeed;
+            spireControl.StrobeScale = spire.Entity.GetComponent<StrobePostProcessor>().Scale;
+            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(24, spireControl, "Scale"));
+            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(27, spireControl, "RotateSpeed"));
+            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(28, spireControl, "CurlCount"));
+            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(29, spireControl, "StrobeSpeed"));
+            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(30, spireControl, "StrobeScale"));
+            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(45, spireControl, "StrobeEnabled"));
         }
 
-        public static void CreateSpire(Vector3 pos)
+        public static CurlySpire CreateSpire(Vector3 pos)
         {
             var entity = EntityAdmin.Instance.CreateEntity("Spire");
-            EntityAdmin.Instance.AddComponent<CurlySpire>(entity);
+            var result = EntityAdmin.Instance.AddComponent<CurlySpire>(entity);
+            var ppGroup = EntityAdmin.Instance.AddComponent<PostProcessingGroup3D>(entity);
+            var strobePP = EntityAdmin.Instance.AddComponent<StrobePostProcessor>(entity);
+            ppGroup.PostProcessors.Add(strobePP);
             var trans = EntityAdmin.Instance.AddComponent<Transform>(entity);
             trans.LocalPosition = pos;
             trans.LocalScale = new Vector3(10f);
             EntityAdmin.Instance.AddComponent<Rotate>(entity);
+            return result;
         }
     }
 }
