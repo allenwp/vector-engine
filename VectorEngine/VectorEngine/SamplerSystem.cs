@@ -122,7 +122,8 @@ namespace VectorEngine
             }
 
             // We now have all cameras' screen space samples. Post process them:
-            var samplerPostProcessor2D = EntityAdmin.Instance.SingletonSampler.Entity.GetComponent<PostProcessing.PostProcessingGroup2D>();
+            var singletonSampler = EntityAdmin.Instance.GetComponents<SamplerSingleton>().First();
+            var samplerPostProcessor2D = singletonSampler.Entity.GetComponent<PostProcessing.PostProcessingGroup2D>();
             if (samplerPostProcessor2D != null)
             {
                 foreach (var postProcessor in samplerPostProcessor2D.PostProcessors.Where(comp => comp.IsActive))
@@ -131,7 +132,7 @@ namespace VectorEngine
                 }
             }
 
-            EntityAdmin.Instance.SingletonSampler.LastSamples = result;
+            singletonSampler.LastSamples = result;
         }
 
         public static List<Sample3D[]> GetSample3Ds(in Camera camera, in Transform cameraTransform, in Transform transform, in Shape shape)

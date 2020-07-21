@@ -41,7 +41,7 @@ namespace VectorEngine.DemoGame.MIDIDemo
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
             EntityAdmin.Instance.Systems.Add(new SamplerSystem());
 
-            EntityAdmin.Instance.CreateSingletons();
+            EntityAdmin.Instance.CreateCommonSingletons();
 
             // Camera
             var entity = EntityAdmin.Instance.CreateEntity("Camera");
@@ -89,7 +89,7 @@ namespace VectorEngine.DemoGame.MIDIDemo
             CreateSpire(new Vector3(43.000f, -14.000f, 25f));
             CreateSpire(new Vector3(-51.000f, -34.000f, 10.000f));
 
-            var spireControl = EntityAdmin.CreateSingleton<SpireControlSingleton>("Spire Control");
+            var spireControl = EntityAdmin.Instance.CreateSingleton<SpireControlSingleton>("Spire Control");
             spireControl.Scale = spire.Entity.GetComponent<Transform>().LocalScale;
             spireControl.RotateSpeed = spire.Entity.GetComponent<Rotate>().Speed;
             spireControl.CurlCount = spire.CurlCount;

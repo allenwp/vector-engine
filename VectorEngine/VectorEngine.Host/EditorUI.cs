@@ -9,6 +9,7 @@ using VectorEngine.Host.Reflection;
 using Xna = Microsoft.Xna.Framework;
 using System.Reflection;
 using VectorEngine.Host.Midi;
+using VectorEngine.Host.Util;
 
 namespace VectorEngine.Host
 {
@@ -191,7 +192,9 @@ namespace VectorEngine.Host
                 Util.ImGuiUtil.EndDisable();
             }
 
-            foreach (var entity in admin.Entities)
+            var entities = EntityAdminUtil.GetEntities(admin);
+
+            foreach (var entity in entities)
             {
                 var components = entity.Components;
 
@@ -273,7 +276,7 @@ namespace VectorEngine.Host
 
             // Don't leak an object that's been destroyed
             bool foundSelected = false;
-            foreach (var entity in admin.Entities)
+            foreach (var entity in entities)
             {
                 if (selectedEntityComponent == entity)
                 {

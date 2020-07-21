@@ -13,7 +13,7 @@ namespace VectorEngine.Extras
     {
         public override void Tick()
         {
-            GamePadState gamePadState = EntityAdmin.Instance.SingletonGamepad.GamepadState;
+            GamePadState gamePadState = EntityAdmin.Instance.GetComponents<GamepadSingleton>().First().GamepadState;
             foreach ((var transform, var movement) in EntityAdmin.Instance.GetTuple<Transform, GamepadBasicFPSMovement>())
             {
                 float gameTime = movement.UseRealTime ? GameTime.LastRealFrameTime : GameTime.LastFrameTime;

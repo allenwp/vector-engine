@@ -15,11 +15,6 @@ namespace VectorEngine
         public List<ECSSystem> Systems = new List<ECSSystem>();
         public List<Component> Components = new List<Component>();
 
-        /// <summary>
-        /// DO NOT USE. Only for use by the editor.
-        /// </summary>
-        public List<Entity> Entities = new List<Entity>();
-
         public void Init()
         {
         }
@@ -31,7 +26,6 @@ namespace VectorEngine
         public Entity CreateEntity(string name)
         {
             var result = new Entity(name);
-            Entities.Add(result);
             return result;
         }
 
@@ -51,7 +45,6 @@ namespace VectorEngine
             {
                 RemoveComponent(component);
             }
-            Entities.Remove(entity);
         }
 
         public T AddComponent<T>(Entity entity) where T : Component, new()
@@ -64,8 +57,6 @@ namespace VectorEngine
             var newComponent = new T();
             newComponent.Entity = entity;
             entity.Components.Add(newComponent);
-            // Transforms are a special case that are used in the editor, etc.
-            var transform = newComponent as Transform;
             componentsToAdd.Add(newComponent);
             return newComponent;
         }
@@ -100,7 +91,7 @@ namespace VectorEngine
             foreach (var component in componentsToRemove)
             {
                 var transform = component as Transform;
-                if (transform as Transform != null)
+                if (transform != null)
                 {
                     foreach (var child in transform.Children)
                     {
@@ -315,23 +306,24 @@ namespace VectorEngine
         #endregion
 
         #region Singleton Components (System States)
-        public static T CreateSingleton<T>(string name) where T : Component, new()
+        
+        /// <summary>
+        /// Helper method to simply create a Componenet and gives it an empty Entity.
+        /// </summary>
+        public T CreateSingleton<T>(string name) where T : Component, new()
         {
-            var entity = EntityAdmin.Instance.CreateEntity(name);
-            return EntityAdmin.Instance.AddComponent<T>(entity);
+            var entity = CreateEntity(name);
+            return AddComponent<T>(entity);
         }
 
-        public SamplerSingleton SingletonSampler { get; private set; }
-        public GamepadSingleton SingletonGamepad { get; private set; }
-
         /// <summary>
-        ///  Currently must be called by scenes once systems are set up.
+        ///  TODO: Move this to a "default scene" that is created through the editor.
         /// </summary>
-        public void CreateSingletons()
+        public void CreateCommonSingletons()
         {
             CreateSingleton<GameTimeSingleton>("GameTime Singleton");
-            SingletonSampler = CreateSingleton<SamplerSingleton>("Sampler Singleton");
-            SingletonGamepad = CreateSingleton<GamepadSingleton>("Gamepad Singleton");
+            CreateSingleton<SamplerSingleton>("Sampler Singleton");
+            CreateSingleton<GamepadSingleton>("Gamepad Singleton");
         }
         #endregion
     }

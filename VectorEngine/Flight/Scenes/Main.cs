@@ -41,7 +41,7 @@ namespace Flight.Scenes
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
             EntityAdmin.Instance.Systems.Add(new SamplerSystem());
 
-            EntityAdmin.Instance.CreateSingletons();
+            EntityAdmin.Instance.CreateCommonSingletons();
 
             // Camera
             var entity = EntityAdmin.Instance.CreateEntity("Camera");

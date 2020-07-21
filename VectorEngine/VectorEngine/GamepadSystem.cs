@@ -12,8 +12,9 @@ namespace VectorEngine
     {
         public override void Tick()
         {
-            EntityAdmin.Instance.SingletonGamepad.PreviousGamepadState = EntityAdmin.Instance.SingletonGamepad.GamepadState;
-            EntityAdmin.Instance.SingletonGamepad.GamepadState = GamePad.GetState(PlayerIndex.One);
+            var gamepad = EntityAdmin.Instance.GetComponents<GamepadSingleton>().First();
+            gamepad.PreviousGamepadState = gamepad.GamepadState;
+            gamepad.GamepadState = GamePad.GetState(PlayerIndex.One);
         }
     }
 }

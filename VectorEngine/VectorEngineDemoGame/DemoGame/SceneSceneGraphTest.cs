@@ -24,7 +24,7 @@ namespace VectorEngine.DemoGame
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
             EntityAdmin.Instance.Systems.Add(new SamplerSystem());
 
-            EntityAdmin.Instance.CreateSingletons();
+            EntityAdmin.Instance.CreateCommonSingletons();
 
             var entity = EntityAdmin.Instance.CreateEntity("Camera");
             EntityAdmin.Instance.AddComponent<Camera>(entity);

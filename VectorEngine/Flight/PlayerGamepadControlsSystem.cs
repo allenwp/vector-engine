@@ -13,7 +13,7 @@ namespace Flight
     {
         public override void Tick()
         {
-            GamePadState gamePadState = EntityAdmin.Instance.SingletonGamepad.GamepadState;
+            GamePadState gamePadState = EntityAdmin.Instance.GetComponents<GamepadSingleton>().First().GamepadState;
             foreach ((var transform, var playerControls) in EntityAdmin.Instance.GetTuple<Transform, PlayerGamepadControls>())
             {
                 transform.LocalPosition.X += playerControls.Speed * GameTime.LastFrameTime * gamePadState.ThumbSticks.Left.X;

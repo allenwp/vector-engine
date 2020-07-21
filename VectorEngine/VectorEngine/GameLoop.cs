@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using VectorEngine.Output;
 
@@ -29,7 +30,8 @@ namespace VectorEngine
         }
         static WriteStateEnum WriteState = WriteStateEnum.Buffer1;
 
-        public static void Init(Action sceneInit)
+        /// <param name="gameInit">This Action should set up all of the game's Systems and call the initial scene load.</param>
+        public static void Init(Action gameInit)
         {
             // ASIO or other output should be the highest priority thread so that it can
             // at least feed blanking samples to the screen if the game loop doesn't finish
@@ -37,7 +39,7 @@ namespace VectorEngine
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 
             EntityAdmin.Instance.Init();
-            sceneInit();
+            gameInit();
 
         }
 
@@ -74,7 +76,7 @@ namespace VectorEngine
             // Finally, prepare and fill the FrameOutput buffer:
             int blankingSampleCount;
             int wastedSampleCount;
-            Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.SingletonSampler.LastSamples, previousFinalSample, out blankingSampleCount, out wastedSampleCount); // FrameOutput.GetCalibrationFrame();
+            Sample[] finalBuffer = CreateFrameBuffer(EntityAdmin.Instance.GetComponents<SamplerSingleton>().First().LastSamples, previousFinalSample, out blankingSampleCount, out wastedSampleCount); // FrameOutput.GetCalibrationFrame();
             previousFinalSample = finalBuffer[finalBuffer.Length - 1];
 
             // Debug test code to simulate tricky double buffer situations

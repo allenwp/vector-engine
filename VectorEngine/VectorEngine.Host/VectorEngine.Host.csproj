@@ -52,6 +52,7 @@
     <Compile Include="Midi\MidiState.cs" />
     <Compile Include="Midi\MyMidiDeviceWatcher.cs" />
     <Compile Include="Reflection\FieldPropertyInfo.cs" />
+    <Compile Include="Util\EntityAdminUtil.cs" />
     <Compile Include="Util\ImGuiUtil.cs" />
     <Compile Include="MemoryEditor.cs" />
     <Compile Include="Program.cs" />
