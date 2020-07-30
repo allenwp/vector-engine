@@ -62,16 +62,16 @@ namespace VectorEngine.Host
             ImGui.SameLine();
             ImGui.Checkbox("Tick Systems", ref GameLoop.TickSystems);
 
-            ImGui.NewLine();
-            ImGuiTreeNodeFlags collapsingHeaderFlags = ImGuiTreeNodeFlags.CollapsingHeader;
-            collapsingHeaderFlags |= ImGuiTreeNodeFlags.DefaultOpen;
-            if (ImGui.CollapsingHeader("Systems Order", collapsingHeaderFlags))
+            ImGui.Separator();
+            ImGui.PushFont(ImGuiController.BoldFont);
+            ImGui.Text("Systems Order:");
+            ImGui.PopFont();
+            ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
+            foreach (var system in admin.Systems)
             {
-                foreach (var system in admin.Systems)
-                {
-                    ImGui.Text(system.GetType().ToString());
-                }
+                ImGui.Text(system.GetType().ToString());
             }
+            ImGui.EndChild();
 
             ImGui.End();
         }
@@ -222,6 +222,9 @@ namespace VectorEngine.Host
                 Util.ImGuiUtil.EndDisable();
             }
 
+            ImGui.Separator();
+            ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
+
             var entities = EntityAdminUtil.GetEntities(admin);
 
             foreach (var entity in entities)
@@ -367,7 +370,8 @@ namespace VectorEngine.Host
                     }
                 }
 
-                ImGui.NewLine();
+                ImGui.Separator();
+                ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
 
                 var selectedType = selectedEntityComponent.GetType();
 
@@ -691,7 +695,8 @@ namespace VectorEngine.Host
             }
 
             ImGui.Separator();
-            
+            ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
+
             foreach (var controlStatePair in Program.MidiState.ControlStates)
             {
                 var controlState = controlStatePair.Value;
