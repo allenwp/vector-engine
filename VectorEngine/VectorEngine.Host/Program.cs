@@ -8,6 +8,7 @@ using Veldrid.StartupUtilities;
 using System.Threading;
 using Windows.Devices.Midi;
 using VectorEngine.Host.Midi;
+using VectorEngine.Host.Util;
 
 namespace VectorEngine.Host
 {
@@ -18,7 +19,9 @@ namespace VectorEngine.Host
         private static CommandList _cl;
         private static ImGuiController _controller;
 
-        private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
+        public static readonly Vector3 CLEAR_COLOR_PLAY = new Vector3(0.946f, 0.370f, 0.014f);
+        public static readonly Vector3 CLEAR_COLOR_STOPPED = new Vector3(0.45f, 0.55f, 0.6f);
+        public static Vector3 ClearColor = CLEAR_COLOR_STOPPED;
 
         public static Entity EditorCamera = null;
 
@@ -51,12 +54,15 @@ namespace VectorEngine.Host
             _cl = _gd.ResourceFactory.CreateCommandList();
             _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
 
-            GameLoop.Init(DemoGame.MIDIDemo.SceneMIDIDemo.Init); //Flight.Scenes.Main.Init DemoGame.MIDIDemo.SceneMIDIDemo.Init VectorEngine.DemoGame.SceneSquareCalibration.Init
-
-            if (!_showEditor)
+            if (_showEditor)
             {
+                HostHelper.StopGame(true);
+            }
+            else
+            {
+                HostHelper.PlayGame(true);
                 // prevent leaks hanging around if we never show the editor and initialize MIDI
-                EditorHelper.StartupMIDIAssignments.Assignments.Clear();
+                // TODO: EditorHelper.StartupMIDIAssignments.Assignments.Clear();
             }
 
             // Main application loop
@@ -77,6 +83,7 @@ namespace VectorEngine.Host
 
                 if (_showEditor)
                 {
+                    // TODO: Search for this by tag or something instead of creating it here. It should be included in all scenes anyway.
                     if (EditorCamera == null)
                     {
                         EditorCamera = VectorEngine.Extras.Util.EditorUtil.CreateSceneViewCamera();
@@ -98,11 +105,12 @@ namespace VectorEngine.Host
                         }
                         MidiState.AssignControl(EditorCamera, "SelfEnabled", 17);
 
-                        foreach (var assignment in EditorHelper.StartupMIDIAssignments.Assignments)
-                        {
-                            MidiState.AssignControl(assignment.Target, assignment.FieldPropertyName, assignment.AssignmentButton);
-                        }
-                        EditorHelper.StartupMIDIAssignments.Assignments = null; // Prevent leaks
+                        // TOOD:
+                        //foreach (var assignment in EditorHelper.StartupMIDIAssignments.Assignments)
+                        //{
+                        //    MidiState.AssignControl(assignment.Target, assignment.FieldPropertyName, assignment.AssignmentButton);
+                        //}
+                        //EditorHelper.StartupMIDIAssignments.Assignments = null; // Prevent leaks
                     }
 
                     IMidiMessage midiMessage;
@@ -118,7 +126,7 @@ namespace VectorEngine.Host
 
                     _cl.Begin();
                     _cl.SetFramebuffer(_gd.MainSwapchain.Framebuffer);
-                    _cl.ClearColorTarget(0, new RgbaFloat(_clearColor.X, _clearColor.Y, _clearColor.Z, 1f));
+                    _cl.ClearColorTarget(0, new RgbaFloat(ClearColor.X, ClearColor.Y, ClearColor.Z, 1f));
                     _controller.Render(_gd, _cl);
                     _cl.End();
                     _gd.SubmitCommands(_cl);

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultScene.cs" />
     <Compile Include="EditorUI.cs" />
     <Compile Include="ImGuiController.cs" />
     <Compile Include="Midi\MidiControlState.cs" />
@@ -52,7 +53,9 @@
     <Compile Include="Midi\MidiState.cs" />
     <Compile Include="Midi\MyMidiDeviceWatcher.cs" />
     <Compile Include="Reflection\FieldPropertyInfo.cs" />
+    <Compile Include="Util\EditorSystems.cs" />
     <Compile Include="Util\EntityAdminUtil.cs" />
+    <Compile Include="Util\HostHelper.cs" />
     <Compile Include="Util\ImGuiUtil.cs" />
     <Compile Include="MemoryEditor.cs" />
     <Compile Include="Program.cs" />

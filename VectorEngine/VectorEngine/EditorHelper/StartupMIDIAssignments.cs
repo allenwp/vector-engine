@@ -8,7 +8,6 @@ namespace VectorEngine.EditorHelper
 {
     public class StartupMIDIAssignments
     {
-        public static List<StartupMIDIAssignments> Assignments = new List<StartupMIDIAssignments>();
         public byte AssignmentButton;
         public object Target;
         public string FieldPropertyName;

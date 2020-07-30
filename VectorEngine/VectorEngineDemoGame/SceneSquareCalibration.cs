@@ -23,7 +23,7 @@ namespace VectorEngine.DemoGame
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
             EntityAdmin.Instance.Systems.Add(new SamplerSystem());
 
-            EntityAdmin.Instance.CreateCommonSingletons();
+            //EntityAdmin.Instance.CreateCommonSingletons();
 
             var entity = EntityAdmin.Instance.CreateEntity("Camera");
             EntityAdmin.Instance.AddComponent<Transform>(entity).LocalPosition = new Vector3(0, 0, 2f);

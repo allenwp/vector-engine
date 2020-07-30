@@ -29,6 +29,7 @@ namespace VectorEngine.Host
 
         public static unsafe void SubmitUI(EntityAdmin admin)
         {
+            SubmitMainMenu();
             SubmitSystemsWindow(admin);
             SubmitSceneGraphWindow(admin);
             SubmitEntitiesWindow(admin);
@@ -36,13 +37,42 @@ namespace VectorEngine.Host
             SubmitMidiWindow();
         }
 
+        private static unsafe void SubmitMainMenu()
+        {
+            if (ImGui.BeginMainMenuBar())
+            {
+                if (ImGui.BeginMenu("Menu"))
+                {
+                    // TODO?
+                    ImGui.EndMenu();
+                }
+                ImGui.EndMainMenuBar();
+            }
+        }
+
         private static unsafe void SubmitSystemsWindow(EntityAdmin admin)
         {
-            ImGui.Begin("Systems Order");
-            foreach (var system in admin.Systems)
+            ImGui.Begin("Vector Engine");
+
+            string playLabel = HostHelper.PlayingGame ? "Stop" : "Play";
+            if (ImGui.Button(playLabel))
             {
-                ImGui.Text(system.GetType().ToString());
+                HostHelper.TogglePlayGame();
             }
+            ImGui.SameLine();
+            ImGui.Checkbox("Tick Systems", ref GameLoop.TickSystems);
+
+            ImGui.NewLine();
+            ImGuiTreeNodeFlags collapsingHeaderFlags = ImGuiTreeNodeFlags.CollapsingHeader;
+            collapsingHeaderFlags |= ImGuiTreeNodeFlags.DefaultOpen;
+            if (ImGui.CollapsingHeader("Systems Order", collapsingHeaderFlags))
+            {
+                foreach (var system in admin.Systems)
+                {
+                    ImGui.Text(system.GetType().ToString());
+                }
+            }
+
             ImGui.End();
         }
 

@@ -68,6 +68,7 @@
     <Compile Include="Sample3D.cs" />
     <Compile Include="SamplerSingleton.cs" />
     <Compile Include="SamplerSystem.cs" />
+    <Compile Include="Scene.cs" />
     <Compile Include="Shape.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="Tween.cs" />

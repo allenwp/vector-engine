@@ -17,32 +17,6 @@ namespace Flight.Scenes
     {
         public static void Init()
         {
-            EntityAdmin.Instance.Systems.Add(new GameTimeSystem());
-            EntityAdmin.Instance.Systems.Add(new GamepadSystem());
-            EntityAdmin.Instance.Systems.Add(new GamepadBasicFPSMovementSystem());
-            EntityAdmin.Instance.Systems.Add(new PlayerGamepadControlsSystem());
-
-            EntityAdmin.Instance.Systems.Add(new RotateSystem());
-            EntityAdmin.Instance.Systems.Add(new TrackSystem());
-            EntityAdmin.Instance.Systems.Add(new FieldSystem());
-            EntityAdmin.Instance.Systems.Add(new PlayerShipShapesSystem());
-            EntityAdmin.Instance.Systems.Add(new ShadowSystem());
-
-            EntityAdmin.Instance.Systems.Add(new StaticBurstCollisionSystem());
-            EntityAdmin.Instance.Systems.Add(new StaticBurstSystem());
-
-            // Post Processing Systems:
-            EntityAdmin.Instance.Systems.Add(new StrobePostProcessorSystem());
-            EntityAdmin.Instance.Systems.Add(new PolarCoordinatesPostProcessorSystem());
-            EntityAdmin.Instance.Systems.Add(new PolarCoordHorizonMaskPostProcessorSystem());
-            EntityAdmin.Instance.Systems.Add(new StaticPostProcessorSystem());
-
-            // "Draw" systems:
-            EntityAdmin.Instance.Systems.Add(new CameraSystem());
-            EntityAdmin.Instance.Systems.Add(new SamplerSystem());
-
-            EntityAdmin.Instance.CreateCommonSingletons();
-
             // Camera
             var entity = EntityAdmin.Instance.CreateEntity("Camera");
             var cam = EntityAdmin.Instance.AddComponent<Camera>(entity);

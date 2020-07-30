@@ -11,6 +11,6 @@ namespace VectorEngine
     [RequiresSystem(typeof(SamplerSystem))]
     public class SamplerSingleton : Component
     {
-        public List<Sample[]> LastSamples;
+        public List<Sample[]> LastSamples = new List<Sample[]>();
     }
 }

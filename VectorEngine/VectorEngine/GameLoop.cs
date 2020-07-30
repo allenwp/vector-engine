@@ -10,12 +10,14 @@ namespace VectorEngine
 {
     public class GameLoop
     {
+        #region Performance
         // Some performance counters
         static PerfTime syncOverheadTime = PerfTime.Initial;
         static PerfTime frameTimePerf = PerfTime.Initial;
         static PerfTime hostTimePerf = PerfTime.Initial;
         static Stopwatch swFrameSyncOverhead = new Stopwatch();
         static Stopwatch swHostTime = new Stopwatch();
+        #endregion
 
         /// <summary>
         /// Used for determining how blanking should behave for the first sample of a new frame.
@@ -23,24 +25,30 @@ namespace VectorEngine
         static Sample previousFinalSample = Sample.Blank;
 
         static bool firstFrame = true;
+
+        /// <summary>
+        /// Set to false to pause ALL systems, regardless of whether it's in editor or game mode.
+        /// </summary>
+        public static bool TickSystems = true;
+
+        #region Double Frame Buffer
         enum WriteStateEnum
         {
             Buffer1,
             Buffer2
         }
         static WriteStateEnum WriteState = WriteStateEnum.Buffer1;
+        #endregion
 
-        /// <param name="gameInit">This Action should set up all of the game's Systems and call the initial scene load.</param>
-        public static void Init(Action gameInit)
+        /// <param name="gameInit">This Action should set up all of the game's Systems.</param>
+        public static void Init(List<ECSSystem> systems, List<Component> components)
         {
             // ASIO or other output should be the highest priority thread so that it can
             // at least feed blanking samples to the screen if the game loop doesn't finish
             // rendering in time. The game loop is one priority lower, but still above normal.
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 
-            EntityAdmin.Instance.Init();
-            gameInit();
-
+            EntityAdmin.Instance.Init(systems, components);
         }
 
         public static void Tick()
@@ -68,9 +76,12 @@ namespace VectorEngine
             EntityAdmin.Instance.RemoveQueuedComponents();
 
             // Tick the systems
-            foreach (ECSSystem system in EntityAdmin.Instance.Systems)
+            if (TickSystems)
             {
-                system.Tick();
+                foreach (ECSSystem system in EntityAdmin.Instance.Systems)
+                {
+                    system.Tick();
+                }
             }
 
             // Finally, prepare and fill the FrameOutput buffer:

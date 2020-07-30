@@ -15,8 +15,10 @@ namespace VectorEngine
         public List<ECSSystem> Systems = new List<ECSSystem>();
         public List<Component> Components = new List<Component>();
 
-        public void Init()
+        public void Init(List<ECSSystem> systems, List<Component> components)
         {
+            Systems = systems;
+            Components = components;
         }
 
         #region Creation and Destruction of Entities and Components
@@ -314,16 +316,6 @@ namespace VectorEngine
         {
             var entity = CreateEntity(name);
             return AddComponent<T>(entity);
-        }
-
-        /// <summary>
-        ///  TODO: Move this to a "default scene" that is created through the editor.
-        /// </summary>
-        public void CreateCommonSingletons()
-        {
-            CreateSingleton<GameTimeSingleton>("GameTime Singleton");
-            CreateSingleton<SamplerSingleton>("Sampler Singleton");
-            CreateSingleton<GamepadSingleton>("Gamepad Singleton");
         }
         #endregion
     }

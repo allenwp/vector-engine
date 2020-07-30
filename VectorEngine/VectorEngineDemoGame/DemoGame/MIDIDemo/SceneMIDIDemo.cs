@@ -41,7 +41,7 @@ namespace VectorEngine.DemoGame.MIDIDemo
             EntityAdmin.Instance.Systems.Add(new CameraSystem());
             EntityAdmin.Instance.Systems.Add(new SamplerSystem());
 
-            EntityAdmin.Instance.CreateCommonSingletons();
+            //EntityAdmin.Instance.CreateCommonSingletons();
 
             // Camera
             var entity = EntityAdmin.Instance.CreateEntity("Camera");
@@ -61,29 +61,29 @@ namespace VectorEngine.DemoGame.MIDIDemo
             // Post Processing
             var radialPP = EntityAdmin.Instance.AddComponent<RadialPulsePostProcessor>(cam.Entity);
             radialPP.SelfEnabled = false;
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(4, radialPP, "AnimationSpeed"));
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(5, radialPP, "Width"));
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(20, radialPP, "SelfEnabled"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(4, radialPP, "AnimationSpeed"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(5, radialPP, "Width"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(20, radialPP, "SelfEnabled"));
             ppg.PostProcessors.Add(radialPP);
 
             var polarPP = EntityAdmin.Instance.AddComponent<PolarCoordinatesPostProcessor>(cam.Entity);
             polarPP.Origin = originTrans;
             polarPP.ZScale = 0.002f;
             polarPP.SelfEnabled = false;
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(3, polarPP, "ZScale"));
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(19, polarPP, "SelfEnabled"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(3, polarPP, "ZScale"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(19, polarPP, "SelfEnabled"));
             ppg.PostProcessors.Add(polarPP);
 
             var staticPP = EntityAdmin.Instance.AddComponent<StaticPostProcessor>(cam.Entity);
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(2, staticPP, "Amount"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(2, staticPP, "Amount"));
             ppg2D.PostProcessors.Add(staticPP);
             EntityAdmin.Instance.AddComponent<StaticBurst>(cam.Entity).SelfEnabled = false;
 
             // Shapes
             var dotDisk1 = DotsDisk.CreateDisk(50, 100);
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(0, dotDisk1.Entity.GetComponent<Rotate>(), "Speed"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(0, dotDisk1.Entity.GetComponent<Rotate>(), "Speed"));
             var dotDisk2 = DotsDisk.CreateDisk(50, 100);
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(1, dotDisk2.Entity.GetComponent<Rotate>(), "Speed"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(1, dotDisk2.Entity.GetComponent<Rotate>(), "Speed"));
 
             var spire = CreateSpire(new Vector3(0, 0, 117.000f));
             CreateSpire(new Vector3(43.000f, -14.000f, 25f));
@@ -95,12 +95,12 @@ namespace VectorEngine.DemoGame.MIDIDemo
             spireControl.CurlCount = spire.CurlCount;
             spireControl.StrobeSpeed = spire.Entity.GetComponent<StrobePostProcessor>().AnimationSpeed;
             spireControl.StrobeScale = spire.Entity.GetComponent<StrobePostProcessor>().Scale;
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(24, spireControl, "Scale"));
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(27, spireControl, "RotateSpeed"));
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(28, spireControl, "CurlCount"));
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(29, spireControl, "StrobeSpeed"));
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(30, spireControl, "StrobeScale"));
-            StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(45, spireControl, "StrobeEnabled"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(24, spireControl, "Scale"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(27, spireControl, "RotateSpeed"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(28, spireControl, "CurlCount"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(29, spireControl, "StrobeSpeed"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(30, spireControl, "StrobeScale"));
+            //StartupMIDIAssignments.Assignments.Add(new StartupMIDIAssignments(45, spireControl, "StrobeEnabled"));
         }
 
         public static CurlySpire CreateSpire(Vector3 pos)
