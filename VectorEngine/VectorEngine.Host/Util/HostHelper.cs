@@ -43,7 +43,7 @@ namespace VectorEngine.Host.Util
                 playingGame = true;
                 Program.ClearColor = Program.CLEAR_COLOR_PLAY;
 
-                List<ECSSystem> systems = Flight.GameInit.GetGameSystems();
+                List<ECSSystem> systems = Program.GameInitType.GetMethod("GetGameSystems").Invoke(null, null) as List<ECSSystem>;
 
                 // TODO: Correctly load game components from serialization engine. Load default scene only if this fails.
                 // Also: set up MIDI controls only the first time you load a scene somehow.

@@ -9,6 +9,7 @@ using System.Threading;
 using Windows.Devices.Midi;
 using VectorEngine.Host.Midi;
 using VectorEngine.Host.Util;
+using System.Reflection;
 
 namespace VectorEngine.Host
 {
@@ -18,6 +19,9 @@ namespace VectorEngine.Host
         private static GraphicsDevice _gd;
         private static CommandList _cl;
         private static ImGuiController _controller;
+
+        public static readonly Type GameInitType = typeof(Flight.GameInit);
+        public static readonly Assembly GameAssembly = Assembly.GetAssembly(GameInitType);
 
         public static readonly Vector3 CLEAR_COLOR_PLAY = new Vector3(0.946f, 0.370f, 0.014f);
         public static readonly Vector3 CLEAR_COLOR_STOPPED = new Vector3(0.45f, 0.55f, 0.6f);

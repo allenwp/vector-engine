@@ -27,6 +27,9 @@ namespace VectorEngine.Host
         /// </summary>
         static bool scrollEntitiesView = false;
 
+        static string invokeFilter = string.Empty;
+        static int invokeSelectedIndex = 0;
+
         public static unsafe void SubmitUI(EntityAdmin admin)
         {
             SubmitMainMenu();
@@ -35,6 +38,7 @@ namespace VectorEngine.Host
             SubmitEntitiesWindow(admin);
             SubmitInspectorWindow(admin);
             SubmitMidiWindow();
+            SubmitInvokeWindow();
         }
 
         private static unsafe void SubmitMainMenu()
@@ -742,5 +746,88 @@ namespace VectorEngine.Host
             }
             ImGui.End();
         }
+
+        private static unsafe void SubmitInvokeWindow()
+        {
+            ImGui.Begin("Invoke");
+
+            Dictionary<string, Assembly> assemblies = new Dictionary<string, Assembly>();
+            assemblies["Game Assembly"] = Program.GameAssembly;
+            assemblies["VectorEngine"] = Assembly.GetAssembly(typeof(VectorEngine.EntityAdmin));
+            assemblies["VectorEngine.Extras"] = Assembly.GetAssembly(typeof(VectorEngine.Extras.Util.EditorUtil));
+            assemblies["Host Assembly"] = Assembly.GetExecutingAssembly();
+
+            if (ImGui.BeginTabBar("Assemblies Tab Bar", ImGuiTabBarFlags.None))
+            {
+                if (ImGui.BeginTabItem("Selected Object"))
+                {
+                    ImGui.InputText("Filter", ref invokeFilter, 500);
+                    invokeFilter = invokeFilter.ToLower();
+
+                    bool doInvoke = ImGui.Button("Invoke");
+
+                    ImGui.Separator();
+
+                    ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
+
+                    // TODO: for selected object, do similar to the other assemblies
+
+                    ImGui.EndChild();
+
+                    ImGui.EndTabItem();
+                }
+
+                foreach (var assemblyPair in assemblies)
+                {
+                    if (ImGui.BeginTabItem(assemblyPair.Key))
+                    {
+                        ImGui.InputText("Filter", ref invokeFilter, 500);
+                        invokeFilter = invokeFilter.ToLower();
+
+                        bool doInvoke = ImGui.Button("Invoke");
+
+                        ImGui.Separator();
+
+                        ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
+
+                        var names = (from type in assemblyPair.Value.GetTypes()
+                                     from method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
+                                     select (type, method, type.FullName + ":" + method.Name)).ToList();
+
+                        for (int i = 0; i < names.Count; i++)
+                        {
+                            if (names[i].Item3.ToLower().Contains(invokeFilter))
+                            {
+                                if (ImGui.Selectable(names[i].Item3, invokeSelectedIndex == i))
+                                {
+                                    invokeSelectedIndex = i;
+                                }
+                            }
+                        }
+
+                        if (doInvoke && names.Count > invokeSelectedIndex)
+                        {
+                            try
+                            {
+                                names[invokeSelectedIndex].method.Invoke(null, null);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                            }
+                        }
+
+                        ImGui.EndChild();
+
+                        ImGui.EndTabItem();
+                    }
+                }
+                ImGui.EndTabBar();
+            }
+
+            ImGui.End();
+        }
+
+        //private static unsafe void SubmitInvoke
     }
 }
