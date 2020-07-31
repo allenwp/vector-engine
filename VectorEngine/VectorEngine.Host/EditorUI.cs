@@ -798,9 +798,27 @@ namespace VectorEngine.Host
                         {
                             if (names[i].Item3.ToLower().Contains(invokeFilter))
                             {
-                                if (ImGui.Selectable(names[i].Item3, invokeSelectedIndex == i))
+                                if (names[i].method.IsPrivate)
+                                {
+                                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
+                                }
+                                StringBuilder sb = new StringBuilder();
+                                sb.Append('(');
+                                foreach (var param in names[i].method.GetParameters())
+                                {
+                                    sb.Append(param.ParameterType.Name);
+                                    sb.Append(' ');
+                                    sb.Append(param.Name);
+                                }
+                                sb.Append(')');
+                                var text = string.Format("{0}{1}", names[i].Item3, sb);
+                                if (ImGui.Selectable(text, invokeSelectedIndex == i))
                                 {
                                     invokeSelectedIndex = i;
+                                }
+                                if (names[i].method.IsPrivate)
+                                {
+                                    ImGui.PopStyleColor();
                                 }
                             }
                         }
