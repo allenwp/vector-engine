@@ -261,7 +261,7 @@ namespace VectorEngine.Host
                 for (int i = 0; i < components.Count; i++)
                 {
                     Type missingSystem;
-                    if (!RequiresSystem.HasECSSystemForType(components[i].GetType(), admin, out missingSystem))
+                    if (!RequiresSystem.HasECSSystemForType(components[i].GetType(), HostHelper.GameSystems, out missingSystem))
                     {
                         errorInEntity = true;
                     }
@@ -311,7 +311,7 @@ namespace VectorEngine.Host
                             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
                         }
                         Type missingSystem;
-                        bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(components[i].GetType(), admin, out missingSystem);
+                        bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(components[i].GetType(), HostHelper.GameSystems, out missingSystem);
                         if (!hasRequiredSystems)
                         {
                             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
@@ -398,7 +398,7 @@ namespace VectorEngine.Host
                     }
 
                     Type missingSystem;
-                    bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(component.GetType(), admin, out missingSystem);
+                    bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(component.GetType(), HostHelper.GameSystems, out missingSystem);
                     if (!hasRequiredSystems)
                     {
                         ImGui.Separator();
