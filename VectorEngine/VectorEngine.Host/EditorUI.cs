@@ -792,7 +792,7 @@ namespace VectorEngine.Host
 
                         var names = (from type in assemblyPair.Value.GetTypes()
                                      from method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
-                                     select (type, method, type.FullName + ":" + method.Name)).ToList();
+                                     select (type, method, type.FullName + ":" + method.Name)).Where(a => a.method.GetParameters().Length < 1).ToList();
 
                         for (int i = 0; i < names.Count; i++)
                         {
