@@ -257,14 +257,28 @@ namespace VectorEngine.Host
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
                 }
+                bool errorInEntity = false;
                 for (int i = 0; i < components.Count; i++)
                 {
+                    Type missingSystem;
+                    if (!RequiresSystem.HasECSSystemForType(components[i].GetType(), admin, out missingSystem))
+                    {
+                        errorInEntity = true;
+                    }
                     if (components[i] == selectedEntityComponent)
                     {
                         ImGui.SetNextItemOpen(true);
                     }
                 }
+                if (errorInEntity)
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
+                }
                 bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entity.Name);
+                if (errorInEntity)
+                {
+                    ImGui.PopStyleColor();
+                }
                 if (!entity.IsActive)
                 {
                     ImGui.PopStyleColor();
@@ -296,7 +310,17 @@ namespace VectorEngine.Host
                         {
                             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
                         }
+                        Type missingSystem;
+                        bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(components[i].GetType(), admin, out missingSystem);
+                        if (!hasRequiredSystems)
+                        {
+                            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
+                        }
                         ImGui.TreeNodeEx(components[i].Guid.ToString(), nodeFlags, components[i].Name);
+                        if (!hasRequiredSystems)
+                        {
+                            ImGui.PopStyleColor();
+                        }
                         if (!components[i].IsActive)
                         {
                             ImGui.PopStyleColor();
@@ -371,6 +395,20 @@ namespace VectorEngine.Host
                     if (ImGui.Button("Remove Component"))
                     {
                         admin.RemoveComponent(component);
+                    }
+
+                    Type missingSystem;
+                    bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(component.GetType(), admin, out missingSystem);
+                    if (!hasRequiredSystems)
+                    {
+                        ImGui.Separator();
+                        ImGui.NewLine();
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
+                        ImGui.PushFont(ImGuiController.BoldFont);
+                        ImGui.Text("ERROR: MISSING REQUIRED SYSTEM " + missingSystem);
+                        ImGui.PopFont();
+                        ImGui.PopStyleColor();
+                        ImGui.NewLine();
                     }
                 }
 
@@ -771,6 +809,7 @@ namespace VectorEngine.Host
                     ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
 
                     // TODO: for selected object, do similar to the other assemblies
+                    ImGui.Text("(Selected Ojbect not yet implemented. Implement when needed.)");
 
                     ImGui.EndChild();
 
@@ -784,7 +823,7 @@ namespace VectorEngine.Host
                         ImGui.InputText("Filter", ref invokeFilter, 500);
                         invokeFilter = invokeFilter.ToLower();
 
-                        bool doInvoke = ImGui.Button("Invoke");
+                        bool doInvoke = ImGui.Button("Invoke"); // TODO: allow input of parameters.
 
                         ImGui.Separator();
 

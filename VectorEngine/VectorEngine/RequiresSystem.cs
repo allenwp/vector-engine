@@ -15,10 +15,12 @@ namespace VectorEngine
             ECSSystem = ecsSystem;
         }
 
-        public static bool HasECSSystemForType(Type componentType, EntityAdmin admin)
+        public static bool HasECSSystemForType(Type componentType, EntityAdmin admin, out Type firstMissingSystem)
         {
             Attribute[] attrs = Attribute.GetCustomAttributes(componentType);
- 
+
+            firstMissingSystem = null;
+
             foreach (Attribute attr in attrs)
             {
                 if (attr is RequiresSystem)
@@ -26,6 +28,7 @@ namespace VectorEngine
                     Type requiredSystem = ((RequiresSystem)attr).ECSSystem;
                     if (admin.Systems.Where(system => system.GetType() == requiredSystem).Count() == 0)
                     {
+                        firstMissingSystem = requiredSystem;
                         return false;
                     }
                 }
