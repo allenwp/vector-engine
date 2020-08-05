@@ -90,7 +90,14 @@ namespace VectorEngine.Host
                     // TODO: Search for this by tag or something instead of creating it here. It should be included in all scenes anyway.
                     if (EditorCamera == null)
                     {
-                        EditorCamera = VectorEngine.Extras.Util.EditorUtil.CreateSceneViewCamera();
+                        foreach (var component in EntityAdmin.Instance.Components)
+                        {
+                            if (component.Entity.Name == DefaultScene.EDITOR_CAM_ENTITY_NAME)
+                            {
+                                EditorCamera = component.Entity;
+                                break;
+                            }
+                        }
                     }
 
                     if (midi == null)
@@ -107,7 +114,10 @@ namespace VectorEngine.Host
                         {
                             MidiState.AssignControl(gameTimes.First(), "Paused", 16);
                         }
-                        MidiState.AssignControl(EditorCamera, "SelfEnabled", 17);
+                        if (EditorCamera != null)
+                        {
+                            MidiState.AssignControl(EditorCamera, "SelfEnabled", 17);
+                        }
 
                         // TOOD:
                         //foreach (var assignment in EditorHelper.StartupMIDIAssignments.Assignments)

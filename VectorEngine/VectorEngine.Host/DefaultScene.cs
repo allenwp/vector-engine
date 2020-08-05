@@ -9,6 +9,8 @@ namespace VectorEngine.Host
 {
     public class DefaultScene
     {
+        public static readonly string EDITOR_CAM_ENTITY_NAME = "Editor Camera";
+
         public static Scene GetDefaultScene()
         {
             Scene result = new Scene();
@@ -29,6 +31,7 @@ namespace VectorEngine.Host
             result.Add(CreateSingleton<GameTimeSingleton>("GameTime Singleton"));
             result.Add(CreateSingleton<GamepadSingleton>("Gamepad Singleton"));
             result.Add(CreateSingleton<SamplerSingleton>("Sampler Singleton"));
+            result.AddRange(CreateSceneViewCamera());
             return result;
         }
 
@@ -42,7 +45,7 @@ namespace VectorEngine.Host
         {
             var result = new List<Component>();
 
-            var entity = new Entity("Editor Camera");
+            var entity = new Entity(EDITOR_CAM_ENTITY_NAME);
             entity.SelfEnabled = false;
 
             result.Add(AddComponent<Transform>(entity));
