@@ -10,6 +10,7 @@ namespace VectorEngine
     /// Stores game state and has no behaviours.
     /// (Said differnt: Only fields, no methods.)
     /// </summary>
+    [Newtonsoft.Json.JsonObject(Newtonsoft.Json.MemberSerialization.Fields)]
     public class Component
     {
         public string Name { get => GetType().Name; }

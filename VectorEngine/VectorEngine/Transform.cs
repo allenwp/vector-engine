@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace VectorEngine
 {
-    [Newtonsoft.Json.JsonObject(Newtonsoft.Json.MemberSerialization.Fields)]
     public partial class Transform : Component
     {
         public Transform Parent { get; private set; }
