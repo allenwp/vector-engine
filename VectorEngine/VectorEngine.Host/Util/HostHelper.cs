@@ -13,10 +13,17 @@ namespace VectorEngine.Host.Util
     {
         public static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
+            // Maintains object references, obviously
             PreserveReferencesHandling = PreserveReferencesHandling.All,
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+
+            // Handles certain cases of circular references
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-            TypeNameHandling = TypeNameHandling.All
+
+            // Allows inheritance to be correctly deserialized to original subclasses
+            TypeNameHandling = TypeNameHandling.All,
+
+            // Not needed with [JsonObject(MemberSerialization.Fields)], but convenient for avoiding public constructors by having a private parameterless constructor
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
         };
 
         static List<ECSSystem> gameSystems = null;
