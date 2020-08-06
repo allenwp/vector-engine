@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace VectorEngine
 {
+    [Newtonsoft.Json.JsonObject(Newtonsoft.Json.MemberSerialization.Fields)]
     public class Entity
     {
         public string Name { get; set; }
@@ -41,12 +42,7 @@ namespace VectorEngine
         /// <summary>
         /// Don't modify this directly, use Entity static util methods instead.
         /// </summary>
-        public List<Component> Components { get; set; }
-
-        /// <summary>
-        /// Only used for deserialization.
-        /// </summary>
-        private Entity() { }
+        public List<Component> Components { get; private set; }
 
         /// <summary>
         /// Do not use. Create through EntityAdmin instead!
