@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace VectorEngine
     [RequiresSystem(typeof(SamplerSystem))]
     public class SamplerSingleton : Component
     {
+        [JsonIgnore]
         public List<Sample[]> LastSamples = new List<Sample[]>();
     }
 }

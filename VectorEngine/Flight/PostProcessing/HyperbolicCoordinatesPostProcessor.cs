@@ -14,6 +14,7 @@ namespace Flight.PostProcessing
         public Transform Origin { get; set; }
         public float ZScale { get; set; } = 1f;
 
+        [Newtonsoft.Json.JsonIgnore]
         public override PostProcess3DDelegate PostProcess3DFuntion => HyperbolicCoordinatesPostProcessorSystem.PostProcess;
     }
 }

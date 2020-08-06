@@ -11,6 +11,7 @@ namespace VectorEngine.PostProcessing
     {
         public delegate void PostProcess3DDelegate(List<Sample3D[]> samples3D, PostProcessor3D postProcessor);
 
+        [Newtonsoft.Json.JsonIgnore]
         public abstract PostProcess3DDelegate PostProcess3DFuntion { get; }
     }
 }

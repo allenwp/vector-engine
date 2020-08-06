@@ -10,7 +10,9 @@ namespace VectorEngine
     [RequiresSystem(typeof(GamepadSystem))]
     public class GamepadSingleton : Component
     {
+        [Newtonsoft.Json.JsonIgnore]
         public GamePadState PreviousGamepadState;
+        [Newtonsoft.Json.JsonIgnore]
         public GamePadState GamepadState;
 
         public bool IsButtonPressed(Buttons button)

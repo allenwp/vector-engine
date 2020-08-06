@@ -11,12 +11,12 @@ namespace VectorEngine
 {
     public partial class Transform : Component
     {
-        public Transform Parent { get; private set; }
+        public Transform Parent { get; set; }
 
         /// <summary>
         /// Do not modify. Use Transform.AssignParent instead!
         /// </summary>
-        public List<Transform> Children { get; private set; }
+        public List<Transform> Children { get; set; }
 
         public Transform()
         {

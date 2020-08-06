@@ -18,6 +18,7 @@ namespace VectorEngine.DemoGame.PostProcessing
         /// </summary>
         public float YCutoff { get; set; } = 0f;
 
+        [Newtonsoft.Json.JsonIgnore]
         public override PostProcess3DDelegate PostProcess3DFuntion => PolarCoordHorizonMaskPostProcessorSystem.PostProcess;
     }
 }

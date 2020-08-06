@@ -150,10 +150,6 @@
       <Project>{06f9cde5-d41f-4236-8134-37ff379ff8cf}</Project>
       <Name>VectorEngine.Extras</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VectorEngineDemoGame\VectorEngineDemoGame.csproj">
-      <Project>{edee24db-3608-4224-988c-10952996bec0}</Project>
-      <Name>VectorEngineDemoGame</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VectorEngine\VectorEngine.csproj">
       <Project>{d91f5e44-7597-4f32-a9e4-7c930c711f17}</Project>
       <Name>VectorEngine</Name>

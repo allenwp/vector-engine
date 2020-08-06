@@ -14,6 +14,7 @@ namespace VectorEngine.DemoGame.PostProcessing
         public Transform Origin { get; set; }
         public float ZScale { get; set; } = 0.1f;
 
+        [Newtonsoft.Json.JsonIgnore]
         public override PostProcess3DDelegate PostProcess3DFuntion => PolarCoordinatesPostProcessorSystem.PostProcess;
     }
 }

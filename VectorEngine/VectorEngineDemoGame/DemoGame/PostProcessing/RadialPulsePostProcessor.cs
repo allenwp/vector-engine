@@ -11,6 +11,7 @@ namespace VectorEngine.DemoGame.PostProcessing
 {
     public class RadialPulsePostProcessor : PostProcessor3D
     {
+        [Newtonsoft.Json.JsonIgnore]
         public override PostProcess3DDelegate PostProcess3DFuntion { get => RadialPulsePostProcessorSystem.PostProcess; }
 
 

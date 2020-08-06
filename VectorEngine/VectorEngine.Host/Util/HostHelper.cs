@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,7 +69,9 @@ namespace VectorEngine.Host.Util
                 playingGame = true;
                 Program.ClearColor = Program.CLEAR_COLOR_PLAY;
 
+                JsonSettings.TraceWriter = new MemoryTraceWriter() { LevelFilter = System.Diagnostics.TraceLevel.Warning };
                 lastJsonSerialization = JsonConvert.SerializeObject(EntityAdmin.Instance.Components, Formatting.Indented, JsonSettings);
+                Console.WriteLine(JsonSettings.TraceWriter);
 
                 // Temp debug:
                 File.WriteAllText("runtimeTempJsonSerialization.txt", lastJsonSerialization);
@@ -95,7 +98,9 @@ namespace VectorEngine.Host.Util
                 List<Component> components;
                 if (lastJsonSerialization != null)
                 {
+                    JsonSettings.TraceWriter = new MemoryTraceWriter() { LevelFilter = System.Diagnostics.TraceLevel.Warning };
                     components = JsonConvert.DeserializeObject<List<Component>>(lastJsonSerialization, JsonSettings);
+                    Console.WriteLine(JsonSettings.TraceWriter);
                 }
                 else
                 {

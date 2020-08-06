@@ -11,6 +11,7 @@ namespace VectorEngine.PostProcessing
     {
         public delegate void PostProcess2DDelegate(List<Sample[]> samples, PostProcessor2D postProcessor);
 
+        [Newtonsoft.Json.JsonIgnore]
         public abstract PostProcess2DDelegate PostProcess2DFuntion { get; }
     }
 }
