@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +10,14 @@ namespace VectorEngine.Host.Util
 {
     public class HostHelper
     {
+        public static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        {
+            PreserveReferencesHandling = PreserveReferencesHandling.All,
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+            TypeNameHandling = TypeNameHandling.All
+        };
+
         static List<ECSSystem> gameSystems = null;
         public static List<ECSSystem> GameSystems
         {
@@ -20,6 +30,8 @@ namespace VectorEngine.Host.Util
                 return gameSystems;
             }
         }
+
+        private static string lastJsonSerialization = null;
 
         private static bool playingGame = false;
         public static bool PlayingGame
@@ -56,10 +68,15 @@ namespace VectorEngine.Host.Util
                 playingGame = true;
                 Program.ClearColor = Program.CLEAR_COLOR_PLAY;
 
+                lastJsonSerialization = JsonConvert.SerializeObject(EntityAdmin.Instance.Components, Formatting.Indented, JsonSettings);
+
+                // Temp debug:
+                File.WriteAllText("runtimeTempJsonSerialization.txt", lastJsonSerialization);
+
                 // TODO: Correctly load game components from serialization engine. Load default scene only if this fails.
                 // Also: set up MIDI controls only the first time you load a scene somehow.
 
-                GameLoop.Init(GameSystems, DefaultScene.GetDefaultScene().Components);
+                GameLoop.Init(GameSystems, EntityAdmin.Instance.Components);
             }
         }
 
@@ -75,7 +92,17 @@ namespace VectorEngine.Host.Util
                 // TODO: Correctly load game components from serialization engine.
                 // Also: set up MIDI controls only the first time you load a scene somehow.
 
-                GameLoop.Init(systems, DefaultScene.GetDefaultScene().Components);
+                List<Component> components;
+                if (lastJsonSerialization != null)
+                {
+                    components = JsonConvert.DeserializeObject<List<Component>>(lastJsonSerialization, JsonSettings);
+                }
+                else
+                {
+                    components = DefaultScene.GetDefaultScene().Components;
+                }
+
+                GameLoop.Init(systems, components);
             }
         }
     }
