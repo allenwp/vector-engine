@@ -41,7 +41,12 @@ namespace VectorEngine
         /// <summary>
         /// Don't modify this directly, use Entity static util methods instead.
         /// </summary>
-        public List<Component> Components { get; private set; }
+        public List<Component> Components { get; set; }
+
+        /// <summary>
+        /// Only used for deserialization.
+        /// </summary>
+        private Entity() { }
 
         /// <summary>
         /// Do not use. Create through EntityAdmin instead!
