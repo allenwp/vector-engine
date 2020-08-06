@@ -11,7 +11,6 @@ namespace VectorEngine.Extras.PostProcessing
     [RequiresSystem(typeof(StrobePostProcessorSystem))]
     public class StrobePostProcessor : PostProcessor3D
     {
-        [Newtonsoft.Json.JsonIgnore]
         public override PostProcess3DDelegate PostProcess3DFuntion { get => StrobePostProcessorSystem.PostProcess; }
 
         public float AnimationValue { get; set; } = 0;

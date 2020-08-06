@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace VectorEngine.PostProcessing
 {
     [RequiresSystem(typeof(SamplerSystem))]
+    [Newtonsoft.Json.JsonObject(Newtonsoft.Json.MemberSerialization.Fields)]
     public abstract class PostProcessor2D : Component
     {
         public delegate void PostProcess2DDelegate(List<Sample[]> samples, PostProcessor2D postProcessor);
 
-        [Newtonsoft.Json.JsonIgnore]
         public abstract PostProcess2DDelegate PostProcess2DFuntion { get; }
     }
 }

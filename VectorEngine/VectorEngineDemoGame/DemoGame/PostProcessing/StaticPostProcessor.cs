@@ -12,8 +12,6 @@ namespace VectorEngine.DemoGame.PostProcessing
     public class StaticPostProcessor : PostProcessor2D
     {
         public float Amount { get; set; } = 0;
-
-        [Newtonsoft.Json.JsonIgnore]
         public override PostProcess2DDelegate PostProcess2DFuntion => StaticPostProcessorSystem.PostProcess;
     }
 }
