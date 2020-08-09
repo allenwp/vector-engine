@@ -87,7 +87,6 @@ namespace VectorEngine.Host
 
                 if (_showEditor)
                 {
-                    // TODO: Search for this by tag or something instead of creating it here. It should be included in all scenes anyway.
                     if (EditorCamera == null)
                     {
                         foreach (var component in EntityAdmin.Instance.Components)

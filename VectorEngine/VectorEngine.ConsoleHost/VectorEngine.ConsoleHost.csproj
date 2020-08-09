@@ -50,6 +50,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Flight\Flight.csproj">
+      <Project>{05b306bb-2ed0-4093-9bd8-cace93a8f2c0}</Project>
+      <Name>Flight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VectorEngine.Extras\VectorEngine.Extras.csproj">
+      <Project>{06f9cde5-d41f-4236-8134-37ff379ff8cf}</Project>
+      <Name>VectorEngine.Extras</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VectorEngineDemoGame\VectorEngineDemoGame.csproj">
       <Project>{edee24db-3608-4224-988c-10952996bec0}</Project>
       <Name>VectorEngineDemoGame</Name>

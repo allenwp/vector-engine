@@ -150,6 +150,15 @@ namespace VectorEngine.Host.Midi
             }
         }
 
+        public void ClearControlState(byte buttonNumber)
+        {
+            // Clear out the current assignment if we're starting a new assignment.
+            var controlState = ControlStates[buttonNumber];
+            controlState.ControlledObject = null;
+            controlState.FieldPropertyInfo = null;
+            ControlStates[buttonNumber] = controlState;
+        }
+
         public void UpdateState(IMidiMessage midiMessage)
         {
             if (midiMessage.Type == MidiMessageType.NoteOn)
@@ -164,11 +173,7 @@ namespace VectorEngine.Host.Midi
                     LastAssignmentType = AssignToControlMapping[buttonNumber].Type;
                     if (Assigning)
                     {
-                        // Clear out the current assignment if we're starting a new assignment.
-                        var controlState = ControlStates[buttonNumber];
-                        controlState.ControlledObject = null;
-                        controlState.FieldPropertyInfo = null;
-                        ControlStates[buttonNumber] = controlState;
+                        ClearControlState(buttonNumber);
                     }
                 }
                 else

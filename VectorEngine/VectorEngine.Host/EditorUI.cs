@@ -39,6 +39,8 @@ namespace VectorEngine.Host
             SubmitInspectorWindow(admin);
             SubmitMidiWindow();
             SubmitInvokeWindow();
+
+            CleanUp(admin);
         }
 
         private static unsafe void SubmitMainMenu()
@@ -333,26 +335,6 @@ namespace VectorEngine.Host
                     }
                     ImGui.TreePop();
                 }
-            }
-
-            // Don't leak an object that's been destroyed
-            bool foundSelected = false;
-            foreach (var entity in entities)
-            {
-                if (selectedEntityComponent == entity)
-                {
-                    foundSelected = true;
-                    break;
-                }
-                foundSelected = entity.Components.Contains(selectedEntityComponent);
-                if (foundSelected)
-                {
-                    break;
-                }
-            }
-            if (!foundSelected)
-            {
-                selectedEntityComponent = null;
             }
 
             ImGui.End();
@@ -885,6 +867,19 @@ namespace VectorEngine.Host
             ImGui.End();
         }
 
-        //private static unsafe void SubmitInvoke
+        public static void CleanUp(EntityAdmin admin)
+        {
+            var livingObjects = EntityAdminUtil.GetNextTickLivingObjects(admin);
+            if (livingObjects.Contains(selectedEntityComponent))
+            {
+                selectedEntityComponent = null;
+            }
+
+            var midiButtonsToClear = Program.MidiState.ControlStates.Where(pair => pair.Value.ControlledObject != null && !livingObjects.Contains(pair.Value.ControlledObject)).Select(pair => pair.Key).ToList();
+            foreach (var button in midiButtonsToClear)
+            {
+                Program.MidiState.ClearControlState(button);
+            }
+        }
     }
 }

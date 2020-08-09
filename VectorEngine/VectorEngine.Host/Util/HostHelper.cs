@@ -84,9 +84,15 @@ namespace VectorEngine.Host.Util
                 File.WriteAllText("runtimeTempJsonSerialization.txt", lastJsonSerialization);
 
                 // TODO: Correctly load game components from serialization engine. Load default scene only if this fails.
-                // Also: set up MIDI controls only the first time you load a scene somehow.
+                if (initialSetup)
+                {
+                    GameLoop.Init(GameSystems, DefaultScene.GetDefaultScene().Components);
+                }
+                else
+                {
+                    GameLoop.Init(GameSystems, EntityAdmin.Instance.Components);
+                }
 
-                GameLoop.Init(GameSystems, EntityAdmin.Instance.Components);
             }
         }
 

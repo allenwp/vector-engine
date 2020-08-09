@@ -10,9 +10,14 @@ namespace VectorEngine.Host.Util
     {
         public static List<Entity> GetEntities(EntityAdmin admin)
         {
+            return GetEntities(admin.Components);
+        }
+
+        public static List<Entity> GetEntities(List<Component> components)
+        {
             List<Entity> result = new List<Entity>();
 
-            foreach (var component in admin.Components)
+            foreach (var component in components)
             {
                 if (!result.Contains(component.Entity))
                 {
@@ -20,6 +25,15 @@ namespace VectorEngine.Host.Util
                 }
             }
 
+            return result;
+        }
+
+        public static List<Object> GetNextTickLivingObjects(EntityAdmin admin)
+        {
+            var result = new List<Object>();
+            var nextTickComponents = admin.GetNextTickComponents();
+            result.AddRange(nextTickComponents);
+            result.AddRange(GetEntities(nextTickComponents));
             return result;
         }
     }

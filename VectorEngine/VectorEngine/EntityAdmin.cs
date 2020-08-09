@@ -15,6 +15,16 @@ namespace VectorEngine
         public List<ECSSystem> Systems = new List<ECSSystem>();
         public List<Component> Components = new List<Component>();
 
+        /// <summary>
+        /// I only see this being useful for the editor.
+        /// Gets a copy of the main Components list, but with the componentsToAdd and without
+        /// the componentsToRemove
+        /// </summary>
+        public List<Component> GetNextTickComponents()
+        {
+            return Components.Where(comp => !componentsToRemove.Contains(comp)).Union(componentsToAdd).ToList();
+        }
+
         public void Init(List<ECSSystem> systems, List<Component> components)
         {
             Systems = systems;
