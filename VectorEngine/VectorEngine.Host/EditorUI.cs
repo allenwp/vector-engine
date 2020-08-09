@@ -870,7 +870,7 @@ namespace VectorEngine.Host
         public static void CleanUp(EntityAdmin admin)
         {
             var livingObjects = EntityAdminUtil.GetNextTickLivingObjects(admin);
-            if (livingObjects.Contains(selectedEntityComponent))
+            if (selectedEntityComponent != null && !livingObjects.Contains(selectedEntityComponent))
             {
                 selectedEntityComponent = null;
             }
