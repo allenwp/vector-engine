@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VectorEngine.Host.Util
 {
@@ -76,23 +74,26 @@ namespace VectorEngine.Host.Util
                 playingGame = true;
                 Program.ClearColor = Program.CLEAR_COLOR_PLAY;
 
+                List<Component> components;
+
+                if (initialSetup)
+                {
+                    // TODO: Correctly load game components from serialization engine. Load default scene only if this fails.
+                    components = DefaultScene.GetDefaultScene().Components;
+                }
+                else
+                {
+                    components = EntityAdmin.Instance.Components;
+                }
+
                 JsonSettings.TraceWriter = new MemoryTraceWriter() { LevelFilter = System.Diagnostics.TraceLevel.Warning };
-                lastJsonSerialization = JsonConvert.SerializeObject(EntityAdmin.Instance.Components, Formatting.Indented, JsonSettings);
+                lastJsonSerialization = JsonConvert.SerializeObject(components, Formatting.Indented, JsonSettings);
                 Console.WriteLine(JsonSettings.TraceWriter);
 
                 // Temp debug:
                 File.WriteAllText("runtimeTempJsonSerialization.txt", lastJsonSerialization);
 
-                // TODO: Correctly load game components from serialization engine. Load default scene only if this fails.
-                if (initialSetup)
-                {
-                    GameLoop.Init(GameSystems, DefaultScene.GetDefaultScene().Components);
-                }
-                else
-                {
-                    GameLoop.Init(GameSystems, EntityAdmin.Instance.Components);
-                }
-
+                GameLoop.Init(GameSystems, components);
             }
         }
 
