@@ -79,7 +79,7 @@ namespace VectorEngine.Host.Util
                 if (initialSetup)
                 {
                     // TODO: Correctly load game components from serialization engine. Load default scene only if this fails.
-                    components = DefaultScene.GetDefaultScene().Components;
+                    components = EmptyScene.GetEmptyScene().Components;
                 }
                 else
                 {
@@ -118,7 +118,7 @@ namespace VectorEngine.Host.Util
                 }
                 else
                 {
-                    components = DefaultScene.GetDefaultScene().Components;
+                    components = EmptyScene.GetEmptyScene().Components;
                 }
 
                 GameLoop.Init(systems, components);

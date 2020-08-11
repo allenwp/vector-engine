@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultScene.cs" />
+    <Compile Include="EmptyScene.cs" />
     <Compile Include="EditorUI.cs" />
     <Compile Include="ImGuiController.cs" />
     <Compile Include="Midi\MidiControlState.cs" />

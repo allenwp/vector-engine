@@ -91,7 +91,7 @@ namespace VectorEngine.Host
                     {
                         foreach (var component in EntityAdmin.Instance.Components)
                         {
-                            if (component.Entity.Name == DefaultScene.EDITOR_CAM_ENTITY_NAME)
+                            if (component.Entity.Name == EmptyScene.EDITOR_CAM_ENTITY_NAME)
                             {
                                 EditorCamera = component.Entity;
                                 break;

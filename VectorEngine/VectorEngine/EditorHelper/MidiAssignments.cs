@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace VectorEngine.EditorHelper
 {
-    public class StartupMIDIAssignments
+    public class MidiAssignments
     {
         public byte AssignmentButton;
         public object Target;
         public string FieldPropertyName;
 
-        public StartupMIDIAssignments(byte assignmentButton, object target, string fieldPropertyName)
+        public MidiAssignments(byte assignmentButton, object target, string fieldPropertyName)
         {
             AssignmentButton = assignmentButton;
             Target = target;

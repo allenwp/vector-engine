@@ -7,11 +7,11 @@ using VectorEngine.Extras;
 
 namespace VectorEngine.Host
 {
-    public class DefaultScene
+    public class EmptyScene
     {
         public static readonly string EDITOR_CAM_ENTITY_NAME = "Editor Camera";
 
-        public static Scene GetDefaultScene()
+        public static Scene GetEmptyScene()
         {
             Scene result = new Scene();
 

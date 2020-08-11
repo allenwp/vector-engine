@@ -11,6 +11,6 @@ namespace VectorEngine
     {
         public List<Component> Components = new List<Component>();
 
-        List<StartupMIDIAssignments> StartupMIDIAssignments = new List<StartupMIDIAssignments>();
+        public EditorState EditorState = new EditorState();
     }
 }
