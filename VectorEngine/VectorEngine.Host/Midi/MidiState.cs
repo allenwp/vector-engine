@@ -83,7 +83,7 @@ namespace VectorEngine.Host.Midi
             {
                 if (id == 9 || id == 10)
                 {
-                    return string.Format("Slider {0}", id == 9 ? "A" : "B");
+                    return $"Slider {(id == 9 ? 'A' : 'B')}";
                 }
                 else
                 {
@@ -98,7 +98,7 @@ namespace VectorEngine.Host.Midi
                     {
                         column = (id - 11) % 8;
                     }
-                    return string.Format("Knob {0}{1}", layer < 1 ? "A" : "B", column + 1);
+                    return $"Knob {(layer < 1 ? 'A' : 'B')}{column + 1}";
                 }
             }
             else if (type == MidiControlDescriptionType.Button)
@@ -109,7 +109,7 @@ namespace VectorEngine.Host.Midi
                 int row = (id / 8) - (layer > 0 ? 3 : 0);
 
                 string rowString = row < 1 ? "" : (row < 2 ? " First Row" : " Second Row");
-                return string.Format("{0} {1}{2}{3}", row < 1 ? "Knob Button" : "Button", layer < 1 ? "A" : "B", column + 1, rowString);
+                return $"{(row < 1 ? "Knob Button" : "Button")} {(layer < 1 ? "A" : "B")}{column + 1}{rowString}";
             }
             return "";
         }

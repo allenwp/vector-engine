@@ -659,7 +659,7 @@ namespace VectorEngine.Host
             {
                 valText = "null";
             }
-            ImGui.Text(string.Format("{0}: {1}", info.Name, valText));
+            ImGui.Text($"{info.Name}: {valText}");
         }
 
         static void SubmitMidiAssignment(object entityComponent, FieldPropertyInfo info, MidiState.MidiControlDescriptionType type)
@@ -730,7 +730,7 @@ namespace VectorEngine.Host
                     string objectName = controlState.ControlledObject.ToString();
                     if (controlState.ControlledObject as Component != null)
                     {
-                        objectName = string.Format("{0}: {1}", (controlState.ControlledObject as Component).EntityName, objectName);
+                        objectName = $"{(controlState.ControlledObject as Component).EntityName}: {objectName}";
                     }
 
                     string vectorField = string.Empty;
@@ -752,9 +752,9 @@ namespace VectorEngine.Host
                                 break;
                         }
 
-                        vectorField = string.Format(" ({0})", vectorField);
+                        vectorField = $" ({vectorField})";
                     }
-                    if (ImGui.Button(string.Format("{0}: {1}{2}", Program.MidiState.GetControlName(description.Id, description.Type), objectName, vectorField)))
+                    if (ImGui.Button($"{Program.MidiState.GetControlName(description.Id, description.Type)}: {objectName}{vectorField}"))
                     {
                         selectedEntityComponent = controlState.ControlledObject;
                         scrollEntitiesView = true;
@@ -832,7 +832,7 @@ namespace VectorEngine.Host
                                     sb.Append(param.Name);
                                 }
                                 sb.Append(')');
-                                var text = string.Format("{0}{1}", names[i].Item3, sb);
+                                var text = $"{names[i].Item3}{sb}";
                                 if (ImGui.Selectable(text, invokeSelectedIndex == i))
                                 {
                                     invokeSelectedIndex = i;

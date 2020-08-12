@@ -50,7 +50,7 @@ namespace VectorEngine.Output
             for (int index = 0; index < AsioDriver.InstalledDrivers.Length; index++)
             {
                 // and display them
-                Console.WriteLine(string.Format("  {0}. {1}", index + 1, AsioDriver.InstalledDrivers[index]));
+                Console.WriteLine($"  {index + 1}. {AsioDriver.InstalledDrivers[index]}");
             }
 
             Console.WriteLine();
