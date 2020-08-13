@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,6 +39,18 @@ namespace VectorEngine
         public Component()
         {
             Guid = Guid.NewGuid();
+        }
+
+        [OnSerialized]
+        public void Serialized(System.Runtime.Serialization.StreamingContext context)
+        {
+            EditorHelper.ObjectGraphHelper.OnSerializedComponent?.Invoke(this);
+        }
+
+        [OnDeserialized]
+        public void Deserialized(System.Runtime.Serialization.StreamingContext context)
+        {
+            EditorHelper.ObjectGraphHelper.OnDeserializedComponent?.Invoke(this);
         }
     }
 }

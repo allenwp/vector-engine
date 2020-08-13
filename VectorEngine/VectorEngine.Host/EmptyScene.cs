@@ -28,17 +28,20 @@ namespace VectorEngine.Host
         private static List<Component> CreateDefaultSingletons()
         {
             List<Component> result = new List<Component>();
-            result.Add(CreateSingleton<GameTimeSingleton>("GameTime Singleton"));
-            result.Add(CreateSingleton<GamepadSingleton>("Gamepad Singleton"));
-            result.Add(CreateSingleton<SamplerSingleton>("Sampler Singleton"));
+            result.AddRange(CreateSingleton<GameTimeSingleton>("GameTime Singleton"));
+            result.AddRange(CreateSingleton<GamepadSingleton>("Gamepad Singleton"));
+            result.AddRange(CreateSingleton<SamplerSingleton>("Sampler Singleton"));
             result.AddRange(CreateSceneViewCamera());
             return result;
         }
 
-        private static T CreateSingleton<T>(string name) where T : Component, new()
+        private static List<Component> CreateSingleton<T>(string name) where T : Component, new()
         {
+            var result = new List<Component>();
             var entity = new Entity(name);
-            return AddComponent<T>(entity);
+            result.Add(AddComponent<T>(entity));
+            result.Add(AddComponent<DontDestroyOnClear>(entity));
+            return result;
         }
 
         public static List<Component> CreateSceneViewCamera()
@@ -58,6 +61,8 @@ namespace VectorEngine.Host
             movement.UseRealTime = true;
             movement.TranslateSpeed = 100f;
             result.Add(movement);
+
+            result.Add(AddComponent<DontDestroyOnClear>(entity));
 
             return result;
         }

@@ -100,7 +100,9 @@ namespace VectorEngine
                 var transform = component as Transform;
                 if (transform != null)
                 {
-                    foreach (var child in transform.Children)
+                    Transform[] children = new Transform[transform.Children.Count()];
+                    transform.Children.CopyTo(children);
+                    foreach (var child in children)
                     {
                         Transform.AssignParent(child, null);
                     }
@@ -112,9 +114,36 @@ namespace VectorEngine
             }
             componentsToRemove.Clear();
         }
+
+        public static void ClearSceneDefaultAdmin()
+        {
+            Instance.ClearScene();
+        }
+
+        /// <summary>
+        /// Destroys all entities that aren't marked with DontDestroyOnClear
+        /// </summary>
+        public void ClearScene()
+        {
+            ClearSceneFromComponents(Components);
+            ClearSceneFromComponents(componentsToAdd);
+        }
+
+        private void ClearSceneFromComponents(List<Component> components)
+        {
+            foreach (var component in components.Where(comp => !HasComponent<DontDestroyOnClear>(comp.Entity)))
+            {
+                RemoveComponent(component);
+            }
+        }
         #endregion
 
-        #region Tuples
+        #region Tuples & Components
+        public bool HasComponent<T>(Entity entity) where T : Component
+        {
+            return entity.Components.Where(comp => comp is T).Count() > 0;
+        }
+
         public IEnumerable<T1> GetComponents<T1>(bool includeInactive = false) where T1 : Component
         {
             var result = new Dictionary<Entity, T1>();

@@ -72,6 +72,9 @@ namespace VectorEngine
             var swFrameTime = new Stopwatch();
             swFrameTime.Start();
 
+            // Add first because some components in the Add queue might also be queued for removal.
+            // (For example, when adding a component, but then clearing a scene later in the same frame.)
+            // But it doesn't make sense that a component would be first removed and then added.
             EntityAdmin.Instance.AddQueuedComponents();
             EntityAdmin.Instance.RemoveQueuedComponents();
 
@@ -80,8 +83,19 @@ namespace VectorEngine
             {
                 foreach (ECSSystem system in EntityAdmin.Instance.Systems)
                 {
-                    system.Tick();
-                }
+#if !DEBUG
+                    try
+                    {
+#endif
+                        system.Tick();
+#if !DEBUG
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+#endif
+                 }
             }
 
             // Finally, prepare and fill the FrameOutput buffer:
@@ -159,7 +173,7 @@ namespace VectorEngine
                 return array.Length < 1;
             });
 
-            #region Sorting (Disabled code)
+#region Sorting (Disabled code)
 
             // Sorting has the advantage of reducing beam overshooting between shapes.
             // It is disabled because it makes it worse! Here's why:
@@ -204,7 +218,7 @@ namespace VectorEngine
             //sortedSamples.Add(samples[0]);
 
             //samples = sortedSamples;
-            #endregion
+#endregion
 
             // Find out how many samples we have in the full set
             int sampleCount = 0;

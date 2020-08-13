@@ -45,10 +45,13 @@
     <Compile Include="Camera.cs" />
     <Compile Include="CameraSystem.cs" />
     <Compile Include="Component.cs" />
+    <Compile Include="ComponentGroup.cs" />
+    <Compile Include="DontDestroyOnClear.cs" />
     <Compile Include="ECSSystem.cs" />
     <Compile Include="EditorHelper\EditorState.cs" />
     <Compile Include="EditorHelper\HelpAttribute.cs" />
     <Compile Include="EditorHelper\MidiAssignments.cs" />
+    <Compile Include="EditorHelper\ObjectGraphHelper.cs" />
     <Compile Include="EditorHelper\RangeAttribute.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityAdmin.cs" />
