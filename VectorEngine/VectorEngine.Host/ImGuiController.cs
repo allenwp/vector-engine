@@ -72,6 +72,8 @@ namespace VectorEngine.Host
             ImGui.GetStyle().ScaleAllSizes(scale);
             int fontSize = (int)(13f * scale); // always round down
             // First font loaded will become the default font:
+            // Seems that to load specific glyphs I need to pass them in via a ImFontConfig with an IntPtr, which is not something
+            // I've figured out yet, so I'm just leaving these at the default glyph set.
             ImGui.GetIO().Fonts.AddFontFromFileTTF("EditorFonts\\SourceCodePro-Regular.ttf", fontSize);
             SemiBoldFont = ImGui.GetIO().Fonts.AddFontFromFileTTF("EditorFonts\\SourceCodePro-SemiBold.ttf", fontSize);
             BoldFont = ImGui.GetIO().Fonts.AddFontFromFileTTF("EditorFonts\\SourceCodePro-Bold.ttf", fontSize);

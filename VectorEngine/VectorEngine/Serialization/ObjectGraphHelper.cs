@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VectorEngine.EditorHelper
+namespace VectorEngine.Serialization
 {
     public class ObjectGraphHelper
     {

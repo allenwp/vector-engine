@@ -86,7 +86,7 @@ namespace VectorEngine.Host
         {
             ImGui.Begin("Scene Graph");
 
-            var list = EntityAdmin.Instance.GetComponents<Transform>(true).Where(trans => trans.Parent == null).ToList();
+            var list = admin.GetComponents<Transform>(true).Where(trans => trans.Parent == null).ToList();
             AddSceneGraphTransforms(admin, list);
 
             ImGui.End();
@@ -276,7 +276,7 @@ namespace VectorEngine.Host
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
                 }
-                bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entity.Name);
+                bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entity.HasComponent<DontDestroyOnClear>(true) ? "[=] " + entity.Name : entity.Name);
                 if (errorInEntity)
                 {
                     ImGui.PopStyleColor();

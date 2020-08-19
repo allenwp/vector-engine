@@ -55,6 +55,11 @@ namespace VectorEngine
             Components = new List<Component>();
         }
 
+        public bool HasComponent<T>(bool includeInactive = false) where T : Component
+        {
+            return Components.Where(comp => comp is T && (includeInactive ? true : comp.IsActive)).Count() > 0;
+        }
+
         public T GetComponent<T> (bool includeInactive = false) where T : Component
         {
             return Components.Where(comp => comp is T && (includeInactive ? true : comp.IsActive)).FirstOrDefault() as T;

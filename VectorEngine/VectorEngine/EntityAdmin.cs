@@ -100,6 +100,11 @@ namespace VectorEngine
                 var transform = component as Transform;
                 if (transform != null)
                 {
+                    if (transform.Parent != null)
+                    {
+                        transform.Parent.Children.Remove(transform);
+                    }
+
                     Transform[] children = new Transform[transform.Children.Count()];
                     transform.Children.CopyTo(children);
                     foreach (var child in children)
@@ -131,7 +136,7 @@ namespace VectorEngine
 
         private void ClearSceneFromComponents(List<Component> components)
         {
-            foreach (var component in components.Where(comp => !HasComponent<DontDestroyOnClear>(comp.Entity)))
+            foreach (var component in components.Where(comp => !comp.Entity.HasComponent<DontDestroyOnClear>(true)))
             {
                 RemoveComponent(component);
             }
@@ -139,11 +144,6 @@ namespace VectorEngine
         #endregion
 
         #region Tuples & Components
-        public bool HasComponent<T>(Entity entity) where T : Component
-        {
-            return entity.Components.Where(comp => comp is T).Count() > 0;
-        }
-
         public IEnumerable<T1> GetComponents<T1>(bool includeInactive = false) where T1 : Component
         {
             var result = new Dictionary<Entity, T1>();

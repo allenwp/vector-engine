@@ -9,21 +9,6 @@ namespace VectorEngine.Host.Util
 {
     public class HostHelper
     {
-        public static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
-        {
-            // Maintains object references, obviously
-            PreserveReferencesHandling = PreserveReferencesHandling.All,
-
-            // Handles certain cases of circular references
-            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-
-            // Allows inheritance to be correctly deserialized to original subclasses
-            TypeNameHandling = TypeNameHandling.All,
-
-            // Not needed with [JsonObject(MemberSerialization.Fields)], but convenient for avoiding public constructors by having a private parameterless constructor
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
-        };
-
         static List<ECSSystem> gameSystems = null;
         public static List<ECSSystem> GameSystems
         {
@@ -86,9 +71,7 @@ namespace VectorEngine.Host.Util
                     components = EntityAdmin.Instance.Components;
                 }
 
-                JsonSettings.TraceWriter = new MemoryTraceWriter() { LevelFilter = System.Diagnostics.TraceLevel.Warning };
-                lastJsonSerialization = JsonConvert.SerializeObject(components, Formatting.Indented, JsonSettings);
-                Console.WriteLine(JsonSettings.TraceWriter);
+                lastJsonSerialization = Serialization.SerializationHelper.Serialize(components);
 
                 // Temp debug:
                 File.WriteAllText("runtimeTempJsonSerialization.txt", lastJsonSerialization);
@@ -112,9 +95,7 @@ namespace VectorEngine.Host.Util
                 List<Component> components;
                 if (lastJsonSerialization != null)
                 {
-                    JsonSettings.TraceWriter = new MemoryTraceWriter() { LevelFilter = System.Diagnostics.TraceLevel.Warning };
-                    components = JsonConvert.DeserializeObject<List<Component>>(lastJsonSerialization, JsonSettings);
-                    Console.WriteLine(JsonSettings.TraceWriter);
+                    components = Serialization.SerializationHelper.Deserialize<List<Component>>(lastJsonSerialization);
                 }
                 else
                 {

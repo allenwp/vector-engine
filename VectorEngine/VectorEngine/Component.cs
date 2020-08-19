@@ -42,15 +42,15 @@ namespace VectorEngine
         }
 
         [OnSerialized]
-        public void Serialized(System.Runtime.Serialization.StreamingContext context)
+        public void Serialized(StreamingContext context)
         {
-            EditorHelper.ObjectGraphHelper.OnSerializedComponent?.Invoke(this);
+            Serialization.ObjectGraphHelper.OnSerializedComponent?.Invoke(this);
         }
 
         [OnDeserialized]
-        public void Deserialized(System.Runtime.Serialization.StreamingContext context)
+        public void Deserialized(StreamingContext context)
         {
-            EditorHelper.ObjectGraphHelper.OnDeserializedComponent?.Invoke(this);
+            Serialization.ObjectGraphHelper.OnDeserializedComponent?.Invoke(this);
         }
     }
 }

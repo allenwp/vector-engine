@@ -51,7 +51,7 @@
     <Compile Include="EditorHelper\EditorState.cs" />
     <Compile Include="EditorHelper\HelpAttribute.cs" />
     <Compile Include="EditorHelper\MidiAssignments.cs" />
-    <Compile Include="EditorHelper\ObjectGraphHelper.cs" />
+    <Compile Include="Serialization\ObjectGraphHelper.cs" />
     <Compile Include="EditorHelper\RangeAttribute.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityAdmin.cs" />
@@ -73,6 +73,7 @@
     <Compile Include="SamplerSingleton.cs" />
     <Compile Include="SamplerSystem.cs" />
     <Compile Include="Scene.cs" />
+    <Compile Include="Serialization\SerializationHelper.cs" />
     <Compile Include="Shape.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="Tween.cs" />

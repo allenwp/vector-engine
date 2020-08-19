@@ -53,7 +53,6 @@
     <Compile Include="Midi\MidiState.cs" />
     <Compile Include="Midi\MyMidiDeviceWatcher.cs" />
     <Compile Include="Reflection\FieldPropertyInfo.cs" />
-    <Compile Include="Reflection\ObjectGraphHelper.cs" />
     <Compile Include="Util\EditorSystems.cs" />
     <Compile Include="Util\EntityAdminUtil.cs" />
     <Compile Include="Util\HostHelper.cs" />
