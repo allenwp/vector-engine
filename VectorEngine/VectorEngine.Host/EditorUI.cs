@@ -29,9 +29,21 @@ namespace VectorEngine.Host
 
         static string invokeFilter = string.Empty;
         static int invokeSelectedIndex = 0;
+        
+        static Dictionary<string, Assembly> assemblies;
+        static int selectedComponentIndex = 0;
 
         public static unsafe void SubmitUI(EntityAdmin admin)
         {
+            if (assemblies == null)
+            {
+                assemblies = new Dictionary<string, Assembly>();
+                assemblies["Game Assembly"] = Program.GameAssembly;
+                assemblies["VectorEngine"] = Assembly.GetAssembly(typeof(VectorEngine.EntityAdmin));
+                assemblies["VectorEngine.Extras"] = Assembly.GetAssembly(typeof(VectorEngine.Extras.Util.EditorUtil));
+                assemblies["Host Assembly"] = Assembly.GetExecutingAssembly();
+            }
+
             SubmitMainMenu();
             SubmitSystemsWindow(admin);
             SubmitSceneGraphWindow(admin);
@@ -204,14 +216,13 @@ namespace VectorEngine.Host
         {
             ImGui.Begin("Entities and Components");
 
-            if (ImGui.Button("Create Entity"))
+            Type componentType;
+            if (SubmitAddComponent("Create Entity", out componentType))
             {
-                var entity = admin.CreateEntity("Create Entity");
-                selectedEntityComponent = entity;
+                var entity = admin.CreateEntity($"{componentType.Name}'s Entity");
+                selectedEntityComponent = admin.AddComponent(entity, componentType);
                 scrollEntitiesView = true;
             }
-
-            ImGui.SameLine();
 
             Entity entityToDestroy = selectedEntityComponent as Entity;
             bool disabled = entityToDestroy == null;
@@ -276,7 +287,7 @@ namespace VectorEngine.Host
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
                 }
-                bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entity.HasComponent<DontDestroyOnClear>(true) ? "[=] " + entity.Name : entity.Name);
+                bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entity.HasComponent<DontDestroyOnClear>(true) ? @"/_\ " + entity.Name : entity.Name);
                 if (errorInEntity)
                 {
                     ImGui.PopStyleColor();
@@ -360,10 +371,13 @@ namespace VectorEngine.Host
                     ImGui.Text("Entity: " + entity.Name);
                     ImGui.PopFont();
 
-                    // TOOD: Show a drop down of all components in the assemblies
-                    if (ImGui.Button("Add Component"))
+                    ImGui.Separator();
+                    Type componentType;
+                    if (SubmitAddComponent("Add Component", out componentType))
                     {
-                        // TODO
+                        selectedEntityComponent = admin.AddComponent(entity, componentType);
+                        entity = null;
+                        component = selectedEntityComponent as Component;
                     }
                 }
 
@@ -446,6 +460,25 @@ namespace VectorEngine.Host
                 objectID = (entityComponent as Entity).Guid.ToString();
             }
             return objectID + info.Name;
+        }
+
+        static bool SubmitAddComponent(string buttonLabel, out Type component)
+        {
+            List<Type> components = new List<Type>();
+            foreach (var assembly in assemblies.Values)
+            {
+                components.AddRange(assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Component)) && !type.IsAbstract));
+            }
+            string[] componentNames = new string[components.Count];
+            for (int i = 0; i < components.Count; i++)
+            {
+                componentNames[i] = components[i].FullName;
+            }
+            ImGui.Combo("", ref selectedComponentIndex, componentNames, componentNames.Length, Microsoft.Xna.Framework.MathHelper.Clamp(componentNames.Length, 0, 50));
+            ImGui.SameLine();
+
+            component = components[selectedComponentIndex];
+            return ImGui.Button(buttonLabel);
         }
 
         static void SubmitFieldPropertyInspector(FieldPropertyInfo info, object entityComponent, bool showMidi = true)
@@ -770,12 +803,6 @@ namespace VectorEngine.Host
         private static unsafe void SubmitInvokeWindow()
         {
             ImGui.Begin("Invoke");
-
-            Dictionary<string, Assembly> assemblies = new Dictionary<string, Assembly>();
-            assemblies["Game Assembly"] = Program.GameAssembly;
-            assemblies["VectorEngine"] = Assembly.GetAssembly(typeof(VectorEngine.EntityAdmin));
-            assemblies["VectorEngine.Extras"] = Assembly.GetAssembly(typeof(VectorEngine.Extras.Util.EditorUtil));
-            assemblies["Host Assembly"] = Assembly.GetExecutingAssembly();
 
             if (ImGui.BeginTabBar("Assemblies Tab Bar", ImGuiTabBarFlags.None))
             {

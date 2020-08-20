@@ -68,6 +68,15 @@ namespace VectorEngine
             return newComponent;
         }
 
+        public Component AddComponent(Entity entity, Type type)
+        {
+            Component newComponent = (Component)Activator.CreateInstance(type);
+            newComponent.Entity = entity;
+            entity.Components.Add(newComponent);
+            componentsToAdd.Add(newComponent);
+            return newComponent;
+        }
+
         public void RemoveComponent<T>(Entity entity) where T : Component, new()
         {
             RemoveComponent(entity.GetComponent<T>(true));
