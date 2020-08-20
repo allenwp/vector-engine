@@ -37,6 +37,13 @@ namespace VectorEngine.Serialization
 
         public static string Serialize(object obj, List<Component> serializedComponents = null, bool log = false)
         {
+            SerializationComponentCallback callback = new SerializationComponentCallback();
+            if (serializedComponents != null)
+            {
+                callback.Components = serializedComponents;
+                ObjectGraphHelper.OnSerializedComponent += callback.Callback;
+            }
+
             if (log)
             {
                 JsonSettings.TraceWriter = new MemoryTraceWriter() { LevelFilter = System.Diagnostics.TraceLevel.Warning };
@@ -45,6 +52,11 @@ namespace VectorEngine.Serialization
             if (log)
             {
                 Console.WriteLine(JsonSettings.TraceWriter);
+            }
+
+            if (serializedComponents != null)
+            {
+                ObjectGraphHelper.OnSerializedComponent -= callback.Callback;
             }
 
             return result;

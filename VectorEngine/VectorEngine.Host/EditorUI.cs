@@ -10,6 +10,7 @@ using Xna = Microsoft.Xna.Framework;
 using System.Reflection;
 using VectorEngine.Host.Midi;
 using VectorEngine.Host.Util;
+using System.IO;
 
 namespace VectorEngine.Host
 {
@@ -443,9 +444,57 @@ namespace VectorEngine.Host
                         SubmitHelpMarker(fieldPropertyInfo);
                     }
                 }
+
+                ComponentGroup compGroup = selectedEntityComponent as ComponentGroup;
+                if (compGroup != null)
+                {
+                    ImGui.NewLine();
+                    ImGui.Separator();
+
+                    ImGui.PushFont(ImGuiController.BoldFont);
+                    ImGui.Text($"Component Group: {compGroup.FileName}");
+                    ImGui.PopFont();
+                    if (!string.IsNullOrWhiteSpace(compGroup.FileName))
+                    {
+                        if (ImGui.Button("Save"))
+                        {
+                            SaveClearComponentGroup(admin, compGroup, true, false);
+                        }
+                        if (ImGui.Button("Save & Clear from Scene"))
+                        {
+                            SaveClearComponentGroup(admin, compGroup, true, true);
+                        }
+                        if (ImGui.Button("Clear Without Saving"))
+                        {
+                            SaveClearComponentGroup(admin, compGroup, false, true);
+                        }
+                    }
+                    else
+                    {
+                        ImGui.Text("(Please set file name to reveal saving functionality.)");
+                    }
+                }
             }
 
             ImGui.End();
+        }
+
+        static void SaveClearComponentGroup(EntityAdmin admin, ComponentGroup compGroup, bool save, bool clear)
+        {
+            List<Component> components = clear ? new List<Component>() : null;
+            var json = Serialization.SerializationHelper.Serialize(compGroup, components);
+            if (save)
+            {
+                Directory.CreateDirectory(ComponentGroup.ROOT_PATH);
+                File.WriteAllText(compGroup.FullFilePath, json);
+            }
+            if (clear)
+            {
+                foreach (var component in components)
+                {
+                    admin.RemoveComponent(component);
+                }
+            }
         }
 
         static string GetIdString(FieldPropertyInfo info, object entityComponent)
