@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -89,5 +90,12 @@ namespace VectorEngine.Serialization
             return result;
         }
 
+        public static List<Component> LoadComponentGroup(EntityAdmin admin, string fileName, out ComponentGroup componentGroup)
+        {
+            List<Component> components = new List<Component>();
+            componentGroup = Deserialize<ComponentGroup>(File.ReadAllText(fileName), components, true);
+            admin.Components.AddRange(components);
+            return components;
+        }
     }
 }

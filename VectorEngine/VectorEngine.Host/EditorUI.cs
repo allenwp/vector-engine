@@ -34,6 +34,8 @@ namespace VectorEngine.Host
         static Dictionary<string, Assembly> assemblies;
         static int selectedComponentIndex = 0;
 
+        static int selectedComponentGroupFileIndex = 0;
+
         public static unsafe void SubmitUI(EntityAdmin admin)
         {
             if (assemblies == null)
@@ -52,6 +54,7 @@ namespace VectorEngine.Host
             SubmitInspectorWindow(admin);
             SubmitMidiWindow();
             SubmitInvokeWindow();
+            SubmitComponentGroupsWindow(admin);
 
             CleanUp(admin);
         }
@@ -263,7 +266,7 @@ namespace VectorEngine.Host
                     }
                 }
 
-                if (entity.GetComponent<Transform>(true) == null)
+                if (entity.HasComponent<DontDestroyOnClear>(true))
                 {
                     ImGui.PushFont(ImGuiController.BoldFont);
                 }
@@ -288,7 +291,7 @@ namespace VectorEngine.Host
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
                 }
-                bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entity.HasComponent<DontDestroyOnClear>(true) ? @"/_\ " + entity.Name : entity.Name);
+                bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, !entity.HasComponent<Transform>(true) ? @"- " + entity.Name : entity.Name);
                 if (errorInEntity)
                 {
                     ImGui.PopStyleColor();
@@ -297,7 +300,7 @@ namespace VectorEngine.Host
                 {
                     ImGui.PopStyleColor();
                 }
-                if (entity.GetComponent<Transform>(true) == null)
+                if (entity.HasComponent<DontDestroyOnClear>(true))
                 {
                     ImGui.PopFont();
                 }
@@ -523,7 +526,7 @@ namespace VectorEngine.Host
             {
                 componentNames[i] = components[i].FullName;
             }
-            ImGui.Combo("", ref selectedComponentIndex, componentNames, componentNames.Length, Microsoft.Xna.Framework.MathHelper.Clamp(componentNames.Length, 0, 50));
+            ImGui.Combo("", ref selectedComponentIndex, componentNames, componentNames.Length, Xna.MathHelper.Clamp(componentNames.Length, 0, 50));
             ImGui.SameLine();
 
             component = components[selectedComponentIndex];
@@ -938,6 +941,30 @@ namespace VectorEngine.Host
                     }
                 }
                 ImGui.EndTabBar();
+            }
+
+            ImGui.End();
+        }
+
+        public static void SubmitComponentGroupsWindow(EntityAdmin admin)
+        {
+            ImGui.Begin("Component Groups");
+
+            var files = Directory.GetFiles(ComponentGroup.ROOT_PATH, $"*.{ComponentGroup.FILE_EXTENSION}", SearchOption.AllDirectories);
+
+            ImGui.ListBox("", ref selectedComponentGroupFileIndex, files, files.Length, Xna.MathHelper.Clamp(files.Length, 0, 20));
+
+            if (ImGui.Button("Load to Scene"))
+            {
+                Serialization.SerializationHelper.LoadComponentGroup(admin, files[selectedComponentGroupFileIndex], out _);
+            }
+
+            if (ImGui.Button("Delete"))
+            {
+                try
+                {
+                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(files[selectedComponentGroupFileIndex], Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                } catch { } // Don't care if they cancel the dialog
             }
 
             ImGui.End();
