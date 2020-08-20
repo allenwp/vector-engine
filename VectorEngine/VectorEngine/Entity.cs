@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,9 +13,21 @@ namespace VectorEngine
     public class Entity
     {
         public string Name { get; set; }
-        
+
+        [JsonIgnore]
+        private Guid guid;
         [EditorHelper.Help("Currently only used by the editor to help layout trees, etc.")]
-        public Guid Guid { get; private set; }
+        public Guid Guid
+        {
+            get
+            {
+                return guid;
+            }
+            private set
+            {
+                guid = value;
+            }
+        }
 
         public bool SelfEnabled { get; set; } = true;
         public bool IsActive
@@ -53,6 +67,12 @@ namespace VectorEngine
             Name = name;
             Guid = Guid.NewGuid();
             Components = new List<Component>();
+        }
+
+        [OnDeserialized]
+        private void InitGuid(StreamingContext context)
+        {
+            Guid = Guid.NewGuid();
         }
 
         public bool HasComponent<T>(bool includeInactive = false) where T : Component

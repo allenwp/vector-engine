@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -16,11 +17,21 @@ namespace VectorEngine
     {
         public string Name { get => GetType().Name; }
 
+        [JsonIgnore]
+        private Guid guid;
         [EditorHelper.Help("Currently only used by the editor to help layout trees, etc.")]
-        public Guid Guid { get; private set; }
-        /// <summary>
-        /// Used for the WPF editor because I don't know how to do stuff yet.
-        /// </summary>
+        public Guid Guid
+        {
+            get
+            {
+                return guid;
+            }
+            private set
+            {
+                guid = value;
+            }
+        }
+
         public string EntityName { get => Entity.Name; }
 
         public bool SelfEnabled { get; set; } = true;
@@ -50,6 +61,7 @@ namespace VectorEngine
         [OnDeserialized]
         public void Deserialized(StreamingContext context)
         {
+            Guid = Guid.NewGuid();
             Serialization.ObjectGraphHelper.OnDeserializedComponent?.Invoke(this);
         }
     }

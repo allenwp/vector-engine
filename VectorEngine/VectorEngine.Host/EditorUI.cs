@@ -248,6 +248,23 @@ namespace VectorEngine.Host
 
             var entities = EntityAdminUtil.GetEntities(admin);
 
+            var componentGroups = admin.GetComponents<ComponentGroup>(true).ToArray();
+            Dictionary<Entity, List<int>> entityToComponentGroups = new Dictionary<Entity, List<int>>();
+            for (int i = 0; i < componentGroups.Length; i++)
+            {
+                List<Component> components = new List<Component>();
+                Serialization.SerializationHelper.Serialize(componentGroups[i], components);
+                var thisGroupEntities = EntityAdminUtil.GetEntities(components);
+                foreach (var thisEntity in thisGroupEntities)
+                {
+                    if (!entityToComponentGroups.ContainsKey(thisEntity))
+                    {
+                        entityToComponentGroups[thisEntity] = new List<int>();
+                    }
+                    entityToComponentGroups[thisEntity].Add(i);
+                }
+            }
+
             foreach (var entity in entities)
             {
                 var components = entity.Components;
@@ -287,11 +304,25 @@ namespace VectorEngine.Host
                         ImGui.SetNextItemOpen(true);
                     }
                 }
+                string componentGroupsText = string.Empty;
+                if (entityToComponentGroups.ContainsKey(entity))
+                {
+                    foreach (int groupNum in entityToComponentGroups[entity])
+                    {
+                        componentGroupsText = $"({groupNum}){componentGroupsText}";
+                    }
+                    if (entityToComponentGroups[entity].Count() > 1)
+                    {
+                        errorInEntity = true;
+                    }
+                }
                 if (errorInEntity)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
                 }
-                bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, !entity.HasComponent<Transform>(true) ? @"- " + entity.Name : entity.Name);
+                string entityTransformText = !entity.HasComponent<Transform>(true) ? "- " : "";
+                string entityLabelText = $"{componentGroupsText}{entityTransformText}{entity.Name}";
+                bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entityLabelText);
                 if (errorInEntity)
                 {
                     ImGui.PopStyleColor();
