@@ -40,13 +40,14 @@ namespace VectorEngine
         static WriteStateEnum WriteState = WriteStateEnum.Buffer1;
         #endregion
 
-        /// <param name="gameInit">This Action should set up all of the game's Systems.</param>
         public static void Init(List<ECSSystem> systems, List<Component> components)
         {
             // ASIO or other output should be the highest priority thread so that it can
             // at least feed blanking samples to the screen if the game loop doesn't finish
             // rendering in time. The game loop is one priority lower, but still above normal.
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
+
+            FileLoader.LoadAllComponentGroups();
 
             EntityAdmin.Instance.Init(systems, components);
         }

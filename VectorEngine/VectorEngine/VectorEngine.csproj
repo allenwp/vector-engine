@@ -51,6 +51,7 @@
     <Compile Include="EditorHelper\EditorState.cs" />
     <Compile Include="EditorHelper\HelpAttribute.cs" />
     <Compile Include="EditorHelper\MidiAssignments.cs" />
+    <Compile Include="FileLoader.cs" />
     <Compile Include="Serialization\ObjectGraphHelper.cs" />
     <Compile Include="EditorHelper\RangeAttribute.cs" />
     <Compile Include="Entity.cs" />

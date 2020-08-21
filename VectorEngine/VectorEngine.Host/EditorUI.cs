@@ -47,14 +47,17 @@ namespace VectorEngine.Host
                 assemblies["Host Assembly"] = Assembly.GetExecutingAssembly();
             }
 
+            var entityToComponentGroups = EntityAdminUtil.GetEntityToComponentGroupsMapping(admin, out ComponentGroup[] componentGroups);
+
             SubmitMainMenu();
             SubmitSystemsWindow(admin);
             SubmitSceneGraphWindow(admin);
-            SubmitEntitiesWindow(admin);
+            SubmitEntitiesWindow(admin, entityToComponentGroups);
             SubmitInspectorWindow(admin);
             SubmitMidiWindow();
             SubmitInvokeWindow();
-            SubmitComponentGroupsWindow(admin);
+            SubmitComponentGroupFilesWindow(admin);
+            SubmitComponentGroupsWindow(admin, componentGroups);
 
             CleanUp(admin);
         }
@@ -216,7 +219,7 @@ namespace VectorEngine.Host
             }
         }
 
-        private static unsafe void SubmitEntitiesWindow(EntityAdmin admin)
+        private static unsafe void SubmitEntitiesWindow(EntityAdmin admin, Dictionary<Entity, List<int>> entityToComponentGroups)
         {
             ImGui.Begin("Entities and Components");
 
@@ -247,28 +250,6 @@ namespace VectorEngine.Host
             ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
 
             var entities = EntityAdminUtil.GetEntities(admin);
-
-            Dictionary<Entity, List<int>> entityToComponentGroups = new Dictionary<Entity, List<int>>();
-            if (!HostHelper.PlayingGame)
-            {
-                // Determining component groups is expensive because it involves serializing the object graphs.
-                // It also has very little relavence when running in playback mode, so only do this in editor mode.
-                var componentGroups = admin.GetComponents<ComponentGroup>(true).ToArray();
-                for (int i = 0; i < componentGroups.Length; i++)
-                {
-                    List<Component> components = new List<Component>();
-                    Serialization.SerializationHelper.Serialize(componentGroups[i], components);
-                    var thisGroupEntities = EntityAdminUtil.GetEntities(components);
-                    foreach (var thisEntity in thisGroupEntities)
-                    {
-                        if (!entityToComponentGroups.ContainsKey(thisEntity))
-                        {
-                            entityToComponentGroups[thisEntity] = new List<int>();
-                        }
-                        entityToComponentGroups[thisEntity].Add(i);
-                    }
-                }
-            }
 
             foreach (var entity in entities)
             {
@@ -324,7 +305,7 @@ namespace VectorEngine.Host
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
                 }
-                string entityTransformText = !entity.HasComponent<Transform>(true) ? "- " : "";
+                string entityTransformText = !entity.HasComponent<Transform>(true) ? "~ " : "";
                 string entityLabelText = $"{componentGroupsText}{entityTransformText}{entity.Name}";
                 bool expanded = ImGui.TreeNodeEx(entity.Guid.ToString(), nodeFlags, entityLabelText);
                 if (errorInEntity)
@@ -980,15 +961,15 @@ namespace VectorEngine.Host
             ImGui.End();
         }
 
-        public static void SubmitComponentGroupsWindow(EntityAdmin admin)
+        public static void SubmitComponentGroupFilesWindow(EntityAdmin admin)
         {
-            ImGui.Begin("Component Groups");
+            ImGui.Begin("Component Group Files");
 
             var files = Directory.GetFiles(ComponentGroup.ROOT_PATH, $"*.{ComponentGroup.FILE_EXTENSION}", SearchOption.AllDirectories);
 
             if (ImGui.Button("Load to Scene"))
             {
-                Serialization.SerializationHelper.LoadComponentGroup(admin, files[selectedComponentGroupFileIndex], out _);
+                Serialization.SerializationHelper.LoadComponentGroup(admin, files[selectedComponentGroupFileIndex], out _, true);
             }
             ImGui.SameLine();
             if (ImGui.Button("Delete"))
@@ -1006,6 +987,25 @@ namespace VectorEngine.Host
                 if (ImGui.Selectable(files[i], selectedComponentGroupFileIndex == i))
                 {
                     selectedComponentGroupFileIndex = i;
+                }
+            }
+            ImGui.EndChild();
+
+            ImGui.End();
+        }
+
+        public static void SubmitComponentGroupsWindow(EntityAdmin admin, ComponentGroup[] componentGroups)
+        {
+            ImGui.Begin("Component Groups in Scene");
+
+            ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
+            for (int i = 0; i < componentGroups.Length; i++)
+            {
+                if (ImGui.Selectable($"({i}){componentGroups[i].FileName}", selectedEntityComponent == componentGroups[i]))
+                {
+                    selectedEntityComponent = componentGroups[i];
+                    scrollEntitiesView = true;
+                    scrollSceneGraphView = true;
                 }
             }
             ImGui.EndChild();

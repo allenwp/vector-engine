@@ -36,5 +36,38 @@ namespace VectorEngine.Host.Util
             result.AddRange(GetEntities(nextTickComponents));
             return result;
         }
+
+        /// <summary>
+        /// Will only return a mapping when not in play mode.
+        /// </summary>
+        public static Dictionary<Entity, List<int>> GetEntityToComponentGroupsMapping(EntityAdmin admin, out ComponentGroup[] componentGroups)
+        {
+            Dictionary<Entity, List<int>> entityToComponentGroups = new Dictionary<Entity, List<int>>();
+            if (!HostHelper.PlayingGame)
+            {
+                // Determining component groups is expensive because it involves serializing the object graphs.
+                // It also has very little relavence when running in playback mode, so only do this in editor mode.
+                componentGroups = admin.GetComponents<ComponentGroup>(true).ToArray();
+                for (int i = 0; i < componentGroups.Length; i++)
+                {
+                    List<Component> components = new List<Component>();
+                    Serialization.SerializationHelper.Serialize(componentGroups[i], components);
+                    var thisGroupEntities = GetEntities(components);
+                    foreach (var thisEntity in thisGroupEntities)
+                    {
+                        if (!entityToComponentGroups.ContainsKey(thisEntity))
+                        {
+                            entityToComponentGroups[thisEntity] = new List<int>();
+                        }
+                        entityToComponentGroups[thisEntity].Add(i);
+                    }
+                }
+            }
+            else
+            {
+                componentGroups = new ComponentGroup[0];
+            }
+            return entityToComponentGroups;
+        }
     }
 }

@@ -90,11 +90,18 @@ namespace VectorEngine.Serialization
             return result;
         }
 
-        public static List<Component> LoadComponentGroup(EntityAdmin admin, string fileName, out ComponentGroup componentGroup)
+        public static List<Component> LoadComponentGroup(EntityAdmin admin, string fileName, out ComponentGroup componentGroup, bool forceReload = false)
         {
             List<Component> components = new List<Component>();
-            componentGroup = Deserialize<ComponentGroup>(File.ReadAllText(fileName), components, true);
-            admin.Components.AddRange(components);
+            componentGroup = null;
+
+            bool loaded = FileLoader.GetTextFileConents(fileName, out string fileContents, forceReload);
+            if (loaded)
+            {
+                componentGroup = Deserialize<ComponentGroup>(fileContents, components, true);
+                admin.Components.AddRange(components);
+            }
+
             return components;
         }
     }
