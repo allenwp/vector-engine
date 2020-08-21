@@ -248,20 +248,25 @@ namespace VectorEngine.Host
 
             var entities = EntityAdminUtil.GetEntities(admin);
 
-            var componentGroups = admin.GetComponents<ComponentGroup>(true).ToArray();
             Dictionary<Entity, List<int>> entityToComponentGroups = new Dictionary<Entity, List<int>>();
-            for (int i = 0; i < componentGroups.Length; i++)
+            if (!HostHelper.PlayingGame)
             {
-                List<Component> components = new List<Component>();
-                Serialization.SerializationHelper.Serialize(componentGroups[i], components);
-                var thisGroupEntities = EntityAdminUtil.GetEntities(components);
-                foreach (var thisEntity in thisGroupEntities)
+                // Determining component groups is expensive because it involves serializing the object graphs.
+                // It also has very little relavence when running in playback mode, so only do this in editor mode.
+                var componentGroups = admin.GetComponents<ComponentGroup>(true).ToArray();
+                for (int i = 0; i < componentGroups.Length; i++)
                 {
-                    if (!entityToComponentGroups.ContainsKey(thisEntity))
+                    List<Component> components = new List<Component>();
+                    Serialization.SerializationHelper.Serialize(componentGroups[i], components);
+                    var thisGroupEntities = EntityAdminUtil.GetEntities(components);
+                    foreach (var thisEntity in thisGroupEntities)
                     {
-                        entityToComponentGroups[thisEntity] = new List<int>();
+                        if (!entityToComponentGroups.ContainsKey(thisEntity))
+                        {
+                            entityToComponentGroups[thisEntity] = new List<int>();
+                        }
+                        entityToComponentGroups[thisEntity].Add(i);
                     }
-                    entityToComponentGroups[thisEntity].Add(i);
                 }
             }
 
@@ -294,8 +299,7 @@ namespace VectorEngine.Host
                 bool errorInEntity = false;
                 for (int i = 0; i < components.Count; i++)
                 {
-                    Type missingSystem;
-                    if (!RequiresSystem.HasECSSystemForType(components[i].GetType(), HostHelper.GameSystems, out missingSystem))
+                    if (!RequiresSystem.HasECSSystemForType(components[i].GetType(), HostHelper.GameSystems, out _))
                     {
                         errorInEntity = true;
                     }
@@ -358,8 +362,7 @@ namespace VectorEngine.Host
                         {
                             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
                         }
-                        Type missingSystem;
-                        bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(components[i].GetType(), HostHelper.GameSystems, out missingSystem);
+                        bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(components[i].GetType(), HostHelper.GameSystems, out _);
                         if (!hasRequiredSystems)
                         {
                             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
@@ -983,13 +986,11 @@ namespace VectorEngine.Host
 
             var files = Directory.GetFiles(ComponentGroup.ROOT_PATH, $"*.{ComponentGroup.FILE_EXTENSION}", SearchOption.AllDirectories);
 
-            ImGui.ListBox("", ref selectedComponentGroupFileIndex, files, files.Length, Xna.MathHelper.Clamp(files.Length, 0, 20));
-
             if (ImGui.Button("Load to Scene"))
             {
                 Serialization.SerializationHelper.LoadComponentGroup(admin, files[selectedComponentGroupFileIndex], out _);
             }
-
+            ImGui.SameLine();
             if (ImGui.Button("Delete"))
             {
                 try
@@ -997,6 +998,17 @@ namespace VectorEngine.Host
                     Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(files[selectedComponentGroupFileIndex], Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
                 } catch { } // Don't care if they cancel the dialog
             }
+            ImGui.Separator();
+
+            ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
+            for (int i = 0; i < files.Length; i++)
+            {
+                if (ImGui.Selectable(files[i], selectedComponentGroupFileIndex == i))
+                {
+                    selectedComponentGroupFileIndex = i;
+                }
+            }
+            ImGui.EndChild();
 
             ImGui.End();
         }
