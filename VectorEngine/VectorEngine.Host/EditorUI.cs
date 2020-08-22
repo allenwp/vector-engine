@@ -223,13 +223,7 @@ namespace VectorEngine.Host
         {
             ImGui.Begin("Entities and Components");
 
-            Type componentType;
-            if (SubmitAddComponent("Create Entity", out componentType))
-            {
-                var entity = admin.CreateEntity($"{componentType.Name}'s Entity");
-                selectedEntityComponent = admin.AddComponent(entity, componentType);
-                scrollEntitiesView = true;
-            }
+            bool createEntity = SubmitAddComponent("Create Entity", out Type componentType);
 
             Entity entityToDestroy = selectedEntityComponent as Entity;
             bool disabled = entityToDestroy == null;
@@ -367,9 +361,16 @@ namespace VectorEngine.Host
                 }
             }
 
+            scrollEntitiesView = false;
+            if (createEntity)
+            {
+                var entity = admin.CreateEntity($"{componentType.Name}'s Entity");
+                selectedEntityComponent = admin.AddComponent(entity, componentType);
+                scrollEntitiesView = true; // For some reason this doesn't work half the time -_- Not sure why...
+            }
+
             ImGui.End();
 
-            scrollEntitiesView = false;
         }
 
         private static unsafe void SubmitInspectorWindow(EntityAdmin admin)
