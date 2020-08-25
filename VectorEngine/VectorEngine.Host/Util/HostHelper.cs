@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Veldrid.MetalBindings;
 
 namespace VectorEngine.Host.Util
 {
@@ -76,6 +77,8 @@ namespace VectorEngine.Host.Util
 
                 if (initialSetup)
                 {
+                    // TODO: get rid of this initial setup altogether. this should already be loaded from a scene or default scene if it fails...
+
                     // TODO: Correctly load game components from serialization engine. Load default scene only if this fails.
                     components = EmptyScene.GetEmptyScene().Components;
                 }
@@ -84,7 +87,12 @@ namespace VectorEngine.Host.Util
                     components = EntityAdmin.Instance.Components;
                 }
 
-                lastJsonSerialization = Serialization.SerializationHelper.Serialize(components);
+                Scene scene = new Scene();
+                scene.Components = components;
+                scene.EditorState = new EditorHelper.EditorState();
+                scene.EditorState.SelectedObject = EditorUI.SelectedEntityComponent;
+                scene.EditorState.MidiAssignments = Program.MidiState.SaveState();
+                lastJsonSerialization = Serialization.SerializationHelper.Serialize(scene);
 
                 // Temp debug:
                 File.WriteAllText("runtimeTempJsonSerialization.txt", lastJsonSerialization);
@@ -99,21 +107,22 @@ namespace VectorEngine.Host.Util
             {
                 playingGame = false;
                 Program.ClearColor = Program.CLEAR_COLOR_STOPPED;
+                Program.MidiState.Clear();
 
-                // TODO: Correctly load game components from serialization engine.
-                // Also: set up MIDI controls only the first time you load a scene somehow.
-
-                List<Component> components;
+                Scene scene;
                 if (lastJsonSerialization != null)
                 {
-                    components = Serialization.SerializationHelper.Deserialize<List<Component>>(lastJsonSerialization);
+                    scene = Serialization.SerializationHelper.Deserialize<Scene>(lastJsonSerialization);
                 }
                 else
                 {
-                    components = EmptyScene.GetEmptyScene().Components;
+                    scene = EmptyScene.GetEmptyScene();
                 }
 
-                GameLoop.Init(EditorSystems, components);
+                EditorUI.SelectedEntityComponent = scene.EditorState.SelectedObject;
+                Program.MidiState.LoadState(scene.EditorState.MidiAssignments);
+
+                GameLoop.Init(EditorSystems, scene.Components);
             }
         }
     }

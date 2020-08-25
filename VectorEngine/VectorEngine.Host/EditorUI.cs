@@ -16,7 +16,7 @@ namespace VectorEngine.Host
 {
     public class EditorUI
     {
-        static object selectedEntityComponent = null;
+        public static object SelectedEntityComponent { get; set; }
         static object draggedObject = null;
 
         /// <summary>
@@ -116,13 +116,13 @@ namespace VectorEngine.Host
         private static unsafe void AddSceneGraphTransforms(EntityAdmin admin, List<Transform> list)
         {
             // The selectedTransform is either the selectedEntityComponent (if it's a Transform) or the Transform associated with the selected Entity/Component.
-            Transform selectedTransform = selectedEntityComponent as Transform;
+            Transform selectedTransform = SelectedEntityComponent as Transform;
             if (selectedTransform == null)
             {
-                Entity entity = selectedEntityComponent as Entity;
+                Entity entity = SelectedEntityComponent as Entity;
                 if (entity == null)
                 {
-                    Component component = selectedEntityComponent as Component;
+                    Component component = SelectedEntityComponent as Component;
                     if (component != null)
                     {
                         entity = component.Entity;
@@ -178,7 +178,7 @@ namespace VectorEngine.Host
 
                 if (ImGui.IsItemClicked())
                 {
-                    selectedEntityComponent = transform;
+                    SelectedEntityComponent = transform;
                     scrollEntitiesView = true;
                 }
                 if (ImGui.BeginDragDropSource())
@@ -225,7 +225,7 @@ namespace VectorEngine.Host
 
             bool createEntity = SubmitAddComponent("Create Entity", out Type componentType);
 
-            Entity entityToDestroy = selectedEntityComponent as Entity;
+            Entity entityToDestroy = SelectedEntityComponent as Entity;
             bool disabled = entityToDestroy == null;
             if (disabled)
             {
@@ -254,7 +254,7 @@ namespace VectorEngine.Host
                 {
                     nodeFlags |= ImGuiTreeNodeFlags.Leaf;
                 }
-                if (entity == selectedEntityComponent)
+                if (entity == SelectedEntityComponent)
                 {
                     nodeFlags |= ImGuiTreeNodeFlags.Selected;
                     if (scrollEntitiesView)
@@ -278,7 +278,7 @@ namespace VectorEngine.Host
                     {
                         errorInEntity = true;
                     }
-                    if (components[i] == selectedEntityComponent)
+                    if (components[i] == SelectedEntityComponent)
                     {
                         ImGui.SetNextItemOpen(true);
                     }
@@ -317,7 +317,7 @@ namespace VectorEngine.Host
 
                 if (ImGui.IsItemClicked())
                 {
-                    selectedEntityComponent = entity;
+                    SelectedEntityComponent = entity;
                     scrollSceneGraphView = true;
                 }
                 if (expanded)
@@ -325,7 +325,7 @@ namespace VectorEngine.Host
                     for (int i = 0; i < components.Count; i++)
                     {
                         nodeFlags = ImGuiTreeNodeFlags.Leaf | ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.NoTreePushOnOpen; // This last one means that you can't do aImGui.TreePop(); or things will be messed up. 
-                        if (components[i] == selectedEntityComponent)
+                        if (components[i] == SelectedEntityComponent)
                         {
                             nodeFlags |= ImGuiTreeNodeFlags.Selected;
                             if (scrollEntitiesView)
@@ -353,7 +353,7 @@ namespace VectorEngine.Host
                         }
                         if (ImGui.IsItemClicked())
                         {
-                            selectedEntityComponent = components[i];
+                            SelectedEntityComponent = components[i];
                             scrollSceneGraphView = true;
                         }
                     }
@@ -365,7 +365,7 @@ namespace VectorEngine.Host
             if (createEntity)
             {
                 var entity = admin.CreateEntity($"{componentType.Name}'s Entity");
-                selectedEntityComponent = admin.AddComponent(entity, componentType);
+                SelectedEntityComponent = admin.AddComponent(entity, componentType);
                 scrollEntitiesView = true; // For some reason this doesn't work half the time -_- Not sure why...
             }
 
@@ -380,10 +380,10 @@ namespace VectorEngine.Host
             ImGuiTreeNodeFlags collapsingHeaderFlags = ImGuiTreeNodeFlags.CollapsingHeader;
             collapsingHeaderFlags |= ImGuiTreeNodeFlags.DefaultOpen;
 
-            if (selectedEntityComponent != null)
+            if (SelectedEntityComponent != null)
             {
-                var entity = selectedEntityComponent as Entity;
-                var component = selectedEntityComponent as Component;
+                var entity = SelectedEntityComponent as Entity;
+                var component = SelectedEntityComponent as Component;
 
                 if (entity != null)
                 {
@@ -395,9 +395,9 @@ namespace VectorEngine.Host
                     Type componentType;
                     if (SubmitAddComponent("Add Component", out componentType))
                     {
-                        selectedEntityComponent = admin.AddComponent(entity, componentType);
+                        SelectedEntityComponent = admin.AddComponent(entity, componentType);
                         entity = null;
-                        component = selectedEntityComponent as Component;
+                        component = SelectedEntityComponent as Component;
                     }
                 }
 
@@ -431,14 +431,14 @@ namespace VectorEngine.Host
                 ImGui.Separator();
                 ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
 
-                var selectedType = selectedEntityComponent.GetType();
+                var selectedType = SelectedEntityComponent.GetType();
 
                 if (ImGui.CollapsingHeader("Fields", collapsingHeaderFlags))
                 {
                     var fields = selectedType.GetFields();
                     foreach (var info in fields.Where(field => !field.IsLiteral && !field.IsInitOnly))
                     {
-                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), selectedEntityComponent);
+                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), SelectedEntityComponent);
                     }
                 }
 
@@ -449,7 +449,7 @@ namespace VectorEngine.Host
                     // When SetMethod is private, it will still be writable so long as it's class isn't inherited, so check to see if it's public too for the behaviour I want.
                     foreach (var info in properties.Where(prop => prop.CanRead && prop.CanWrite && prop.SetMethod.IsPublic))
                     {
-                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), selectedEntityComponent);
+                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), SelectedEntityComponent);
                     }
                 }
 
@@ -459,12 +459,12 @@ namespace VectorEngine.Host
                     foreach (var info in properties.Where(prop => prop.CanRead && (!prop.CanWrite || !prop.SetMethod.IsPublic)))
                     {
                         var fieldPropertyInfo = new FieldPropertyInfo(info);
-                        SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo, selectedEntityComponent);
+                        SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo, SelectedEntityComponent);
                         SubmitHelpMarker(fieldPropertyInfo);
                     }
                 }
 
-                ComponentGroup compGroup = selectedEntityComponent as ComponentGroup;
+                ComponentGroup compGroup = SelectedEntityComponent as ComponentGroup;
                 if (compGroup != null)
                 {
                     ImGui.NewLine();
@@ -857,7 +857,7 @@ namespace VectorEngine.Host
                     }
                     if (ImGui.Button($"{Program.MidiState.GetControlName(description.Id, description.Type)}: {objectName}{vectorField}"))
                     {
-                        selectedEntityComponent = controlState.ControlledObject;
+                        SelectedEntityComponent = controlState.ControlledObject;
                         scrollEntitiesView = true;
                         scrollSceneGraphView = true;
                     }
@@ -1002,9 +1002,9 @@ namespace VectorEngine.Host
             ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
             for (int i = 0; i < componentGroups.Length; i++)
             {
-                if (ImGui.Selectable($"({i}){componentGroups[i].FileName}", selectedEntityComponent == componentGroups[i]))
+                if (ImGui.Selectable($"({i}){componentGroups[i].FileName}", SelectedEntityComponent == componentGroups[i]))
                 {
-                    selectedEntityComponent = componentGroups[i];
+                    SelectedEntityComponent = componentGroups[i];
                     scrollEntitiesView = true;
                     scrollSceneGraphView = true;
                 }
@@ -1017,9 +1017,9 @@ namespace VectorEngine.Host
         public static void CleanUp(EntityAdmin admin)
         {
             var livingObjects = EntityAdminUtil.GetNextTickLivingObjects(admin);
-            if (selectedEntityComponent != null && !livingObjects.Contains(selectedEntityComponent))
+            if (SelectedEntityComponent != null && !livingObjects.Contains(SelectedEntityComponent))
             {
-                selectedEntityComponent = null;
+                SelectedEntityComponent = null;
             }
 
             var midiButtonsToClear = Program.MidiState.ControlStates.Where(pair => pair.Value.ControlledObject != null && !livingObjects.Contains(pair.Value.ControlledObject)).Select(pair => pair.Key).ToList();

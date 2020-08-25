@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using VectorEngine.Host.Reflection;
 using Windows.Devices.Midi;
+using VectorEngine.EditorHelper;
 
 namespace VectorEngine.Host.Midi
 {
@@ -150,6 +151,16 @@ namespace VectorEngine.Host.Midi
             }
         }
 
+        public void Clear()
+        {
+            Assigning = false;
+            var keys = ControlStates.Keys.ToArray();
+            foreach (var key in keys)
+            {
+                ClearControlState(key);
+            }
+        }
+
         public void ClearControlState(byte buttonNumber)
         {
             // Clear out the current assignment if we're starting a new assignment.
@@ -157,6 +168,24 @@ namespace VectorEngine.Host.Midi
             controlState.ControlledObject = null;
             controlState.FieldPropertyInfo = null;
             ControlStates[buttonNumber] = controlState;
+        }
+
+        public void LoadState(List<MidiAssignments> midiAssignments)
+        {
+            foreach (var assignment in midiAssignments)
+            {
+                AssignControl(assignment.Target, assignment.FieldPropertyName, assignment.AssignmentButton);
+            }
+        }
+
+        public List<MidiAssignments> SaveState()
+        {
+            List<MidiAssignments> midiAssignments = new List<MidiAssignments>();
+            foreach (var pair in ControlStates.Where(pair => pair.Value.ControlledObject != null))
+            {
+                midiAssignments.Add(new MidiAssignments(pair.Key, pair.Value.ControlledObject, pair.Value.FieldPropertyInfo.Name));
+            }
+            return midiAssignments;
         }
 
         public void UpdateState(IMidiMessage midiMessage)

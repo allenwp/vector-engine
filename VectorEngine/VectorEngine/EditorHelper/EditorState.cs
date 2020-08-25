@@ -8,7 +8,7 @@ namespace VectorEngine.EditorHelper
 {
     public class EditorState
     {
-        public List<MidiAssignments> MidiAssignments;
+        public List<MidiAssignments> MidiAssignments = new List<MidiAssignments>();
         public object SelectedObject;
     }
 }

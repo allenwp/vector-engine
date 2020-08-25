@@ -65,8 +65,6 @@ namespace VectorEngine.Host
             else
             {
                 HostHelper.PlayGame(true);
-                // prevent leaks hanging around if we never show the editor and initialize MIDI
-                // TODO: EditorHelper.StartupMIDIAssignments.Assignments.Clear();
             }
 
             // Main application loop
@@ -107,23 +105,6 @@ namespace VectorEngine.Host
                         {
                             Thread.Sleep(1);
                         }
-
-                        var gameTimes = EntityAdmin.Instance.GetComponents<GameTimeSingleton>();
-                        if (gameTimes.Count() > 0)
-                        {
-                            MidiState.AssignControl(gameTimes.First(), "Paused", 16);
-                        }
-                        if (EditorCamera != null)
-                        {
-                            MidiState.AssignControl(EditorCamera, "SelfEnabled", 17);
-                        }
-
-                        // TOOD:
-                        //foreach (var assignment in EditorHelper.StartupMIDIAssignments.Assignments)
-                        //{
-                        //    MidiState.AssignControl(assignment.Target, assignment.FieldPropertyName, assignment.AssignmentButton);
-                        //}
-                        //EditorHelper.StartupMIDIAssignments.Assignments = null; // Prevent leaks
                     }
 
                     IMidiMessage midiMessage;
