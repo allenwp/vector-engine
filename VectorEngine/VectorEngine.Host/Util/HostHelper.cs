@@ -22,6 +22,19 @@ namespace VectorEngine.Host.Util
             }
         }
 
+        static List<ECSSystem> editorSystems = null;
+        public static List<ECSSystem> EditorSystems
+        {
+            get
+            {
+                if (editorSystems == null)
+                {
+                    editorSystems = Program.GameInitType.GetMethod("GetEditorSystems").Invoke(null, null) as List<ECSSystem>;
+                }
+                return editorSystems;
+            }
+        }
+
         private static string lastJsonSerialization = null;
 
         private static bool playingGame = false;
@@ -87,8 +100,6 @@ namespace VectorEngine.Host.Util
                 playingGame = false;
                 Program.ClearColor = Program.CLEAR_COLOR_STOPPED;
 
-                List<ECSSystem> systems = EditorSystems.GetEditorSystems();
-
                 // TODO: Correctly load game components from serialization engine.
                 // Also: set up MIDI controls only the first time you load a scene somehow.
 
@@ -102,7 +113,7 @@ namespace VectorEngine.Host.Util
                     components = EmptyScene.GetEmptyScene().Components;
                 }
 
-                GameLoop.Init(systems, components);
+                GameLoop.Init(EditorSystems, components);
             }
         }
     }

@@ -42,5 +42,20 @@ namespace Flight
 
             return result;
         }
+
+        public static List<ECSSystem> GetEditorSystems()
+        {
+            var result = new List<ECSSystem>();
+
+            result.Add(new GameTimeSystem());
+            result.Add(new GamepadSystem());
+            result.Add(new GamepadBasicFPSMovementSystem()); // TODO: Make a different system specific to the editor's camera controls
+
+            // "Draw" systems:
+            result.Add(new CameraSystem());
+            result.Add(new SamplerSystem());
+
+            return result;
+        }
     }
 }
