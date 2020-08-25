@@ -20,7 +20,7 @@ namespace VectorEngine.Host
             var gameTime = result.Components.Find(comp => comp.GetType() == typeof(GameTimeSingleton));
             result.EditorState.MidiAssignments.Add(new EditorHelper.MidiAssignments(16, gameTime, "Paused"));
             var camera = result.Components.Find(comp => comp.EntityName == EDITOR_CAM_ENTITY_NAME);
-            result.EditorState.MidiAssignments.Add(new EditorHelper.MidiAssignments(17, camera, "SelfEnabled"));
+            result.EditorState.MidiAssignments.Add(new EditorHelper.MidiAssignments(17, camera.Entity, "SelfEnabled"));
 
             return result;
         }
