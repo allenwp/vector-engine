@@ -505,7 +505,7 @@ namespace VectorEngine.Host
             if (save)
             {
                 Directory.CreateDirectory(ComponentGroup.ROOT_PATH);
-                File.WriteAllText(compGroup.FullFilePath, json);
+                FileLoader.SaveTextFile(compGroup.FullFilePath, json);
             }
             if (clear)
             {

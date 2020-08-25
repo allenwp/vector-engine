@@ -128,6 +128,8 @@ namespace VectorEngine.Host
                 }
             }
 
+            HostHelper.SaveScene();
+
             // Clean up Veldrid resources
             _gd.WaitForIdle();
             _controller.Dispose();

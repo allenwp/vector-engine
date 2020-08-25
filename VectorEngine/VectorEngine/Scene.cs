@@ -9,6 +9,8 @@ namespace VectorEngine
 {
     public class Scene
     {
+        public static readonly string MAIN_SCENE_FILENAME = "scene.ves";
+
         public List<Component> Components = new List<Component>();
 
         public EditorState EditorState = new EditorState();

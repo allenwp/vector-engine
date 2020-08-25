@@ -17,9 +17,23 @@ namespace VectorEngine.ConsoleHost
         [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
         {
+            FileLoader.LoadAllComponentGroups();
+            
+            Scene scene;
+            if (FileLoader.GetTextFileConents(Scene.MAIN_SCENE_FILENAME, out string sceneJson, true))
+            {
+                scene = Serialization.SerializationHelper.Deserialize<Scene>(sceneJson, null, true);
+            }
+            else
+            {
+                Console.WriteLine("Could not load scene!");
+                Console.ReadLine();
+                throw new Exception("Could not load scene");
+            }
+
             var GameSystems = Program.GameInitType.GetMethod("GetGameSystems").Invoke(null, null) as List<ECSSystem>;
-            // TODO: Share some of the deserialization code so that this can load the level like the Host.HostHelper can
-            GameLoop.Init(GameSystems, );
+            
+            GameLoop.Init(GameSystems, scene.Components);
             while (true)
             {
                 GameLoop.Tick();

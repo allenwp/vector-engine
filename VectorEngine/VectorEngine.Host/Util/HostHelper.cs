@@ -36,8 +36,6 @@ namespace VectorEngine.Host.Util
             }
         }
 
-        private static string lastJsonSerialization = null;
-
         private static bool playingGame = false;
         public static bool PlayingGame
         {
@@ -73,31 +71,27 @@ namespace VectorEngine.Host.Util
                 playingGame = true;
                 Program.ClearColor = Program.CLEAR_COLOR_PLAY;
 
-                List<Component> components;
-
+                Scene scene = null;
                 if (initialSetup)
                 {
-                    // TODO: get rid of this initial setup altogether. this should already be loaded from a scene or default scene if it fails...
-
-                    // TODO: Correctly load game components from serialization engine. Load default scene only if this fails.
-                    components = EmptyScene.GetEmptyScene().Components;
+                    if (FileLoader.GetTextFileConents(Scene.MAIN_SCENE_FILENAME, out string existingSceneJson, true))
+                    {
+                        scene = Serialization.SerializationHelper.Deserialize<Scene>(existingSceneJson, null, true);
+                    }
+                    if (scene == null)
+                    {
+                        scene = EmptyScene.GetEmptyScene();
+                        string sceneJson = Serialization.SerializationHelper.Serialize(scene);
+                        FileLoader.SaveTextFile(Scene.MAIN_SCENE_FILENAME, sceneJson);
+                    }
                 }
                 else
                 {
-                    components = EntityAdmin.Instance.Components;
+                    // We're already all set up, so just save current state of game
+                    scene = SaveScene();
                 }
 
-                Scene scene = new Scene();
-                scene.Components = components;
-                scene.EditorState = new EditorHelper.EditorState();
-                scene.EditorState.SelectedObject = EditorUI.SelectedEntityComponent;
-                scene.EditorState.MidiAssignments = Program.MidiState.SaveState();
-                lastJsonSerialization = Serialization.SerializationHelper.Serialize(scene);
-
-                // Temp debug:
-                File.WriteAllText("runtimeTempJsonSerialization.txt", lastJsonSerialization);
-
-                GameLoop.Init(GameSystems, components);
+                GameLoop.Init(GameSystems, scene.Components);
             }
         }
 
@@ -109,12 +103,12 @@ namespace VectorEngine.Host.Util
                 Program.ClearColor = Program.CLEAR_COLOR_STOPPED;
                 Program.MidiState.Clear();
 
-                Scene scene;
-                if (lastJsonSerialization != null)
+                Scene scene = null;
+                if (FileLoader.GetTextFileConents(Scene.MAIN_SCENE_FILENAME, out string sceneJson, true))
                 {
-                    scene = Serialization.SerializationHelper.Deserialize<Scene>(lastJsonSerialization);
+                    scene = Serialization.SerializationHelper.Deserialize<Scene>(sceneJson, null, true);
                 }
-                else
+                if (scene == null)
                 {
                     scene = EmptyScene.GetEmptyScene();
                 }
@@ -124,6 +118,20 @@ namespace VectorEngine.Host.Util
 
                 GameLoop.Init(EditorSystems, scene.Components);
             }
+        }
+
+        public static Scene SaveScene()
+        {
+            Scene scene = new Scene();
+            scene.Components = EntityAdmin.Instance.Components;
+            scene.EditorState = new EditorHelper.EditorState();
+            scene.EditorState.SelectedObject = EditorUI.SelectedEntityComponent;
+            scene.EditorState.MidiAssignments = Program.MidiState.SaveState();
+
+            string sceneJson = Serialization.SerializationHelper.Serialize(scene);
+            FileLoader.SaveTextFile(Scene.MAIN_SCENE_FILENAME, sceneJson);
+
+            return scene;
         }
     }
 }

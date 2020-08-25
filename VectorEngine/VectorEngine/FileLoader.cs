@@ -13,10 +13,13 @@ namespace VectorEngine
 
         public static void LoadAllComponentGroups()
         {
-            var files = Directory.GetFiles(ComponentGroup.ROOT_PATH, $"*.{ComponentGroup.FILE_EXTENSION}", SearchOption.AllDirectories);
-            foreach (var file in files)
+            if (Directory.Exists(ComponentGroup.ROOT_PATH))
             {
-                LoadTextFile(file);
+                var files = Directory.GetFiles(ComponentGroup.ROOT_PATH, $"*.{ComponentGroup.FILE_EXTENSION}", SearchOption.AllDirectories);
+                foreach (var file in files)
+                {
+                    LoadTextFile(file);
+                }
             }
         }
 
@@ -66,6 +69,14 @@ namespace VectorEngine
                 contents = null;
                 return false;
             }
+        }
+
+        public static void SaveTextFile(string path, string contents)
+        {
+            path = path.ToLower();
+
+            File.WriteAllText(path, contents);
+            textFileCache[path] = contents;
         }
     }
 }
