@@ -9,7 +9,7 @@ namespace VectorEngine
 {
     public class Scene
     {
-        public static readonly string MAIN_SCENE_FILENAME = "scene.ves";
+        public static readonly string MAIN_SCENE_FILENAME = "Scene.ves";
 
         public List<Component> Components = new List<Component>();
 

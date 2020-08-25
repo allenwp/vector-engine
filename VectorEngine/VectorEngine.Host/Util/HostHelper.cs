@@ -10,6 +10,19 @@ namespace VectorEngine.Host.Util
 {
     public class HostHelper
     {
+        static string assetsPath;
+        public static string AssetsPath
+        {
+            get
+            {
+                if (assetsPath == null)
+                {
+                    assetsPath = Program.GameConfigType.GetMethod("GetAssetsPath").Invoke(null, null) as string;
+                }
+                return assetsPath;
+            }
+        }
+
         static List<ECSSystem> gameSystems = null;
         public static List<ECSSystem> GameSystems
         {
@@ -17,7 +30,7 @@ namespace VectorEngine.Host.Util
             {
                 if (gameSystems == null)
                 {
-                    gameSystems = Program.GameInitType.GetMethod("GetGameSystems").Invoke(null, null) as List<ECSSystem>;
+                    gameSystems = Program.GameConfigType.GetMethod("GetGameSystems").Invoke(null, null) as List<ECSSystem>;
                 }
                 return gameSystems;
             }
@@ -30,7 +43,7 @@ namespace VectorEngine.Host.Util
             {
                 if (editorSystems == null)
                 {
-                    editorSystems = Program.GameInitType.GetMethod("GetEditorSystems").Invoke(null, null) as List<ECSSystem>;
+                    editorSystems = Program.GameConfigType.GetMethod("GetEditorSystems").Invoke(null, null) as List<ECSSystem>;
                 }
                 return editorSystems;
             }

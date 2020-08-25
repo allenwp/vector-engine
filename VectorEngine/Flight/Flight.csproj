@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Field.cs" />
     <Compile Include="FieldSystem.cs" />
-    <Compile Include="GameInit.cs" />
+    <Compile Include="GameConfig.cs" />
     <Compile Include="PlayerGamepadControls.cs" />
     <Compile Include="PlayerGamepadControlsSystem.cs" />
     <Compile Include="PlayerShipShapes.cs" />

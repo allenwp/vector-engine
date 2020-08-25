@@ -10,8 +10,10 @@ using VectorEngine.Extras.PostProcessing;
 
 namespace Flight
 {
-    public class GameInit
+    public class GameConfig
     {
+        public static string GetAssetsPath() => @"../../../Flight/Assets";
+
         public static List<ECSSystem> GetGameSystems()
         {
             var result = new List<ECSSystem>();

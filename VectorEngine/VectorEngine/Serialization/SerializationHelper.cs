@@ -90,6 +90,7 @@ namespace VectorEngine.Serialization
             return result;
         }
 
+        /// <param name="fileName">Component group file name, relative to the Assets directory</param>
         public static List<Component> LoadComponentGroup(EntityAdmin admin, string fileName, out ComponentGroup componentGroup, bool forceReload = false)
         {
             List<Component> components = new List<Component>();

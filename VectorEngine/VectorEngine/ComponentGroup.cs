@@ -11,7 +11,7 @@ namespace VectorEngine
     {
         public static readonly string FILE_EXTENSION = "cpg";
         public static readonly string ROOT_PATH = "Component Groups";
-        public string FullFilePath
+        public string ComponentGroupPath
         {
             get => Path.Combine(ROOT_PATH, $"{FileName}.{FILE_EXTENSION}");
         }

@@ -47,8 +47,6 @@ namespace VectorEngine
             // rendering in time. The game loop is one priority lower, but still above normal.
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 
-            FileLoader.LoadAllComponentGroups();
-
             EntityAdmin.Instance.Init(systems, components);
         }
 

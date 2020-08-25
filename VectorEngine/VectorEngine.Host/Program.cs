@@ -20,8 +20,8 @@ namespace VectorEngine.Host
         private static CommandList _cl;
         private static ImGuiController _controller;
 
-        public static readonly Type GameInitType = typeof(Flight.GameInit);
-        public static readonly Assembly GameAssembly = Assembly.GetAssembly(GameInitType);
+        public static readonly Type GameConfigType = typeof(Flight.GameConfig);
+        public static readonly Assembly GameAssembly = Assembly.GetAssembly(GameConfigType);
 
         public static readonly Vector3 CLEAR_COLOR_PLAY = new Vector3(0.946f, 0.370f, 0.014f);
         public static readonly Vector3 CLEAR_COLOR_STOPPED = new Vector3(0.45f, 0.55f, 0.6f);
@@ -57,6 +57,10 @@ namespace VectorEngine.Host
             };
             _cl = _gd.ResourceFactory.CreateCommandList();
             _controller = new ImGuiController(_gd, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
+
+            string assetsPath = HostHelper.AssetsPath;
+            FileLoader.Init(assetsPath);
+            FileLoader.LoadAllComponentGroups();
 
             if (_showEditor)
             {

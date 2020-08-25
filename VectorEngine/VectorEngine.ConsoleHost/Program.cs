@@ -11,14 +11,17 @@ namespace VectorEngine.ConsoleHost
 {
     class Program
     {
-        public static readonly Type GameInitType = typeof(Flight.GameInit);
-        public static readonly Assembly GameAssembly = Assembly.GetAssembly(GameInitType);
+        public static readonly Type GameConfigType = typeof(Flight.GameConfig);
+        public static readonly Assembly GameAssembly = Assembly.GetAssembly(GameConfigType);
 
         [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
         {
+            string assetsPath = Program.GameConfigType.GetMethod("GetAssetsPath").Invoke(null, null) as string;
+
+            FileLoader.Init(assetsPath);
             FileLoader.LoadAllComponentGroups();
-            
+
             Scene scene;
             if (FileLoader.GetTextFileConents(Scene.MAIN_SCENE_FILENAME, out string sceneJson, true))
             {
@@ -31,7 +34,7 @@ namespace VectorEngine.ConsoleHost
                 throw new Exception("Could not load scene");
             }
 
-            var GameSystems = Program.GameInitType.GetMethod("GetGameSystems").Invoke(null, null) as List<ECSSystem>;
+            var GameSystems = Program.GameConfigType.GetMethod("GetGameSystems").Invoke(null, null) as List<ECSSystem>;
             
             GameLoop.Init(GameSystems, scene.Components);
             while (true)

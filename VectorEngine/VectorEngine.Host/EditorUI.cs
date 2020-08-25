@@ -505,7 +505,7 @@ namespace VectorEngine.Host
             if (save)
             {
                 Directory.CreateDirectory(ComponentGroup.ROOT_PATH);
-                FileLoader.SaveTextFile(compGroup.FullFilePath, json);
+                FileLoader.SaveTextFile(compGroup.ComponentGroupPath, json);
             }
             if (clear)
             {
@@ -966,26 +966,26 @@ namespace VectorEngine.Host
         {
             ImGui.Begin("Component Group Files");
 
-            var files = Directory.GetFiles(ComponentGroup.ROOT_PATH, $"*.{ComponentGroup.FILE_EXTENSION}", SearchOption.AllDirectories);
+            var assetFiles = FileLoader.GetAllComponentGroupPaths();
 
             if (ImGui.Button("Load to Scene"))
             {
-                Serialization.SerializationHelper.LoadComponentGroup(admin, files[selectedComponentGroupFileIndex], out _, true);
+                Serialization.SerializationHelper.LoadComponentGroup(admin, assetFiles[selectedComponentGroupFileIndex], out _, true);
             }
             ImGui.SameLine();
             if (ImGui.Button("Delete"))
             {
                 try
                 {
-                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(files[selectedComponentGroupFileIndex], Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(FileLoader.FullPath(assetFiles[selectedComponentGroupFileIndex]), Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
                 } catch { } // Don't care if they cancel the dialog
             }
             ImGui.Separator();
 
             ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
-            for (int i = 0; i < files.Length; i++)
+            for (int i = 0; i < assetFiles.Length; i++)
             {
-                if (ImGui.Selectable(files[i], selectedComponentGroupFileIndex == i))
+                if (ImGui.Selectable(assetFiles[i], selectedComponentGroupFileIndex == i))
                 {
                     selectedComponentGroupFileIndex = i;
                 }
