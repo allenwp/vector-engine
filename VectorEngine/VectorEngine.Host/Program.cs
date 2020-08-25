@@ -132,7 +132,10 @@ namespace VectorEngine.Host
                 }
             }
 
-            HostHelper.SaveScene();
+            if (!HostHelper.PlayingGame)
+            {
+                HostHelper.SaveScene();
+            }
 
             // Clean up Veldrid resources
             _gd.WaitForIdle();
