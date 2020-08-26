@@ -17,9 +17,11 @@ namespace VectorEngine.Host
     public class EditorUI
     {
         public static object SelectedEntityComponent { get; set; }
-        static object draggedObject = null;
         static object lockedInspectorEntityComponent = null;
         static bool inspectorLocked = false;
+
+        static readonly string PAYLOAD_STRING = "PAYLOAD";
+        static object draggedObject = null;
 
         /// <summary>
         /// When true, this the scene graph view should be scrolled to show the selectedEntityComponent.
@@ -185,19 +187,19 @@ namespace VectorEngine.Host
                 }
                 if (ImGui.BeginDragDropSource())
                 {
-                    ImGui.SetDragDropPayload(typeof(Transform).FullName, IntPtr.Zero, 0); // Payload is needed to trigger BeginDragDropTarget()
+                    ImGui.SetDragDropPayload(PAYLOAD_STRING, IntPtr.Zero, 0); // Payload is needed to trigger BeginDragDropTarget()
                     draggedObject = transform;
                     ImGui.Text(transform.EntityName);
                     ImGui.EndDragDropSource();
                 }
-                if (ImGui.BeginDragDropTarget())
+                if (draggedObject != null && draggedObject is Transform)
                 {
-                    var payload = ImGui.AcceptDragDropPayload(typeof(Transform).FullName);
-                    if (payload.NativePtr != null) // Only when this is non-null does it mean that we've released the drag
+                    if (ImGui.BeginDragDropTarget())
                     {
-                        var draggedTransform = draggedObject as Transform;
-                        if (draggedTransform != null)
+                        var payload = ImGui.AcceptDragDropPayload(PAYLOAD_STRING);
+                        if (payload.NativePtr != null) // Only when this is non-null does it mean that we've released the drag
                         {
+                            Transform draggedTransform = draggedObject as Transform;
                             Transform newParent;
                             if (draggedTransform.Parent == transform)
                             {
@@ -208,10 +210,11 @@ namespace VectorEngine.Host
                                 newParent = transform;
                             }
                             Transform.AssignParent(draggedTransform, newParent, admin, true);
+
+                            draggedObject = null;
                         }
-                        draggedObject = null;
+                        ImGui.EndDragDropTarget();
                     }
-                    ImGui.EndDragDropTarget();
                 }
                 if (expanded)
                 {
@@ -322,12 +325,22 @@ namespace VectorEngine.Host
                     SelectedEntityComponent = entity;
                     scrollSceneGraphView = true;
                 }
+
+                if (ImGui.BeginDragDropSource())
+                {
+                    ImGui.SetDragDropPayload(PAYLOAD_STRING, IntPtr.Zero, 0); // Payload is needed to trigger BeginDragDropTarget()
+                    draggedObject = entity;
+                    ImGui.Text(entity.Name);
+                    ImGui.EndDragDropSource();
+                }
+
                 if (expanded)
                 {
                     for (int i = 0; i < components.Count; i++)
                     {
+                        Component component = components[i];
                         nodeFlags = ImGuiTreeNodeFlags.Leaf | ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.NoTreePushOnOpen; // This last one means that you can't do aImGui.TreePop(); or things will be messed up. 
-                        if (components[i] == SelectedEntityComponent)
+                        if (component == SelectedEntityComponent)
                         {
                             nodeFlags |= ImGuiTreeNodeFlags.Selected;
                             if (scrollEntitiesView)
@@ -335,28 +348,35 @@ namespace VectorEngine.Host
                                 ImGui.SetScrollHereY();
                             }
                         }
-                        if (!components[i].IsActive)
+                        if (!component.IsActive)
                         {
                             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
                         }
-                        bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(components[i].GetType(), HostHelper.GameSystems, out _);
+                        bool hasRequiredSystems = RequiresSystem.HasECSSystemForType(component.GetType(), HostHelper.GameSystems, out _);
                         if (!hasRequiredSystems)
                         {
                             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1f, 0f, 0f, 1f));
                         }
-                        ImGui.TreeNodeEx(components[i].Guid.ToString(), nodeFlags, components[i].Name);
+                        ImGui.TreeNodeEx(component.Guid.ToString(), nodeFlags, component.Name);
                         if (!hasRequiredSystems)
                         {
                             ImGui.PopStyleColor();
                         }
-                        if (!components[i].IsActive)
+                        if (!component.IsActive)
                         {
                             ImGui.PopStyleColor();
                         }
                         if (ImGui.IsItemClicked())
                         {
-                            SelectedEntityComponent = components[i];
+                            SelectedEntityComponent = component;
                             scrollSceneGraphView = true;
+                        }
+                        if (ImGui.BeginDragDropSource())
+                        {
+                            ImGui.SetDragDropPayload(PAYLOAD_STRING, IntPtr.Zero, 0); // Payload is needed to trigger BeginDragDropTarget()
+                            draggedObject = component;
+                            ImGui.Text(component.Name);
+                            ImGui.EndDragDropSource();
                         }
                     }
                     ImGui.TreePop();
@@ -767,20 +787,19 @@ namespace VectorEngine.Host
                     scrollSceneGraphView = true;
                 }
 
-                // Not sure if this type of logic is needed, but I'll swap it in later if it is:
-                //bool completedDrag = SubmitDragAssignObject<Transform>(info, infoType, entityComponent);
-                //if (!completedDrag)
-                //{
-                //    completedDrag = SubmitDragAssignObject<Component>(info, infoType, entityComponent);
-                //    if (!completedDrag)
-                //    {
-                //        completedDrag = SubmitDragAssignObject<Entity>(info, infoType, entityComponent);
-                //    }
-                //}
-
-                SubmitDragAssignObject<Transform>(info, infoType, entityComponent);
-                SubmitDragAssignObject<Component>(info, infoType, entityComponent);
-                SubmitDragAssignObject<Entity>(info, infoType, entityComponent);
+                if (draggedObject != null && infoType.IsAssignableFrom(draggedObject.GetType()))
+                {
+                    if (ImGui.BeginDragDropTarget())
+                    {
+                        var payload = ImGui.AcceptDragDropPayload(PAYLOAD_STRING);
+                        if (payload.NativePtr != null) // Only when this is non-null does it mean that we've released the drag
+                        {
+                            info.SetValue(entityComponent, draggedObject);
+                            draggedObject = null;
+                        }
+                        ImGui.EndDragDropTarget();
+                    }
+                }
             }
             else
             {
@@ -794,20 +813,7 @@ namespace VectorEngine.Host
         static unsafe bool SubmitDragAssignObject<T>(FieldPropertyInfo info, Type infoType, object entityComponent)
         {
             bool result = false;
-            if (infoType.IsAssignableFrom(typeof(T)))
-            {
-                if (ImGui.BeginDragDropTarget())
-                {
-                    var payload = ImGui.AcceptDragDropPayload(typeof(T).FullName);
-                    if (payload.NativePtr != null) // Only when this is non-null does it mean that we've released the drag
-                    {
-                        info.SetValue(entityComponent, draggedObject);
-                        draggedObject = null;
-                        result = true;
-                    }
-                    ImGui.EndDragDropTarget();
-                }
-            }
+
             return result;
         }
 

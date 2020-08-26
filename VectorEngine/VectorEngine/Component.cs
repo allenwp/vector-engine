@@ -19,7 +19,7 @@ namespace VectorEngine
 
         [JsonIgnore]
         private Guid guid;
-        [EditorHelper.Help("Currently only used by the editor to help layout trees, etc.")]
+        [EditorHelper.Help("NON SERIALIZED. Used by the editor to help layout trees, etc.")]
         public Guid Guid
         {
             get
