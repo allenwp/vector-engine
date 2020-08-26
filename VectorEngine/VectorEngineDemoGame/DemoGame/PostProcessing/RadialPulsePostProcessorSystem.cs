@@ -38,7 +38,7 @@ namespace VectorEngine.DemoGame.PostProcessing
             var min = pulse.CurrentMinDistance;
             var max = pulse.CurrentMaxDistance;
             var rangePartitioner = Partitioner.Create(samples3D);
-            Parallel.ForEach(rangePartitioner, (samples3DArray) =>
+            Parallel.ForEach(rangePartitioner, samples3DArray =>
             {
                 for (int i = 0; i < samples3DArray.Length; i++)
                 {

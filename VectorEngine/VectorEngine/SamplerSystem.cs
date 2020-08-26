@@ -12,8 +12,8 @@ namespace VectorEngine
     {
         public override void Tick()
         {
-            var cameraTuples = EntityAdmin.Instance.GetTuple<Transform, Camera>();
-            var shapeTuples = EntityAdmin.Instance.GetTuple<Transform, Shape>();
+            IEnumerable<(Transform Transform, Camera Camera)> cameraTuples = EntityAdmin.Instance.GetTuple<Transform, Camera>();
+            IEnumerable<(Transform Transform, Shape Shape)> shapeTuples = EntityAdmin.Instance.GetTuple<Transform, Shape>();
 
             // Grab only the highest priority cameras:
             uint highestPriority = 0;
@@ -24,7 +24,7 @@ namespace VectorEngine
                     highestPriority = camera.Priority;
                 }
             }
-            cameraTuples = cameraTuples.Where(tuple => tuple.Item2.Priority == highestPriority);
+            cameraTuples = cameraTuples.Where(tuple => tuple.Camera.Priority == highestPriority);
 
             List<Sample[]> result = new List<Sample[]>();
 
@@ -43,9 +43,9 @@ namespace VectorEngine
 
                 #region Old single threaded code
                 //foreach ((var transform, var shape) in shapeTuples.Where(tuple =>
-                //    tuple.Item2.Layer == highestLayer
-                //    && (camera.Filter & tuple.Item2.CameraFilterLayers) != 0
-                //    && !FrustumCull(camera, cameraTransform, tuple.Item1, tuple.Item2)))
+                //    tuple.Shape.Layer == highestLayer
+                //    && (camera.Filter & tuple.Shape.CameraFilterLayers) != 0
+                //    && !FrustumCull(camera, cameraTransform, tuple.Transform, tuple.Shape)))
                 //{
                 //    var samples3D = GetSample3Ds(camera, cameraTransform, transform, shape);
                 //    worldSpaceResult.AddRange(samples3D);
@@ -54,11 +54,11 @@ namespace VectorEngine
 
                 #region Using a Partitioner: Initial tests show that this is marginally slower than simply not having a Partitioner.
                 //var tuplesCollection = shapeTuples.Where(tuple =>
-                //    tuple.Item2.Layer == highestLayer
-                //    && (camera.Filter & tuple.Item2.CameraFilterLayers) != 0
-                //    && !FrustumCull(camera, cameraTransform, tuple.Item1, tuple.Item2));
+                //    tuple.Shape.Layer == highestLayer
+                //    && (camera.Filter & tuple.Shape.CameraFilterLayers) != 0
+                //    && !FrustumCull(camera, cameraTransform, tuple.Transform, tuple.Shape));
 
-                //(Transform, Shape)[] tuples = tuplesCollection.ToArray();
+                //(Transform Transform, Shape Shape)[] tuples = tuplesCollection.ToArray();
                 //List<Sample3D[]>[] parallelOutputSamples = new List<Sample3D[]>[tuples.Length];
 
                 //var rangePartitioner = Partitioner.Create(0, tuples.Length);
@@ -68,7 +68,7 @@ namespace VectorEngine
                 //    {
                 //        for (int i = range.Item1; i < range.Item2; i++)
                 //        {
-                //            parallelOutputSamples[i] = GetSample3Ds(camera, cameraTransform, tuples[i].Item1, tuples[i].Item2);
+                //            parallelOutputSamples[i] = GetSample3Ds(camera, cameraTransform, tuples[i].Transform, tuples[i].Shape);
                 //        }
                 //    });
 
@@ -80,15 +80,15 @@ namespace VectorEngine
 
                 // Create the world space result using the Parallel library:
                 var tuplesCollection = shapeTuples.Where(tuple =>
-                    tuple.Item2.Layer == highestLayer
-                    && (camera.Filter & tuple.Item2.CameraFilterLayers) != 0
-                    && !FrustumCull(camera, cameraTransform, tuple.Item1, tuple.Item2));
+                    tuple.Shape.Layer == highestLayer
+                    && (camera.Filter & tuple.Shape.CameraFilterLayers) != 0
+                    && !FrustumCull(camera, cameraTransform, tuple.Transform, tuple.Shape));
 
-                (Transform, Shape)[] tuples = tuplesCollection.ToArray();
+                (Transform Transform, Shape Shape)[] tuples = tuplesCollection.ToArray();
                 List<Sample3D[]>[] parallelOutputSamples = new List<Sample3D[]>[tuples.Length];
 
                 Parallel.For(0, tuples.Length,
-                    i => parallelOutputSamples[i] = GetSample3Ds(camera, cameraTransform, tuples[i].Item1, tuples[i].Item2));
+                    i => parallelOutputSamples[i] = GetSample3Ds(camera, cameraTransform, tuples[i].Transform, tuples[i].Shape));
 
                 for (int i = 0; i < parallelOutputSamples.Length; i++)
                 {

@@ -21,7 +21,7 @@ namespace VectorEngine.DemoGame.PostProcessing
             var yCuttoff = mask.YCutoff;
 
             var rangePartitioner = Partitioner.Create(samples3D);
-            Parallel.ForEach(rangePartitioner, (samples3DArray) =>
+            Parallel.ForEach(rangePartitioner, samples3DArray =>
             {
                 for (int i = 0; i < samples3DArray.Length; i++)
                 {

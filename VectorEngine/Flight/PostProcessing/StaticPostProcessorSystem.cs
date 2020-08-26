@@ -22,7 +22,7 @@ namespace Flight.PostProcessing
             if (amount != 0)
             {
                 var rangePartitioner = Partitioner.Create(samples);
-                Parallel.ForEach(rangePartitioner, (samplesArray) =>
+                Parallel.ForEach(rangePartitioner, samplesArray =>
                 {
                     Random rand = new Random();
                     for (int i = 0; i < samplesArray.Length; i++)

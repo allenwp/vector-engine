@@ -908,31 +908,31 @@ namespace VectorEngine.Host
 
                         var names = (from type in assemblyPair.Value.GetTypes()
                                      from method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
-                                     select (type, method, type.FullName + ":" + method.Name)).Where(a => a.method.GetParameters().Length < 1).ToList();
+                                     select (Type: type, Method: method, DisplayName: type.FullName + ":" + method.Name)).Where(a => a.Method.GetParameters().Length < 1).ToList();
 
                         for (int i = 0; i < names.Count; i++)
                         {
-                            if (names[i].Item3.ToLower().Contains(invokeFilter))
+                            if (names[i].DisplayName.ToLower().Contains(invokeFilter))
                             {
-                                if (names[i].method.IsPrivate)
+                                if (names[i].Method.IsPrivate)
                                 {
                                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f, 0.5f, 0.5f, 1f));
                                 }
                                 StringBuilder sb = new StringBuilder();
                                 sb.Append('(');
-                                foreach (var param in names[i].method.GetParameters())
+                                foreach (var param in names[i].Method.GetParameters())
                                 {
                                     sb.Append(param.ParameterType.Name);
                                     sb.Append(' ');
                                     sb.Append(param.Name);
                                 }
                                 sb.Append(')');
-                                var text = $"{names[i].Item3}{sb}";
+                                var text = $"{names[i].DisplayName}{sb}";
                                 if (ImGui.Selectable(text, invokeSelectedIndex == i))
                                 {
                                     invokeSelectedIndex = i;
                                 }
-                                if (names[i].method.IsPrivate)
+                                if (names[i].Method.IsPrivate)
                                 {
                                     ImGui.PopStyleColor();
                                 }
@@ -943,7 +943,7 @@ namespace VectorEngine.Host
                         {
                             try
                             {
-                                names[invokeSelectedIndex].method.Invoke(null, null);
+                                names[invokeSelectedIndex].Method.Invoke(null, null);
                             }
                             catch (Exception e)
                             {
