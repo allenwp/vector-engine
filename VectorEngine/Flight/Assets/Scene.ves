@@ -2296,285 +2296,237 @@
                                       {
                                         "$id": "256",
                                         "$type": "Flight.Shapes.Cube, Flight",
-                                        "lines": {
+                                        "cubeLines": {
                                           "$id": "257",
-                                          "$type": "System.Collections.Generic.List`1[[Flight.Shapes.Line, Flight]], mscorlib",
+                                          "$type": "System.Collections.Generic.List`1[[Flight.Shapes.Cube+Line, Flight]], mscorlib",
                                           "$values": [
                                             {
                                               "$id": "258",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "259",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "260",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "261",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "262",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "263",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "264",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "265",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "266",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "267",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "268",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "269",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "270",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "271",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "272",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "273",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "274",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "275",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "276",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "277",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "278",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "279",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "280",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "281",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "282",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "283",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "284",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "285",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "286",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "287",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "288",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "289",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "290",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "291",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "292",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "293",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             }
                                           ]
                                         },
@@ -3577,285 +3529,237 @@
                                       {
                                         "$id": "418",
                                         "$type": "Flight.Shapes.Cube, Flight",
-                                        "lines": {
+                                        "cubeLines": {
                                           "$id": "419",
-                                          "$type": "System.Collections.Generic.List`1[[Flight.Shapes.Line, Flight]], mscorlib",
+                                          "$type": "System.Collections.Generic.List`1[[Flight.Shapes.Cube+Line, Flight]], mscorlib",
                                           "$values": [
                                             {
                                               "$id": "420",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "421",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "422",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "423",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "424",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "425",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "426",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "427",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "428",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "429",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "430",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "431",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "432",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "433",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "434",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "435",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "436",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "437",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "438",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "439",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "440",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "441",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "442",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "443",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "444",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "445",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "446",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "447",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "448",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "449",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "450",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "451",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "452",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "453",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "454",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "455",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             }
                                           ]
                                         },
@@ -4858,285 +4762,237 @@
                                       {
                                         "$id": "580",
                                         "$type": "Flight.Shapes.Cube, Flight",
-                                        "lines": {
+                                        "cubeLines": {
                                           "$id": "581",
-                                          "$type": "System.Collections.Generic.List`1[[Flight.Shapes.Line, Flight]], mscorlib",
+                                          "$type": "System.Collections.Generic.List`1[[Flight.Shapes.Cube+Line, Flight]], mscorlib",
                                           "$values": [
                                             {
                                               "$id": "582",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "583",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "584",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "585",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "586",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "587",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "588",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "589",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "590",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "591",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "592",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "593",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "594",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "595",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "596",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "597",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "598",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "599",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "600",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "601",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "602",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "603",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "604",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "605",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "606",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "607",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "608",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "609",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "610",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "611",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": 0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "612",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "613",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "614",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": 0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             },
                                             {
                                               "$id": "615",
-                                              "$type": "Flight.Shapes.Line, Flight",
-                                              "<BaseFidelity>k__BackingField": 50.0,
-                                              "<Start>k__BackingField": {
+                                              "$type": "Flight.Shapes.Cube+Line, Flight",
+                                              "BaseFidelity": 50.0,
+                                              "Start": {
                                                 "$id": "616",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": -0.5
                                               },
-                                              "<End>k__BackingField": {
+                                              "End": {
                                                 "$id": "617",
                                                 "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                                                 "X": -0.5,
                                                 "Y": -0.5,
                                                 "Z": 0.5
-                                              },
-                                              "Layer": 0,
-                                              "CameraFilterLayers": 1,
-                                              "Entity": null,
-                                              "<SelfEnabled>k__BackingField": true
+                                              }
                                             }
                                           ]
                                         },
