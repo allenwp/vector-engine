@@ -44,7 +44,7 @@ namespace VectorEngine
 
         public override string ToString()
         {
-            return Name;
+            return $"{Name} ({EntityName})";
         }
 
         public Component()

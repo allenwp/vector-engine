@@ -18,6 +18,8 @@ namespace VectorEngine.Host
     {
         public static object SelectedEntityComponent { get; set; }
         static object draggedObject = null;
+        static object lockedInspectorEntityComponent = null;
+        static bool inspectorLocked = false;
 
         /// <summary>
         /// When true, this the scene graph view should be scrolled to show the selectedEntityComponent.
@@ -377,13 +379,20 @@ namespace VectorEngine.Host
         {
             ImGui.Begin("Inspector");
 
+            if (ImGui.Checkbox("Lock", ref inspectorLocked))
+            {
+                lockedInspectorEntityComponent = inspectorLocked ? SelectedEntityComponent : null;
+            }
+
+            object selectedObject = inspectorLocked ? lockedInspectorEntityComponent : SelectedEntityComponent;
+
             ImGuiTreeNodeFlags collapsingHeaderFlags = ImGuiTreeNodeFlags.CollapsingHeader;
             collapsingHeaderFlags |= ImGuiTreeNodeFlags.DefaultOpen;
 
-            if (SelectedEntityComponent != null)
+            if (selectedObject != null)
             {
-                var entity = SelectedEntityComponent as Entity;
-                var component = SelectedEntityComponent as Component;
+                var entity = selectedObject as Entity;
+                var component = selectedObject as Component;
 
                 if (entity != null)
                 {
@@ -395,9 +404,9 @@ namespace VectorEngine.Host
                     Type componentType;
                     if (SubmitAddComponent("Add Component", out componentType))
                     {
-                        SelectedEntityComponent = admin.AddComponent(entity, componentType);
+                        selectedObject = admin.AddComponent(entity, componentType);
                         entity = null;
-                        component = SelectedEntityComponent as Component;
+                        component = selectedObject as Component;
                     }
                 }
 
@@ -431,14 +440,14 @@ namespace VectorEngine.Host
                 ImGui.Separator();
                 ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
 
-                var selectedType = SelectedEntityComponent.GetType();
+                var selectedType = selectedObject.GetType();
 
                 if (ImGui.CollapsingHeader("Fields", collapsingHeaderFlags))
                 {
                     var fields = selectedType.GetFields();
                     foreach (var info in fields.Where(field => !field.IsLiteral && !field.IsInitOnly))
                     {
-                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), SelectedEntityComponent);
+                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), selectedObject);
                     }
                 }
 
@@ -449,7 +458,7 @@ namespace VectorEngine.Host
                     // When SetMethod is private, it will still be writable so long as it's class isn't inherited, so check to see if it's public too for the behaviour I want.
                     foreach (var info in properties.Where(prop => prop.CanRead && prop.CanWrite && prop.SetMethod.IsPublic))
                     {
-                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), SelectedEntityComponent);
+                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), selectedObject);
                     }
                 }
 
@@ -459,12 +468,12 @@ namespace VectorEngine.Host
                     foreach (var info in properties.Where(prop => prop.CanRead && (!prop.CanWrite || !prop.SetMethod.IsPublic)))
                     {
                         var fieldPropertyInfo = new FieldPropertyInfo(info);
-                        SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo, SelectedEntityComponent);
+                        SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo, selectedObject);
                         SubmitHelpMarker(fieldPropertyInfo);
                     }
                 }
 
-                ComponentGroup compGroup = SelectedEntityComponent as ComponentGroup;
+                ComponentGroup compGroup = selectedObject as ComponentGroup;
                 if (compGroup != null)
                 {
                     ImGui.NewLine();
@@ -549,7 +558,7 @@ namespace VectorEngine.Host
             return ImGui.Button(buttonLabel);
         }
 
-        static void SubmitFieldPropertyInspector(FieldPropertyInfo info, object entityComponent, bool showMidi = true)
+        static unsafe void SubmitFieldPropertyInspector(FieldPropertyInfo info, object entityComponent, bool showMidi = true)
         {
             ImGui.PushID(GetIdString(info, entityComponent));
 
@@ -739,6 +748,40 @@ namespace VectorEngine.Host
                     info.SetValue(entityComponent, infoType.GetEnumValues().GetValue(currentIndex));
                 }
             }
+            else if (typeof(Component).IsAssignableFrom(infoType) || typeof(Entity).IsAssignableFrom(infoType))
+            {
+                string valText;
+                var value = info.GetValue(entityComponent);
+                if (value != null)
+                {
+                    valText = value.ToString();
+                }
+                else
+                {
+                    valText = "null";
+                }
+                if (ImGui.Selectable($"{info.Name}: {valText}", false))
+                {
+                    SelectedEntityComponent = value;
+                    scrollEntitiesView = true;
+                    scrollSceneGraphView = true;
+                }
+
+                // Not sure if this type of logic is needed, but I'll swap it in later if it is:
+                //bool completedDrag = SubmitDragAssignObject<Transform>(info, infoType, entityComponent);
+                //if (!completedDrag)
+                //{
+                //    completedDrag = SubmitDragAssignObject<Component>(info, infoType, entityComponent);
+                //    if (!completedDrag)
+                //    {
+                //        completedDrag = SubmitDragAssignObject<Entity>(info, infoType, entityComponent);
+                //    }
+                //}
+
+                SubmitDragAssignObject<Transform>(info, infoType, entityComponent);
+                SubmitDragAssignObject<Component>(info, infoType, entityComponent);
+                SubmitDragAssignObject<Entity>(info, infoType, entityComponent);
+            }
             else
             {
                 SubmitReadonlyFieldPropertyInspector(info, entityComponent);
@@ -746,6 +789,26 @@ namespace VectorEngine.Host
             ImGui.PopID();
 
             SubmitHelpMarker(info);
+        }
+
+        static unsafe bool SubmitDragAssignObject<T>(FieldPropertyInfo info, Type infoType, object entityComponent)
+        {
+            bool result = false;
+            if (infoType.IsAssignableFrom(typeof(T)))
+            {
+                if (ImGui.BeginDragDropTarget())
+                {
+                    var payload = ImGui.AcceptDragDropPayload(typeof(T).FullName);
+                    if (payload.NativePtr != null) // Only when this is non-null does it mean that we've released the drag
+                    {
+                        info.SetValue(entityComponent, draggedObject);
+                        draggedObject = null;
+                        result = true;
+                    }
+                    ImGui.EndDragDropTarget();
+                }
+            }
+            return result;
         }
 
         static void SubmitReadonlyFieldPropertyInspector(FieldPropertyInfo info, object entityComponent)
@@ -1020,6 +1083,10 @@ namespace VectorEngine.Host
             if (SelectedEntityComponent != null && !livingObjects.Contains(SelectedEntityComponent))
             {
                 SelectedEntityComponent = null;
+            }
+            if (lockedInspectorEntityComponent != null && !livingObjects.Contains(lockedInspectorEntityComponent))
+            {
+                lockedInspectorEntityComponent = null;
             }
 
             var midiButtonsToClear = Program.MidiState.ControlStates.Where(pair => pair.Value.ControlledObject != null && !livingObjects.Contains(pair.Value.ControlledObject)).Select(pair => pair.Key).ToList();
