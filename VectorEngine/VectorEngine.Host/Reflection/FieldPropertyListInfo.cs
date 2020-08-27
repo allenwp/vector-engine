@@ -70,7 +70,8 @@ namespace VectorEngine.Host.Reflection
                 }
                 else if (list != null)
                 {
-                    return list.GetType().GetGenericArguments().First();
+                    var listItem = list[listIndex];
+                    return listItem.GetType();
                 }
                 else
                 {
