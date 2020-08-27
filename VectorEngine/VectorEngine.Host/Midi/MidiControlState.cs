@@ -12,7 +12,7 @@ namespace VectorEngine.Host.Midi
         // ControlledObject currently leaks. TODO: clear out references to this
         // MidiControlState when no refereneces to ControlledObject exist in the game.
         public object ControlledObject;
-        public FieldPropertyInfo FieldPropertyInfo;
+        public FieldPropertyListInfo FieldPropertyInfo;
         public bool IsVector;
         public byte VectorIndex;
     }

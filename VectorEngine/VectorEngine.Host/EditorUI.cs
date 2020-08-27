@@ -11,6 +11,7 @@ using System.Reflection;
 using VectorEngine.Host.Midi;
 using VectorEngine.Host.Util;
 using System.IO;
+using System.Collections;
 
 namespace VectorEngine.Host
 {
@@ -406,8 +407,6 @@ namespace VectorEngine.Host
 
             object selectedObject = inspectorLocked ? lockedInspectorEntityComponent : SelectedEntityComponent;
 
-            ImGuiTreeNodeFlags collapsingHeaderFlags = ImGuiTreeNodeFlags.CollapsingHeader;
-            collapsingHeaderFlags |= ImGuiTreeNodeFlags.DefaultOpen;
 
             if (selectedObject != null)
             {
@@ -460,38 +459,7 @@ namespace VectorEngine.Host
                 ImGui.Separator();
                 ImGui.BeginChild("scrolling", Vector2.Zero, false, ImGuiWindowFlags.HorizontalScrollbar);
 
-                var selectedType = selectedObject.GetType();
-
-                if (ImGui.CollapsingHeader("Fields", collapsingHeaderFlags))
-                {
-                    var fields = selectedType.GetFields();
-                    foreach (var info in fields.Where(field => !field.IsLiteral && !field.IsInitOnly))
-                    {
-                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), selectedObject);
-                    }
-                }
-
-                var properties = selectedType.GetProperties();
-
-                if (ImGui.CollapsingHeader("Properties", collapsingHeaderFlags))
-                {
-                    // When SetMethod is private, it will still be writable so long as it's class isn't inherited, so check to see if it's public too for the behaviour I want.
-                    foreach (var info in properties.Where(prop => prop.CanRead && prop.CanWrite && prop.SetMethod.IsPublic))
-                    {
-                        SubmitFieldPropertyInspector(new FieldPropertyInfo(info), selectedObject);
-                    }
-                }
-
-                if (ImGui.CollapsingHeader("Read-Only Properties", collapsingHeaderFlags))
-                {
-                    // When SetMethod is private, it will still be writable so long as it's class isn't inherited, so check to see if it's public too for the behaviour I want.
-                    foreach (var info in properties.Where(prop => prop.CanRead && (!prop.CanWrite || !prop.SetMethod.IsPublic)))
-                    {
-                        var fieldPropertyInfo = new FieldPropertyInfo(info);
-                        SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo, selectedObject);
-                        SubmitHelpMarker(fieldPropertyInfo);
-                    }
-                }
+                SubmitObjectInspector(selectedObject);
 
                 ComponentGroup compGroup = selectedObject as ComponentGroup;
                 if (compGroup != null)
@@ -527,6 +495,45 @@ namespace VectorEngine.Host
             ImGui.End();
         }
 
+        static void SubmitObjectInspector(object selectedObject)
+        {
+            ImGuiTreeNodeFlags collapsingHeaderFlags = ImGuiTreeNodeFlags.CollapsingHeader;
+            collapsingHeaderFlags |= ImGuiTreeNodeFlags.DefaultOpen;
+
+            var selectedType = selectedObject.GetType();
+
+            if (ImGui.CollapsingHeader("Fields", collapsingHeaderFlags))
+            {
+                var fields = selectedType.GetFields();
+                foreach (var info in fields.Where(field => !field.IsLiteral && !field.IsInitOnly))
+                {
+                    SubmitFieldPropertyInspector(new FieldPropertyListInfo(info, selectedObject), selectedObject);
+                }
+            }
+
+            var properties = selectedType.GetProperties();
+
+            if (ImGui.CollapsingHeader("Properties", collapsingHeaderFlags))
+            {
+                // When SetMethod is private, it will still be writable so long as it's class isn't inherited, so check to see if it's public too for the behaviour I want.
+                foreach (var info in properties.Where(prop => prop.CanRead && prop.CanWrite && prop.SetMethod.IsPublic))
+                {
+                    SubmitFieldPropertyInspector(new FieldPropertyListInfo(info, selectedObject), selectedObject);
+                }
+            }
+
+            if (ImGui.CollapsingHeader("Read-Only Properties", collapsingHeaderFlags))
+            {
+                // When SetMethod is private, it will still be writable so long as it's class isn't inherited, so check to see if it's public too for the behaviour I want.
+                foreach (var info in properties.Where(prop => prop.CanRead && (!prop.CanWrite || !prop.SetMethod.IsPublic)))
+                {
+                    var fieldPropertyInfo = new FieldPropertyListInfo(info, selectedObject);
+                    SubmitReadonlyFieldPropertyInspector(fieldPropertyInfo);
+                    SubmitHelpMarker(fieldPropertyInfo);
+                }
+            }
+        }
+
         static void SaveClearComponentGroup(EntityAdmin admin, ComponentGroup compGroup, bool save, bool clear)
         {
             List<Component> components = clear ? new List<Component>() : null;
@@ -545,7 +552,7 @@ namespace VectorEngine.Host
             }
         }
 
-        static string GetIdString(FieldPropertyInfo info, object entityComponent)
+        static string GetIdString(FieldPropertyListInfo info, object entityComponent)
         {
             string objectID = entityComponent.ToString();
             if (entityComponent as Component != null)
@@ -578,40 +585,44 @@ namespace VectorEngine.Host
             return ImGui.Button(buttonLabel);
         }
 
-        static unsafe void SubmitFieldPropertyInspector(FieldPropertyInfo info, object entityComponent, bool showMidi = true)
+        static unsafe void SubmitFieldPropertyInspector(FieldPropertyListInfo info, object entityComponent, bool showMidi = true)
         {
             ImGui.PushID(GetIdString(info, entityComponent));
 
-            var rangeAttribute = CustomAttributeExtensions.GetCustomAttribute<EditorHelper.RangeAttribute>(info.MemberInfo, true);
+            EditorHelper.RangeAttribute rangeAttribute = null;
+            if (info.MemberInfo != null)
+            {
+                rangeAttribute = CustomAttributeExtensions.GetCustomAttribute<EditorHelper.RangeAttribute>(info.MemberInfo, true);
+            }
 
             var infoType = info.FieldPropertyType;
             if (infoType == typeof(string))
             {
-                string val = (string)info.GetValue(entityComponent);
+                string val = (string)info.GetValue();
                 if (val == null)
                 {
                     val = string.Empty;
                 }
                 if (ImGui.InputText(info.Name, ref val, 1000))
                 {
-                    info.SetValue(entityComponent, val);
+                    info.SetValue(val);
                 }
             }
             else if (infoType == typeof(bool))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Button);
 
-                bool val = (bool)info.GetValue(entityComponent);
+                bool val = (bool)info.GetValue();
                 if (ImGui.Checkbox(info.Name, ref val))
                 {
-                    info.SetValue(entityComponent, val);
+                    info.SetValue(val);
                 }
             }
             else if (infoType == typeof(float))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                float val = (float)info.GetValue(entityComponent);
+                float val = (float)info.GetValue();
                 bool result;
                 if (rangeAttribute != null
                     && (rangeAttribute.RangeType == EditorHelper.RangeAttribute.RangeTypeEnum.Float
@@ -632,71 +643,71 @@ namespace VectorEngine.Host
                 }
                 if (result)
                 {
-                    info.SetValue(entityComponent, val);
+                    info.SetValue(val);
                 }
             }
             else if (infoType == typeof(Vector2))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                Vector2 val = (Vector2)info.GetValue(entityComponent);
+                Vector2 val = (Vector2)info.GetValue();
                 if (ImGui.DragFloat2(info.Name, ref val))
                 {
-                    info.SetValue(entityComponent, val);
+                    info.SetValue(val);
                 }
             }
             else if (infoType == typeof(Vector3))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                Vector3 val = (Vector3)info.GetValue(entityComponent);
+                Vector3 val = (Vector3)info.GetValue();
                 if (ImGui.DragFloat3(info.Name, ref val))
                 {
-                    info.SetValue(entityComponent, val);
+                    info.SetValue(val);
                 }
             }
             else if (infoType == typeof(Vector4))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                Vector4 val = (Vector4)info.GetValue(entityComponent);
+                Vector4 val = (Vector4)info.GetValue();
                 if (ImGui.DragFloat4(info.Name, ref val))
                 {
-                    info.SetValue(entityComponent, val);
+                    info.SetValue(val);
                 }
             }
             else if (infoType == typeof(Xna.Vector2))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                Xna.Vector2 xnaVal = (Xna.Vector2)info.GetValue(entityComponent);
+                Xna.Vector2 xnaVal = (Xna.Vector2)info.GetValue();
                 Vector2 val = new Vector2(xnaVal.X, xnaVal.Y);
                 if (ImGui.DragFloat2(info.Name, ref val))
                 {
                     xnaVal.X = val.X;
                     xnaVal.Y = val.Y;
-                    info.SetValue(entityComponent, xnaVal);
+                    info.SetValue(xnaVal);
                 }
             }
             else if (infoType == typeof(Xna.Vector3))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                Xna.Vector3 xnaVal = (Xna.Vector3)info.GetValue(entityComponent);
+                Xna.Vector3 xnaVal = (Xna.Vector3)info.GetValue();
                 Vector3 val = new Vector3(xnaVal.X, xnaVal.Y, xnaVal.Z);
                 if (ImGui.DragFloat3(info.Name, ref val))
                 {
                     xnaVal.X = val.X;
                     xnaVal.Y = val.Y;
                     xnaVal.Z = val.Z;
-                    info.SetValue(entityComponent, xnaVal);
+                    info.SetValue(xnaVal);
                 }
             }
             else if (infoType == typeof(Xna.Vector4))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                Xna.Vector4 xnaVal = (Xna.Vector4)info.GetValue(entityComponent);
+                Xna.Vector4 xnaVal = (Xna.Vector4)info.GetValue();
                 Vector4 val = new Vector4(xnaVal.X, xnaVal.Y, xnaVal.Z, xnaVal.W);
                 if (ImGui.DragFloat4(info.Name, ref val))
                 {
@@ -704,14 +715,14 @@ namespace VectorEngine.Host
                     xnaVal.Y = val.Y;
                     xnaVal.Z = val.Z;
                     xnaVal.W = val.W;
-                    info.SetValue(entityComponent, xnaVal);
+                    info.SetValue(xnaVal);
                 }
             }
             else if (infoType == typeof(int))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                int val = (int)info.GetValue(entityComponent);
+                int val = (int)info.GetValue();
                 bool result;
                 if (rangeAttribute != null && rangeAttribute.RangeType == EditorHelper.RangeAttribute.RangeTypeEnum.Int)
                 {
@@ -723,14 +734,14 @@ namespace VectorEngine.Host
                 }
                 if (result)
                 {
-                    info.SetValue(entityComponent, val);
+                    info.SetValue(val);
                 }
             }
             else if (infoType == typeof(uint))
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Knob);
 
-                int val = (int)((uint)info.GetValue(entityComponent));
+                int val = (int)((uint)info.GetValue());
                 bool result;
                 if (rangeAttribute != null && rangeAttribute.RangeType == EditorHelper.RangeAttribute.RangeTypeEnum.Int)
                 {
@@ -746,14 +757,14 @@ namespace VectorEngine.Host
                     {
                         val = 0;
                     }
-                    info.SetValue(entityComponent, (uint)val);
+                    info.SetValue((uint)val);
                 }
             }
             else if (infoType.IsEnum)
             {
                 if (showMidi) SubmitMidiAssignment(entityComponent, info, MidiState.MidiControlDescriptionType.Button);
 
-                var val = info.GetValue(entityComponent);
+                var val = info.GetValue();
                 var enumNames = infoType.GetEnumNames();
                 int currentIndex = 0;
                 for (int i = 0; i < enumNames.Length; i++)
@@ -765,13 +776,13 @@ namespace VectorEngine.Host
                 }
                 if (ImGui.Combo(info.Name, ref currentIndex, enumNames, enumNames.Length))
                 {
-                    info.SetValue(entityComponent, infoType.GetEnumValues().GetValue(currentIndex));
+                    info.SetValue(infoType.GetEnumValues().GetValue(currentIndex));
                 }
             }
             else if (typeof(Component).IsAssignableFrom(infoType) || typeof(Entity).IsAssignableFrom(infoType))
             {
                 string valText;
-                var value = info.GetValue(entityComponent);
+                var value = info.GetValue();
                 if (value != null)
                 {
                     valText = value.ToString();
@@ -794,33 +805,61 @@ namespace VectorEngine.Host
                         var payload = ImGui.AcceptDragDropPayload(PAYLOAD_STRING);
                         if (payload.NativePtr != null) // Only when this is non-null does it mean that we've released the drag
                         {
-                            info.SetValue(entityComponent, draggedObject);
+                            info.SetValue(draggedObject);
                             draggedObject = null;
                         }
                         ImGui.EndDragDropTarget();
                     }
                 }
             }
+            else if (typeof(IList).IsAssignableFrom(infoType))
+            {
+                var listthing = info.GetValue();
+                IList list = listthing as IList;
+                ImGui.Text($"{info.Name} List ({list.Count} items)");
+                ImGui.SameLine();
+                if (ImGui.Button("-"))
+                {
+                    if (list.Count > 0)
+                    {
+                        list.RemoveAt(list.Count - 1);
+                    }
+                }
+                ImGui.SameLine();
+                if (ImGui.Button("+"))
+                {
+                    Type listItemType = list.GetType().GetGenericArguments().First();
+                    if (listItemType.IsValueType)
+                    {
+                        list.Add(Activator.CreateInstance(listItemType));
+                    }
+                    else
+                    {
+                        list.Add(null);
+                    }
+                }
+
+                ImGui.Indent();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    FieldPropertyListInfo itemInfo = new FieldPropertyListInfo(list, i);
+                    SubmitFieldPropertyInspector(itemInfo, list);
+                }
+                ImGui.Unindent();
+            }
             else
             {
-                SubmitReadonlyFieldPropertyInspector(info, entityComponent);
+                SubmitReadonlyFieldPropertyInspector(info);
             }
             ImGui.PopID();
 
             SubmitHelpMarker(info);
         }
 
-        static unsafe bool SubmitDragAssignObject<T>(FieldPropertyInfo info, Type infoType, object entityComponent)
-        {
-            bool result = false;
-
-            return result;
-        }
-
-        static void SubmitReadonlyFieldPropertyInspector(FieldPropertyInfo info, object entityComponent)
+        static void SubmitReadonlyFieldPropertyInspector(FieldPropertyListInfo info)
         {
             string valText;
-            var value = info.GetValue(entityComponent);
+            var value = info.GetValue();
             if (value != null)
             {
                 valText = value.ToString();
@@ -832,7 +871,7 @@ namespace VectorEngine.Host
             ImGui.Text($"{info.Name}: {valText}");
         }
 
-        static void SubmitMidiAssignment(object entityComponent, FieldPropertyInfo info, MidiState.MidiControlDescriptionType type)
+        static void SubmitMidiAssignment(object entityComponent, FieldPropertyListInfo info, MidiState.MidiControlDescriptionType type)
         {
             if (Program.MidiState.Assigning && Program.MidiState.LastAssignmentType == type)
             {
@@ -846,13 +885,16 @@ namespace VectorEngine.Host
             }
         }
 
-        static void SubmitHelpMarker(FieldPropertyInfo info)
+        static void SubmitHelpMarker(FieldPropertyListInfo info)
         {
-            var helpAttribute = CustomAttributeExtensions.GetCustomAttribute<EditorHelper.HelpAttribute>(info.MemberInfo, true);
-            if (helpAttribute != null)
+            if (info.MemberInfo != null)
             {
-                ImGui.SameLine();
-                HelpMarker(helpAttribute.HelpText);
+                var helpAttribute = CustomAttributeExtensions.GetCustomAttribute<EditorHelper.HelpAttribute>(info.MemberInfo, true);
+                if (helpAttribute != null)
+                {
+                    ImGui.SameLine();
+                    HelpMarker(helpAttribute.HelpText);
+                }
             }
         }
 

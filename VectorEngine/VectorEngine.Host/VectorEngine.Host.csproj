@@ -53,7 +53,7 @@
     <Compile Include="Midi\MIDI.cs" />
     <Compile Include="Midi\MidiState.cs" />
     <Compile Include="Midi\MyMidiDeviceWatcher.cs" />
-    <Compile Include="Reflection\FieldPropertyInfo.cs" />
+    <Compile Include="Reflection\FieldPropertyListInfo.cs" />
     <Compile Include="Util\EntityAdminUtil.cs" />
     <Compile Include="Util\HostHelper.cs" />
     <Compile Include="Util\ImGuiUtil.cs" />

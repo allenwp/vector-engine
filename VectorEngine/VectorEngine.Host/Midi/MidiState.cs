@@ -218,13 +218,13 @@ namespace VectorEngine.Host.Midi
                             var info = controlState.FieldPropertyInfo;
                             if (info.FieldPropertyType == typeof(bool))
                             {
-                                bool val = (bool)info.GetValue(controlState.ControlledObject);
+                                bool val = (bool)info.GetValue();
                                 val = !val;
-                                info.SetValue(controlState.ControlledObject, val);
+                                info.SetValue(val);
                             }
                             else if (info.FieldPropertyType.IsEnum)
                             {
-                                var val = info.GetValue(controlState.ControlledObject);
+                                var val = info.GetValue();
                                 var enumNames = info.FieldPropertyType.GetEnumNames();
                                 int currentIndex = 0;
                                 for (int i = 0; i < enumNames.Length; i++)
@@ -239,7 +239,7 @@ namespace VectorEngine.Host.Midi
                                 {
                                     currentIndex = 0;
                                 }
-                                info.SetValue(controlState.ControlledObject, info.FieldPropertyType.GetEnumValues().GetValue(currentIndex));
+                                info.SetValue(info.FieldPropertyType.GetEnumValues().GetValue(currentIndex));
                             }
                         }
                     }
@@ -268,29 +268,29 @@ namespace VectorEngine.Host.Midi
                         {
                             if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(float))
                             {
-                                float val = (float)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                float val = (float)controlState.FieldPropertyInfo.GetValue();
                                 val += delta * KnobControlStep;
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                                controlState.FieldPropertyInfo.SetValue(val);
                             }
                             else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(int))
                             {
-                                int val = (int)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                int val = (int)controlState.FieldPropertyInfo.GetValue();
                                 val += delta;
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                                controlState.FieldPropertyInfo.SetValue(val);
                             }
                             else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(uint))
                             {
-                                int val = (int)((uint)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject));
+                                int val = (int)((uint)controlState.FieldPropertyInfo.GetValue());
                                 val += delta;
                                 if (val < 0)
                                 {
                                     val = 0;
                                 }
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, (uint)val);
+                                controlState.FieldPropertyInfo.SetValue((uint)val);
                             }
                             else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Vector2))
                             {
-                                var val = (Vector2)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                var val = (Vector2)controlState.FieldPropertyInfo.GetValue();
                                 switch (controlState.VectorIndex)
                                 {
                                     case 0:
@@ -302,11 +302,11 @@ namespace VectorEngine.Host.Midi
                                     default:
                                         throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
                                 }
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                                controlState.FieldPropertyInfo.SetValue(val);
                             }
                             else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Vector3))
                             {
-                                var val = (Vector3)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                var val = (Vector3)controlState.FieldPropertyInfo.GetValue();
                                 switch (controlState.VectorIndex)
                                 {
                                     case 0:
@@ -321,11 +321,11 @@ namespace VectorEngine.Host.Midi
                                     default:
                                         throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
                                 }
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                                controlState.FieldPropertyInfo.SetValue(val);
                             }
                             else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Vector4))
                             {
-                                var val = (Vector4)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                var val = (Vector4)controlState.FieldPropertyInfo.GetValue();
                                 switch (controlState.VectorIndex)
                                 {
                                     case 0:
@@ -343,11 +343,11 @@ namespace VectorEngine.Host.Midi
                                     default:
                                         throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
                                 }
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                                controlState.FieldPropertyInfo.SetValue(val);
                             }
                             else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Xna.Vector2))
                             {
-                                var val = (Xna.Vector2)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                var val = (Xna.Vector2)controlState.FieldPropertyInfo.GetValue();
                                 switch (controlState.VectorIndex)
                                 {
                                     case 0:
@@ -359,11 +359,11 @@ namespace VectorEngine.Host.Midi
                                     default:
                                         throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
                                 }
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                                controlState.FieldPropertyInfo.SetValue(val);
                             }
                             else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Xna.Vector3))
                             {
-                                var val = (Xna.Vector3)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                var val = (Xna.Vector3)controlState.FieldPropertyInfo.GetValue();
                                 switch (controlState.VectorIndex)
                                 {
                                     case 0:
@@ -378,11 +378,11 @@ namespace VectorEngine.Host.Midi
                                     default:
                                         throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
                                 }
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                                controlState.FieldPropertyInfo.SetValue(val);
                             }
                             else if (controlState.FieldPropertyInfo.FieldPropertyType == typeof(Xna.Vector4))
                             {
-                                var val = (Xna.Vector4)controlState.FieldPropertyInfo.GetValue(controlState.ControlledObject);
+                                var val = (Xna.Vector4)controlState.FieldPropertyInfo.GetValue();
                                 switch (controlState.VectorIndex)
                                 {
                                     case 0:
@@ -400,7 +400,7 @@ namespace VectorEngine.Host.Midi
                                     default:
                                         throw new Exception("Trying to change vector index that is out of bounds for this size of vector: " + controlState.ControlledObject);
                                 }
-                                controlState.FieldPropertyInfo.SetValue(controlState.ControlledObject, val);
+                                controlState.FieldPropertyInfo.SetValue(val);
                             }
                         }
                     }
@@ -408,7 +408,7 @@ namespace VectorEngine.Host.Midi
             }
         }
 
-        public void AssignControl(object controlledObject, FieldPropertyInfo fieldPropertyInfo)
+        public void AssignControl(object controlledObject, FieldPropertyListInfo fieldPropertyInfo)
         {
             AssignControl(controlledObject, fieldPropertyInfo, lastAssignmentButton);
         }
@@ -418,14 +418,14 @@ namespace VectorEngine.Host.Midi
             var propertyInfo = controlledObject.GetType().GetProperty(fieldPropertyName);
             if (propertyInfo != null)
             {
-                AssignControl(controlledObject, new FieldPropertyInfo(propertyInfo), assignmentButton);
+                AssignControl(controlledObject, new FieldPropertyListInfo(propertyInfo, controlledObject), assignmentButton);
             }
             else
             {
                 var fieldInfo = controlledObject.GetType().GetField(fieldPropertyName);
                 if (fieldInfo != null)
                 {
-                    AssignControl(controlledObject, new FieldPropertyInfo(fieldInfo), assignmentButton);
+                    AssignControl(controlledObject, new FieldPropertyListInfo(fieldInfo, controlledObject), assignmentButton);
                 }
                 else
                 {
@@ -434,7 +434,7 @@ namespace VectorEngine.Host.Midi
             }
         }
 
-        public void AssignControl(object controlledObject, FieldPropertyInfo fieldPropertyInfo, byte assignmentButton)
+        public void AssignControl(object controlledObject, FieldPropertyListInfo fieldPropertyInfo, byte assignmentButton)
         {
             if (ControlStates.ContainsKey(assignmentButton))
             {
