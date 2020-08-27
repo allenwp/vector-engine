@@ -779,39 +779,6 @@ namespace VectorEngine.Host
                     info.SetValue(infoType.GetEnumValues().GetValue(currentIndex));
                 }
             }
-            else if (typeof(Component).IsAssignableFrom(infoType) || typeof(Entity).IsAssignableFrom(infoType))
-            {
-                string valText;
-                var value = info.GetValue();
-                if (value != null)
-                {
-                    valText = value.ToString();
-                }
-                else
-                {
-                    valText = "null";
-                }
-                if (ImGui.Selectable($"{info.Name}: {valText}", false))
-                {
-                    SelectedEntityComponent = value;
-                    scrollEntitiesView = true;
-                    scrollSceneGraphView = true;
-                }
-
-                if (draggedObject != null && infoType.IsAssignableFrom(draggedObject.GetType()))
-                {
-                    if (ImGui.BeginDragDropTarget())
-                    {
-                        var payload = ImGui.AcceptDragDropPayload(PAYLOAD_STRING);
-                        if (payload.NativePtr != null) // Only when this is non-null does it mean that we've released the drag
-                        {
-                            info.SetValue(draggedObject);
-                            draggedObject = null;
-                        }
-                        ImGui.EndDragDropTarget();
-                    }
-                }
-            }
             else if (typeof(IList).IsAssignableFrom(infoType))
             {
                 var listthing = info.GetValue();
@@ -846,6 +813,47 @@ namespace VectorEngine.Host
                     SubmitFieldPropertyInspector(itemInfo, list);
                 }
                 ImGui.Unindent();
+            }
+            else if (!infoType.IsValueType)
+            {
+                string valText;
+                var value = info.GetValue();
+                if (value != null)
+                {
+                    valText = value.ToString();
+                }
+                else
+                {
+                    valText = "null";
+                }
+                string label = $"{info.Name}: {valText}";
+                if (typeof(Component).IsAssignableFrom(infoType) || typeof(Entity).IsAssignableFrom(infoType))
+                {
+                    if (ImGui.Selectable(label, false))
+                    {
+                        SelectedEntityComponent = value;
+                        scrollEntitiesView = true;
+                        scrollSceneGraphView = true;
+                    }
+                }
+                else
+                {
+                    ImGui.Text(label);
+                }
+
+                if (draggedObject != null && infoType.IsAssignableFrom(draggedObject.GetType()))
+                {
+                    if (ImGui.BeginDragDropTarget())
+                    {
+                        var payload = ImGui.AcceptDragDropPayload(PAYLOAD_STRING);
+                        if (payload.NativePtr != null) // Only when this is non-null does it mean that we've released the drag
+                        {
+                            info.SetValue(draggedObject);
+                            draggedObject = null;
+                        }
+                        ImGui.EndDragDropTarget();
+                    }
+                }
             }
             else
             {
