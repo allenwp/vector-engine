@@ -42,5 +42,7 @@ namespace VectorEngine.Output
                 return (int)Math.Ceiling(blankingLength * distance);
             }
         }
+
+        public override float FidelityScale { get; set; } = 1f;
     }
 }

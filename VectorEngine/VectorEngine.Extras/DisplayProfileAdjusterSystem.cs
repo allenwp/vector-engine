@@ -15,19 +15,21 @@ namespace VectorEngine.Extras
             {
                 if (adjuster.Initialized)
                 {
-                    if (adjuster.FullBrightnessOutput < adjuster.ZeroBrightnessOutput)
+                    if (adjuster.FullBrightnessOutput > adjuster.ZeroBrightnessOutput)
                     {
                         adjuster.FullBrightnessOutput = adjuster.ZeroBrightnessOutput;
                     }
                     FrameOutput.DisplayProfile.AspectRatio = adjuster.ApsectRatio;
                     FrameOutput.DisplayProfile.FullBrightnessOutput = adjuster.FullBrightnessOutput;
                     FrameOutput.DisplayProfile.ZeroBrightnessOutput = adjuster.ZeroBrightnessOutput;
+                    FrameOutput.DisplayProfile.FidelityScale = adjuster.FidelityScale;
                 }
                 else
                 {
                     adjuster.ApsectRatio = FrameOutput.DisplayProfile.AspectRatio;
                     adjuster.FullBrightnessOutput = FrameOutput.DisplayProfile.FullBrightnessOutput;
                     adjuster.ZeroBrightnessOutput = FrameOutput.DisplayProfile.ZeroBrightnessOutput;
+                    adjuster.FidelityScale = FrameOutput.DisplayProfile.FidelityScale;
                     adjuster.Initialized = true;
                 }
             }

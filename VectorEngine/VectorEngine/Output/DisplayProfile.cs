@@ -24,5 +24,7 @@ namespace VectorEngine.Output
         public abstract float ZeroBrightnessOutput { get; set; }
 
         public abstract int BlankingLength(Sample sample1, Sample sample2);
+
+        public abstract float FidelityScale { get; set; }
     }
 }

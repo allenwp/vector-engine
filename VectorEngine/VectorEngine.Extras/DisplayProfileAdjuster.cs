@@ -10,6 +10,7 @@ namespace VectorEngine.Extras
     [RequiresSystem(typeof(DisplayProfileAdjusterSystem))]
     public class DisplayProfileAdjuster : Component
     {
+        [Newtonsoft.Json.JsonIgnore]
         public bool Initialized = false;
         [Range(0.01f, 2f)]
         public float ApsectRatio;
@@ -17,5 +18,7 @@ namespace VectorEngine.Extras
         public float FullBrightnessOutput;
         [Range(-1f, 1f)]
         public float ZeroBrightnessOutput;
+        [Range(0.01f, 5f)]
+        public float FidelityScale;
     }
 }

@@ -31,7 +31,7 @@ namespace VectorEngine.Output
         /// <summary>
         /// My PreSonus DAC has a delay on the channel I use for blanking -_-
         /// </summary>
-        public static readonly int BLANKING_CHANNEL_DELAY = 17;
+        public static readonly int BLANKING_CHANNEL_DELAY = 18;
 
         #region Double Buffers
         /// <summary>

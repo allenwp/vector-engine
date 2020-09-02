@@ -359,14 +359,16 @@
       },
       {
         "$id": "38",
-        "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-        "<SampleCount>k__BackingField": 300,
+        "$type": "VectorEngine.Calibration.Shapes.SquareWave, VectorEngine.Calibration",
+        "BaseFidelity": 15.0,
+        "BlankLineSegments": true,
+        "StepSize": 0.25,
         "Layer": 0,
-        "CameraFilterLayers": 1,
+        "CameraFilterLayers": 18,
         "Entity": {
           "$id": "39",
           "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "Dot's Entity",
+          "<Name>k__BackingField": "SquareWave's Entity",
           "<SelfEnabled>k__BackingField": true,
           "<Components>k__BackingField": {
             "$id": "40",
@@ -395,8 +397,8 @@
                 "LocalPosition": {
                   "$id": "44",
                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
+                  "X": 2.32830644E-08,
+                  "Y": -4.93600965E-08,
                   "Z": 0.0
                 },
                 "LocalScale": {
@@ -413,20 +415,6 @@
                   "$ref": "39"
                 },
                 "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "46",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Dot",
-                "RootObjects": {
-                  "$id": "47",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
-                "Entity": {
-                  "$ref": "39"
-                },
-                "<SelfEnabled>k__BackingField": true
               }
             ]
           }
@@ -437,675 +425,112 @@
         "$ref": "41"
       },
       {
-        "$ref": "46"
-      },
-      {
-        "$id": "48",
-        "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-        "<SampleCount>k__BackingField": 300,
-        "Layer": 0,
-        "CameraFilterLayers": 1,
+        "$id": "46",
+        "$type": "VectorEngine.Extras.DisplayProfileAdjuster, VectorEngine.Extras",
+        "ApsectRatio": 1.14285719,
+        "FullBrightnessOutput": -1.0,
+        "ZeroBrightnessOutput": 1.0,
+        "FidelityScale": 1.0,
         "Entity": {
-          "$id": "49",
+          "$id": "47",
           "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "Dot's Entity",
+          "<Name>k__BackingField": "DisplayProfileAdjuster's Entity",
           "<SelfEnabled>k__BackingField": true,
           "<Components>k__BackingField": {
-            "$id": "50",
+            "$id": "48",
             "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
             "$values": [
               {
-                "$ref": "48"
-              },
-              {
-                "$id": "51",
-                "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
-                  "$id": "52",
-                  "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
-                  "$values": []
-                },
-                "LocalRotation": {
-                  "$id": "53",
-                  "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0,
-                  "W": 1.0
-                },
-                "LocalPosition": {
-                  "$id": "54",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0
-                },
-                "LocalScale": {
-                  "$id": "55",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 1.0,
-                  "Y": 1.0,
-                  "Z": 1.0
-                },
-                "yaw": 0.0,
-                "pitch": 0.0,
-                "roll": 0.0,
-                "Entity": {
-                  "$ref": "49"
-                },
-                "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "56",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Dot",
-                "RootObjects": {
-                  "$id": "57",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
-                "Entity": {
-                  "$ref": "49"
-                },
-                "<SelfEnabled>k__BackingField": true
+                "$ref": "46"
               }
             ]
           }
         },
         "<SelfEnabled>k__BackingField": true
-      },
-      {
-        "$ref": "51"
-      },
-      {
-        "$ref": "56"
-      },
-      {
-        "$id": "58",
-        "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-        "<SampleCount>k__BackingField": 300,
-        "Layer": 0,
-        "CameraFilterLayers": 1,
-        "Entity": {
-          "$id": "59",
-          "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "Dot's Entity",
-          "<SelfEnabled>k__BackingField": true,
-          "<Components>k__BackingField": {
-            "$id": "60",
-            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
-            "$values": [
-              {
-                "$ref": "58"
-              },
-              {
-                "$id": "61",
-                "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
-                  "$id": "62",
-                  "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
-                  "$values": []
-                },
-                "LocalRotation": {
-                  "$id": "63",
-                  "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0,
-                  "W": 1.0
-                },
-                "LocalPosition": {
-                  "$id": "64",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0
-                },
-                "LocalScale": {
-                  "$id": "65",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 1.0,
-                  "Y": 1.0,
-                  "Z": 1.0
-                },
-                "yaw": 0.0,
-                "pitch": 0.0,
-                "roll": 0.0,
-                "Entity": {
-                  "$ref": "59"
-                },
-                "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "66",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Dot",
-                "RootObjects": {
-                  "$id": "67",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
-                "Entity": {
-                  "$ref": "59"
-                },
-                "<SelfEnabled>k__BackingField": true
-              }
-            ]
-          }
-        },
-        "<SelfEnabled>k__BackingField": true
-      },
-      {
-        "$ref": "61"
-      },
-      {
-        "$ref": "66"
-      },
-      {
-        "$id": "68",
-        "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-        "<SampleCount>k__BackingField": 300,
-        "Layer": 0,
-        "CameraFilterLayers": 1,
-        "Entity": {
-          "$id": "69",
-          "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "Dot's Entity",
-          "<SelfEnabled>k__BackingField": true,
-          "<Components>k__BackingField": {
-            "$id": "70",
-            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
-            "$values": [
-              {
-                "$ref": "68"
-              },
-              {
-                "$id": "71",
-                "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
-                  "$id": "72",
-                  "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
-                  "$values": []
-                },
-                "LocalRotation": {
-                  "$id": "73",
-                  "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0,
-                  "W": 1.0
-                },
-                "LocalPosition": {
-                  "$id": "74",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0
-                },
-                "LocalScale": {
-                  "$id": "75",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 1.0,
-                  "Y": 1.0,
-                  "Z": 1.0
-                },
-                "yaw": 0.0,
-                "pitch": 0.0,
-                "roll": 0.0,
-                "Entity": {
-                  "$ref": "69"
-                },
-                "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "76",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Dot",
-                "RootObjects": {
-                  "$id": "77",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
-                "Entity": {
-                  "$ref": "69"
-                },
-                "<SelfEnabled>k__BackingField": true
-              }
-            ]
-          }
-        },
-        "<SelfEnabled>k__BackingField": true
-      },
-      {
-        "$ref": "71"
-      },
-      {
-        "$ref": "76"
-      },
-      {
-        "$id": "78",
-        "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-        "<SampleCount>k__BackingField": 300,
-        "Layer": 0,
-        "CameraFilterLayers": 1,
-        "Entity": {
-          "$id": "79",
-          "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "Dot's Entity",
-          "<SelfEnabled>k__BackingField": true,
-          "<Components>k__BackingField": {
-            "$id": "80",
-            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
-            "$values": [
-              {
-                "$ref": "78"
-              },
-              {
-                "$id": "81",
-                "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
-                  "$id": "82",
-                  "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
-                  "$values": []
-                },
-                "LocalRotation": {
-                  "$id": "83",
-                  "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0,
-                  "W": 1.0
-                },
-                "LocalPosition": {
-                  "$id": "84",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0
-                },
-                "LocalScale": {
-                  "$id": "85",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 1.0,
-                  "Y": 1.0,
-                  "Z": 1.0
-                },
-                "yaw": 0.0,
-                "pitch": 0.0,
-                "roll": 0.0,
-                "Entity": {
-                  "$ref": "79"
-                },
-                "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "86",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Dot",
-                "RootObjects": {
-                  "$id": "87",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
-                "Entity": {
-                  "$ref": "79"
-                },
-                "<SelfEnabled>k__BackingField": true
-              }
-            ]
-          }
-        },
-        "<SelfEnabled>k__BackingField": true
-      },
-      {
-        "$ref": "81"
-      },
-      {
-        "$ref": "86"
-      },
-      {
-        "$id": "88",
-        "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-        "<SampleCount>k__BackingField": 300,
-        "Layer": 0,
-        "CameraFilterLayers": 1,
-        "Entity": {
-          "$id": "89",
-          "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "Dot's Entity",
-          "<SelfEnabled>k__BackingField": true,
-          "<Components>k__BackingField": {
-            "$id": "90",
-            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
-            "$values": [
-              {
-                "$ref": "88"
-              },
-              {
-                "$id": "91",
-                "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
-                  "$id": "92",
-                  "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
-                  "$values": []
-                },
-                "LocalRotation": {
-                  "$id": "93",
-                  "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0,
-                  "W": 1.0
-                },
-                "LocalPosition": {
-                  "$id": "94",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0
-                },
-                "LocalScale": {
-                  "$id": "95",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 1.0,
-                  "Y": 1.0,
-                  "Z": 1.0
-                },
-                "yaw": 0.0,
-                "pitch": 0.0,
-                "roll": 0.0,
-                "Entity": {
-                  "$ref": "89"
-                },
-                "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "96",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Dot",
-                "RootObjects": {
-                  "$id": "97",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
-                "Entity": {
-                  "$ref": "89"
-                },
-                "<SelfEnabled>k__BackingField": true
-              }
-            ]
-          }
-        },
-        "<SelfEnabled>k__BackingField": true
-      },
-      {
-        "$ref": "91"
-      },
-      {
-        "$ref": "96"
-      },
-      {
-        "$id": "98",
-        "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-        "<SampleCount>k__BackingField": 300,
-        "Layer": 0,
-        "CameraFilterLayers": 1,
-        "Entity": {
-          "$id": "99",
-          "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "Dot's Entity",
-          "<SelfEnabled>k__BackingField": true,
-          "<Components>k__BackingField": {
-            "$id": "100",
-            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
-            "$values": [
-              {
-                "$ref": "98"
-              },
-              {
-                "$id": "101",
-                "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
-                  "$id": "102",
-                  "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
-                  "$values": []
-                },
-                "LocalRotation": {
-                  "$id": "103",
-                  "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0,
-                  "W": 1.0
-                },
-                "LocalPosition": {
-                  "$id": "104",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0
-                },
-                "LocalScale": {
-                  "$id": "105",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 1.0,
-                  "Y": 1.0,
-                  "Z": 1.0
-                },
-                "yaw": 0.0,
-                "pitch": 0.0,
-                "roll": 0.0,
-                "Entity": {
-                  "$ref": "99"
-                },
-                "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "106",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Dot",
-                "RootObjects": {
-                  "$id": "107",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
-                "Entity": {
-                  "$ref": "99"
-                },
-                "<SelfEnabled>k__BackingField": true
-              }
-            ]
-          }
-        },
-        "<SelfEnabled>k__BackingField": true
-      },
-      {
-        "$ref": "101"
-      },
-      {
-        "$ref": "106"
-      },
-      {
-        "$id": "108",
-        "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-        "<SampleCount>k__BackingField": 300,
-        "Layer": 0,
-        "CameraFilterLayers": 1,
-        "Entity": {
-          "$id": "109",
-          "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "Dot's Entity",
-          "<SelfEnabled>k__BackingField": true,
-          "<Components>k__BackingField": {
-            "$id": "110",
-            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
-            "$values": [
-              {
-                "$ref": "108"
-              },
-              {
-                "$id": "111",
-                "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
-                  "$id": "112",
-                  "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
-                  "$values": []
-                },
-                "LocalRotation": {
-                  "$id": "113",
-                  "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0,
-                  "W": 1.0
-                },
-                "LocalPosition": {
-                  "$id": "114",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0
-                },
-                "LocalScale": {
-                  "$id": "115",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 1.0,
-                  "Y": 1.0,
-                  "Z": 1.0
-                },
-                "yaw": 0.0,
-                "pitch": 0.0,
-                "roll": 0.0,
-                "Entity": {
-                  "$ref": "109"
-                },
-                "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "116",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Dot",
-                "RootObjects": {
-                  "$id": "117",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
-                "Entity": {
-                  "$ref": "109"
-                },
-                "<SelfEnabled>k__BackingField": true
-              }
-            ]
-          }
-        },
-        "<SelfEnabled>k__BackingField": true
-      },
-      {
-        "$ref": "111"
-      },
-      {
-        "$ref": "116"
-      },
-      {
-        "$id": "118",
-        "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-        "<SampleCount>k__BackingField": 300,
-        "Layer": 0,
-        "CameraFilterLayers": 1,
-        "Entity": {
-          "$id": "119",
-          "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "Dot's Entity",
-          "<SelfEnabled>k__BackingField": true,
-          "<Components>k__BackingField": {
-            "$id": "120",
-            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
-            "$values": [
-              {
-                "$ref": "118"
-              },
-              {
-                "$id": "121",
-                "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
-                  "$id": "122",
-                  "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
-                  "$values": []
-                },
-                "LocalRotation": {
-                  "$id": "123",
-                  "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0,
-                  "W": 1.0
-                },
-                "LocalPosition": {
-                  "$id": "124",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
-                  "Z": 0.0
-                },
-                "LocalScale": {
-                  "$id": "125",
-                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 1.0,
-                  "Y": 1.0,
-                  "Z": 1.0
-                },
-                "yaw": 0.0,
-                "pitch": 0.0,
-                "roll": 0.0,
-                "Entity": {
-                  "$ref": "119"
-                },
-                "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "126",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Dot",
-                "RootObjects": {
-                  "$id": "127",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
-                "Entity": {
-                  "$ref": "119"
-                },
-                "<SelfEnabled>k__BackingField": true
-              }
-            ]
-          }
-        },
-        "<SelfEnabled>k__BackingField": true
-      },
-      {
-        "$ref": "121"
-      },
-      {
-        "$ref": "126"
       }
     ]
   },
   "EditorState": {
-    "$id": "128",
+    "$id": "49",
     "$type": "VectorEngine.EditorHelper.EditorState, VectorEngine",
     "MidiAssignments": {
-      "$id": "129",
+      "$id": "50",
       "$type": "System.Collections.Generic.List`1[[VectorEngine.EditorHelper.MidiAssignments, VectorEngine]], mscorlib",
       "$values": [
         {
-          "$id": "130",
+          "$id": "51",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 0,
+          "Target": {
+            "$ref": "38"
+          },
+          "FieldPropertyName": "BaseFidelity"
+        },
+        {
+          "$id": "52",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 1,
+          "Target": {
+            "$ref": "38"
+          },
+          "FieldPropertyName": "StepSize"
+        },
+        {
+          "$id": "53",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 2,
+          "Target": {
+            "$ref": "41"
+          },
+          "FieldPropertyName": "LocalPosition"
+        },
+        {
+          "$id": "54",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 3,
+          "Target": {
+            "$ref": "38"
+          },
+          "FieldPropertyName": "BaseFidelity"
+        },
+        {
+          "$id": "55",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 4,
+          "Target": {
+            "$ref": "41"
+          },
+          "FieldPropertyName": "LocalPosition"
+        },
+        {
+          "$id": "56",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 5,
+          "Target": {
+            "$ref": "41"
+          },
+          "FieldPropertyName": "LocalPosition"
+        },
+        {
+          "$id": "57",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 6,
+          "Target": {
+            "$ref": "41"
+          },
+          "FieldPropertyName": "LocalPosition"
+        },
+        {
+          "$id": "58",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 7,
+          "Target": {
+            "$ref": "41"
+          },
+          "FieldPropertyName": "LocalPosition"
+        },
+        {
+          "$id": "59",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 16,
           "Target": {
@@ -1114,7 +539,7 @@
           "FieldPropertyName": "Paused"
         },
         {
-          "$id": "131",
+          "$id": "60",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 17,
           "Target": {
@@ -1125,7 +550,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "61"
+      "$ref": "46"
     }
   }
 }

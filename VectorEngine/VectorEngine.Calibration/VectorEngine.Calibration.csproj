@@ -44,6 +44,7 @@
     <Compile Include="GameConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shapes\Dot.cs" />
+    <Compile Include="Shapes\SquareWave.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame.Framework\MonoGame.Framework.csproj">
