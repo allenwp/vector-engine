@@ -20,7 +20,7 @@ namespace VectorEngine.Host
         private static CommandList _cl;
         private static ImGuiController _controller;
 
-        public static readonly Type GameConfigType = typeof(Flight.GameConfig);
+        public static readonly Type GameConfigType = typeof(VectorEngine.Calibration.GameConfig);
         public static readonly Assembly GameAssembly = Assembly.GetAssembly(GameConfigType);
 
         public static readonly Vector3 CLEAR_COLOR_PLAY = new Vector3(0.946f, 0.370f, 0.014f);

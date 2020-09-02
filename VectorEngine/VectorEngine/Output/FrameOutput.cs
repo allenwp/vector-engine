@@ -13,7 +13,18 @@ namespace VectorEngine.Output
     {
         public static readonly int SAMPLES_PER_SECOND = 192000;
         public static float TargetFramesPerSecond = 80f;
-        public static int TargetBufferSize { get => (int)Math.Round(SAMPLES_PER_SECOND / TargetFramesPerSecond); }
+        public static int TargetBufferSize
+        {
+            get
+            {
+                int result = (int)Math.Round(SAMPLES_PER_SECOND / TargetFramesPerSecond);
+                if (result < 1)
+                {
+                    result = 1;
+                }
+                return result;
+            }
+        }
 
         public static DisplayProfile DisplayProfile = new DisplayProfileOscTek2445();
 

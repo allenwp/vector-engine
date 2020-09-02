@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngine.Extras", "Vect
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngine.Host", "VectorEngine.Host\VectorEngine.Host.csproj", "{E7576920-D031-4002-AF07-F3C84DE49537}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorEngine.Calibration", "VectorEngine.Calibration\VectorEngine.Calibration.csproj", "{EBA79EDE-7D25-47C7-845F-6D54BD7F108B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,14 @@ Global
 		{E7576920-D031-4002-AF07-F3C84DE49537}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7576920-D031-4002-AF07-F3C84DE49537}.Release|x86.ActiveCfg = Release|Any CPU
 		{E7576920-D031-4002-AF07-F3C84DE49537}.Release|x86.Build.0 = Release|Any CPU
+		{EBA79EDE-7D25-47C7-845F-6D54BD7F108B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBA79EDE-7D25-47C7-845F-6D54BD7F108B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBA79EDE-7D25-47C7-845F-6D54BD7F108B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EBA79EDE-7D25-47C7-845F-6D54BD7F108B}.Debug|x86.Build.0 = Debug|Any CPU
+		{EBA79EDE-7D25-47C7-845F-6D54BD7F108B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBA79EDE-7D25-47C7-845F-6D54BD7F108B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBA79EDE-7D25-47C7-845F-6D54BD7F108B}.Release|x86.ActiveCfg = Release|Any CPU
+		{EBA79EDE-7D25-47C7-845F-6D54BD7F108B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
