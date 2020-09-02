@@ -10,6 +10,23 @@ namespace VectorEngine.Host.Util
 {
     public class HostHelper
     {
+        static float? targetFramesPerSecond;
+        public static float TargetFramesPerSecond
+        {
+            get
+            {
+                if (targetFramesPerSecond == null)
+                {
+                    targetFramesPerSecond = Program.GameConfigType.GetMethod("GetTargetFramesPerSecond").Invoke(null, null) as float?;
+                }
+                if (targetFramesPerSecond == null)
+                {
+                    throw new Exception("Cannot GetTargetFramesPerSecond from GameConfig");
+                }
+                return (float)targetFramesPerSecond;
+            }
+        }
+
         static string assetsPath;
         public static string AssetsPath
         {
@@ -104,7 +121,7 @@ namespace VectorEngine.Host.Util
                     scene = SaveScene();
                 }
 
-                GameLoop.Init(GameSystems, scene.Components);
+                GameLoop.Init(GameSystems, scene.Components, TargetFramesPerSecond);
             }
         }
 
@@ -129,7 +146,7 @@ namespace VectorEngine.Host.Util
                 EditorUI.SelectedEntityComponent = scene.EditorState.SelectedObject;
                 Program.MidiState.LoadState(scene.EditorState.MidiAssignments);
 
-                GameLoop.Init(EditorSystems, scene.Components);
+                GameLoop.Init(EditorSystems, scene.Components, TargetFramesPerSecond);
             }
         }
 

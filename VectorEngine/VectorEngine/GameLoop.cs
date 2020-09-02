@@ -42,10 +42,16 @@ namespace VectorEngine
 
         public static void Init(List<ECSSystem> systems, List<Component> components)
         {
+            Init(systems, components, FrameOutput.TargetFramesPerSecond);
+        }
+
+        public static void Init(List<ECSSystem> systems, List<Component> components, float targetFramesPerSecond)
+        {
             // ASIO or other output should be the highest priority thread so that it can
             // at least feed blanking samples to the screen if the game loop doesn't finish
             // rendering in time. The game loop is one priority lower, but still above normal.
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
+            FrameOutput.TargetFramesPerSecond = targetFramesPerSecond;
 
             EntityAdmin.Instance.Init(systems, components);
         }
@@ -86,6 +92,7 @@ namespace VectorEngine
                     try
                     {
 #endif
+                        system.Tick(EntityAdmin.Instance);
                         system.Tick();
 #if !DEBUG
                     }
@@ -262,7 +269,7 @@ namespace VectorEngine
             }
 
             int finalSampleCount = destinationIndex;
-            if (finalSampleCount < FrameOutput.TARGET_BUFFER_SIZE)
+            if (finalSampleCount < FrameOutput.TargetBufferSize)
             {
                 // Since we're going to be blanking for the end of this frame, we need to do the same easeinout blanking before we get to the rest postition.
                 addSamples(new Sample[1] { Sample.Blank });
@@ -274,9 +281,9 @@ namespace VectorEngine
             Sample[] trimmedFinalBuffer;
             // Set up the final buffer with the correct sample length after dynamic blanking has been performed
             // This is variable (variable frame rate based on paramenters in FrameOutput class)
-            if (finalSampleCount < FrameOutput.TARGET_BUFFER_SIZE)
+            if (finalSampleCount < FrameOutput.TargetBufferSize)
             {
-                trimmedFinalBuffer = new Sample[FrameOutput.TARGET_BUFFER_SIZE];
+                trimmedFinalBuffer = new Sample[FrameOutput.TargetBufferSize];
                 // Only in this case to we need to clear the last bits of the buffer.
                 // In the other cases we will be filling it entirely
                 FrameOutput.ClearBuffer(trimmedFinalBuffer, finalSampleCount);

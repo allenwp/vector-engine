@@ -52,6 +52,7 @@
     <Compile Include="EditorHelper\HelpAttribute.cs" />
     <Compile Include="EditorHelper\MidiAssignments.cs" />
     <Compile Include="FileLoader.cs" />
+    <Compile Include="Output\DisplayProfileOscTek2445.cs" />
     <Compile Include="Serialization\ObjectGraphHelper.cs" />
     <Compile Include="EditorHelper\RangeAttribute.cs" />
     <Compile Include="Entity.cs" />

@@ -12,10 +12,10 @@ namespace VectorEngine.Output
     public class FrameOutput
     {
         public static readonly int SAMPLES_PER_SECOND = 192000;
-        public static readonly float TARGET_FRAMES_PER_SECOND = 80f;
-        public static readonly int TARGET_BUFFER_SIZE = (int)Math.Round(SAMPLES_PER_SECOND / TARGET_FRAMES_PER_SECOND);
+        public static float TargetFramesPerSecond = 80f;
+        public static int TargetBufferSize { get => (int)Math.Round(SAMPLES_PER_SECOND / TargetFramesPerSecond); }
 
-        public static DisplayProfile DisplayProfile = new DisplayProfileOscL212();
+        public static DisplayProfile DisplayProfile = new DisplayProfileOscTek2445();
 
         /// <summary>
         /// My PreSonus DAC has a delay on the channel I use for blanking -_-
@@ -50,6 +50,7 @@ namespace VectorEngine.Output
             }
         }
 
+        #region TODO: Move calibration stuff to a separate project
         public static Sample[] GetCalibrationFrame()
         {
             int brightestSampleCount = 300;
@@ -83,5 +84,6 @@ namespace VectorEngine.Output
             }
             return finalIndexPlusOne;
         }
+        #endregion
     }
 }

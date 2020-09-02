@@ -9,9 +9,9 @@ using VectorEngine.Util;
 namespace VectorEngine.Output
 {
     /// <summary>
-    /// Display Profile for the Longwei Instruments L-212 Oscilloscope
+    /// Display Profile for the Tektronix 2445 Oscilloscope
     /// </summary>
-    public class DisplayProfileOscL212 : DisplayProfile
+    public class DisplayProfileOscTek2445 : DisplayProfile
     {
         public override float AspectRatio { get; set; } = 4f / 3.5f;
 

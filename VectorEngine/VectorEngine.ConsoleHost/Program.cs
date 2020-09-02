@@ -12,11 +12,16 @@ namespace VectorEngine.ConsoleHost
     class Program
     {
         public static readonly Type GameConfigType = typeof(Flight.GameConfig);
-        public static readonly Assembly GameAssembly = Assembly.GetAssembly(GameConfigType);
 
         [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
         {
+            float? targetFramesPerSecond = Program.GameConfigType.GetMethod("GetTargetFramesPerSecond").Invoke(null, null) as float?;
+            if (targetFramesPerSecond == null)
+            {
+                throw new Exception("Cannot GetTargetFramesPerSecond() from GameConfig");
+            }
+
             string assetsPath = Program.GameConfigType.GetMethod("GetAssetsPath").Invoke(null, null) as string;
 
             FileLoader.Init(assetsPath);
@@ -35,8 +40,8 @@ namespace VectorEngine.ConsoleHost
             }
 
             var GameSystems = Program.GameConfigType.GetMethod("GetGameSystems").Invoke(null, null) as List<ECSSystem>;
-            
-            GameLoop.Init(GameSystems, scene.Components);
+
+            GameLoop.Init(GameSystems, scene.Components, (float)targetFramesPerSecond);
             while (true)
             {
                 GameLoop.Tick();

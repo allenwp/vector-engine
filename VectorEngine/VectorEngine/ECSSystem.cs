@@ -13,6 +13,10 @@ namespace VectorEngine
     /// </summary>
     public class ECSSystem
     {
+        /// <summary>
+        /// Depricated.
+        /// </summary>
         public virtual void Tick() { }
+        public virtual void Tick(EntityAdmin admin) { }
     }
 }

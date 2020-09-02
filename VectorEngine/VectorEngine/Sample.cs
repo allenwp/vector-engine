@@ -27,9 +27,6 @@ namespace VectorEngine
 
         /// <summary>
         /// Range of 0 to 1 where 0 is no brightness, 1 is full brightness.
-        /// TODO: Figure out if it makes sense to have padding for faster changing.
-        /// For example, maybe 0.1 is no brightness, but 0 will drive the signal faser to no brightness
-        /// and vice-versa.
         /// </summary>
         public float Brightness;
 

@@ -12,6 +12,8 @@ namespace Flight
 {
     public class GameConfig
     {
+        public static float GetTargetFramesPerSecond() => 80f;
+
         public static string GetAssetsPath() => @"../../../Flight/Assets";
 
         public static List<ECSSystem> GetGameSystems()
@@ -38,6 +40,8 @@ namespace Flight
             result.Add(new PolarCoordHorizonMaskPostProcessorSystem());
             result.Add(new StaticPostProcessorSystem());
 
+            result.Add(new DisplayProfileAdjusterSystem());
+
             // "Draw" systems:
             result.Add(new CameraSystem());
             result.Add(new SamplerSystem());
@@ -52,6 +56,7 @@ namespace Flight
             result.Add(new GameTimeSystem());
             result.Add(new GamepadSystem());
             result.Add(new GamepadBasicFPSMovementSystem()); // TODO: Make a different system specific to the editor's camera controls
+            result.Add(new DisplayProfileAdjusterSystem());
 
             // "Draw" systems:
             result.Add(new CameraSystem());

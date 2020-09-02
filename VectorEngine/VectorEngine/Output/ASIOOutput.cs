@@ -329,8 +329,7 @@ namespace VectorEngine.Output
                 // X is whatever range it needs to be to match the aspect ratio.
             }
 
-            // -1 is full brightness, 1 is no brightness
-            sample.Brightness = MathHelper.Clamp(sample.Brightness, 0f, 1f) * -2f + 1f;
+            sample.Brightness = MathHelper.Lerp(FrameOutput.DisplayProfile.ZeroBrightnessOutput, FrameOutput.DisplayProfile.FullBrightnessOutput, MathHelper.Clamp(sample.Brightness, 0, 1));
 
             return sample;
         }

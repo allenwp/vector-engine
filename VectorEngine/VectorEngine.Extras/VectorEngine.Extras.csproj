@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayProfileAdjuster.cs" />
+    <Compile Include="DisplayProfileAdjusterSystem.cs" />
     <Compile Include="GamepadBasicFPSMovement.cs" />
     <Compile Include="GamepadBasicFPSMovementSystem.cs" />
     <Compile Include="PostProcessing\StrobePostProcessor.cs" />
