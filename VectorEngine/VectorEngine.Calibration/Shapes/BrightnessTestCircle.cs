@@ -22,9 +22,18 @@ namespace VectorEngine.Calibration.Shapes
             {
                 double radians = i * (MathHelper.PiOver2 / SamplesPerQuarterCircle);
                 doubles.Add(radians);
-                float expansion = 1f;// + i * 0.001f;
+                float expansion = 1f + (i - BlankingCircles * 4 * SamplesPerQuarterCircle) * 0.001f;
                 array[i].Position = new Vector3((float)Math.Sin(radians) * expansion, (float)Math.Cos(radians) * expansion, 0);
-                array[i].Brightness = 1f;
+
+                if (i >= BlankingCircles * 4 * SamplesPerQuarterCircle && i <= (BlankingCircles + 1) * 4 * SamplesPerQuarterCircle)
+                {
+                    array[i].Brightness = 1f;
+                }
+                else
+                {
+                    array[i].Brightness = 0f;
+                }
+
             }
 
             result.Add(array);

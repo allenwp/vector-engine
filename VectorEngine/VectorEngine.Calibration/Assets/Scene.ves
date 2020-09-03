@@ -494,9 +494,9 @@
                 "LocalScale": {
                   "$id": "56",
                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 1.0,
-                  "Y": 1.0,
-                  "Z": 1.0
+                  "X": 0.7,
+                  "Y": 0.7,
+                  "Z": 0.7
                 },
                 "yaw": 0.0,
                 "pitch": 0.0,
