@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspectRatioScale.cs" />
+    <Compile Include="AspectRatioScaleSystem.cs" />
     <Compile Include="GameConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shapes\BrightnessTestCircle.cs" />
+    <Compile Include="Shapes\CorneredSquare.cs" />
     <Compile Include="Shapes\Dot.cs" />
     <Compile Include="Shapes\SquareWave.cs" />
   </ItemGroup>

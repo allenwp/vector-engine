@@ -24,6 +24,7 @@ namespace VectorEngine.Calibration
             result.Add(new GamepadBasicFPSMovementSystem());
 
             result.Add(new RotateSystem());
+            result.Add(new AspectRatioScaleSystem());
 
             result.Add(new DisplayProfileAdjusterSystem());
 
@@ -42,6 +43,8 @@ namespace VectorEngine.Calibration
             result.Add(new GamepadSystem());
             result.Add(new GamepadBasicFPSMovementSystem()); // TODO: Make a different system specific to the editor's camera controls
             result.Add(new DisplayProfileAdjusterSystem());
+
+            result.Add(new AspectRatioScaleSystem());
 
             // "Draw" systems:
             result.Add(new CameraSystem());

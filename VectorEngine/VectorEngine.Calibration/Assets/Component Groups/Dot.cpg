@@ -19,7 +19,7 @@
         {
           "$id": "5",
           "$type": "Flight.Shapes.Dot, VectorEngine.Calibration",
-          "<SampleCount>k__BackingField": 300,
+          "<SampleCount>k__BackingField": 3,
           "Layer": 0,
           "CameraFilterLayers": 1,
           "Entity": {
