@@ -13,7 +13,7 @@ namespace VectorEngine.Output
     /// </summary>
     public class DisplayProfileOscTek2445 : DisplayProfile
     {
-        public override float AspectRatio { get; set; } = 4f / 3.5f;
+        public override float AspectRatio { get; set; } = 1.26f;
 
         public override float FullBrightnessOutput { get; set; } = -1f;
 
