@@ -169,6 +169,13 @@ namespace VectorEngine.Output
             //}
 
             #region Debugging code
+            // checking for delays between channels
+            //for (int i = 0; i < xOutput.BufferSize; i++)
+            //{
+            //    yOutput[i] = xOutput[i];
+            //    zOutput[i] = xOutput[i];
+            //}
+
             // Code for a test tone to make sure ASIO device is working well:
             //for (int index = 0; index < xOutput.BufferSize; index++)
             //{
