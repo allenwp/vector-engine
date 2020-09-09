@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,6 +20,9 @@ namespace VectorEngine.Output
             Buffer2
         }
         public static ReadStateEnum ReadState = ReadStateEnum.Buffer1;
+
+        public static bool DebugSaveNextFrame = false;
+        private static bool DebugSaveThisFrame = false;
 
         public static void StartDriver()
         {
@@ -138,7 +142,18 @@ namespace VectorEngine.Output
 
             FeedAsioBuffers(xOutput, yOutput, zOutput, 0);
 
+            if (DebugSaveThisFrame)
+            {
+                DebugSaveBuffersToFile(xOutput, yOutput, zOutput, "ASIO Frame Snapshot.csv");
+            }
+
             ApplyBlankingChannelDelay(zOutput);
+
+            if (DebugSaveThisFrame)
+            {
+                DebugSaveBuffersToFile(xOutput, yOutput, zOutput, "ASIO Frame Snapshot (Blanking Delay Applied).csv");
+                DebugSaveThisFrame = false;
+            }
 
             // Copy x output into the last of the four channels to give a demo of what the audio sounds like
             Channel audioDemo = driver.OutputChannels[1];
@@ -312,6 +327,12 @@ namespace VectorEngine.Output
             }
 
             frameIndex = 0;
+
+            if (DebugSaveNextFrame)
+            {
+                DebugSaveNextFrame = false;
+                DebugSaveThisFrame = true;
+            }
         }
 
         public static Sample PrepareSampleForScreen(Sample sample)
@@ -355,6 +376,17 @@ namespace VectorEngine.Output
                 }
             }
             Array.Copy(originalStream, originalStream.Length - blankingChannelDelayBuffer.Length, blankingChannelDelayBuffer, 0, blankingChannelDelayBuffer.Length);
+        }
+
+        private static void DebugSaveBuffersToFile(Channel x, Channel y, Channel z, string path)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("X,Y,Z");
+            for (int i = 0; i < x.BufferSize; i++)
+            {
+                sb.AppendLine($"{x[i]:R},{y[i]:R},{z[i]:R}");
+            }
+            File.WriteAllText(path, sb.ToString());
         }
     }
 }

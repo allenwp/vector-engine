@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -53,12 +54,25 @@ namespace VectorEngine.Output
         /// </summary>
         public static ulong FrameCount = 0;
 
+        public static bool DebugSaveFrame = false;
+
         public static void ClearBuffer(Sample[] buffer, int startIndex = 0)
         {
             for(int i = startIndex; i < buffer.Length; i++)
             {
                 buffer[i] = Sample.Blank;
             }
+        }
+
+        public static void DebugSaveBufferToFile(Sample[] buffer, string path)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("X,Y,Brightness");
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                sb.AppendLine($"{buffer[i].X:R},{buffer[i].Y:R},{buffer[i].Brightness:R}");
+            }
+            File.WriteAllText(path, sb.ToString());
         }
 
         #region TODO: Move calibration stuff to a separate project

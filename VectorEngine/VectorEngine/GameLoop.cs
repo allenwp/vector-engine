@@ -122,6 +122,13 @@ namespace VectorEngine
             swFrameSyncOverhead.Reset();
             swFrameSyncOverhead.Start();
 
+            if (FrameOutput.DebugSaveFrame)
+            {
+                FrameOutput.DebugSaveBufferToFile(finalBuffer, "Frame Snapshot.csv");
+                FrameOutput.DebugSaveFrame = false;
+                ASIOOutput.DebugSaveNextFrame = true;
+            }
+
             // "Blit" the buffer and progress the frame buffer write state
             if (writeState == WriteStateEnum.Buffer1)
             {

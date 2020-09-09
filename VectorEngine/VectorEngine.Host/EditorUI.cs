@@ -12,6 +12,7 @@ using VectorEngine.Host.Midi;
 using VectorEngine.Host.Util;
 using System.IO;
 using System.Collections;
+using VectorEngine.Output;
 
 namespace VectorEngine.Host
 {
@@ -73,7 +74,10 @@ namespace VectorEngine.Host
             {
                 if (ImGui.BeginMenu("Menu"))
                 {
-                    // TODO?
+                    if (ImGui.MenuItem("Save Frame Snapshots"))
+                    {
+                        FrameOutput.DebugSaveFrame = true;
+                    }
                     ImGui.EndMenu();
                 }
                 ImGui.EndMainMenuBar();
