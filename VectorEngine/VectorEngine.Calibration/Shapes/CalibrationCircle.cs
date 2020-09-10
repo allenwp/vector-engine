@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 
 namespace VectorEngine.Calibration.Shapes
 {
-    public class BrightnessTestCircle : Shape
+    /// <summary>
+    /// Shows a customizable circle that can reveal channel delays, blanking issues, etc.
+    /// </summary>
+    public class CalibrationCircle : Shape
     {
-        public int SamplesPerCircle = 16 * 4;
-        public int BlankingCircles = 1;
+        public int SamplesPerCircle = 16;
+        [EditorHelper.Help("Set this to be very high to blank for long enough that you don't get framerate issues.")]
+        public int BlankingCircles = 200;
         public float ExpansionPerCircle = 0.001f;
         public override List<Sample3D[]> GetSamples3D(float fidelity)
         {
