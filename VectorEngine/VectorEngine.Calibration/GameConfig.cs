@@ -25,6 +25,7 @@ namespace VectorEngine.Calibration
 
             result.Add(new RotateSystem());
             result.Add(new AspectRatioScaleSystem());
+            result.Add(new CalibrationLineControllerSystem());
 
             result.Add(new DisplayProfileAdjusterSystem());
 
@@ -45,6 +46,7 @@ namespace VectorEngine.Calibration
             result.Add(new DisplayProfileAdjusterSystem());
 
             result.Add(new AspectRatioScaleSystem());
+            result.Add(new CalibrationLineControllerSystem());
 
             // "Draw" systems:
             result.Add(new CameraSystem());

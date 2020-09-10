@@ -22,7 +22,7 @@ namespace VectorEngine.Calibration.Shapes
             for (int i = 0; i < array.Length; i++)
             {
                 array[i].Position = new Vector3(StepDistance * i - StepDistance * BlankingPadding, 0, 0);
-                if (i < BlankingPadding || i > array.Length- BlankingPadding)
+                if (i < BlankingPadding || i >= array.Length- BlankingPadding)
                 {
                     array[i].Brightness = 0;
                 }

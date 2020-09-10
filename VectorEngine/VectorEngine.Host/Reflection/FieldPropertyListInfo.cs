@@ -70,7 +70,7 @@ namespace VectorEngine.Host.Reflection
                 }
                 else if (list != null)
                 {
-                    if (list.Count > 0)
+                    if (list.Count > 0 && list[listIndex] != null)
                     {
                         return list[listIndex].GetType();
                     }
