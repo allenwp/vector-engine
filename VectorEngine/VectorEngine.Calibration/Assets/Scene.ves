@@ -2345,7 +2345,7 @@
         "Entity": {
           "$id": "269",
           "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "BrightnessTestCircle's Entity",
+          "<Name>k__BackingField": "Top Left",
           "<SelfEnabled>k__BackingField": true,
           "<Components>k__BackingField": {
             "$id": "270",
@@ -2390,16 +2390,16 @@
                         "LocalPosition": {
                           "$id": "277",
                           "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                          "X": 0.0,
-                          "Y": 0.0,
+                          "X": 0.4,
+                          "Y": 0.4,
                           "Z": 0.0
                         },
                         "LocalScale": {
                           "$id": "278",
                           "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                          "X": 0.5,
-                          "Y": 0.5,
-                          "Z": 0.5
+                          "X": 0.3,
+                          "Y": 0.3,
+                          "Z": 0.3
                         },
                         "yaw": 0.0,
                         "pitch": 0.0,
@@ -2407,7 +2407,7 @@
                         "Entity": {
                           "$id": "279",
                           "$type": "VectorEngine.Entity, VectorEngine",
-                          "<Name>k__BackingField": "BrightnessTestCircle's Entity",
+                          "<Name>k__BackingField": "Top Right",
                           "<SelfEnabled>k__BackingField": true,
                           "<Components>k__BackingField": {
                             "$id": "280",
@@ -2456,16 +2456,16 @@
                         "LocalPosition": {
                           "$id": "285",
                           "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                          "X": 0.0,
-                          "Y": 0.0,
+                          "X": -0.4,
+                          "Y": -0.4,
                           "Z": 0.0
                         },
                         "LocalScale": {
                           "$id": "286",
                           "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                          "X": 0.5,
-                          "Y": 0.5,
-                          "Z": 0.5
+                          "X": 0.3,
+                          "Y": 0.3,
+                          "Z": 0.3
                         },
                         "yaw": 0.0,
                         "pitch": 0.0,
@@ -2473,7 +2473,7 @@
                         "Entity": {
                           "$id": "287",
                           "$type": "VectorEngine.Entity, VectorEngine",
-                          "<Name>k__BackingField": "BrightnessTestCircle's Entity",
+                          "<Name>k__BackingField": "Bottom Left",
                           "<SelfEnabled>k__BackingField": true,
                           "<Components>k__BackingField": {
                             "$id": "288",
@@ -2522,16 +2522,16 @@
                         "LocalPosition": {
                           "$id": "293",
                           "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                          "X": 0.0,
-                          "Y": 0.0,
+                          "X": 0.4,
+                          "Y": -0.4,
                           "Z": 0.0
                         },
                         "LocalScale": {
                           "$id": "294",
                           "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                          "X": 0.5,
-                          "Y": 0.5,
-                          "Z": 0.5
+                          "X": 0.3,
+                          "Y": 0.3,
+                          "Z": 0.3
                         },
                         "yaw": 0.0,
                         "pitch": 0.0,
@@ -2539,7 +2539,7 @@
                         "Entity": {
                           "$id": "295",
                           "$type": "VectorEngine.Entity, VectorEngine",
-                          "<Name>k__BackingField": "BrightnessTestCircle's Entity",
+                          "<Name>k__BackingField": "Bottom Right",
                           "<SelfEnabled>k__BackingField": true,
                           "<Components>k__BackingField": {
                             "$id": "296",
@@ -2626,16 +2626,16 @@
                 "LocalPosition": {
                   "$id": "305",
                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.0,
-                  "Y": 0.0,
+                  "X": -0.4,
+                  "Y": 0.4,
                   "Z": 0.0
                 },
                 "LocalScale": {
                   "$id": "306",
                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                  "X": 0.5,
-                  "Y": 0.5,
-                  "Z": 0.5
+                  "X": 0.3,
+                  "Y": 0.3,
+                  "Z": 0.3
                 },
                 "yaw": 0.0,
                 "pitch": 0.0,
@@ -2767,7 +2767,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "272"
+      "$ref": "290"
     }
   }
 }
