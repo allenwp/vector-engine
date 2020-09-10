@@ -157,17 +157,14 @@ namespace VectorEngine
 
         #region Temporary Editor Junk
         private float yaw;
-        [Category("Editor Accessors")]
         public float LocalYaw { get { return yaw; } set { yaw = value; UpdateLocalRotation(); } }
         private float pitch;
-        [Category("Editor Accessors")]
         public float LocalPitch { get { return pitch; } set { pitch = value; UpdateLocalRotation(); } }
         private float roll;
-        [Category("Editor Accessors")]
         public float LocalRoll { get { return roll; } set { roll = value; UpdateLocalRotation(); } }
         private void UpdateLocalRotation()
         {
-            LocalRotation = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
+            LocalRotation = Quaternion.CreateFromYawPitchRoll(MathHelper.ToRadians(yaw), MathHelper.ToRadians(pitch), MathHelper.ToRadians(roll));
         }
         #endregion
     }

@@ -1765,7 +1765,7 @@
                         "$id": "217",
                         "$type": "VectorEngine.Entity, VectorEngine",
                         "<Name>k__BackingField": "Calibration Squares",
-                        "<SelfEnabled>k__BackingField": true,
+                        "<SelfEnabled>k__BackingField": false,
                         "<Components>k__BackingField": {
                           "$id": "218",
                           "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
@@ -2426,7 +2426,7 @@
         "Entity": {
           "$id": "278",
           "$type": "VectorEngine.Entity, VectorEngine",
-          "<Name>k__BackingField": "CalibrationLine's Entity",
+          "<Name>k__BackingField": "Right 0.2",
           "<SelfEnabled>k__BackingField": true,
           "<Components>k__BackingField": {
             "$id": "279",
@@ -2438,14 +2438,972 @@
               {
                 "$id": "280",
                 "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
+                "<Parent>k__BackingField": {
                   "$id": "281",
+                  "$type": "VectorEngine.Transform, VectorEngine",
+                  "<Parent>k__BackingField": null,
+                  "<Children>k__BackingField": {
+                    "$id": "282",
+                    "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                    "$values": [
+                      {
+                        "$id": "283",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "284",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "285",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "286",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.6,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "287",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "288",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right 0.6",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "289",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "290",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "291",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "288"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "283"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "292",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "293",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "294",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "295",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.4,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "296",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "297",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right 0.4",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "298",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "299",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "300",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "297"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "292"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$ref": "280"
+                      },
+                      {
+                        "$id": "301",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "302",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "303",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "304",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "305",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "306",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right 0",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "307",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "308",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "309",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "306"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "301"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "310",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "311",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "312",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "313",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": -0.2,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "314",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "315",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right -0.2",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "316",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "317",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "318",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "315"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "310"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "319",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "320",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "321",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "322",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": -0.4,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "323",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "324",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right -0.4",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "325",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "326",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "327",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "324"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "319"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "328",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "329",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "330",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "331",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": -0.6,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "332",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "333",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right -0.6",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "334",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "335",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "336",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "333"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "328"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "337",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "338",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "339",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "340",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "341",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "342",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "343",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "344",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "345",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "342"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "337"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "346",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "347",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "348",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "349",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.2,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "350",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "351",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0.2",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "352",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "353",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "354",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "351"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "346"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "355",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "356",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "357",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "358",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.4,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "359",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "360",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0.4",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "361",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "362",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "363",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "360"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "355"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "364",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "365",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "366",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "367",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.6,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "368",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "369",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0.6",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "370",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "371",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "372",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "369"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "364"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "373",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "281"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "374",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "375",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "376",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.8,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "377",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "378",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0.8",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "379",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "380",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "381",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "378"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "373"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      }
+                    ]
+                  },
+                  "LocalRotation": {
+                    "$id": "382",
+                    "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0,
+                    "W": 1.0
+                  },
+                  "LocalPosition": {
+                    "$id": "383",
+                    "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0
+                  },
+                  "LocalScale": {
+                    "$id": "384",
+                    "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                    "X": 1.0,
+                    "Y": 1.0,
+                    "Z": 1.0
+                  },
+                  "yaw": 0.0,
+                  "pitch": 0.0,
+                  "roll": 0.0,
+                  "Entity": {
+                    "$id": "385",
+                    "$type": "VectorEngine.Entity, VectorEngine",
+                    "<Name>k__BackingField": "Blanking Test Lines",
+                    "<SelfEnabled>k__BackingField": true,
+                    "<Components>k__BackingField": {
+                      "$id": "386",
+                      "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                      "$values": [
+                        {
+                          "$ref": "281"
+                        },
+                        {
+                          "$id": "387",
+                          "$type": "VectorEngine.ComponentGroup, VectorEngine",
+                          "FileName": "BlankingLines",
+                          "RootObjects": {
+                            "$id": "388",
+                            "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
+                            "$values": []
+                          },
+                          "Entity": {
+                            "$ref": "385"
+                          },
+                          "<SelfEnabled>k__BackingField": true
+                        }
+                      ]
+                    }
+                  },
+                  "<SelfEnabled>k__BackingField": true
+                },
+                "<Children>k__BackingField": {
+                  "$id": "389",
                   "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
                   "$values": []
                 },
                 "LocalRotation": {
-                  "$id": "282",
+                  "$id": "390",
                   "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
                   "X": 0.0,
                   "Y": 0.0,
@@ -2453,14 +3411,14 @@
                   "W": 1.0
                 },
                 "LocalPosition": {
-                  "$id": "283",
+                  "$id": "391",
                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                   "X": 0.0,
-                  "Y": 0.0,
+                  "Y": 0.2,
                   "Z": 0.0
                 },
                 "LocalScale": {
-                  "$id": "284",
+                  "$id": "392",
                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                   "X": 1.0,
                   "Y": 1.0,
@@ -2481,36 +3439,1211 @@
       },
       {
         "$ref": "280"
+      },
+      {
+        "$ref": "299"
+      },
+      {
+        "$ref": "292"
+      },
+      {
+        "$ref": "290"
+      },
+      {
+        "$ref": "283"
+      },
+      {
+        "$ref": "281"
+      },
+      {
+        "$ref": "387"
+      },
+      {
+        "$ref": "344"
+      },
+      {
+        "$ref": "337"
+      },
+      {
+        "$ref": "353"
+      },
+      {
+        "$ref": "346"
+      },
+      {
+        "$ref": "362"
+      },
+      {
+        "$ref": "355"
+      },
+      {
+        "$ref": "371"
+      },
+      {
+        "$ref": "364"
+      },
+      {
+        "$ref": "380"
+      },
+      {
+        "$ref": "373"
+      },
+      {
+        "$ref": "308"
+      },
+      {
+        "$ref": "301"
+      },
+      {
+        "$ref": "335"
+      },
+      {
+        "$ref": "328"
+      },
+      {
+        "$ref": "326"
+      },
+      {
+        "$ref": "319"
+      },
+      {
+        "$ref": "317"
+      },
+      {
+        "$ref": "310"
+      },
+      {
+        "$id": "393",
+        "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+        "BlankingPadding": 20,
+        "BrightnessPattern": {
+          "$id": "394",
+          "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+          "$values": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "RepeatCount": 7,
+        "StepDistance": 0.01,
+        "Layer": 0,
+        "CameraFilterLayers": 1,
+        "Entity": {
+          "$id": "395",
+          "$type": "VectorEngine.Entity, VectorEngine",
+          "<Name>k__BackingField": "Right 0.6",
+          "<SelfEnabled>k__BackingField": true,
+          "<Components>k__BackingField": {
+            "$id": "396",
+            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+            "$values": [
+              {
+                "$ref": "393"
+              },
+              {
+                "$id": "397",
+                "$type": "VectorEngine.Transform, VectorEngine",
+                "<Parent>k__BackingField": {
+                  "$id": "398",
+                  "$type": "VectorEngine.Transform, VectorEngine",
+                  "<Parent>k__BackingField": null,
+                  "<Children>k__BackingField": {
+                    "$id": "399",
+                    "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                    "$values": [
+                      {
+                        "$ref": "397"
+                      },
+                      {
+                        "$id": "400",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "401",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "402",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "403",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.4,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "404",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "405",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right 0.4",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "406",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "407",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "408",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "405"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "400"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "409",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "410",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "411",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "412",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.2,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "413",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "414",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right 0.2",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "415",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "416",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "417",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "414"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "409"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "418",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "419",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "420",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "421",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "422",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "423",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right 0",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "424",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "425",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "426",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "423"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "418"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "427",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "428",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "429",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "430",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": -0.2,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "431",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "432",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right -0.2",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "433",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "434",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "435",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "432"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "427"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "436",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "437",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "438",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "439",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": -0.4,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "440",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "441",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right -0.4",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "442",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "443",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "444",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "441"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "436"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "445",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "446",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "447",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "448",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": -0.6,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "449",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "450",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Right -0.6",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "451",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "452",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 20,
+                                "BrightnessPattern": {
+                                  "$id": "453",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 7,
+                                "StepDistance": 0.01,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "450"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "445"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "454",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "455",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "456",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "457",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "458",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "459",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "460",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "461",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "462",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "459"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "454"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "463",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "464",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "465",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "466",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.2,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "467",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "468",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0.2",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "469",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "470",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "471",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "468"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "463"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "472",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "473",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "474",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "475",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.4,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "476",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "477",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0.4",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "478",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "479",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "480",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "477"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "472"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "481",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "482",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "483",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "484",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.6,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "485",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "486",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0.6",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "487",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "488",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "489",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "486"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "481"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "490",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "398"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "491",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "492",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.707106769,
+                          "W": 0.707106769
+                        },
+                        "LocalPosition": {
+                          "$id": "493",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.8,
+                          "Y": -0.9,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "494",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 1.0,
+                          "Y": 1.0,
+                          "Z": 1.0
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 90.0,
+                        "Entity": {
+                          "$id": "495",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "Vertical Markings 0.8",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "496",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "497",
+                                "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+                                "BlankingPadding": 5,
+                                "BrightnessPattern": {
+                                  "$id": "498",
+                                  "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+                                  "$values": [
+                                    1.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                  ]
+                                },
+                                "RepeatCount": 10,
+                                "StepDistance": 0.0200000051,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "495"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "490"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      }
+                    ]
+                  },
+                  "LocalRotation": {
+                    "$id": "499",
+                    "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0,
+                    "W": 1.0
+                  },
+                  "LocalPosition": {
+                    "$id": "500",
+                    "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                    "X": -0.1,
+                    "Y": 0.0,
+                    "Z": 0.0
+                  },
+                  "LocalScale": {
+                    "$id": "501",
+                    "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                    "X": -1.0,
+                    "Y": 1.0,
+                    "Z": 1.0
+                  },
+                  "yaw": 0.0,
+                  "pitch": 0.0,
+                  "roll": 0.0,
+                  "Entity": {
+                    "$id": "502",
+                    "$type": "VectorEngine.Entity, VectorEngine",
+                    "<Name>k__BackingField": "Blanking Test Lines",
+                    "<SelfEnabled>k__BackingField": true,
+                    "<Components>k__BackingField": {
+                      "$id": "503",
+                      "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                      "$values": [
+                        {
+                          "$ref": "398"
+                        }
+                      ]
+                    }
+                  },
+                  "<SelfEnabled>k__BackingField": true
+                },
+                "<Children>k__BackingField": {
+                  "$id": "504",
+                  "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                  "$values": []
+                },
+                "LocalRotation": {
+                  "$id": "505",
+                  "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                  "X": 0.0,
+                  "Y": 0.0,
+                  "Z": 0.0,
+                  "W": 1.0
+                },
+                "LocalPosition": {
+                  "$id": "506",
+                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                  "X": 0.0,
+                  "Y": 0.6,
+                  "Z": 0.0
+                },
+                "LocalScale": {
+                  "$id": "507",
+                  "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                  "X": 1.0,
+                  "Y": 1.0,
+                  "Z": 1.0
+                },
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0,
+                "Entity": {
+                  "$ref": "395"
+                },
+                "<SelfEnabled>k__BackingField": true
+              }
+            ]
+          }
+        },
+        "<SelfEnabled>k__BackingField": true
+      },
+      {
+        "$ref": "397"
+      },
+      {
+        "$ref": "407"
+      },
+      {
+        "$ref": "400"
+      },
+      {
+        "$ref": "416"
+      },
+      {
+        "$ref": "409"
+      },
+      {
+        "$ref": "425"
+      },
+      {
+        "$ref": "418"
+      },
+      {
+        "$ref": "434"
+      },
+      {
+        "$ref": "427"
+      },
+      {
+        "$ref": "443"
+      },
+      {
+        "$ref": "436"
+      },
+      {
+        "$ref": "452"
+      },
+      {
+        "$ref": "445"
+      },
+      {
+        "$ref": "461"
+      },
+      {
+        "$ref": "454"
+      },
+      {
+        "$ref": "470"
+      },
+      {
+        "$ref": "463"
+      },
+      {
+        "$ref": "479"
+      },
+      {
+        "$ref": "472"
+      },
+      {
+        "$ref": "488"
+      },
+      {
+        "$ref": "481"
+      },
+      {
+        "$ref": "497"
+      },
+      {
+        "$ref": "490"
+      },
+      {
+        "$ref": "398"
       }
     ]
   },
   "EditorState": {
-    "$id": "285",
+    "$id": "508",
     "$type": "VectorEngine.EditorHelper.EditorState, VectorEngine",
     "MidiAssignments": {
-      "$id": "286",
+      "$id": "509",
       "$type": "System.Collections.Generic.List`1[[VectorEngine.EditorHelper.MidiAssignments, VectorEngine]], mscorlib",
       "$values": [
         {
-          "$id": "287",
+          "$id": "510",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 0,
           "Target": {
-            "$ref": "276"
+            "$ref": "337"
           },
-          "FieldPropertyName": "BlankingPadding"
+          "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "288",
+          "$id": "511",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 1,
           "Target": {
-            "$ref": "276"
+            "$ref": "337"
           },
-          "FieldPropertyName": "StepDistance"
+          "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "289",
+          "$id": "512",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 2,
+          "Target": {
+            "$ref": "337"
+          },
+          "FieldPropertyName": "LocalPosition"
+        },
+        {
+          "$id": "513",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 3,
           "Target": {
@@ -2519,7 +4652,7 @@
           "FieldPropertyName": "LineLength"
         },
         {
-          "$id": "290",
+          "$id": "514",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 4,
           "Target": {
@@ -2528,7 +4661,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "291",
+          "$id": "515",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 5,
           "Target": {
@@ -2537,7 +4670,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "292",
+          "$id": "516",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 6,
           "Target": {
@@ -2546,7 +4679,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "293",
+          "$id": "517",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 7,
           "Target": {
@@ -2555,7 +4688,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "294",
+          "$id": "518",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 16,
           "Target": {
@@ -2564,7 +4697,7 @@
           "FieldPropertyName": "Paused"
         },
         {
-          "$id": "295",
+          "$id": "519",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 17,
           "Target": {
@@ -2574,8 +4707,6 @@
         }
       ]
     },
-    "SelectedObject": {
-      "$ref": "276"
-    }
+    "SelectedObject": null
   }
 }

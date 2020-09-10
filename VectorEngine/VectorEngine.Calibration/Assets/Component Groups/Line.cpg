@@ -1,0 +1,92 @@
+{
+  "$id": "1",
+  "$type": "VectorEngine.ComponentGroup, VectorEngine",
+  "FileName": "Line",
+  "RootObjects": {
+    "$id": "2",
+    "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
+    "$values": []
+  },
+  "Entity": {
+    "$id": "3",
+    "$type": "VectorEngine.Entity, VectorEngine",
+    "<Name>k__BackingField": "CalibrationLine's Entity",
+    "<SelfEnabled>k__BackingField": true,
+    "<Components>k__BackingField": {
+      "$id": "4",
+      "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+      "$values": [
+        {
+          "$id": "5",
+          "$type": "VectorEngine.Calibration.Shapes.CalibrationLine, VectorEngine.Calibration",
+          "BlankingPadding": 20,
+          "BrightnessPattern": {
+            "$id": "6",
+            "$type": "System.Collections.Generic.List`1[[System.Single, mscorlib]], mscorlib",
+            "$values": [
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "RepeatCount": 7,
+          "StepDistance": 0.01,
+          "Layer": 0,
+          "CameraFilterLayers": 1,
+          "Entity": {
+            "$ref": "3"
+          },
+          "<SelfEnabled>k__BackingField": true
+        },
+        {
+          "$id": "7",
+          "$type": "VectorEngine.Transform, VectorEngine",
+          "<Parent>k__BackingField": null,
+          "<Children>k__BackingField": {
+            "$id": "8",
+            "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+            "$values": []
+          },
+          "LocalRotation": {
+            "$id": "9",
+            "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0,
+            "W": 1.0
+          },
+          "LocalPosition": {
+            "$id": "10",
+            "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+          },
+          "LocalScale": {
+            "$id": "11",
+            "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+            "X": 1.0,
+            "Y": 1.0,
+            "Z": 1.0
+          },
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "Entity": {
+            "$ref": "3"
+          },
+          "<SelfEnabled>k__BackingField": true
+        },
+        {
+          "$ref": "1"
+        }
+      ]
+    }
+  },
+  "<SelfEnabled>k__BackingField": true
+}
