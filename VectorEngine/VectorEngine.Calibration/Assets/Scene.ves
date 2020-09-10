@@ -1765,7 +1765,7 @@
                         "$id": "217",
                         "$type": "VectorEngine.Entity, VectorEngine",
                         "<Name>k__BackingField": "Calibration Squares",
-                        "<SelfEnabled>k__BackingField": true,
+                        "<SelfEnabled>k__BackingField": false,
                         "<Components>k__BackingField": {
                           "$id": "218",
                           "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
@@ -2346,7 +2346,7 @@
           "$id": "269",
           "$type": "VectorEngine.Entity, VectorEngine",
           "<Name>k__BackingField": "BrightnessTestCircle's Entity",
-          "<SelfEnabled>k__BackingField": false,
+          "<SelfEnabled>k__BackingField": true,
           "<Components>k__BackingField": {
             "$id": "270",
             "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
@@ -2357,14 +2357,266 @@
               {
                 "$id": "271",
                 "$type": "VectorEngine.Transform, VectorEngine",
-                "<Parent>k__BackingField": null,
-                "<Children>k__BackingField": {
+                "<Parent>k__BackingField": {
                   "$id": "272",
+                  "$type": "VectorEngine.Transform, VectorEngine",
+                  "<Parent>k__BackingField": null,
+                  "<Children>k__BackingField": {
+                    "$id": "273",
+                    "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                    "$values": [
+                      {
+                        "$ref": "271"
+                      },
+                      {
+                        "$id": "274",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "272"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "275",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "276",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "277",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "278",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.5,
+                          "Y": 0.5,
+                          "Z": 0.5
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "279",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "BrightnessTestCircle's Entity",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "280",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "281",
+                                "$type": "VectorEngine.Calibration.Shapes.BrightnessTestCircle, VectorEngine.Calibration",
+                                "SamplesPerCircle": 128,
+                                "BlankingCircles": 1,
+                                "ExpansionPerCircle": 0.1,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "279"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "274"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "282",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "272"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "283",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "284",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "285",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "286",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.5,
+                          "Y": 0.5,
+                          "Z": 0.5
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "287",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "BrightnessTestCircle's Entity",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "288",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "289",
+                                "$type": "VectorEngine.Calibration.Shapes.BrightnessTestCircle, VectorEngine.Calibration",
+                                "SamplesPerCircle": 128,
+                                "BlankingCircles": 1,
+                                "ExpansionPerCircle": 0.1,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "287"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "282"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      },
+                      {
+                        "$id": "290",
+                        "$type": "VectorEngine.Transform, VectorEngine",
+                        "<Parent>k__BackingField": {
+                          "$ref": "272"
+                        },
+                        "<Children>k__BackingField": {
+                          "$id": "291",
+                          "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
+                          "$values": []
+                        },
+                        "LocalRotation": {
+                          "$id": "292",
+                          "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0,
+                          "W": 1.0
+                        },
+                        "LocalPosition": {
+                          "$id": "293",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.0,
+                          "Y": 0.0,
+                          "Z": 0.0
+                        },
+                        "LocalScale": {
+                          "$id": "294",
+                          "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                          "X": 0.5,
+                          "Y": 0.5,
+                          "Z": 0.5
+                        },
+                        "yaw": 0.0,
+                        "pitch": 0.0,
+                        "roll": 0.0,
+                        "Entity": {
+                          "$id": "295",
+                          "$type": "VectorEngine.Entity, VectorEngine",
+                          "<Name>k__BackingField": "BrightnessTestCircle's Entity",
+                          "<SelfEnabled>k__BackingField": true,
+                          "<Components>k__BackingField": {
+                            "$id": "296",
+                            "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "297",
+                                "$type": "VectorEngine.Calibration.Shapes.BrightnessTestCircle, VectorEngine.Calibration",
+                                "SamplesPerCircle": 128,
+                                "BlankingCircles": 1,
+                                "ExpansionPerCircle": 0.1,
+                                "Layer": 0,
+                                "CameraFilterLayers": 1,
+                                "Entity": {
+                                  "$ref": "295"
+                                },
+                                "<SelfEnabled>k__BackingField": true
+                              },
+                              {
+                                "$ref": "290"
+                              }
+                            ]
+                          }
+                        },
+                        "<SelfEnabled>k__BackingField": true
+                      }
+                    ]
+                  },
+                  "LocalRotation": {
+                    "$id": "298",
+                    "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0,
+                    "W": 1.0
+                  },
+                  "LocalPosition": {
+                    "$id": "299",
+                    "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0
+                  },
+                  "LocalScale": {
+                    "$id": "300",
+                    "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
+                    "X": 1.0,
+                    "Y": 1.0,
+                    "Z": 1.0
+                  },
+                  "yaw": 0.0,
+                  "pitch": 0.0,
+                  "roll": 0.0,
+                  "Entity": {
+                    "$id": "301",
+                    "$type": "VectorEngine.Entity, VectorEngine",
+                    "<Name>k__BackingField": "Brightness Test Circles",
+                    "<SelfEnabled>k__BackingField": true,
+                    "<Components>k__BackingField": {
+                      "$id": "302",
+                      "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
+                      "$values": [
+                        {
+                          "$ref": "272"
+                        }
+                      ]
+                    }
+                  },
+                  "<SelfEnabled>k__BackingField": true
+                },
+                "<Children>k__BackingField": {
+                  "$id": "303",
                   "$type": "System.Collections.Generic.List`1[[VectorEngine.Transform, VectorEngine]], mscorlib",
                   "$values": []
                 },
                 "LocalRotation": {
-                  "$id": "273",
+                  "$id": "304",
                   "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
                   "X": 0.0,
                   "Y": 0.0,
@@ -2372,14 +2624,14 @@
                   "W": 1.0
                 },
                 "LocalPosition": {
-                  "$id": "274",
+                  "$id": "305",
                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                   "X": 0.0,
                   "Y": 0.0,
                   "Z": 0.0
                 },
                 "LocalScale": {
-                  "$id": "275",
+                  "$id": "306",
                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                   "X": 0.5,
                   "Y": 0.5,
@@ -2388,20 +2640,6 @@
                 "yaw": 0.0,
                 "pitch": 0.0,
                 "roll": 0.0,
-                "Entity": {
-                  "$ref": "269"
-                },
-                "<SelfEnabled>k__BackingField": true
-              },
-              {
-                "$id": "276",
-                "$type": "VectorEngine.ComponentGroup, VectorEngine",
-                "FileName": "Brightness Test Circle",
-                "RootObjects": {
-                  "$id": "277",
-                  "$type": "System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib",
-                  "$values": []
-                },
                 "Entity": {
                   "$ref": "269"
                 },
@@ -2416,19 +2654,37 @@
         "$ref": "271"
       },
       {
-        "$ref": "276"
+        "$ref": "281"
+      },
+      {
+        "$ref": "274"
+      },
+      {
+        "$ref": "289"
+      },
+      {
+        "$ref": "282"
+      },
+      {
+        "$ref": "297"
+      },
+      {
+        "$ref": "290"
+      },
+      {
+        "$ref": "272"
       }
     ]
   },
   "EditorState": {
-    "$id": "278",
+    "$id": "307",
     "$type": "VectorEngine.EditorHelper.EditorState, VectorEngine",
     "MidiAssignments": {
-      "$id": "279",
+      "$id": "308",
       "$type": "System.Collections.Generic.List`1[[VectorEngine.EditorHelper.MidiAssignments, VectorEngine]], mscorlib",
       "$values": [
         {
-          "$id": "280",
+          "$id": "309",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 0,
           "Target": {
@@ -2437,7 +2693,7 @@
           "FieldPropertyName": "BaseFidelity"
         },
         {
-          "$id": "281",
+          "$id": "310",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 1,
           "Target": {
@@ -2446,7 +2702,7 @@
           "FieldPropertyName": "StepSize"
         },
         {
-          "$id": "282",
+          "$id": "311",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 3,
           "Target": {
@@ -2455,7 +2711,7 @@
           "FieldPropertyName": "LineLength"
         },
         {
-          "$id": "283",
+          "$id": "312",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 4,
           "Target": {
@@ -2464,7 +2720,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "284",
+          "$id": "313",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 5,
           "Target": {
@@ -2473,7 +2729,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "285",
+          "$id": "314",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 6,
           "Target": {
@@ -2482,7 +2738,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "286",
+          "$id": "315",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 7,
           "Target": {
@@ -2491,7 +2747,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "287",
+          "$id": "316",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 16,
           "Target": {
@@ -2500,7 +2756,7 @@
           "FieldPropertyName": "Paused"
         },
         {
-          "$id": "288",
+          "$id": "317",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 17,
           "Target": {
@@ -2511,7 +2767,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "217"
+      "$ref": "272"
     }
   }
 }
