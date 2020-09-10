@@ -268,7 +268,7 @@
         "ProjectionMatrix": {
           "$id": "29",
           "$type": "Microsoft.Xna.Framework.Matrix, MonoGame.Framework",
-          "M11": 0.7936508,
+          "M11": 0.84246,
           "M12": 0.0,
           "M13": 0.0,
           "M14": 0.0,
@@ -361,7 +361,7 @@
         "$id": "38",
         "$type": "VectorEngine.Calibration.Shapes.SquareWave, VectorEngine.Calibration",
         "BaseFidelity": 15.0,
-        "BlankLineSegments": true,
+        "BlankLineSegments": false,
         "StepSize": 0.25,
         "Layer": 0,
         "CameraFilterLayers": 18,
@@ -427,7 +427,7 @@
       {
         "$id": "46",
         "$type": "VectorEngine.Extras.DisplayProfileAdjuster, VectorEngine.Extras",
-        "ApsectRatio": 1.26,
+        "ApsectRatio": 1.187,
         "FullBrightnessOutput": -1.0,
         "ZeroBrightnessOutput": 1.0,
         "FidelityScale": 1.0,
@@ -1765,7 +1765,7 @@
                         "$id": "217",
                         "$type": "VectorEngine.Entity, VectorEngine",
                         "<Name>k__BackingField": "Calibration Squares",
-                        "<SelfEnabled>k__BackingField": false,
+                        "<SelfEnabled>k__BackingField": true,
                         "<Components>k__BackingField": {
                           "$id": "218",
                           "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
@@ -2112,7 +2112,7 @@
                   "LocalScale": {
                     "$id": "260",
                     "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                    "X": 1.26,
+                    "X": 1.187,
                     "Y": 1.0,
                     "Z": 1.0
                   },
@@ -2346,7 +2346,7 @@
           "$id": "269",
           "$type": "VectorEngine.Entity, VectorEngine",
           "<Name>k__BackingField": "BrightnessTestCircle's Entity",
-          "<SelfEnabled>k__BackingField": true,
+          "<SelfEnabled>k__BackingField": false,
           "<Components>k__BackingField": {
             "$id": "270",
             "$type": "System.Collections.Generic.List`1[[VectorEngine.Component, VectorEngine]], mscorlib",
@@ -2430,6 +2430,24 @@
         {
           "$id": "280",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 0,
+          "Target": {
+            "$ref": "38"
+          },
+          "FieldPropertyName": "BaseFidelity"
+        },
+        {
+          "$id": "281",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
+          "AssignmentButton": 1,
+          "Target": {
+            "$ref": "38"
+          },
+          "FieldPropertyName": "StepSize"
+        },
+        {
+          "$id": "282",
+          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 3,
           "Target": {
             "$ref": "49"
@@ -2437,7 +2455,7 @@
           "FieldPropertyName": "LineLength"
         },
         {
-          "$id": "281",
+          "$id": "283",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 4,
           "Target": {
@@ -2446,7 +2464,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "282",
+          "$id": "284",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 5,
           "Target": {
@@ -2455,7 +2473,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "283",
+          "$id": "285",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 6,
           "Target": {
@@ -2464,7 +2482,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "284",
+          "$id": "286",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 7,
           "Target": {
@@ -2473,7 +2491,7 @@
           "FieldPropertyName": "LocalPosition"
         },
         {
-          "$id": "285",
+          "$id": "287",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 16,
           "Target": {
@@ -2482,7 +2500,7 @@
           "FieldPropertyName": "Paused"
         },
         {
-          "$id": "286",
+          "$id": "288",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 17,
           "Target": {
@@ -2493,7 +2511,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "276"
+      "$ref": "217"
     }
   }
 }

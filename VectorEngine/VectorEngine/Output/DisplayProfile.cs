@@ -9,6 +9,13 @@ namespace VectorEngine.Output
 {
     public abstract class DisplayProfile
     {
+
+        /// <summary>
+        /// To calculate this, view the Calibration Squares screen and:
+        /// 1) Adjust the height to be correct for the screen
+        /// 2) Adjust the width to make the image square.
+        /// 3) Adjust the Aspect ratio and repeat above until step 2 gives the correct width for the screen.
+        /// </summary>
         public abstract float AspectRatio { get; set; }
         
         /// <summary>
