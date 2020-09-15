@@ -439,9 +439,12 @@ namespace VectorEngine.Host
                     Type componentType;
                     if (SubmitAddComponent("Add Component", out componentType))
                     {
-                        selectedObject = admin.AddComponent(entity, componentType);
-                        entity = null;
-                        component = selectedObject as Component;
+                        if (entity.Components.Where(comp => comp.GetType() == componentType).Count() == 0)
+                        {
+                            selectedObject = admin.AddComponent(entity, componentType);
+                            entity = null;
+                            component = selectedObject as Component;
+                        }
                     }
                 }
 
