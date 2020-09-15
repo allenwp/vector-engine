@@ -99,11 +99,27 @@ namespace VectorEngine
         }
 
         /// <param name="relativePath">Path relative to the Assets Path</param>
-        public static void SaveTextFile(string relativePath, string contents)
+        public static void SaveTextFile(string relativePath, string contents, bool backupExisting = false)
         {
             string fullPath = FullPath(relativePath);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+
+            if (backupExisting && File.Exists(fullPath))
+            {
+                string backupFolder = FullPath(Path.Combine("Backup", relativePath));
+                Directory.CreateDirectory(backupFolder);
+                string backupFilePath = Path.Combine(backupFolder, DateTime.UtcNow.ToFileTimeUtc().ToString());
+                File.Copy(fullPath, backupFilePath);
+
+                string[] files = Directory.GetFiles(backupFolder);
+                Array.Sort(files);
+                int maxToDelete = files.Length - 10;
+                for (int i = 0; i < maxToDelete; i++)
+                {
+                    File.Delete(Path.Combine(backupFolder, files[i]));
+                }
+            }
 
             File.WriteAllText(fullPath, contents);
             textFileCache[relativePath.ToLower()] = contents;

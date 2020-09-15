@@ -159,7 +159,7 @@ namespace VectorEngine.Host.Util
             scene.EditorState.MidiAssignments = Program.MidiState.SaveState();
 
             string sceneJson = Serialization.SerializationHelper.Serialize(scene);
-            FileLoader.SaveTextFile(Scene.MAIN_SCENE_FILENAME, sceneJson);
+            FileLoader.SaveTextFile(Scene.MAIN_SCENE_FILENAME, sceneJson, true);
 
             return scene;
         }

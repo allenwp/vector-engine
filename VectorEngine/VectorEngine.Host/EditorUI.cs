@@ -74,6 +74,10 @@ namespace VectorEngine.Host
             {
                 if (ImGui.BeginMenu("Menu"))
                 {
+                    if (ImGui.MenuItem("Save Scene", "Ctrl+S"))
+                    {
+                        HostHelper.SaveScene();
+                    }
                     if (ImGui.MenuItem("Save Frame Snapshots"))
                     {
                         FrameOutput.DebugSaveFrame = true;

@@ -85,6 +85,10 @@ namespace VectorEngine.Host
                     {
                         _showEditor = !_showEditor;
                     }
+                    if (keypress.Key == Key.S && keypress.Down && keypress.Modifiers == ModifierKeys.Control)
+                    {
+                        HostHelper.SaveScene();
+                    }
                 }
 
                 if (_showEditor)
