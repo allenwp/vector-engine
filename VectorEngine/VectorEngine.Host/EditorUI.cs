@@ -72,7 +72,7 @@ namespace VectorEngine.Host
         {
             if (ImGui.BeginMainMenuBar())
             {
-                if (ImGui.BeginMenu("Menu"))
+                if (ImGui.BeginMenu("Scene"))
                 {
                     if (ImGui.MenuItem("Save Scene", "Ctrl+S"))
                     {
@@ -81,6 +81,14 @@ namespace VectorEngine.Host
                     if (ImGui.MenuItem("Save Frame Snapshots"))
                     {
                         FrameOutput.DebugSaveFrame = true;
+                    }
+                    ImGui.EndMenu();
+                }
+                if (ImGui.BeginMenu("Selection"))
+                {
+                    if (ImGui.MenuItem("Duplicate", "Ctrl+D"))
+                    {
+                        HostHelper.Duplicate();
                     }
                     ImGui.EndMenu();
                 }

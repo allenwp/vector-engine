@@ -163,5 +163,16 @@ namespace VectorEngine.Host.Util
 
             return scene;
         }
+
+        public static void Duplicate()
+        {
+            if (EditorUI.SelectedEntityComponent as Component != null || EditorUI.SelectedEntityComponent as Entity != null)
+            {
+                string json = Serialization.SerializationHelper.Serialize(EditorUI.SelectedEntityComponent, null, true);
+                List<Component> components = new List<Component>();
+                Serialization.SerializationHelper.Deserialize<object>(json, components, true);
+                EntityAdmin.Instance.Components.AddRange(components);
+            }
+        }
     }
 }

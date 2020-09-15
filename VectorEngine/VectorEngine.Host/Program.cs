@@ -89,6 +89,10 @@ namespace VectorEngine.Host
                     {
                         HostHelper.SaveScene();
                     }
+                    if (keypress.Key == Key.D && keypress.Down && keypress.Modifiers == ModifierKeys.Control)
+                    {
+                        HostHelper.Duplicate();
+                    }
                 }
 
                 if (_showEditor)
