@@ -5671,7 +5671,8 @@
           "Target": {
             "$ref": "38"
           },
-          "FieldPropertyName": "BaseFidelity"
+          "FieldPropertyName": "BaseFidelity",
+          "IsVectorIndexZero": false
         },
         {
           "$id": "618",
@@ -5680,7 +5681,8 @@
           "Target": {
             "$ref": "521"
           },
-          "FieldPropertyName": "LocalPosition"
+          "FieldPropertyName": "LocalPosition",
+          "IsVectorIndexZero": true
         },
         {
           "$id": "619",
@@ -5689,70 +5691,68 @@
           "Target": {
             "$ref": "521"
           },
-          "FieldPropertyName": "LocalPosition"
+          "FieldPropertyName": "LocalPosition",
+          "IsVectorIndexZero": true
         },
         {
           "$id": "620",
-          "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
-          "AssignmentButton": 3,
-          "Target": {
-            "$ref": "49"
-          },
-          "FieldPropertyName": "LineLength"
-        },
-        {
-          "$id": "621",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 4,
           "Target": {
             "$ref": "41"
           },
-          "FieldPropertyName": "LocalPosition"
+          "FieldPropertyName": "LocalPosition",
+          "IsVectorIndexZero": true
         },
         {
-          "$id": "622",
+          "$id": "621",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 5,
           "Target": {
             "$ref": "41"
           },
-          "FieldPropertyName": "LocalPosition"
+          "FieldPropertyName": "LocalPosition",
+          "IsVectorIndexZero": true
         },
         {
-          "$id": "623",
+          "$id": "622",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 6,
           "Target": {
             "$ref": "41"
           },
-          "FieldPropertyName": "LocalPosition"
+          "FieldPropertyName": "LocalPosition",
+          "IsVectorIndexZero": true
         },
         {
-          "$id": "624",
+          "$id": "623",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 7,
           "Target": {
             "$ref": "41"
           },
-          "FieldPropertyName": "LocalPosition"
+          "FieldPropertyName": "LocalPosition",
+          "IsVectorIndexZero": true
         },
         {
-          "$id": "625",
+          "$id": "624",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 16,
           "Target": {
             "$ref": "3"
           },
-          "FieldPropertyName": "Paused"
+          "FieldPropertyName": "Paused",
+          "IsVectorIndexZero": false
         },
         {
-          "$id": "626",
+          "$id": "625",
           "$type": "VectorEngine.EditorHelper.MidiAssignments, VectorEngine",
           "AssignmentButton": 17,
           "Target": {
             "$ref": "20"
           },
-          "FieldPropertyName": "SelfEnabled"
+          "FieldPropertyName": "SelfEnabled",
+          "IsVectorIndexZero": false
         }
       ]
     },

@@ -51,7 +51,9 @@ namespace VectorEngine.Host.Midi
         /// </summary>
         private byte lastAssignmentButton = 0;
 
-        public float SliderValue { get; private set; } = 0.5f;
+        const float minSlider = 0.01f;
+        const float maxSlider = 100f;
+        public float SliderValue { get; private set; } = minSlider;
 
         /// <summary>
         /// Logarithmic lerp... TODO: Maybe move this to a math helper or something
@@ -64,7 +66,7 @@ namespace VectorEngine.Host.Midi
         {
             get
             {
-                return logerp(0.01f, 100f, SliderValue) / 10f;
+                return logerp(minSlider, maxSlider, SliderValue) / 10f;
             }
         }
 
@@ -181,7 +183,8 @@ namespace VectorEngine.Host.Midi
         public List<MidiAssignments> SaveState()
         {
             List<MidiAssignments> midiAssignments = new List<MidiAssignments>();
-            foreach (var pair in ControlStates.Where(pair => pair.Value.ControlledObject != null))
+            foreach (var pair in ControlStates.Where(pair => pair.Value.ControlledObject != null
+                && (!pair.Value.IsVector || pair.Value.VectorIndex == 0)))
             {
                 midiAssignments.Add(new MidiAssignments(pair.Key, pair.Value.ControlledObject, pair.Value.FieldPropertyInfo.Name));
             }
