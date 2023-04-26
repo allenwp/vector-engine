@@ -241,7 +241,7 @@
         "$id": "27",
         "$type": "VectorEngine.Camera, VectorEngine",
         "ProjectionType": 0,
-        "fov": 0.785398,
+        "fov": 1.04719758,
         "OrthographicSize": 2.0,
         "NearPlane": 1.0,
         "FarPlane": 1000.0,
@@ -268,12 +268,12 @@
         "ProjectionMatrix": {
           "$id": "29",
           "$type": "Microsoft.Xna.Framework.Matrix, MonoGame.Framework",
-          "M11": 2.0338788,
+          "M11": 1.51554441,
           "M12": 0.0,
           "M13": 0.0,
           "M14": 0.0,
           "M21": 0.0,
-          "M22": 2.41421413,
+          "M22": 1.7320509,
           "M23": 0.0,
           "M24": 0.0,
           "M31": 0.0,
@@ -14484,8 +14484,6 @@
         }
       ]
     },
-    "SelectedObject": {
-      "$ref": "27"
-    }
+    "SelectedObject": null
   }
 }
