@@ -1221,7 +1221,7 @@
                           "Entity": {
                             "$ref": "142"
                           },
-                          "<SelfEnabled>k__BackingField": false
+                          "<SelfEnabled>k__BackingField": true
                         }
                       ]
                     }
@@ -1280,7 +1280,7 @@
                       "Entity": {
                         "$ref": "30"
                       },
-                      "<SelfEnabled>k__BackingField": false
+                      "<SelfEnabled>k__BackingField": true
                     },
                     {
                       "$id": "152",
@@ -1517,7 +1517,7 @@
             ]
           }
         },
-        "<SelfEnabled>k__BackingField": true
+        "<SelfEnabled>k__BackingField": false
       },
       {
         "$ref": "164"
@@ -14511,7 +14511,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "144"
+      "$ref": "157"
     }
   }
 }

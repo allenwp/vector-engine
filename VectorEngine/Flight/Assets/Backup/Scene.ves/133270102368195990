@@ -1280,7 +1280,7 @@
                       "Entity": {
                         "$ref": "30"
                       },
-                      "<SelfEnabled>k__BackingField": false
+                      "<SelfEnabled>k__BackingField": true
                     },
                     {
                       "$id": "152",
@@ -14511,7 +14511,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "30"
+      "$ref": "144"
     }
   }
 }

@@ -1074,7 +1074,7 @@
                                   "$id": "131",
                                   "$type": "Microsoft.Xna.Framework.Vector2, MonoGame.Framework",
                                   "X": 113.0,
-                                  "Y": 27.0
+                                  "Y": 35.0
                                 },
                                 "camera_transform": null,
                                 "camera_bounds_reduction": {
@@ -1517,7 +1517,7 @@
             ]
           }
         },
-        "<SelfEnabled>k__BackingField": true
+        "<SelfEnabled>k__BackingField": false
       },
       {
         "$ref": "164"
@@ -14511,7 +14511,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "144"
+      "$ref": "129"
     }
   }
 }
