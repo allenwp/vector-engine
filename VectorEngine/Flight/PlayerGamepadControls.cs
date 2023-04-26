@@ -11,13 +11,21 @@ namespace Flight
     [RequiresSystem(typeof(PlayerGamepadControlsSystem))]
     public class PlayerGamepadControls : Component
     {
-        public float XMin { get; set; } = -31f;
-        public float XMax { get; set; } = 31f;
-        public float YMin { get; set; } = -10f;
-        public float YMax { get; set; } = 25f;
+        public Vector2 max_pitch_yaw = new Vector2(0.4f, 0.4f);
+        public float max_rotate_speed = 0.1f;
+        public float settle_pitch_yaw_tween_steps = 4f;
+        public float translate_speed = 1.0f;
+        public float camera_rotation_scale = 0.5f;
 
-        public float Speed { get; set; } = 50f;
-        public float RollSpeed { get; set; } = 1f;
-        public float MaxRoll { get; set; } = MathHelper.PiOver4;
+        //This is based on FOV of the camera and distance of the ship to the camera.
+        //Hardcoded rather than calculated based on FOV because this allows FOV to
+        //change with visual effects and it's a "tweek until it looks right" thing anyway.
+        public Vector2 camera_bounds_reduction = new Vector2(30f, 30f);
+        
+        public float shoot_cooldown_time = 0.25f;
+
+        public Vector2 ship_pitch_yaw = Vector2.Zero;
+
+        public float shoot_cooldown = 0;
     }
 }

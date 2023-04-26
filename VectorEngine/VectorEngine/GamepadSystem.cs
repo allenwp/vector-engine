@@ -14,7 +14,7 @@ namespace VectorEngine
         {
             var gamepad = EntityAdmin.Instance.GetComponents<GamepadSingleton>().First();
             gamepad.PreviousGamepadState = gamepad.GamepadState;
-            gamepad.GamepadState = GamePad.GetState(PlayerIndex.One);
+            gamepad.GamepadState = GamePad.GetState(PlayerIndex.One, gamepad.GamePadDeadZone);
         }
     }
 }

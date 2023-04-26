@@ -15,6 +15,8 @@ namespace VectorEngine
         [Newtonsoft.Json.JsonIgnore]
         public GamePadState GamepadState;
 
+        public GamePadDeadZone GamePadDeadZone = GamePadDeadZone.IndependentAxes;
+
         public bool IsButtonPressed(Buttons button)
         {
             return this.GamepadState.IsButtonDown(button) && PreviousGamepadState.IsButtonUp(button);
