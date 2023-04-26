@@ -68,7 +68,7 @@ namespace VectorEngine.Host
             var fonts = ImGui.GetIO().Fonts;
 
             ImGui.StyleColorsLight();
-            float scale = 1.5f;
+            float scale = 1f;
             ImGui.GetStyle().ScaleAllSizes(scale);
             int fontSize = (int)(13f * scale); // always round down
             // First font loaded will become the default font:
