@@ -113,17 +113,17 @@
         "LocalRotation": {
           "$id": "17",
           "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-          "X": 0.109600171,
-          "Y": 0.37541455,
-          "Z": 0.0447591245,
-          "W": -0.9192651
+          "X": 0.2901226,
+          "Y": -0.5836215,
+          "Z": -0.295547783,
+          "W": -0.6984742
         },
         "LocalPosition": {
           "$id": "18",
           "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-          "X": -54.1784554,
-          "Y": 26.3149643,
-          "Z": 44.6026459
+          "X": 19.9077625,
+          "Y": 25.8016,
+          "Z": 84.1538239
         },
         "LocalScale": {
           "$id": "19",
@@ -158,21 +158,21 @@
                 "ViewMatrix": {
                   "$id": "23",
                   "$type": "Microsoft.Xna.Framework.Matrix, MonoGame.Framework",
-                  "M11": 0.714120448,
-                  "M12": 0.164581671,
-                  "M13": -0.68040055,
+                  "M11": 0.1440743,
+                  "M12": -0.7515091,
+                  "M13": 0.6437986,
                   "M14": 0.0,
-                  "M21": 2.19563319E-07,
-                  "M22": 0.971969,
-                  "M23": 0.23510921,
+                  "M21": 0.0742208362,
+                  "M22": 0.6569602,
+                  "M23": 0.7502629,
                   "M24": 0.0,
-                  "M31": 0.7000229,
-                  "M32": -0.16789645,
-                  "M33": 0.6941029,
+                  "M31": -0.9867796,
+                  "M32": -0.0603103377,
+                  "M33": 0.150428712,
                   "M34": 0.0,
-                  "M41": 7.46706438,
-                  "M42": -9.171923,
-                  "M43": -74.0087662,
+                  "M41": 78.2580643,
+                  "M42": 3.08558583,
+                  "M43": -44.833725,
                   "M44": 1.0
                 },
                 "ProjectionMatrix": {
@@ -208,9 +208,9 @@
                 "UseRealTime": true,
                 "TranslateSpeed": 100.0,
                 "RotateSpeed": 1.0,
-                "Yaw": 5.50775671,
-                "Pitch": -0.2373314,
-                "Roll": 0.0,
+                "Yaw": 7.62444067,
+                "Pitch": -0.848458946,
+                "Roll": 0.112500012,
                 "Entity": {
                   "$ref": "20"
                 },
@@ -1032,7 +1032,7 @@
                           "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
                           "X": 0.0,
                           "Y": 0.0,
-                          "Z": 50.0
+                          "Z": 82.0
                         },
                         "LocalScale": {
                           "$id": "126",
@@ -1074,14 +1074,14 @@
                                   "$id": "131",
                                   "$type": "Microsoft.Xna.Framework.Vector2, MonoGame.Framework",
                                   "X": 113.0,
-                                  "Y": 50.0
+                                  "Y": 27.0
                                 },
                                 "camera_transform": null,
                                 "camera_bounds_reduction": {
                                   "$id": "132",
                                   "$type": "Microsoft.Xna.Framework.Vector2, MonoGame.Framework",
-                                  "X": 25.774,
-                                  "Y": 21.02
+                                  "X": 16.7,
+                                  "Y": 16.0
                                 },
                                 "shoot_cooldown_time": 0.0,
                                 "ship_pitch_yaw": {
@@ -1101,29 +1101,29 @@
                                 "$type": "Flight.PlayerShipShapes, Flight",
                                 "<AnimationState>k__BackingField": 0.0,
                                 "<AnimationSpeed>k__BackingField": 0.0,
-                                "<ShipLength>k__BackingField": 10.0,
-                                "<NoseLength>k__BackingField": 0.2,
+                                "<ShipLength>k__BackingField": 5.0,
+                                "<NoseLength>k__BackingField": 0.1,
                                 "<NoseTipShape>k__BackingField": {
                                   "$id": "135",
                                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                                  "X": 0.05,
-                                  "Y": 0.05,
-                                  "Z": 0.05
+                                  "X": 0.025,
+                                  "Y": 0.025,
+                                  "Z": 0.025
                                 },
-                                "<BodyLength>k__BackingField": 0.2,
+                                "<BodyLength>k__BackingField": 0.1,
                                 "<BodyShape>k__BackingField": {
                                   "$id": "136",
                                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                                  "X": 1.0,
-                                  "Y": 1.0,
-                                  "Z": 1.0
+                                  "X": 0.5,
+                                  "Y": 0.5,
+                                  "Z": 0.5
                                 },
                                 "<WingEndShape>k__BackingField": {
                                   "$id": "137",
                                   "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-                                  "X": 5.0,
-                                  "Y": 0.1,
-                                  "Z": 1.0
+                                  "X": 2.5,
+                                  "Y": 0.05,
+                                  "Z": 0.5
                                 },
                                 "RingShapes": {
                                   "$id": "138",
@@ -1280,7 +1280,7 @@
                       "Entity": {
                         "$ref": "30"
                       },
-                      "<SelfEnabled>k__BackingField": true
+                      "<SelfEnabled>k__BackingField": false
                     },
                     {
                       "$id": "152",
