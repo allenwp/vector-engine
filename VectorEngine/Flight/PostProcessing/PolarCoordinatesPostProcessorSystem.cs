@@ -36,7 +36,7 @@ namespace Flight.PostProcessing
                     {
                         samples3DArray[i].Disabled = true;
                     }
-                    else
+                    else if (scaledZ < 0)
                     {
                         newPosition = Vector3.Transform(new Vector3(newPosition.X, newPosition.Y, 0f), Quaternion.CreateFromYawPitchRoll(0, scaledZ, 0));
 

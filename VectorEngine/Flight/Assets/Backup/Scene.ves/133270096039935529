@@ -1081,7 +1081,7 @@
                                   "$id": "132",
                                   "$type": "Microsoft.Xna.Framework.Vector2, MonoGame.Framework",
                                   "X": 16.7,
-                                  "Y": 28.0
+                                  "Y": 16.0
                                 },
                                 "shoot_cooldown_time": 0.0,
                                 "ship_pitch_yaw": {
@@ -1280,7 +1280,7 @@
                       "Entity": {
                         "$ref": "30"
                       },
-                      "<SelfEnabled>k__BackingField": true
+                      "<SelfEnabled>k__BackingField": false
                     },
                     {
                       "$id": "152",
@@ -14511,7 +14511,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "42"
+      "$ref": "30"
     }
   }
 }

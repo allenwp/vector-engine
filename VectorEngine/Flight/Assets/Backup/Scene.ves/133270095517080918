@@ -113,17 +113,17 @@
         "LocalRotation": {
           "$id": "17",
           "$type": "Microsoft.Xna.Framework.Quaternion, MonoGame.Framework",
-          "X": 0.2901226,
-          "Y": -0.5836215,
-          "Z": -0.295547783,
-          "W": -0.6984742
+          "X": 0.0211331155,
+          "Y": -0.73688364,
+          "Z": -0.106007516,
+          "W": -0.667321742
         },
         "LocalPosition": {
           "$id": "18",
           "$type": "Microsoft.Xna.Framework.Vector3, MonoGame.Framework",
-          "X": 19.9077625,
-          "Y": 25.8016,
-          "Z": 84.1538239
+          "X": 129.7564,
+          "Y": 22.3596611,
+          "Z": 67.78663
         },
         "LocalScale": {
           "$id": "19",
@@ -158,21 +158,21 @@
                 "ViewMatrix": {
                   "$id": "23",
                   "$type": "Microsoft.Xna.Framework.Matrix, MonoGame.Framework",
-                  "M11": 0.1440743,
-                  "M12": -0.7515091,
-                  "M13": 0.6437986,
+                  "M11": -0.108472168,
+                  "M12": -0.172625229,
+                  "M13": 0.9789966,
                   "M14": 0.0,
-                  "M21": 0.0742208362,
-                  "M22": 0.6569602,
-                  "M23": 0.7502629,
+                  "M21": 0.110336572,
+                  "M22": 0.976632,
+                  "M23": 0.1844335,
                   "M24": 0.0,
-                  "M31": -0.9867796,
-                  "M32": -0.0603103377,
-                  "M33": 0.150428712,
+                  "M31": -0.9879573,
+                  "M32": 0.128025025,
+                  "M33": -0.08689052,
                   "M34": 0.0,
-                  "M41": 78.2580643,
-                  "M42": 3.08558583,
-                  "M43": -44.833725,
+                  "M41": 78.57816,
+                  "M42": -8.116319,
+                  "M43": -125.264923,
                   "M44": 1.0
                 },
                 "ProjectionMatrix": {
@@ -208,8 +208,8 @@
                 "UseRealTime": true,
                 "TranslateSpeed": 100.0,
                 "RotateSpeed": 1.0,
-                "Yaw": 7.62444067,
-                "Pitch": -0.848458946,
+                "Yaw": 7.942502,
+                "Pitch": -0.185497567,
                 "Roll": 0.112500012,
                 "Entity": {
                   "$ref": "20"
@@ -1081,7 +1081,7 @@
                                   "$id": "132",
                                   "$type": "Microsoft.Xna.Framework.Vector2, MonoGame.Framework",
                                   "X": 16.7,
-                                  "Y": 28.0
+                                  "Y": 16.0
                                 },
                                 "shoot_cooldown_time": 0.0,
                                 "ship_pitch_yaw": {
@@ -1221,7 +1221,7 @@
                           "Entity": {
                             "$ref": "142"
                           },
-                          "<SelfEnabled>k__BackingField": true
+                          "<SelfEnabled>k__BackingField": false
                         }
                       ]
                     }
@@ -14511,7 +14511,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "42"
+      "$ref": "144"
     }
   }
 }
