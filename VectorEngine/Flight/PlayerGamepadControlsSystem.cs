@@ -16,6 +16,11 @@ namespace Flight
 			GamePadState gamePadState = EntityAdmin.Instance.GetComponents<GamepadSingleton>().First().GamepadState;
 			foreach ((var transform, var playerControls) in EntityAdmin.Instance.GetTuple<Transform, PlayerGamepadControls>())
 			{
+				if (playerControls.camera_transform == null)
+                {
+					playerControls.camera_transform = EntityAdmin.Instance.GetTuple<Transform, Camera>().First().Item1;
+                }
+
 				Vector2 input = new Vector2(gamePadState.ThumbSticks.Left.Y, gamePadState.ThumbSticks.Left.X * -1.0f);
 
 				var target_pitch_yaw = playerControls.max_pitch_yaw * input;
@@ -34,12 +39,15 @@ namespace Flight
 
 				transform.LocalRotation = Quaternion.CreateFromYawPitchRoll(playerControls.ship_pitch_yaw.Y, playerControls.ship_pitch_yaw.X, playerControls.ship_pitch_yaw.Y);
 
-				//var camera_bounds: Vector2 = dolly.bounds - camera_bounds_reduction
-				//var ship_position_ratio: Vector2 = Vector2(player_ship.position.x / (dolly.bounds.x / 2.0), player_ship.position.y / (dolly.bounds.y / 2.0))
-				//player_camera.position.x = ship_position_ratio.x * (camera_bounds.x / 2.0)
-				//player_camera.position.y = ship_position_ratio.y * (camera_bounds.y / 2.0)
 
-			}
+				var camera_pitch_yaw = playerControls.ship_pitch_yaw * playerControls.camera_rotation_scale;
+				playerControls.camera_transform.LocalRotation = Quaternion.CreateFromYawPitchRoll(camera_pitch_yaw.Y, camera_pitch_yaw.X, camera_pitch_yaw.Y);
+
+				Vector2 camera_bounds = playerControls.track_bounds - playerControls.camera_bounds_reduction;
+				Vector2 ship_position_ratio = new Vector2(transform.LocalPosition.X / (playerControls.track_bounds.X / 2.0f), transform.LocalPosition.Y / (playerControls.track_bounds.Y / 2.0f));
+				playerControls.camera_transform.LocalPosition.X = ship_position_ratio.X * (camera_bounds.X / 2.0f);
+				playerControls.camera_transform.LocalPosition.Y = ship_position_ratio.Y * (camera_bounds.Y / 2.0f);
+            }
 		}
 
 		// A smaller num_steps will make the tween happen faster.

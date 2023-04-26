@@ -1065,17 +1065,18 @@
                                   "X": 0.8,
                                   "Y": 0.8
                                 },
-                                "max_rotate_speed": 0.03,
-                                "settle_pitch_yaw_tween_steps": 20.0,
-                                "translate_speed": 0.9,
+                                "max_rotate_speed": 0.0225,
+                                "settle_pitch_yaw_tween_steps": 27.0,
+                                "translate_speed": 1.161,
                                 "camera_rotation_scale": 0.22,
-                                "track_ground": 0.0,
+                                "track_ground": -9.7,
                                 "track_bounds": {
                                   "$id": "131",
                                   "$type": "Microsoft.Xna.Framework.Vector2, MonoGame.Framework",
-                                  "X": 60.0,
-                                  "Y": 35.0
+                                  "X": 113.0,
+                                  "Y": 50.0
                                 },
+                                "camera_transform": null,
                                 "camera_bounds_reduction": {
                                   "$id": "132",
                                   "$type": "Microsoft.Xna.Framework.Vector2, MonoGame.Framework",
