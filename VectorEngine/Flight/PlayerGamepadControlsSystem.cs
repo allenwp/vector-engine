@@ -20,19 +20,17 @@ namespace Flight
 
 				var target_pitch_yaw = playerControls.max_pitch_yaw * input;
 
-				float TODO_GROUND = -30f;
-				Vector2 TODO_DOLLYBOUNDS = new Vector2(60, 35);
-				if (transform.LocalPosition.Y < TODO_GROUND + 0.1f)
+				if (transform.LocalPosition.Y < playerControls.track_ground + 0.1f)
 				{
-					target_pitch_yaw.X = MathHelper.Max(0.0f, target_pitch_yaw.Y);
+					target_pitch_yaw.X = MathHelper.Max(0.0f, target_pitch_yaw.X);
 				}
 
 				playerControls.ship_pitch_yaw = speed_limited_tween(playerControls.ship_pitch_yaw, target_pitch_yaw, playerControls.settle_pitch_yaw_tween_steps, playerControls.max_rotate_speed);
 
 				transform.LocalPosition.X += playerControls.ship_pitch_yaw.Y * -1.0f * playerControls.translate_speed;
 				transform.LocalPosition.Y += playerControls.ship_pitch_yaw.X * playerControls.translate_speed;
-				transform.LocalPosition.X = MathHelper.Clamp(transform.LocalPosition.X, TODO_DOLLYBOUNDS.X / -2.0f, TODO_DOLLYBOUNDS.X / 2.0f);
-				transform.LocalPosition.Y = MathHelper.Clamp(transform.LocalPosition.Y, Math.Max(TODO_DOLLYBOUNDS.Y / -2.0f, TODO_GROUND), TODO_DOLLYBOUNDS.Y / 2.0f);
+				transform.LocalPosition.X = MathHelper.Clamp(transform.LocalPosition.X, playerControls.track_bounds.X / -2.0f, playerControls.track_bounds.X / 2.0f);
+				transform.LocalPosition.Y = MathHelper.Clamp(transform.LocalPosition.Y, Math.Max(playerControls.track_bounds.Y / -2.0f, playerControls.track_ground), playerControls.track_bounds.Y / 2.0f);
 
 				transform.LocalRotation = Quaternion.CreateFromYawPitchRoll(playerControls.ship_pitch_yaw.Y, playerControls.ship_pitch_yaw.X, playerControls.ship_pitch_yaw.Y);
 

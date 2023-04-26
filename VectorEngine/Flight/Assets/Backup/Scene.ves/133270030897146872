@@ -1075,14 +1075,14 @@
                                   "X": 25.774,
                                   "Y": 21.02
                                 },
-                                "sawtooth_cooldown_time": 0.184,
+                                "shoot_cooldown_time": 0.0,
                                 "ship_pitch_yaw": {
                                   "$id": "132",
                                   "$type": "Microsoft.Xna.Framework.Vector2, MonoGame.Framework",
                                   "X": 0.0,
                                   "Y": 0.0
                                 },
-                                "sawtooth_cooldown": 0.0,
+                                "shoot_cooldown": 0.0,
                                 "Entity": {
                                   "$ref": "127"
                                 },
@@ -14503,7 +14503,7 @@
       ]
     },
     "SelectedObject": {
-      "$ref": "129"
+      "$ref": "33"
     }
   }
 }

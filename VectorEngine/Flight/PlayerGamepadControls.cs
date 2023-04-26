@@ -17,6 +17,9 @@ namespace Flight
         public float translate_speed = 1.0f;
         public float camera_rotation_scale = 0.5f;
 
+        public float track_ground = 0f;
+        public Vector2 track_bounds = new Vector2(60, 35);
+
         //This is based on FOV of the camera and distance of the ship to the camera.
         //Hardcoded rather than calculated based on FOV because this allows FOV to
         //change with visual effects and it's a "tweek until it looks right" thing anyway.
