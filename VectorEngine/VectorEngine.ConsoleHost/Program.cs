@@ -16,10 +16,10 @@ namespace VectorEngine.ConsoleHost
         [STAThread] // Needed for ASIOOutput.StartDriver method
         static void Main(string[] args)
         {
-            float? targetFramesPerSecond = Program.GameConfigType.GetMethod("GetTargetFramesPerSecond").Invoke(null, null) as float?;
-            if (targetFramesPerSecond == null)
+            float? maxFramesPerSecond = Program.GameConfigType.GetMethod("GetMaxFramesPerSecond").Invoke(null, null) as float?;
+            if (maxFramesPerSecond == null)
             {
-                throw new Exception("Cannot GetTargetFramesPerSecond() from GameConfig");
+                throw new Exception("Cannot GetMaxFramesPerSecond() from GameConfig");
             }
 
             string assetsPath = Program.GameConfigType.GetMethod("GetAssetsPath").Invoke(null, null) as string;
@@ -41,7 +41,7 @@ namespace VectorEngine.ConsoleHost
 
             var GameSystems = Program.GameConfigType.GetMethod("GetGameSystems").Invoke(null, null) as List<ECSSystem>;
 
-            GameLoop.Init(GameSystems, scene.Components, (float)targetFramesPerSecond);
+            GameLoop.Init(GameSystems, scene.Components, (float)maxFramesPerSecond);
             while (true)
             {
                 GameLoop.Tick();

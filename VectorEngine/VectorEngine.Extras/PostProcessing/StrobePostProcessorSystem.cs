@@ -32,6 +32,10 @@ namespace VectorEngine.Extras.PostProcessing
                 for (int i = 0; i < sampleLength; i++)
                 {
                     var sinValue = Math.Sin((samples3DArray[i].Position.Y * strobe.Scale) + animationValue);
+                    if (sinValue < 0)
+                    {
+                        samples3DArray[i].Brightness = 0f;
+                    }
                     samples3DArray[i].Disabled = sinValue < 0;
                 }
             }

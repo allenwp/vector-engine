@@ -12,7 +12,7 @@ namespace Flight
 {
     public class GameConfig
     {
-        public static float GetTargetFramesPerSecond() => 80f;
+        public static float GetMaxFramesPerSecond() => 80f;
 
         public static string GetAssetsPath() => @"../../../Flight/Assets";
 

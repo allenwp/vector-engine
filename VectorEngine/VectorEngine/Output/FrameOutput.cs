@@ -13,12 +13,12 @@ namespace VectorEngine.Output
     public class FrameOutput
     {
         public static readonly int SAMPLES_PER_SECOND = 192000;
-        public static float TargetFramesPerSecond = 80f;
+        public static float MaxFramesPerSecond = 80f;
         public static int TargetBufferSize
         {
             get
             {
-                int result = (int)Math.Round(SAMPLES_PER_SECOND / TargetFramesPerSecond);
+                int result = (int)Math.Round(SAMPLES_PER_SECOND / MaxFramesPerSecond);
                 if (result < 1)
                 {
                     result = 1;

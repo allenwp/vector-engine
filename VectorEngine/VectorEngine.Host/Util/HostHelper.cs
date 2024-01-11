@@ -10,20 +10,20 @@ namespace VectorEngine.Host.Util
 {
     public class HostHelper
     {
-        static float? targetFramesPerSecond;
-        public static float TargetFramesPerSecond
+        static float? maxFramesPerSecond;
+        public static float MaxFramesPerSecond
         {
             get
             {
-                if (targetFramesPerSecond == null)
+                if (maxFramesPerSecond == null)
                 {
-                    targetFramesPerSecond = Program.GameConfigType.GetMethod("GetTargetFramesPerSecond").Invoke(null, null) as float?;
+                    maxFramesPerSecond = Program.GameConfigType.GetMethod("GetMaxFramesPerSecond").Invoke(null, null) as float?;
                 }
-                if (targetFramesPerSecond == null)
+                if (maxFramesPerSecond == null)
                 {
-                    throw new Exception("Cannot GetTargetFramesPerSecond from GameConfig");
+                    throw new Exception("Cannot GetMaxFramesPerSecond from GameConfig");
                 }
-                return (float)targetFramesPerSecond;
+                return (float)maxFramesPerSecond;
             }
         }
 
@@ -121,7 +121,7 @@ namespace VectorEngine.Host.Util
                     scene = SaveScene();
                 }
 
-                GameLoop.Init(GameSystems, scene.Components, TargetFramesPerSecond);
+                GameLoop.Init(GameSystems, scene.Components, MaxFramesPerSecond);
             }
         }
 
@@ -146,7 +146,7 @@ namespace VectorEngine.Host.Util
                 EditorUI.SelectedEntityComponent = scene.EditorState.SelectedObject;
                 Program.MidiState.LoadState(scene.EditorState.MidiAssignments);
 
-                GameLoop.Init(EditorSystems, scene.Components, TargetFramesPerSecond);
+                GameLoop.Init(EditorSystems, scene.Components, MaxFramesPerSecond);
             }
         }
 

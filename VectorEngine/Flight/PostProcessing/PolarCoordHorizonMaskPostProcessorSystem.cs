@@ -31,7 +31,7 @@ namespace Flight.PostProcessing
                     // For now, just disable all samples that are below the horizon
                     if(samples3DArray[i].Position.Z < mask.PolarCoordinates.Origin.Position.Z && samples3DArray[i].Position.Y < yCuttoff)
                     {
-                        samples3DArray[i].Disabled = true;
+                        samples3DArray[i].Brightness = 0f;
                     }
                 }
             });

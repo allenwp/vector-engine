@@ -34,7 +34,7 @@ namespace Flight.PostProcessing
                     var scaledZ = newPosition.Z* zScale; // TODO: z-scale based on distance of "ground" from origin??? This might be possilbe to make this automatic based on that...
                     if (scaledZ > Math.PI / 2f || scaledZ < -1 * Math.PI / 2f)
                     {
-                        samples3DArray[i].Disabled = true;
+                        samples3DArray[i].Brightness = 0f;
                     }
                     else if (scaledZ < 0)
                     {

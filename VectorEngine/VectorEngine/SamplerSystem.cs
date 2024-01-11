@@ -216,8 +216,8 @@ namespace VectorEngine
                 {
                     var worldPos = samples3DArray[i].Position;
                     Vector4 v4 = new Vector4(worldPos, 1);
-                    // When samples are disabled, it's the same as when they're clipped
-                    bool clipped = samples3DArray[i].Disabled;
+                    // When samples are 0 brightness (disabled), it's the same as when they're clipped
+                    bool clipped = samples3DArray[i].Brightness == 0f;
                     if (!clipped)
                     {
                         v4 = PerformViewTransform(v4, camera.ViewMatrix);

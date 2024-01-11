@@ -11,7 +11,7 @@ namespace VectorEngine.Calibration
 {
     public class GameConfig
     {
-        public static float GetTargetFramesPerSecond() => float.MaxValue;
+        public static float GetMaxFramesPerSecond() => float.MaxValue;
 
         public static string GetAssetsPath() => @"../../../VectorEngine.Calibration/Assets";
 

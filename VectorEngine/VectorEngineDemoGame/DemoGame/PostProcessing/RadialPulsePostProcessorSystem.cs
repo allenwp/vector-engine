@@ -45,7 +45,7 @@ namespace VectorEngine.DemoGame.PostProcessing
                     float distance = Vector3.Distance(samples3DArray[i].Position, pos);
                     if (distance > max || distance < min)
                     {
-                        samples3DArray[i].Disabled = true;
+                        samples3DArray[i].Brightness = 0f;
                     }
                 }
             });

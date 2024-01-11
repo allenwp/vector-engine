@@ -42,16 +42,16 @@ namespace VectorEngine
 
         public static void Init(List<ECSSystem> systems, List<Component> components)
         {
-            Init(systems, components, FrameOutput.TargetFramesPerSecond);
+            Init(systems, components, FrameOutput.MaxFramesPerSecond);
         }
 
-        public static void Init(List<ECSSystem> systems, List<Component> components, float targetFramesPerSecond)
+        public static void Init(List<ECSSystem> systems, List<Component> components, float maxFramesPerSecond)
         {
             // ASIO or other output should be the highest priority thread so that it can
             // at least feed blanking samples to the screen if the game loop doesn't finish
             // rendering in time. The game loop is one priority lower, but still above normal.
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
-            FrameOutput.TargetFramesPerSecond = targetFramesPerSecond;
+            FrameOutput.MaxFramesPerSecond = maxFramesPerSecond;
 
             EntityAdmin.Instance.Init(systems, components);
         }
