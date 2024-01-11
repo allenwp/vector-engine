@@ -27,7 +27,7 @@ namespace VectorEngine.Output
             }
         }
 
-        public static DisplayProfile DisplayProfile = new DisplayProfileOscTek2445();
+        public static DisplayProfile DisplayProfile = new DisplayProfileOscTekTAS465();
 
         /// <summary>
         /// My PreSonus DAC has a delay on the channel I use for blanking -_-

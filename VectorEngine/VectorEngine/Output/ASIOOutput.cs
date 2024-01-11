@@ -60,7 +60,7 @@ namespace VectorEngine.Output
             Console.WriteLine();
 
             // Currently hardcoded: todo: make it not.
-            int driverNumber = 2;
+            int driverNumber = 1;
 
             Console.WriteLine();
             Console.WriteLine("Using: " + AsioDriver.InstalledDrivers[driverNumber - 1]);
