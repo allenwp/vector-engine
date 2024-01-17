@@ -254,8 +254,10 @@ namespace VectorEngine
                 // Set blanking based on the first sample:
                 for (int b = 0; b < blankingLength; b++)
                 {
-                    // TODO: Pause to wait for brightness to change to zero. Then pause to wait for brightness to turn to non-zero.
                     Sample tweenSample = new Sample();
+                    // Ease in b/c the preceeding samples might have given the beam momentum
+                    // Ease out b/c the following samples should start without too much momentum
+                    // from movement during blanking.
                     float tweenValue = Tween.EaseInOutPower((b + 1) / (float)blankingLength, 2);
                     tweenSample.X = MathHelper.Lerp(previousSample.X, sampleArray[0].X, tweenValue);
                     tweenSample.Y = MathHelper.Lerp(previousSample.Y, sampleArray[0].Y, tweenValue);
