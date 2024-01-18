@@ -11,6 +11,5 @@ namespace VectorEngine
     {
         public Vector3 Position;
         public float Brightness;
-        public bool Disabled;
     }
 }

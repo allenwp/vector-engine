@@ -36,7 +36,6 @@ namespace VectorEngine.Extras.PostProcessing
                     {
                         samples3DArray[i].Brightness = 0f;
                     }
-                    samples3DArray[i].Disabled = sinValue < 0;
                 }
             }
         }
