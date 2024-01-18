@@ -105,7 +105,7 @@ namespace VectorEngine.Output
             int finalIndexPlusOne = startIndex + numSamples;
             for (; startIndex < finalIndexPlusOne; startIndex++)
             {
-                buffer[startIndex] = new Sample(x, y);
+                buffer[startIndex] = new Sample(x, y, 1.0f);
             }
             return finalIndexPlusOne;
         }
